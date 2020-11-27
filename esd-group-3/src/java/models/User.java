@@ -10,14 +10,14 @@ package models;
  * @author morgan
  */
 public class User {
-    int id;
-    String username;
-    String password;
-    String firstname;
-    String lastname;
-    String email;
-    String address;
-    String role;
+    private int id;
+    private String username;
+    private String password;
+    private String firstname;
+    private String lastname;
+    private String email;
+    private String address;
+    private String role;
     
     public User setId(int id) {
         this.id = id;
@@ -28,63 +28,56 @@ public class User {
         return this.id;
     }
     
-    public User setUsername(String username) {
+    public void setUsername(String username) {
         this.username = username;
-        return this;
     }
     
     public String getUsername() {
         return this.username;
     }
     
-    public User setPassword(String password) {
+    public void setPassword(String password) {
         this.password = password;
-        return this;
     }
     
     public String getPassword() {
         return this.password;
     }
     
-    public User setFirstname(String firstname) {
+    public void setFirstname(String firstname) {
         this.firstname = firstname;
-        return this;
     }
     
     public String getFirstname() {
         return this.firstname;
     }
     
-    public User setLastname(String lastname) {
+    public void setLastname(String lastname) {
         this.lastname = lastname;
-        return this;
     }
     
     public String getLastname() {
         return this.lastname;
     }
     
-    public User setEmail(String email) {
+    public void setEmail(String email) {
         this.email = email;
-        return this;
     }
     
     public String getEmail() {
         return this.email;
     }
     
-    public User setAddress(String address) {
+    public void setAddress(String address) {
         this.address = address;
-        return this;
     }
     
     public String getAddress() {
         return this.address;
     }
     
-    public User setRole(String role) {
+    public void setRole(String role) {
         this.role = role;
-        return this;
     }
     
     public String getRole() {

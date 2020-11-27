@@ -11,6 +11,7 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
+import models.Client;
 import models.User;
 
 /**
@@ -35,15 +36,13 @@ public class DBConnection {
         }
     }
     
-    public User getUser(int id) {
+    public User getUserById(int id) {
         String query = "SELECT * FROM Users WHERE id = " + id;
 
         User user = new User();
 
         try (Statement stmt = this.conn.createStatement()) {
             ResultSet resultSet = stmt.executeQuery(query);
-            ResultSetMetaData rsmd = resultSet.getMetaData();
-            int columnsNumber = rsmd.getColumnCount();
             while (resultSet.next()) {
                 int userid = Integer.parseInt(resultSet.getString("id"));
                 String username = resultSet.getString("username");
@@ -52,21 +51,61 @@ public class DBConnection {
                 String lastname = resultSet.getString("lastname");
                 String email = resultSet.getString("email");
                 String address = resultSet.getString("address");
-                user.setId(userid)
-                    .setUsername(username)
-                    .setPassword(password)
-                    .setFirstname(firstname)
-                    .setLastname(lastname)
-                    .setEmail(email)
-                    .setAddress(address);
+                user.setId(userid);
+                user.setUsername(username);
+                user.setPassword(password);
+                user.setFirstname(firstname);
+                user.setLastname(lastname);
+                user.setEmail(email);
+                user.setAddress(address);
             }
 
-            
         } catch (SQLException e) {
             System.out.println(e);
         }
+        
+        user = this.getUserRole(user);
 
         return user;
     }
     
+    public User getUserRole(User user) {
+        String query = "SELECT role FROM Roles WHERE id = (SELECT roleid FROM UserRoles WHERE userid = " + Integer.toString(user.getId()) + ")";
+        
+        try (Statement stmt = this.conn.createStatement()) {
+            ResultSet resultSet = stmt.executeQuery(query);
+            while (resultSet.next()) {
+                String role = resultSet.getString("role");
+                user.setRole(role);
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        
+        return user;
+    }
+    
+    public Client getClientByUserId(int id) {
+        String query = "SELECT * FROM Clients WHERE userid = " + id;
+        
+        Client client = new Client();
+        
+        try (Statement stmt = this.conn.createStatement()) {
+            ResultSet resultSet = stmt.executeQuery(query);
+            while (resultSet.next()) {
+                int clientid = resultSet.getInt("id");
+                String type = resultSet.getString("type");
+                client.setClientId(clientid);
+                client.setType(type);
+                client.setId(id);
+            }
+            
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        
+        User user = this.getUserById(id);
+        
+        return client;
+    }
 }

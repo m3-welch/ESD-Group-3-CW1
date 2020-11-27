@@ -19,7 +19,7 @@ public class TestMain {
      */
     public static void main(String[] args) throws SQLException {
         DBConnection dbcon = new DBConnection("smartcare", "morgan", "password");
-        User user = dbcon.getUser(0);
+        User user = dbcon.getUserById(0);
         System.out.println(user);
     }
     
