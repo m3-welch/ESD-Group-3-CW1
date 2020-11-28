@@ -8,11 +8,11 @@ package dbcon;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import models.Client;
 import models.User;
+import models.Employee;
 
 /**
  *
@@ -106,6 +106,44 @@ public class DBConnection {
         
         User user = this.getUserById(id);
         
+        client.setUsername(user.getUsername());
+        client.setPassword(user.getPassword());
+        client.setFirstname(user.getFirstname());
+        client.setLastname(user.getLastname());
+        client.setEmail(user.getEmail());
+        client.setAddress(user.getAddress());
+        client.setRole(user.getRole());
+        
         return client;
+    }
+    
+    public Employee getEmployeeByUserId(int id) {
+        String query = "SELECT * FROM Employees WHERE userid = " + id;
+        
+        Employee employee = new Employee();
+        
+        try (Statement stmt = this.conn.createStatement()) {
+            ResultSet resultSet = stmt.executeQuery(query);
+            while (resultSet.next()) {
+                int clientid = resultSet.getInt("id");
+                employee.setEmployeeId(clientid);
+                employee.setId(id);
+            }
+            
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        
+        User user = this.getUserById(id);
+        
+        employee.setUsername(user.getUsername());
+        employee.setPassword(user.getPassword());
+        employee.setFirstname(user.getFirstname());
+        employee.setLastname(user.getLastname());
+        employee.setEmail(user.getEmail());
+        employee.setAddress(user.getAddress());
+        employee.setRole(user.getRole());
+        
+        return employee;
     }
 }
