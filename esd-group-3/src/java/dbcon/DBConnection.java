@@ -23,9 +23,7 @@ public class DBConnection {
     Connection conn;
     public DBConnection(String dbname, String dbusername, String dbpassword) throws SQLException {
         this.conn = DriverManager.getConnection(
-            "jdbc:derby://localhost:1527/" + dbname,
-            dbusername,
-            dbpassword
+            "jdbc:derby://localhost:1527/" + dbname
         );
         
         if (this.conn != null) {
@@ -34,6 +32,39 @@ public class DBConnection {
             System.out.println("Something went wrong while connecting to the database.");
             System.exit(0);
         }
+    }
+    
+    public User getUserByUsername(String uname) {
+        String query = "SELECT * FROM Users WHERE username = '" + uname + "'";
+
+        User user = new User();
+
+        try (Statement stmt = this.conn.createStatement()) {
+            ResultSet resultSet = stmt.executeQuery(query);
+            while (resultSet.next()) {
+                int userid = Integer.parseInt(resultSet.getString("id"));
+                String username = resultSet.getString("username");
+                String password = resultSet.getString("password");
+                String firstname = resultSet.getString("firstname");
+                String lastname = resultSet.getString("lastname");
+                String email = resultSet.getString("email");
+                String address = resultSet.getString("address");
+                user.setId(userid);
+                user.setUsername(username);
+                user.setPassword(password);
+                user.setFirstname(firstname);
+                user.setLastname(lastname);
+                user.setEmail(email);
+                user.setAddress(address);
+            }
+
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        
+        user = this.getUserRole(user);
+
+        return user;
     }
     
     public User getUserById(int id) {
