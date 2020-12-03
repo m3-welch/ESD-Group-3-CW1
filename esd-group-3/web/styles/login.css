@@ -61,7 +61,7 @@ input[type=password] {
 
 
 /* Set a style for all buttons */
-button {
+.button {
   background-color: transparent;
   color: white;
   padding: 14px 20px;
@@ -79,7 +79,7 @@ button {
 
 
 /* Add a hover effect for buttons */
-button:hover {
+.button:hover {
   opacity: 0.8;
 }
 

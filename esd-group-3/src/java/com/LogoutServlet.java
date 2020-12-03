@@ -24,7 +24,7 @@ public class LogoutServlet extends HttpServlet {
         PrintWriter out=response.getWriter();  
           
           
-        request.getRequestDispatcher("link.html").include(request, response);  
+        request.getRequestDispatcher("home.jsp").include(request, response);  
           
         // overwrite current cookies, with expired cookies
         Cookie ck_username=new Cookie("username","");  
@@ -35,5 +35,7 @@ public class LogoutServlet extends HttpServlet {
         response.addCookie(ck_role);  
           
         out.print("You have been logged out");  
+        
+        response.sendRedirect("login.jsp");
     }  
 }  

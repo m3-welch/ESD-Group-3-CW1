@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Cookie;  
 import dbcon.DBConnection;
+import javax.servlet.annotation.WebServlet;
 import models.User;
 
 /**
@@ -26,11 +27,11 @@ public class LoginServlet extends HttpServlet {
         response.setContentType("text/html");  
         PrintWriter out=response.getWriter();  
           
-        request.getRequestDispatcher("link.html").include(request, response);  
+        request.getRequestDispatcher("login.jsp").include(request, response);  
           
         // declare vars
-        String user_in = request.getParameter("username");  
-        String password_in = request.getParameter("password");  
+        String user_in = request.getParameter("uname");  
+        String password_in = request.getParameter("psw");  
         String actual_password = "";
         String user_role = "";
         int user_type = 0;
@@ -39,13 +40,17 @@ public class LoginServlet extends HttpServlet {
         try {
             DBConnection dbcon = new DBConnection("smartcaretest", "", "");
             User user_to_login = dbcon.getUserByUsername(user_in);
+            if (user_to_login.getUsername() == null) {
+                request.setAttribute("message", "Invalid Username"); // Will be available as ${message}
+                request.getRequestDispatcher("login.jsp").forward(request,response);
+                response.sendRedirect("login.jsp");
+                out.close();
+            }
             actual_password = user_to_login.getPassword();
             user_role = user_to_login.getRole();
         }
         catch(SQLException e){
-            // TODO: some error
-            // sc.setAttribute("error", e); 
-            
+            System.out.println("error");
         }
                 
         if (actual_password.equals(password_in)) {
@@ -72,11 +77,6 @@ public class LoginServlet extends HttpServlet {
                     break;
             }
         }
-        else {
-            // password mismatch
-            out.print("ERROR - Username or Password Incorrect"); 
-            user_type = 0;
-        }
         
         // results of login attempt
         if (user_type != 0) {
@@ -91,14 +91,16 @@ public class LoginServlet extends HttpServlet {
             ck_username.setMaxAge(1200);
             ck_role.setMaxAge(1200);
             response.addCookie(ck_username);  
-            response.addCookie(ck_role);  
+            response.addCookie(ck_role); 
+            
+            response.sendRedirect("home.jsp");
         }
         else {
             // bad login response
-            request.getRequestDispatcher("login.html").include(request, response);
+            request.setAttribute("message", "Invalid Password/Username"); // Will be available as ${message}
+            request.getRequestDispatcher("login.jsp").forward(request,response);
+            response.sendRedirect("login.jsp");
         }
-        
-        // TODO: Send user to correct page based on their role/login
         
         out.close();
         
