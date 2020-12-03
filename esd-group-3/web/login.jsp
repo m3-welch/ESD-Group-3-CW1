@@ -17,14 +17,14 @@
           <div class="card">
             <div class="container">
               <h2 style="text-align:center">SmartCare Login</h2>
-              <p style="color:#FF3232;font-size:12px;text-align:center" id="note"></p>
+              <p style="color:#FF3232;font-size:12px;text-align:center" id="note">${message}</p>
               <div class="container">
-                <form action="" method="post">
+                <form action="LoginServlet" method="POST">
                   <label for="uname"><b>Username</b></label>
                   <input type="text" placeholder="Enter Username" name="uname" required>
                   <label for="psw"><b>Password</b></label>
                   <input type="password" placeholder="Enter Password" name="psw" required>
-                  <button type="submit" name="login" onclick="verify_login()">Login</button>
+                  <input type="submit" value="login" class="button"> 
                 </form>
               </div>
             </div>

@@ -16,7 +16,7 @@
     <div class="top-banner">
     
       <div class="dropdown">
-        <button class="menu">Menu</button>
+        <button class="menu button">Menu</button>
         <div class="menu-content">
           <a href="#">Page 1</a>
           <a href="#">Page 2</a>
@@ -24,8 +24,10 @@
         </div>
       </div>      
       
-      <div class="logout">
-        <button>Log Out</button>
+      <div class="logout">        
+        <form action="LogoutServlet" method="GET">
+            <input type="submit" value="logout" class="button logout"> 
+        </form>
       </div>
       
       <div class="center">

@@ -39,7 +39,7 @@ h2 {
 
 
 /* Set a style for all buttons */
-button {
+.button {
   background-color: transparent;
   font-family: Avantgarde, TeX Gyre Adventor, URW Gothic L, sans-serif;
   font-size: 12pt;
@@ -52,7 +52,7 @@ button {
 }
 
 /* Add a hover effect for buttons */
-button:hover {
+.button:hover {
   opacity: 0.8;
 }
 
