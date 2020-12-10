@@ -12,12 +12,14 @@ CREATE TABLE Users (
 CREATE TABLE Clients (
     id int NOT NULL PRIMARY KEY GENERATED ALWAYS AS identity (start with 1, increment by 1),
     userid int references Users(id),
-    isnhspatient Boolean
+    isnhs Boolean
 );
 
 CREATE TABLE Employees (
     id int NOT NULL PRIMARY KEY GENERATED ALWAYS AS identity (start with 1, increment by 1),
-    userid int references Users(id)
+    userid int references Users(id),
+    isdr Boolean,
+    isfulltime Boolean
 );
 
 CREATE TABLE BookingSlots (
@@ -36,5 +38,5 @@ CREATE TABLE Operations (
     time Time,
     charge Real,
     slot int,
-    isnhs Boolean references Clients(isnhspatient)
+    isnhs Boolean
 );
