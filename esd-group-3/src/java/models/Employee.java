@@ -48,7 +48,7 @@ public class Employee extends User {
             Logger.getLogger(Employee.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        query = "SELECT id FROM Users WHERE 'username' = " + username;
+        query = "SELECT id FROM Users WHERE username = '" + username + "'";
         
         int userid = 0;
         
@@ -69,7 +69,7 @@ public class Employee extends User {
             Logger.getLogger(Employee.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        query = "SELECT id FROM Employees WHERE 'username' = " + username;
+        query = "SELECT id FROM Employees WHERE username = '" + username + "'";
         
         int employeeid = 0;
         
