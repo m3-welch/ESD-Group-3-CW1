@@ -104,4 +104,35 @@ public class Client extends User {
         this.setClientId(clientid);
         this.setType(type);
     }
+    
+    public Client retrieveClientByUserId(DBConnection dbcon, int id) {
+        String query = "SELECT * FROM Clients WHERE userid = " + id;
+        
+        Client client = new Client();
+        
+        try (Statement stmt = dbcon.conn.createStatement()) {
+            ResultSet resultSet = stmt.executeQuery(query);
+            while (resultSet.next()) {
+                this.setClientId(resultSet.getInt("id"));
+                this.setType(resultSet.getString("type"));
+            }
+            
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        
+        User user = new User();
+        user.retrieveByUserId(dbcon, id);
+        
+        client.setUsername(user.getUsername());
+        client.setPassword(user.getPassword());
+        client.setFirstname(user.getFirstname());
+        client.setLastname(user.getLastname());
+        client.setEmail(user.getEmail());
+        client.setAddress(user.getAddress());
+        client.setRole(user.getRole());
+        
+        return client;
+    }
+    
 }
