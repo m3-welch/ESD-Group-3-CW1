@@ -12,3 +12,6 @@ INSERT INTO Clients (userid, type) VALUES ((SELECT id FROM Users WHERE username 
 /* Insert Employees */
 INSERT INTO Employees (userid) VALUES ((SELECT id FROM Users WHERE username = 'meaydin'));
 INSERT INTO Employees (userid) VALUES ((SELECT id FROM Users WHERE username = 'eaydin'));
+
+/* Insert referral */
+INSERT INTO Referrals (clientid, name, address) VALUES ((SELECT id FROM Clients WHERE id = 1), 'RUH Cardiac Ward', 'B45, RUH Bath, Combe Park, Bath, BA1 3NG');
