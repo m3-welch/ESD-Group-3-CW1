@@ -59,7 +59,7 @@ public class Client extends User {
             Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        query = "SELECT id FROM Users WHERE 'username' = " + username;
+        query = "SELECT id FROM Users WHERE username = '" + username + "'";
         
         int userid = 0;
         
@@ -80,7 +80,7 @@ public class Client extends User {
             Logger.getLogger(Employee.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        query = "SELECT id FROM Clients WHERE 'username' = " + username;
+        query = "SELECT id FROM Clients WHERE username = '" + username + "'";
         
         int clientid = 0;
         
@@ -134,5 +134,4 @@ public class Client extends User {
         
         return client;
     }
-    
 }
