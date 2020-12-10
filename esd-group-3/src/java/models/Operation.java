@@ -84,7 +84,7 @@ public class Operation {
     
     public int countAllOperations(DBConnection dbcon) {
                 
-        String query = "SELECT COUNT(*) FROM Employees";
+        String query = "SELECT COUNT(*) FROM Operations";
         
         int noOfOperations = 0;
         

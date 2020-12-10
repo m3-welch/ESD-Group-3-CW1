@@ -27,15 +27,15 @@ public class InvoiceViewerServlet extends HttpServlet {
           
         try {
             DBConnection dbcon = new DBConnection("smartcaretest", "", "");
-            Operation counter = null;
-            int noOfRows = counter.countAllOperations(dbcon);
+            Operation operationsCounter = new Operation();
+            int noOfRows = operationsCounter.countAllOperations(dbcon);
             Operation[] operationsArray = new Operation[noOfRows];
             
-            for (int i = 0; i <= noOfRows; i++) {
-                operationsArray[i].retrieveByOperationId(dbcon, i);
+            for (int i = 0; i < noOfRows; i++) {
+                operationsArray[i].retrieveByOperationId(dbcon, i+1);
             }
             
-            request.setAttribute("data", "operationsArray"); // Will be available as ${data}
+            request.setAttribute("data", operationsArray); // Will be available as ${data}
             request.getRequestDispatcher("admin.jsp").forward(request,response);
             response.sendRedirect("admin.jsp");
         }
