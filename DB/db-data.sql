@@ -6,12 +6,12 @@ INSERT INTO Users (username, password, firstname, lastname, email, address, role
 INSERT INTO Users (username, password, firstname, lastname, email, address, role) VALUES ('admin', 'admin_passwd', 'admin', 'admin', 'admin@test.com', 'admin', 'admin');
 
 /* Insert Clients */
-INSERT INTO Clients (userid, isnhs) VALUES ((SELECT id FROM Users WHERE username = 'caidan'), True);
-INSERT INTO Clients (userid, isnhs) VALUES ((SELECT id FROM Users WHERE username = 'princehassan'), False);
+INSERT INTO Clients (userid, isnhs) VALUES ((SELECT id FROM Users WHERE username = 'caidan'), TRUE);
+INSERT INTO Clients (userid, isnhs) VALUES ((SELECT id FROM Users WHERE username = 'princehassan'), FALSE);
 
 /* Insert Employees */
-INSERT INTO Employees (userid, isdr) VALUES ((SELECT id FROM Users WHERE username = 'meaydin'), True);
-INSERT INTO Employees (userid, isdr) VALUES ((SELECT id FROM Users WHERE username = 'eaydin'), False);
+INSERT INTO Employees (userid, isfulltime) VALUES ((SELECT id FROM Users WHERE username = 'meaydin'), TRUE);
+INSERT INTO Employees (userid, isfulltime) VALUES ((SELECT id FROM Users WHERE username = 'eaydin'), FALSE);
 
 /* Insert Operations */
-INSERT INTO Operations (employeeid, clientid, date, time, charge, isnhs) VALUES ((SELECT id FROM Employees WHERE isdr = True), (SELECT id FROM Clients WHERE isnhs = True), '2021-01-01', '12:00:00', 200.00, True); 
+INSERT INTO Operations (employeeid, clientid, date, time, charge) VALUES ((SELECT id FROM Employees WHERE isdr = TRUE), (SELECT id FROM Clients WHERE isnhs = TRUE), '2021-01-01', '12:00:00', 200.00); 
