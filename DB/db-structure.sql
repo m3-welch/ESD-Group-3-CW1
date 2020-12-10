@@ -37,3 +37,14 @@ CREATE TABLE Operations (
     charge Real,
     slot int
 );
+
+CREATE TABLE Prescriptions (
+    id int NOT NULL PRIMARY KEY GENERATED ALWAYS AS identity (start with 1, increment by 1),
+    clientid int references Clients(id),
+    employeeid int references Employees(id),
+    drug_name varchar(64),
+    dosage varchar(64),
+    is_repeat Boolean,
+    date_start Date,
+    date_end Date
+);
