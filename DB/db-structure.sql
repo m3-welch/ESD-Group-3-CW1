@@ -35,5 +35,6 @@ CREATE TABLE Operations (
     date Date,
     time Time,
     charge Real,
-    slot int
+    slot int,
+    isnhs Boolean
 );
