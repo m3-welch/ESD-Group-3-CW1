@@ -6,7 +6,6 @@
 package com;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -21,9 +20,7 @@ public class LogoutServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)  
                         throws ServletException, IOException {  
         response.setContentType("text/html");  
-        PrintWriter out=response.getWriter();  
-          
-          
+            
         request.getRequestDispatcher("home.jsp").include(request, response);  
           
         // overwrite current cookies, with expired cookies
@@ -34,8 +31,8 @@ public class LogoutServlet extends HttpServlet {
         ck_role.setMaxAge(0);  
         response.addCookie(ck_role);  
           
-        out.print("You have been logged out");  
-        
+        request.setAttribute("message", "Successful Logout"); // Will be available as ${message}
+        request.getRequestDispatcher("login.jsp").forward(request,response);
         response.sendRedirect("login.jsp");
     }  
 }  

@@ -35,6 +35,7 @@
       </div>
     </div>
     <div class="content">
+        <p style="color:#FF3232;font-size:12px;text-align:center" id="note">${message}</p>
       <p>
      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent venenatis nec ipsum non scelerisque. Suspendisse urna justo, finibus id malesuada vel, consectetur ut lectus. Duis fringilla ut est eget bibendum.
       </p>

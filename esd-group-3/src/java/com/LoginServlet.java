@@ -6,7 +6,6 @@
 package com;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.SQLException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -24,8 +23,7 @@ import models.User;
 public class LoginServlet extends HttpServlet {  
     protected void doPost(HttpServletRequest request, HttpServletResponse response)  
                            throws ServletException, IOException {  
-        response.setContentType("text/html");  
-        PrintWriter out=response.getWriter();  
+        response.setContentType("text/html");   
           
         request.getRequestDispatcher("login.jsp").include(request, response);  
           
@@ -41,16 +39,17 @@ public class LoginServlet extends HttpServlet {
             DBConnection dbcon = new DBConnection("smartcaretest", "", "");
             User user_to_login = dbcon.getUserByUsername(user_in);
             if (user_to_login.getUsername() == null) {
-                request.setAttribute("message", "Invalid Username"); // Will be available as ${message}
+                request.setAttribute("message", "Error - Invalid Username"); // Will be available as ${message}
                 request.getRequestDispatcher("login.jsp").forward(request,response);
                 response.sendRedirect("login.jsp");
-                out.close();
             }
             actual_password = user_to_login.getPassword();
             user_role = user_to_login.getRole();
         }
         catch(SQLException e){
-            System.out.println("error");
+            request.setAttribute("message", "Error - SQL Exception"); // Will be available as ${message}
+            request.getRequestDispatcher("login.jsp").forward(request,response);
+            response.sendRedirect("login.jsp");
         }
                 
         if (actual_password.equals(password_in)) {
@@ -73,17 +72,15 @@ public class LoginServlet extends HttpServlet {
                 default:
                     // no role assigned
                     user_type = 0;
-                    out.print("ERROR - No Role Assigned");
+                    request.setAttribute("message", "Error - No Role assigned to User"); // Will be available as ${message}
+                    request.getRequestDispatcher("login.jsp").forward(request,response);
+                    response.sendRedirect("login.jsp");
                     break;
             }
         }
         
         // results of login attempt
         if (user_type != 0) {
-            // sucessful login response
-            out.print("You are successfully logged in!");  
-            out.print("<br>Welcome, " + user_in);  
-            
             // cookie creation
             Cookie ck_username = new Cookie("username", user_in);
             Cookie ck_role = new Cookie("role", Integer.toString(user_type));
@@ -93,16 +90,17 @@ public class LoginServlet extends HttpServlet {
             response.addCookie(ck_username);  
             response.addCookie(ck_role); 
             
+            // sucessful login response
+            request.setAttribute("message", "Successful Login - Welcome " + user_in); // Will be available as ${message}
+            request.getRequestDispatcher("home.jsp").forward(request,response);
             response.sendRedirect("home.jsp");
         }
         else {
             // bad login response
-            request.setAttribute("message", "Invalid Password/Username"); // Will be available as ${message}
+            request.setAttribute("message", "Error - Invalid Password"); // Will be available as ${message}
             request.getRequestDispatcher("login.jsp").forward(request,response);
             response.sendRedirect("login.jsp");
         }
-        
-        out.close();
         
     }  
   
