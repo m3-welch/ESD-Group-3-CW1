@@ -14,4 +14,4 @@ INSERT INTO Employees (userid) VALUES ((SELECT id FROM Users WHERE username = 'm
 INSERT INTO Employees (userid) VALUES ((SELECT id FROM Users WHERE username = 'eaydin'));
 
 /* Insert Operations */
-INSERt INTO Operations (employeeid, clientid, date, time, charge, isnhs) VALUES ('1', '1', 2021-01-01, 12:00:00, 200.00, True); 
+INSERT INTO Operations (employeeid, clientid, date, time, charge, isnhs) VALUES ('1', '1', 2021-01-01, 12:00:00, 200.00, True); 
