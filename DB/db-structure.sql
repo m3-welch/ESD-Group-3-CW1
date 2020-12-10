@@ -5,7 +5,8 @@ CREATE TABLE Users (
     firstname varchar(64),
     lastname varchar(64),
     email varchar(64),
-    address varchar(64)
+    address varchar(64),
+    role varchar(64)
 );
 
 CREATE TABLE Clients (
@@ -35,15 +36,4 @@ CREATE TABLE Operations (
     time Time,
     charge Real,
     slot int
-);
-
-CREATE TABLE Roles (
-    id int NOT NULL PRIMARY KEY GENERATED ALWAYS AS identity (start with 1, increment by 1),
-    role varchar(64) NOT NULL UNIQUE
-);
-
-CREATE TABLE UserRoles (
-    id int NOT NULL PRIMARY KEY GENERATED ALWAYS AS identity (start with 1, increment by 1),
-    roleid int references Roles(id),
-    userid int references Users(id)
 );
