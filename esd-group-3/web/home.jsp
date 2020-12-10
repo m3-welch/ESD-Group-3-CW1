@@ -18,7 +18,7 @@
       <div class="dropdown">
         <button class="menu button">Menu</button>
         <div class="menu-content">
-          <a href="#">Page 1</a>
+          <a href="/esd-group-3/admin.jsp">Admin Page</a>
           <a href="#">Page 2</a>
           <a href="#">Page 3</a>
         </div>
