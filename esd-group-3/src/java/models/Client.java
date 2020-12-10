@@ -72,8 +72,6 @@ public class Client extends User {
             System.out.println(e);
         }
         
-        System.out.println(userid);
-        
         query = "INSERT INTO Clients (userid, type) VALUES (" + userid + ", '" + type + "')";
          
         try (Statement stmt = dbcon.conn.createStatement()) {
