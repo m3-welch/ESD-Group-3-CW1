@@ -18,7 +18,6 @@ CREATE TABLE Clients (
 CREATE TABLE Employees (
     id int NOT NULL PRIMARY KEY GENERATED ALWAYS AS identity (start with 1, increment by 1),
     userid int references Users(id),
-    isdr Boolean,
     isfulltime Boolean
 );
 
