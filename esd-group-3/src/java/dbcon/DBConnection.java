@@ -20,7 +20,8 @@ import models.Employee;
  */
 public class DBConnection {
     
-    Connection conn;
+    public Connection conn;    
+
     public DBConnection(String dbname, String dbusername, String dbpassword) throws SQLException {
         this.conn = DriverManager.getConnection(
             "jdbc:derby://localhost:1527/" + dbname
@@ -49,6 +50,7 @@ public class DBConnection {
                 String lastname = resultSet.getString("lastname");
                 String email = resultSet.getString("email");
                 String address = resultSet.getString("address");
+                String role = resultSet.getString("role");
                 user.setId(userid);
                 user.setUsername(username);
                 user.setPassword(password);
@@ -56,13 +58,12 @@ public class DBConnection {
                 user.setLastname(lastname);
                 user.setEmail(email);
                 user.setAddress(address);
+                user.setRole(role);
             }
 
         } catch (SQLException e) {
             System.out.println(e);
         }
-        
-        user = this.getUserRole(user);
 
         return user;
     }
@@ -82,6 +83,7 @@ public class DBConnection {
                 String lastname = resultSet.getString("lastname");
                 String email = resultSet.getString("email");
                 String address = resultSet.getString("address");
+                String role = resultSet.getString("role");
                 user.setId(userid);
                 user.setUsername(username);
                 user.setPassword(password);
@@ -89,30 +91,13 @@ public class DBConnection {
                 user.setLastname(lastname);
                 user.setEmail(email);
                 user.setAddress(address);
-            }
-
-        } catch (SQLException e) {
-            System.out.println(e);
-        }
-        
-        user = this.getUserRole(user);
-
-        return user;
-    }
-    
-    public User getUserRole(User user) {
-        String query = "SELECT role FROM Roles WHERE id = (SELECT roleid FROM UserRoles WHERE userid = " + Integer.toString(user.getId()) + ")";
-        
-        try (Statement stmt = this.conn.createStatement()) {
-            ResultSet resultSet = stmt.executeQuery(query);
-            while (resultSet.next()) {
-                String role = resultSet.getString("role");
                 user.setRole(role);
             }
+
         } catch (SQLException e) {
             System.out.println(e);
         }
-        
+
         return user;
     }
     
