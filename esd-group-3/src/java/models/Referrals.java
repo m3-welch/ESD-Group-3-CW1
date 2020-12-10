@@ -52,7 +52,7 @@ public class Referrals {
     ) {
         String cid = String.valueOf(clientid); //Convert clientid to string for query
         String query = "INSERT INTO Referrals (clientid, name, address) VALUES"
-                + "VALUES ('" + cid + "', '" + name + "', '" + address + "')";
+                + "('" + cid + "', '" + name + "', '" + address + "')";
         
         try (Statement stmt = dbcon.conn.createStatement()) {
             stmt.execute(query);
