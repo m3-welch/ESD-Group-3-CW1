@@ -6,9 +6,12 @@ INSERT INTO Users (username, password, firstname, lastname, email, address, role
 INSERT INTO Users (username, password, firstname, lastname, email, address, role) VALUES ('admin', 'admin_passwd', 'admin', 'admin', 'admin@test.com', 'admin', 'admin');
 
 /* Insert Clients */
-INSERT INTO Clients (userid, type) VALUES ((SELECT id FROM Users WHERE username = 'caidan'), 'NHS');
-INSERT INTO Clients (userid, type) VALUES ((SELECT id FROM Users WHERE username = 'princehassan'), 'private');
+INSERT INTO Clients (userid, type) VALUES ((SELECT id FROM Users WHERE username = 'caidan'), True);
+INSERT INTO Clients (userid, type) VALUES ((SELECT id FROM Users WHERE username = 'princehassan'), False);
 
 /* Insert Employees */
 INSERT INTO Employees (userid) VALUES ((SELECT id FROM Users WHERE username = 'meaydin'));
 INSERT INTO Employees (userid) VALUES ((SELECT id FROM Users WHERE username = 'eaydin'));
+
+/* Insert Operations */
+INSERt INTO Operations (employeeid, clientid, date, time, charge, isnhs) VALUES ('1', '1', 2021-01-01, 12:00:00, 200.00, True); 
