@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -22,14 +23,10 @@ public class LogoutServlet extends HttpServlet {
         response.setContentType("text/html");  
             
         request.getRequestDispatcher("home.jsp").include(request, response);  
-          
-        // overwrite current cookies, with expired cookies
-        Cookie ck_username=new Cookie("username","");  
-        ck_username.setMaxAge(0);  
-        response.addCookie(ck_username);  
-        Cookie ck_role=new Cookie("role","");  
-        ck_role.setMaxAge(0);  
-        response.addCookie(ck_role);  
+        
+        // invalidate httpSession
+        HttpSession loginSession = request.getSession();
+        loginSession.invalidate();
           
         request.setAttribute("message", "Successful Logout"); // Will be available as ${message}
         request.getRequestDispatcher("login.jsp").forward(request,response);

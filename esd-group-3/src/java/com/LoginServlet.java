@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Cookie;  
+import javax.servlet.http.HttpSession;
 import dbcon.DBConnection;
 import javax.servlet.annotation.WebServlet;
 import models.User;
@@ -39,6 +40,7 @@ public class LoginServlet extends HttpServlet {
             DBConnection dbcon = new DBConnection("smartcaretest", "", "");
             User user_to_login = dbcon.getUserByUsername(user_in);
             if (user_to_login.getUsername() == null) {
+                // if username mismatch, send error
                 request.setAttribute("message", "Error - Invalid Username"); // Will be available as ${message}
                 request.getRequestDispatcher("login.jsp").forward(request,response);
                 response.sendRedirect("login.jsp");
@@ -47,6 +49,7 @@ public class LoginServlet extends HttpServlet {
             user_role = user_to_login.getRole();
         }
         catch(SQLException e){
+            // send error
             request.setAttribute("message", "Error - SQL Exception"); // Will be available as ${message}
             request.getRequestDispatcher("login.jsp").forward(request,response);
             response.sendRedirect("login.jsp");
@@ -70,7 +73,7 @@ public class LoginServlet extends HttpServlet {
                     user_type = 4;
                     break;
                 default:
-                    // no role assigned
+                    // no role assigned, user has no type, send error
                     user_type = 0;
                     request.setAttribute("message", "Error - No Role assigned to User"); // Will be available as ${message}
                     request.getRequestDispatcher("login.jsp").forward(request,response);
@@ -81,14 +84,11 @@ public class LoginServlet extends HttpServlet {
         
         // results of login attempt
         if (user_type != 0) {
-            // cookie creation
-            Cookie ck_username = new Cookie("username", user_in);
-            Cookie ck_role = new Cookie("role", Integer.toString(user_type));
-            // set timeout of cookies (1200s = 20m)
-            ck_username.setMaxAge(1200);
-            ck_role.setMaxAge(1200);
-            response.addCookie(ck_username);  
-            response.addCookie(ck_role); 
+            // httpSession creation, store: name - role - timeout(20*60=20 mins)
+            HttpSession loginSession = request.getSession();
+            loginSession.setAttribute("name",user_in);
+            loginSession.setAttribute("role",user_type);
+            loginSession.setMaxInactiveInterval(20*60);
             
             // sucessful login response
             request.setAttribute("message", "Successful Login - Welcome " + user_in); // Will be available as ${message}
