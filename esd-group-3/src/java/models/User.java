@@ -5,6 +5,11 @@
  */
 package models;
 
+import dbcon.DBConnection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
 /**
  *
  * @author morgan
@@ -82,5 +87,49 @@ public class User {
     
     public String getRole() {
         return this.role;
+    }
+    
+    public void retrieveByUsername(DBConnection dbcon, String uname) {
+        String query = "SELECT * FROM Users WHERE username = '" + uname + "'";
+
+        try (Statement stmt = dbcon.conn.createStatement()) {
+            ResultSet resultSet = stmt.executeQuery(query);
+            while (resultSet.next()) {
+                this.setId(Integer.parseInt(resultSet.getString("id")));
+                this.setUsername(resultSet.getString("username"));
+                this.setPassword(resultSet.getString("password"));
+                this.setFirstname(resultSet.getString("firstname"));
+                this.setLastname(resultSet.getString("lastname"));
+                this.setEmail(resultSet.getString("email"));
+                this.setAddress(resultSet.getString("address"));
+                this.setRole(resultSet.getString("role"));
+
+            }
+
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+    }
+    
+    public void retrieveByUserId(DBConnection dbcon, int id) {
+        String query = "SELECT * FROM Users WHERE id = '" + id + "'";
+
+        try (Statement stmt = dbcon.conn.createStatement()) {
+            ResultSet resultSet = stmt.executeQuery(query);
+            while (resultSet.next()) {
+                this.setId(Integer.parseInt(resultSet.getString("id")));
+                this.setUsername(resultSet.getString("username"));
+                this.setPassword(resultSet.getString("password"));
+                this.setFirstname(resultSet.getString("firstname"));
+                this.setLastname(resultSet.getString("lastname"));
+                this.setEmail(resultSet.getString("email"));
+                this.setAddress(resultSet.getString("address"));
+                this.setRole(resultSet.getString("role"));
+
+            }
+
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
     }
 }
