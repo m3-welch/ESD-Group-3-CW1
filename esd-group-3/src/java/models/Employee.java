@@ -68,5 +68,28 @@ public class Employee extends User {
         } catch (SQLException ex) {
             Logger.getLogger(Employee.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+        query = "SELECT id FROM Employees WHERE 'username' = " + username;
+        
+        int employeeid = 0;
+        
+        try (Statement stmt = dbcon.conn.createStatement()) {
+            ResultSet resultSet = stmt.executeQuery(query);
+            while (resultSet.next()) {
+                employeeid = resultSet.getInt("id");
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        
+        this.setId(userid);
+        this.setUsername(username);
+        this.setPassword(password);
+        this.setFirstname(firstname);
+        this.setLastname(lastname);
+        this.setEmail(email);
+        this.setAddress(address);
+        this.setRole(role);
+        this.setEmployeeId(employeeid);
     }
 }

@@ -79,5 +79,29 @@ public class Client extends User {
         } catch (SQLException ex) {
             Logger.getLogger(Employee.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+        query = "SELECT id FROM Clients WHERE 'username' = " + username;
+        
+        int clientid = 0;
+        
+        try (Statement stmt = dbcon.conn.createStatement()) {
+            ResultSet resultSet = stmt.executeQuery(query);
+            while (resultSet.next()) {
+                clientid = resultSet.getInt("id");
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        
+        this.setId(userid);
+        this.setUsername(username);
+        this.setPassword(password);
+        this.setFirstname(firstname);
+        this.setLastname(lastname);
+        this.setEmail(email);
+        this.setAddress(address);
+        this.setRole(role);
+        this.setClientId(clientid);
+        this.setType(type);
     }
 }
