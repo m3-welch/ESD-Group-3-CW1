@@ -134,39 +134,4 @@ public class Client extends User {
         
         return client;
     }
-    
-    public void editUser(DBConnection dbcon, String setDatabase, String username, String toChange, String updatedValue) {            
-        String query = "";
-        
-        if (setDatabase == "Clients" || setDatabase == "Employees") {
-            query = "SELECT id FROM Users WHERE username = '" + username + "'";
-
-            int userid = 0;
-            try (Statement stmt = dbcon.conn.createStatement()) {
-                ResultSet resultSet = stmt.executeQuery(query);
-                while (resultSet.next()) {
-                    userid = resultSet.getInt("id");
-                }
-            } catch (SQLException e) {
-                System.out.println(e);
-            }
-
-            query = "UPDATE Clients SET " + toChange + "='"+ updatedValue +"' WHERE userid =" + userid;
-
-            try (Statement stmt = dbcon.conn.createStatement()) {
-                int resultSet = stmt.executeUpdate(query);
-            } catch (SQLException e) {
-                System.out.println(e);
-            }
-            
-        } else if (setDatabase == "Users") {
-            query = "UPDATE Users SET " + toChange + "='"+ updatedValue +"' WHERE username ='" + username + "'";
-
-            try (Statement stmt = dbcon.conn.createStatement()) {
-                int resultSet = stmt.executeUpdate(query);
-            } catch (SQLException e) {
-                System.out.println(e);
-            }
-        }
-    }
 }
