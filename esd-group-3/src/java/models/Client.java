@@ -105,9 +105,37 @@ public class Client extends User {
         this.setType(type);
     }
     
-    public void editUser(DBConnection dbcon, String setDatabase, String username, String toChange, String updatedValue) {
-//    public void editUser(DBConnection dbcon, String username, String toChange, String updatedValue) {
+    public Client retrieveClientByUserId(DBConnection dbcon, int id) {
+        String query = "SELECT * FROM Clients WHERE userid = " + id;
+        
+        Client client = new Client();
+        
+        try (Statement stmt = dbcon.conn.createStatement()) {
+            ResultSet resultSet = stmt.executeQuery(query);
+            while (resultSet.next()) {
+                this.setClientId(resultSet.getInt("id"));
+                this.setType(resultSet.getString("type"));
+            }
             
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        
+        User user = new User();
+        user.retrieveByUserId(dbcon, id);
+        
+        client.setUsername(user.getUsername());
+        client.setPassword(user.getPassword());
+        client.setFirstname(user.getFirstname());
+        client.setLastname(user.getLastname());
+        client.setEmail(user.getEmail());
+        client.setAddress(user.getAddress());
+        client.setRole(user.getRole());
+        
+        return client;
+    }
+    
+    public void editUser(DBConnection dbcon, String setDatabase, String username, String toChange, String updatedValue) {            
         String query = "";
         
         if (setDatabase == "Clients" || setDatabase == "Employees") {
@@ -140,35 +168,5 @@ public class Client extends User {
                 System.out.println(e);
             }
         }
-    }
-
-    public Client retrieveClientByUserId(DBConnection dbcon, int id) {
-        String query = "SELECT * FROM Clients WHERE userid = " + id;
-        
-        Client client = new Client();
-        
-        try (Statement stmt = dbcon.conn.createStatement()) {
-            ResultSet resultSet = stmt.executeQuery(query);
-            while (resultSet.next()) {
-                this.setClientId(resultSet.getInt("id"));
-                this.setType(resultSet.getString("type"));
-            }
-            
-        } catch (SQLException e) {
-            System.out.println(e);
-        }
-        
-        User user = new User();
-        user.retrieveByUserId(dbcon, id);
-        
-        client.setUsername(user.getUsername());
-        client.setPassword(user.getPassword());
-        client.setFirstname(user.getFirstname());
-        client.setLastname(user.getLastname());
-        client.setEmail(user.getEmail());
-        client.setAddress(user.getAddress());
-        client.setRole(user.getRole());
-        
-        return client;
     }
 }
