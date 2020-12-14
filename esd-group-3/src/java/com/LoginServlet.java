@@ -23,7 +23,7 @@ import models.User;
  */
 public class LoginServlet extends HttpServlet {  
     protected void doPost(HttpServletRequest request, HttpServletResponse response)  
-                           throws ServletException, IOException { 
+                           throws ServletException, IOException {  
         response.setContentType("text/html");   
           
         request.getRequestDispatcher("login.jsp").include(request, response);  
@@ -34,7 +34,7 @@ public class LoginServlet extends HttpServlet {
         String actual_password = "";
         String user_role = "";
         int user_type = 0;
-           
+        
         // get password from db
         try {
             DBConnection dbcon = new DBConnection("smartcaretest", "", "");
