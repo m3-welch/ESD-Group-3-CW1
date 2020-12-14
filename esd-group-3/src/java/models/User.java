@@ -132,4 +132,9 @@ public class User {
             System.out.println(e);
         }
     }
+    
+    public void editUser(DBConnection dbcon, String setDatabase, String username, String toChange, String updatedValue) {
+        Client client = new Client();
+        client.editUser(dbcon, setDatabase, username, toChange, updatedValue);
+    }
 }
