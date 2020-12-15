@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import models.Client;
+import models.Price;
 
 /**
  *
@@ -36,6 +37,7 @@ public class SignupServlet extends HttpServlet {
         String address = request.getParameter("address");
         String type = request.getParameter("type");
         Client client = new Client();
+        
         
         try {
             DBConnection dbcon = new DBConnection("smartcaretest", "", "");
