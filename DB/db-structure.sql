@@ -50,6 +50,7 @@ CREATE TABLE Prescriptions (
     is_repeat Boolean,
     date_start Date,
     date_end Date
+);
 
 CREATE TABLE Prices (
     id int NOT NULL PRIMARY KEY GENERATED ALWAYS AS identity (start with 1, increment by 1),
