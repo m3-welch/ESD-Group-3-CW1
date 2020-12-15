@@ -42,12 +42,6 @@ public class SignupServlet extends HttpServlet {
         try {
             DBConnection dbcon = new DBConnection("smartcaretest", "", "");
             client.create(dbcon, username, password, firstname, lastname, email, address, "client", type);
-            Price price = new Price();
-            price.addPrice(dbcon, "surgery", "janitor", "1.99");
-            price.addPrice(dbcon, "surgery", "janitor", "1.99");
-            
-            
-            
         } catch (SQLException ex) {
             Logger.getLogger(SignupServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
