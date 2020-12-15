@@ -25,7 +25,8 @@ CREATE TABLE BookingSlots (
     employeeid int references Employees(id),
     clientid int references Clients(id),
     date Date,
-    time Time
+    starttime Time,
+    endtime Time
 );
 
 CREATE TABLE Operations (
@@ -33,7 +34,8 @@ CREATE TABLE Operations (
     employeeid int references Employees(id),
     clientid int references Clients(id),
     date Date,
-    time Time,
+    starttime Time,
+    endtime Time,
     charge Real,
     slot int
 );
@@ -47,4 +49,17 @@ CREATE TABLE Prescriptions (
     is_repeat Boolean,
     date_start Date,
     date_end Date
+
+CREATE TABLE Prices (
+    id int NOT NULL PRIMARY KEY GENERATED ALWAYS AS identity (start with 1, increment by 1),
+    appointmenttype varchar(64),
+    employeetype varchar(64),
+    priceperslot Real
+);
+
+CREATE TABLE Referrals (
+    id int NOT NULL PRIMARY KEY GENERATED ALWAYS AS identity (start with 1, increment by 1),
+    clientid int REFERENCES Clients(id),
+    name varchar(64),
+    address varchar(64)
 );
