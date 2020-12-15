@@ -12,7 +12,7 @@
         <title>Add Invoice Page</title>
     </head>
     <body>
-<!-- read to read in the patient id, date, starttime, endtime, slot
+<!--  read to read in the patient id, date, starttime, endtime, slot
         <div>    
             <select name="Filters" id="filter">
                 <option value="all">All Invoices</option>
