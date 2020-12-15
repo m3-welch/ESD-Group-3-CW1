@@ -12,3 +12,8 @@ INSERT INTO Clients (userid, type) VALUES ((SELECT id FROM Users WHERE username 
 /* Insert Employees */
 INSERT INTO Employees (userid) VALUES ((SELECT id FROM Users WHERE username = 'meaydin'));
 INSERT INTO Employees (userid) VALUES ((SELECT id FROM Users WHERE username = 'eaydin'));
+
+/* Create Prescriptions */
+INSERT INTO Prescriptions (clientid, employeeid, drug_name, dosage, is_repeat, date_start, date_end) VALUES ((SELECT id FROM Clients WHERE id = 1), (SELECT id FROM Employees WHERE id = 1), 'Codeine', '50mg daily', TRUE, '2020-12-15', '2021-01-15');
+INSERT INTO Prescriptions (clientid, employeeid, drug_name, dosage, is_repeat, date_start, date_end) VALUES ((SELECT id FROM Clients WHERE id = 1), (SELECT id FROM Employees WHERE id = 2), 'Tramadol', '50mg daily', TRUE, '2020-12-10', '2021-01-10');
+INSERT INTO Prescriptions (clientid, employeeid, drug_name, dosage, is_repeat, date_start, date_end) VALUES ((SELECT id FROM Clients WHERE id = 2), (SELECT id FROM Employees WHERE id = 1), 'Lactulose', '15mls daily', TRUE, '2020-12-15', '2021-01-15');

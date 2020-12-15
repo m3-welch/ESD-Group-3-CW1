@@ -75,7 +75,8 @@ public class Prescriptions {
         String drug_name,
         String dosage,
         Boolean is_repeat,
-        LocalDate date
+        LocalDate date_start,
+        LocalDate date_end
     ) {
         
     }
