@@ -37,7 +37,8 @@ public class LoginServlet extends HttpServlet {
         // get password from db
         try {
             DBConnection dbcon = new DBConnection("smartcaretest", "", "");
-            User user_to_login = dbcon.getUserByUsername(user_in);
+            User user_to_login = new User();
+            user_to_login.retrieveByUsername(dbcon, user_in);
             if (user_to_login.getUsername() == null) {
                 // if username mismatch, send error
                 request.setAttribute("message", "Error - Invalid Username"); // Will be available as ${message}

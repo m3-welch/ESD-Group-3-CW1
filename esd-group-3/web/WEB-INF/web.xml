@@ -21,6 +21,11 @@
         <display-name>InvoiceViewerServlet</display-name>
         <servlet-name>InvoiceViewerServlet</servlet-name>
         <servlet-class>com.InvoiceViewerServlet</servlet-class>
+     </servlet>
+     <servlet>
+        <display-name>SignupServlet</display-name>
+        <servlet-name>SignupServlet</servlet-name>
+        <servlet-class>com.SignupServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
@@ -33,6 +38,10 @@
     <servlet-mapping>
         <servlet-name>InvoiceViewerServlet</servlet-name>
         <url-pattern>/InvoiceViewerServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SignupServlet</servlet-name>
+        <url-pattern>/SignupServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

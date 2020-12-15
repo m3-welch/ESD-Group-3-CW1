@@ -9,6 +9,8 @@ import dbcon.DBConnection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -59,7 +61,7 @@ public class Client extends User {
             Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        query = "SELECT id FROM Users WHERE 'username' = " + username;
+        query = "SELECT id FROM Users WHERE username = '" + username + "'";
         
         int userid = 0;
         
@@ -80,7 +82,7 @@ public class Client extends User {
             Logger.getLogger(Employee.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        query = "SELECT id FROM Clients WHERE 'username' = " + username;
+        query = "SELECT id FROM Clients WHERE username = '" + username + "'";
         
         int clientid = 0;
         
@@ -103,5 +105,89 @@ public class Client extends User {
         this.setRole(role);
         this.setClientId(clientid);
         this.setType(type);
+    }
+    
+    public Client retrieveClientByUserId(DBConnection dbcon, int id) {
+        String query = "SELECT * FROM Clients WHERE userid = " + id;
+        
+        try (Statement stmt = dbcon.conn.createStatement()) {
+            ResultSet resultSet = stmt.executeQuery(query);
+            while (resultSet.next()) {
+                this.setClientId(resultSet.getInt("id"));
+                this.setType(resultSet.getString("type"));
+            }
+            
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        
+        User user = new User();
+        user.retrieveByUserId(dbcon, (int)id);
+        
+        this.setUsername(user.getUsername());
+        this.setPassword(user.getPassword());
+        this.setFirstname(user.getFirstname());
+        this.setLastname(user.getLastname());
+        this.setEmail(user.getEmail());
+        this.setAddress(user.getAddress());
+        this.setRole(user.getRole());
+        
+        return this;
+    }
+    
+    public List<Client> getAll(DBConnection dbcon, String filter) {
+        List<Client> clients = new ArrayList<Client>();
+        
+        if (filter.equals("all")) {
+            String query = "SELECT * FROM Clients";
+            
+            try (Statement stmt = dbcon.conn.createStatement()) {
+                ResultSet resultSet = stmt.executeQuery(query);
+                while (resultSet.next()) {
+                    int user_id = resultSet.getInt("userid");
+
+                    Client client = new Client().retrieveClientByUserId(dbcon, user_id);
+
+                    clients.add(client);
+                }
+            } catch (SQLException e) {
+                System.out.println(e);
+            }
+        } else {
+            String query = "SELECT * FROM Clients WHERE type = '" + filter + "'";
+            
+            try (Statement stmt = dbcon.conn.createStatement()) {
+                ResultSet resultSet = stmt.executeQuery(query);
+                while (resultSet.next()) {
+                    int user_id = resultSet.getInt("userid");
+
+                    Client client = new Client().retrieveClientByUserId(dbcon, user_id);
+
+                    clients.add(client);
+                }
+            } catch (SQLException e) {
+                System.out.println(e);
+            }
+        }
+        
+        return clients;
+    }
+    
+    public void drop(DBConnection dbcon) {
+        
+        String query = "";
+                
+        
+//        DELETE FROM Customers WHERE CustomerName='Alfreds Futterkiste';
+
+//        query = "DELETE FROM Users";
+        query = "DELETE FROM Clients WHERE userid=3";
+//        query = "DELETE FROM Users WHERE username='connie'";
+
+        try (Statement stmt = dbcon.conn.createStatement()) {
+            int resultSet = stmt.executeUpdate(query);
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
     }
 }

@@ -48,7 +48,7 @@ public class Employee extends User {
             Logger.getLogger(Employee.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        query = "SELECT id FROM Users WHERE 'username' = " + username;
+        query = "SELECT id FROM Users WHERE username = '" + username + "'";
         
         int userid = 0;
         
@@ -69,7 +69,7 @@ public class Employee extends User {
             Logger.getLogger(Employee.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        query = "SELECT id FROM Employees WHERE 'username' = " + username;
+        query = "SELECT id FROM Employees WHERE username = '" + username + "'";
         
         int employeeid = 0;
         
@@ -91,5 +91,36 @@ public class Employee extends User {
         this.setAddress(address);
         this.setRole(role);
         this.setEmployeeId(employeeid);
+    }
+    
+    public Employee retrieveEmployeeByUserId(DBConnection dbcon, int id) {
+        String query = "SELECT * FROM Employees WHERE userid = " + id;
+        
+        Employee employee = new Employee();
+        
+        try (Statement stmt = dbcon.conn.createStatement()) {
+            ResultSet resultSet = stmt.executeQuery(query);
+            while (resultSet.next()) {
+                int clientid = resultSet.getInt("id");
+                employee.setEmployeeId(clientid);
+                employee.setId(id);
+            }
+            
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        
+        User user = new User();
+        user.retrieveByUserId(dbcon, id);
+        
+        employee.setUsername(user.getUsername());
+        employee.setPassword(user.getPassword());
+        employee.setFirstname(user.getFirstname());
+        employee.setLastname(user.getLastname());
+        employee.setEmail(user.getEmail());
+        employee.setAddress(user.getAddress());
+        employee.setRole(user.getRole());
+        
+        return employee;
     }
 }
