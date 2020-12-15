@@ -25,7 +25,8 @@ CREATE TABLE BookingSlots (
     employeeid int references Employees(id),
     clientid int references Clients(id),
     date Date,
-    time Time
+    starttime Time,
+    endtime Time
 );
 
 CREATE TABLE Operations (
@@ -33,7 +34,8 @@ CREATE TABLE Operations (
     employeeid int references Employees(id),
     clientid int references Clients(id),
     date Date,
-    time Time,
+    starttime Time,
+    endtime Time,
     charge Real,
     slot int
 );
