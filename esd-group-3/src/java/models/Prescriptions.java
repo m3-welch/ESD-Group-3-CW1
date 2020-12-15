@@ -6,7 +6,11 @@
 package models;
 
 import dbcon.DBConnection;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.time.LocalDate;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -14,13 +18,15 @@ import java.time.LocalDate;
  */
 public class Prescriptions {
     private int clientid;
-    private int employeeid;
-    private String drug_name;
-    private String dosage;
-    private Boolean is_repeat;
-    private LocalDate date;
+    private int prescription_count = 0;
+    private int[] employeeid;
+    private String[] drug_name;
+    private String[] dosage;
+    private Boolean[] is_repeat;
+    private LocalDate[] date_start;
+    private LocalDate[] date_end;
     
-    public void setClientId(int clientid) {
+    private void setClientId(int clientid) {
         this.clientid = clientid;
     }
     
@@ -28,44 +34,88 @@ public class Prescriptions {
         return this.clientid;
     }
     
-    public void setEmployeeId(int employeeid) {
+    private void setPrescriptionCount(int prescription_count) {
+        this.prescription_count = prescription_count;
+    }
+    
+    private void increasePrescriptionCount() {
+        this.prescription_count++;
+    }
+    
+    private void decreasePrescriptionCount() {
+        this.prescription_count--;
+    }
+    
+    public int getPrescriptionCount() {
+        return this.prescription_count;
+    }
+    
+    private void setEmployeeId(int[] employeeid) {
         this.employeeid = employeeid;
     }
     
-    public int getEmployeeId() {
+    public int[] getEmployeeId() {
         return this.employeeid;
     }
     
-    public void setDrugName(String drug_name) {
+    private void setDrugName(String[] drug_name) {
         this.drug_name = drug_name;
     }
     
-    public String getDrugName() {
+    public String[] getDrugName() {
         return this.drug_name;
     }
     
-    public void setDosage(String dosage) {
+    private void setDosage(String[] dosage) {
         this.dosage = dosage;
     }
     
-    public String getDosage() {
+    public String[] getDosage() {
         return this.dosage;
     }
     
-    public void setIsRepeat(Boolean is_repeat) {
+    private void setIsRepeat(Boolean[] is_repeat) {
         this.is_repeat = is_repeat;
     }
     
-    public Boolean getIsRepeat() {
+    public Boolean[] getIsRepeat() {
         return this.is_repeat;
     }
     
-    public void setDate(LocalDate date) {
-        this.date = date;
+    private void setDateStart(LocalDate[] date_start) {
+        this.date_start = date_start;
     }
     
-    public LocalDate getDate() {
-        return this.date;
+    public LocalDate[] getDateStart() {
+        return this.date_start;
+    }
+    
+    private void setDateEnd(LocalDate[] date_end) {
+        this.date_end = date_end;
+    }
+    
+    public LocalDate[] getDateEnd() {
+        return this.date_end;
+    }
+    
+    public void addPrescription(
+        int employeeid,
+        String drug_name,
+        String dosage,
+        Boolean is_repeat,
+        LocalDate date_start,
+        LocalDate date_end
+    ) {
+        this.increasePrescriptionCount();
+        int new_pres_count = this.getPrescriptionCount();
+        
+        //
+        String[] drugs = new String[new_pres_count];
+        drugs = this.getDrugName();
+        drugs[new_pres_count-1] = drug_name;
+        this.setDrugName(drugs);
+        
+        String[] old_dosage = this.getDosage();
     }
     
     public void create(
@@ -78,6 +128,18 @@ public class Prescriptions {
         LocalDate date_start,
         LocalDate date_end
     ) {
+        String query = "INSERT INTO Prescriptions (clientid, employeeid, "
+                + "drug_name, dosage, is_repeat, date_start, date_end) VALUES"
+                + "(" + clientid + ", " + employeeid + ", '" + drug_name + "', "
+                + "'" + dosage + "', " + is_repeat + ", '" + date_start + "', "
+                + "'" + date_end + "')";
         
+        try (Statement stmt = dbcon.conn.createStatement()) {
+            stmt.execute(query);
+        } catch (SQLException ex) {
+            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        this.addPrescription(employeeid, drug_name, dosage, is_repeat, date_start, date_end);
     }
 }
