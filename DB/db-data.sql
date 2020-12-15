@@ -16,6 +16,11 @@ INSERT INTO Employees (userid, isfulltime) VALUES ((SELECT id FROM Users WHERE u
 /* Insert Operations */
 INSERT INTO Operations (employeeid, clientid, date, starttime, endtime, charge, slot) VALUES ((SELECT id FROM Employees WHERE isfulltime = TRUE), (SELECT id FROM Clients WHERE isnhs = TRUE), '2021-01-01', '12:00:00', '13:00:00', 200.00, 1); 
 
+/* Create Prescriptions */
+INSERT INTO Prescriptions (clientid, employeeid, drug_name, dosage, is_repeat, date_start, date_end) VALUES ((SELECT id FROM Clients WHERE id = 1), (SELECT id FROM Employees WHERE id = 1), 'Codeine', '50mg daily', TRUE, '2020-12-15', '2021-01-15');
+INSERT INTO Prescriptions (clientid, employeeid, drug_name, dosage, is_repeat, date_start, date_end) VALUES ((SELECT id FROM Clients WHERE id = 1), (SELECT id FROM Employees WHERE id = 2), 'Tramadol', '50mg daily', TRUE, '2020-12-10', '2021-01-10');
+INSERT INTO Prescriptions (clientid, employeeid, drug_name, dosage, is_repeat, date_start, date_end) VALUES ((SELECT id FROM Clients WHERE id = 2), (SELECT id FROM Employees WHERE id = 1), 'Lactulose', '15mls daily', TRUE, '2020-12-15', '2021-01-15');
+
 /* Insert Prices */
 INSERT INTO Prices (appointmenttype, employeetype, priceperslot) VALUES ('surgery', 'doctor', 9.99);
 INSERT INTO Prices (appointmenttype, employeetype, priceperslot) VALUES ('surgery', 'nurse', 8.99);
