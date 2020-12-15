@@ -12,3 +12,9 @@ INSERT INTO Clients (userid, type) VALUES ((SELECT id FROM Users WHERE username 
 /* Insert Employees */
 INSERT INTO Employees (userid) VALUES ((SELECT id FROM Users WHERE username = 'meaydin'));
 INSERT INTO Employees (userid) VALUES ((SELECT id FROM Users WHERE username = 'eaydin'));
+
+/* Insert Prices */
+INSERT INTO Prices (appointmenttype, employeetype, priceperslot) VALUES ('surgery', 'doctor', 9.99);
+INSERT INTO Prices (appointmenttype, employeetype, priceperslot) VALUES ('surgery', 'nurse', 8.99);
+INSERT INTO Prices (appointmenttype, employeetype, priceperslot) VALUES ('consultation', 'doctor', 5.99);
+INSERT INTO Prices (appointmenttype, employeetype, priceperslot) VALUES ('consultation', 'nurse', 4.99);

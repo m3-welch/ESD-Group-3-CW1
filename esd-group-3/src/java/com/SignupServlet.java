@@ -37,9 +37,10 @@ public class SignupServlet extends HttpServlet {
         String type = request.getParameter("type");
         Client client = new Client();
         
+        
         try {
             DBConnection dbcon = new DBConnection("smartcaretest", "", "");
-            client.create(dbcon, username, password, firstname, lastname, email, address, "client", type);
+            client.create(dbcon, username, password, firstname, lastname, email, address, "client", type);            
             
         } catch (SQLException ex) {
             Logger.getLogger(SignupServlet.class.getName()).log(Level.SEVERE, null, ex);
