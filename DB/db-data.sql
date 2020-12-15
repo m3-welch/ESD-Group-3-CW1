@@ -6,12 +6,15 @@ INSERT INTO Users (username, password, firstname, lastname, email, address, role
 INSERT INTO Users (username, password, firstname, lastname, email, address, role) VALUES ('admin', 'admin_passwd', 'admin', 'admin', 'admin@test.com', 'admin', 'admin');
 
 /* Insert Clients */
-INSERT INTO Clients (userid, type) VALUES ((SELECT id FROM Users WHERE username = 'caidan'), 'NHS');
-INSERT INTO Clients (userid, type) VALUES ((SELECT id FROM Users WHERE username = 'princehassan'), 'private');
+INSERT INTO Clients (userid, isnhs) VALUES ((SELECT id FROM Users WHERE username = 'caidan'), TRUE);
+INSERT INTO Clients (userid, isnhs) VALUES ((SELECT id FROM Users WHERE username = 'princehassan'), FALSE);
 
 /* Insert Employees */
-INSERT INTO Employees (userid) VALUES ((SELECT id FROM Users WHERE username = 'meaydin'));
-INSERT INTO Employees (userid) VALUES ((SELECT id FROM Users WHERE username = 'eaydin'));
+INSERT INTO Employees (userid, isfulltime) VALUES ((SELECT id FROM Users WHERE username = 'meaydin'), TRUE);
+INSERT INTO Employees (userid, isfulltime) VALUES ((SELECT id FROM Users WHERE username = 'eaydin'), FALSE);
+
+/* Insert Operations */
+INSERT INTO Operations (employeeid, clientid, date, starttime, endtime, charge, slot) VALUES ((SELECT id FROM Employees WHERE isfulltime = TRUE), (SELECT id FROM Clients WHERE isnhs = TRUE), '2021-01-01', '12:00:00', '13:00:00', 200.00, 1); 
 
 /* Insert Prices */
 INSERT INTO Prices (appointmenttype, employeetype, priceperslot) VALUES ('surgery', 'doctor', 9.99);

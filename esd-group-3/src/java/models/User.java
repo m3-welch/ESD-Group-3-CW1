@@ -170,6 +170,8 @@ public class User {
                 }
                 
             }
+        }
+    }
     
     public void dropUser(DBConnection dbcon, String username) {
         String query = "";

@@ -12,12 +12,13 @@ CREATE TABLE Users (
 CREATE TABLE Clients (
     id int NOT NULL PRIMARY KEY GENERATED ALWAYS AS identity (start with 1, increment by 1),
     userid int references Users(id),
-    type varchar(64)
+    isnhs Boolean
 );
 
 CREATE TABLE Employees (
     id int NOT NULL PRIMARY KEY GENERATED ALWAYS AS identity (start with 1, increment by 1),
-    userid int references Users(id)
+    userid int references Users(id),
+    isfulltime Boolean
 );
 
 CREATE TABLE BookingSlots (
