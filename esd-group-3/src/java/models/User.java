@@ -132,46 +132,4 @@ public class User {
             System.out.println(e);
         }
     }
-    
-    public void changePrice(DBConnection dbcon, String appointmentType, 
-            String employeeType, String price) {
-        String query = "UPDATE PRICES SET priceperslot = " + price +
-                " WHERE appointmenttype = '" + appointmentType + 
-                "' AND employeetype = '" + employeeType + "'"; //could be issue ;
-        
-        try (Statement stmt = dbcon.conn.createStatement()) {
-            stmt.execute(query);
-            System.out.println("Price changed");
-        } catch (SQLException e) {
-            System.out.println(e);
-        }
-    }
-    
-    public void addPrice(DBConnection dbcon, String appointmentType,
-            String employeeType, String price) {
-        String query = "INSERT INTO PRICES (appointmenttype, employeetype,"
-                + " priceperslot) VALUES ('" + appointmentType + "', '" +
-                employeeType + "', " + price + ")";
-        
-        try (Statement stmt = dbcon.conn.createStatement()) {
-            stmt.execute(query);
-            System.out.println("Price added");
-        } catch (SQLException e) {
-            System.out.println(e);
-        }
-    }
-    
-    public void removePrice(DBConnection dbcon, String appointmentType, 
-            String employeeType, String price) {
-        String query = "DELETE FROM PRICES WHERE priceperslot = " + price +
-                " AND appointmenttype = '" + appointmentType + 
-                "' AND employeetype = '" + employeeType + "'";
-        
-        try (Statement stmt = dbcon.conn.createStatement()) {
-            stmt.execute(query);
-            System.out.println("Price removed");
-        } catch (SQLException e) {
-            System.out.println(e);
-        }
-    }
 }
