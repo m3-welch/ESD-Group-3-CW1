@@ -134,4 +134,22 @@ public class Client extends User {
         
         return client;
     }
+    
+    public void drop(DBConnection dbcon) {
+        
+        String query = "";
+                
+        
+//        DELETE FROM Customers WHERE CustomerName='Alfreds Futterkiste';
+
+//        query = "DELETE FROM Users";
+        query = "DELETE FROM Clients WHERE userid=3";
+//        query = "DELETE FROM Users WHERE username='connie'";
+
+        try (Statement stmt = dbcon.conn.createStatement()) {
+            int resultSet = stmt.executeUpdate(query);
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+    }
 }

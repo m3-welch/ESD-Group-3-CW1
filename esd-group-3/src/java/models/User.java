@@ -132,4 +132,43 @@ public class User {
             System.out.println(e);
         }
     }
+    
+    public void dropUser(DBConnection dbcon, String username) {
+        String query = "";
+           
+        // Get the user's id depending on the username
+        query = "SELECT id FROM Users WHERE username = '" + username + "'";
+        int userid = 0;
+        try (Statement stmt = dbcon.conn.createStatement()) {
+            ResultSet resultSet = stmt.executeQuery(query);
+            while (resultSet.next()) {
+                userid = resultSet.getInt("id");
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+
+        // Delete the user out of the employees or clients table
+        query = "DELETE FROM Clients WHERE userid=" + userid;
+        try (Statement stmt = dbcon.conn.createStatement()) {
+            int resultSet = stmt.executeUpdate(query);
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        
+        query = "DELETE FROM Employees WHERE userid=" + userid;
+        try (Statement stmt = dbcon.conn.createStatement()) {
+            int resultSet = stmt.executeUpdate(query);
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        
+        // Delete from users table
+        query = "DELETE FROM Users WHERE id=" + userid;
+        try (Statement stmt = dbcon.conn.createStatement()) {
+            int resultSet = stmt.executeUpdate(query);
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+    }
 }
