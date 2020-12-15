@@ -9,8 +9,12 @@ import dbcon.DBConnection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 
 /**
  *
@@ -20,9 +24,9 @@ public class Operation {
     private int operationid;
     private int employeeid;
     private int clientid;
-    private String date;
-    private String starttime;
-    private String endtime;
+    private LocalDate date;
+    private LocalTime starttime;
+    private LocalTime endtime;
     private float charge;
     private int slot;
     private boolean isnhs;
@@ -52,27 +56,36 @@ public class Operation {
     }
     
     public void setDate(String date) {
-        this.date = date;
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        this.date = LocalDate.parse(date, formatter);
     }
     
     public String getDate() {
-        return this.date;
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String formatted_date = this.date.format(formatter);
+        return formatted_date;
     }
     
     public void setStartTime(String starttime) {
-        this.starttime = starttime;
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH-mm-ss");
+        this.starttime = LocalTime.parse(starttime, formatter);
     }
     
     public String getStartTime() {
-        return this.starttime;
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH-mm-ss");
+        String formatted_time = this.starttime.format(formatter);
+        return formatted_time;
     }
     
     public void setEndTime(String endtime) {
-        this.endtime = endtime;
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH-mm-ss");
+        this.endtime = LocalTime.parse(endtime, formatter);
     }
     
     public String getEndTime() {
-        return this.endtime;
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH-mm-ss");
+        String formatted_time = this.endtime.format(formatter);
+        return formatted_time;
     }
     
     public void setCharge(float charge) {
