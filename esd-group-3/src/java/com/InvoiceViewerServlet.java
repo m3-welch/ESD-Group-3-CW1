@@ -13,26 +13,29 @@ import javax.servlet.http.HttpServletResponse;
 import models.Operation;
 import dbcon.DBConnection;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 /**
  *
- * @author Austi
+ * @author Austin
  */
 public class InvoiceViewerServlet extends HttpServlet {  
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)  
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)  
                            throws ServletException, IOException {  
         response.setContentType("text/html");   
           
-        request.getRequestDispatcher("admin.jsp").include(request, response);  
+        request.getRequestDispatcher("home.jsp").include(request, response);  
           
         try {
             DBConnection dbcon = new DBConnection("smartcaretest", "", "");
             Operation operationsCounter = new Operation();
             int noOfRows = operationsCounter.countAllOperations(dbcon);
-            Operation[] operationsArray = new Operation[noOfRows];
+            ArrayList<Operation> operationsArray = new ArrayList<Operation>();
             
-            for (int i = 0; i < noOfRows; i++) {
-                operationsArray[i].retrieveByOperationId(dbcon, i+1);
+            for (int i = 0; i <= noOfRows; i++) {
+                Operation tempOp = new Operation();
+                tempOp.retrieveByOperationId(dbcon, (i+1));
+                operationsArray.add(tempOp);
             }
             
             request.setAttribute("data", operationsArray); // Will be available as ${data}

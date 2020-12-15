@@ -21,7 +21,8 @@ public class Operation {
     private int employeeid;
     private int clientid;
     private String date;
-    private String time;
+    private String starttime;
+    private String endtime;
     private float charge;
     private int slot;
     private boolean isnhs;
@@ -30,7 +31,7 @@ public class Operation {
         this.operationid = operationid;
     }
     
-    public int getOperationtId() {
+    public int getOperationId() {
         return this.operationid;
     }
     
@@ -58,12 +59,20 @@ public class Operation {
         return this.date;
     }
     
-    public void setTime(String time) {
-        this.time = time;
+    public void setStartTime(String starttime) {
+        this.starttime = starttime;
     }
     
-    public String getTime() {
-        return this.time;
+    public String getStartTime() {
+        return this.starttime;
+    }
+    
+    public void setEndTime(String endtime) {
+        this.endtime = endtime;
+    }
+    
+    public String getEndTime() {
+        return this.endtime;
     }
     
     public void setCharge(float charge) {
@@ -80,6 +89,14 @@ public class Operation {
     
     public int getSlot() {
         return this.slot;
+    }
+    
+    public void setIsnhs(boolean isnhs) {
+        this.isnhs = isnhs;
+    }
+    
+    public boolean getIsNhs() {
+        return this.isnhs;
     }
     
     public int countAllOperations(DBConnection dbcon) {
@@ -100,8 +117,28 @@ public class Operation {
         return noOfOperations;
     }
     
+    public boolean is_nhs_patient(DBConnection dbcon, int patientId) {
+        
+        String query = "SELECT isnhs FROM Clients WHERE id = " + patientId;
+        
+        boolean isnhs = false;
+        
+        try (Statement stmt = dbcon.conn.createStatement()) {
+            ResultSet resultSet = stmt.executeQuery(query);
+            while (resultSet.next()) {
+                isnhs = Boolean.parseBoolean(resultSet.getString("isnhs"));
+                // isnhs = resultSet.getBoolean("isnhs");
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        
+        return isnhs;
+        
+    }
+    
     public void retrieveByOperationId(DBConnection dbcon, int opId) {
-        String query = "SELECT * FROM Operations WHERE id = '" + opId + "'";
+        String query = "SELECT * FROM Operations WHERE id = " + opId;
 
         try (Statement stmt = dbcon.conn.createStatement()) {
             ResultSet resultSet = stmt.executeQuery(query);
@@ -110,9 +147,12 @@ public class Operation {
                 this.setEmployeeId(Integer.parseInt(resultSet.getString("employeeid")));
                 this.setClientId(Integer.parseInt(resultSet.getString("clientid")));
                 this.setDate(resultSet.getString("date"));
-                this.setTime(resultSet.getString("time"));
+                this.setStartTime(resultSet.getString("starttime"));
+                this.setEndTime(resultSet.getString("endtime"));
                 this.setCharge(Float.parseFloat(resultSet.getString("charge")));
                 this.setSlot(Integer.parseInt(resultSet.getString("slot")));
+                boolean isnhs = this.is_nhs_patient(dbcon, this.clientid);
+                this.setIsnhs(isnhs);
             }
 
         } catch (SQLException e) {
@@ -125,9 +165,11 @@ public class Operation {
         String employee_userid,
         String client_userid,
         String date,
-        String time,
+        String starttime,
+        String endtime,
         float charge,
-        int slot) {
+        int slot,
+        boolean isnhs) {
         
         String query = "SELECT id FROM Employees WHERE 'userid' = " + employee_userid;
         
@@ -155,8 +197,8 @@ public class Operation {
             System.out.println(e);
         }
         
-        query = "INSERT INTO Operations (employeeid, clientid, date, time, charge, slot, isnhs) VALUES ("
-                + employeeid + ", " + clientid + ", '" + date + "', '" + time + "', " + charge + ", " + slot + ")";
+        query = "INSERT INTO Operations (employeeid, clientid, date, starttime, endtime, charge, slot, isnhs) VALUES ("
+                + employeeid + ", " + clientid + ", '" + date + "', '" + starttime + "', '" + endtime + "', " + charge + ", " + slot + ")";
          
         try (Statement stmt = dbcon.conn.createStatement()) {
             stmt.execute(query);
@@ -164,7 +206,7 @@ public class Operation {
             Logger.getLogger(Employee.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        query = "SELECT id FROM Operations WHERE 'employeeid' = " + employeeid + " AND 'clientid' = " + clientid + " AND 'date' = " + date + " AND 'time' = " + time + ")";
+        query = "SELECT id FROM Operations WHERE 'employeeid' = " + employeeid + " AND 'clientid' = " + clientid + " AND 'date' = " + date + " AND 'starttime' = " + starttime + ")";
         
         int operationid = 0;
         
@@ -181,8 +223,10 @@ public class Operation {
         this.setEmployeeId(employeeid);
         this.setClientId(clientid);
         this.setDate(date);
-        this.setTime(time);
+        this.setStartTime(starttime);
+        this.setEndTime(endtime);
         this.setCharge(charge);
         this.setSlot(slot);
+        this.setIsnhs(is_nhs_patient(dbcon, clientid));
     }
 }
