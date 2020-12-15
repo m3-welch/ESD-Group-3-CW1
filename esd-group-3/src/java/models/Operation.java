@@ -18,7 +18,7 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author morgan
+ * @author Austin
  */
 public class Operation {
     private int operationid;
@@ -29,7 +29,8 @@ public class Operation {
     private LocalTime endtime;
     private float charge;
     private int slot;
-    private boolean isnhs;
+    private boolean is_paid;
+    private boolean is_nhs;
     
     public void setOperationId(int operationid) {
         this.operationid = operationid;
@@ -104,12 +105,20 @@ public class Operation {
         return this.slot;
     }
     
-    public void setIsnhs(boolean isnhs) {
-        this.isnhs = isnhs;
+    public void setIsPaid(boolean is_paid) {
+        this.is_paid = is_paid;
+    }
+    
+    public boolean getIsPaid() {
+        return this.is_paid;
+    }
+    
+    public void setIsNhs(boolean is_nhs) {
+        this.is_nhs = is_nhs;
     }
     
     public boolean getIsNhs() {
-        return this.isnhs;
+        return this.is_nhs;
     }
     
     public int countAllOperations(DBConnection dbcon) {
@@ -130,23 +139,23 @@ public class Operation {
         return noOfOperations;
     }
     
-    public boolean is_nhs_patient(DBConnection dbcon, int patientId) {
+    public boolean isNhsPatient(DBConnection dbcon, int patientId) {
         
         String query = "SELECT isnhs FROM Clients WHERE id = " + patientId;
         
-        boolean isnhs = false;
+        boolean is_nhs = false;
         
         try (Statement stmt = dbcon.conn.createStatement()) {
             ResultSet resultSet = stmt.executeQuery(query);
             while (resultSet.next()) {
-                isnhs = Boolean.parseBoolean(resultSet.getString("isnhs"));
+                is_nhs = Boolean.parseBoolean(resultSet.getString("is_nhs"));
                 // isnhs = resultSet.getBoolean("isnhs");
             }
         } catch (SQLException e) {
             System.out.println(e);
         }
         
-        return isnhs;
+        return is_nhs;
         
     }
     
@@ -164,8 +173,8 @@ public class Operation {
                 this.setEndTime(resultSet.getString("endtime"));
                 this.setCharge(Float.parseFloat(resultSet.getString("charge")));
                 this.setSlot(Integer.parseInt(resultSet.getString("slot")));
-                boolean isnhs = this.is_nhs_patient(dbcon, this.clientid);
-                this.setIsnhs(isnhs);
+                this.setIsPaid(Boolean.parseBoolean(resultSet.getString("is_paid")));
+                this.setIsNhs(isNhsPatient(dbcon, this.clientid));
             }
 
         } catch (SQLException e) {
@@ -182,7 +191,7 @@ public class Operation {
         String endtime,
         float charge,
         int slot,
-        boolean isnhs) {
+        boolean is_paid) {
         
         String query = "SELECT id FROM Employees WHERE 'userid' = " + employee_userid;
         
@@ -210,8 +219,8 @@ public class Operation {
             System.out.println(e);
         }
         
-        query = "INSERT INTO Operations (employeeid, clientid, date, starttime, endtime, charge, slot, isnhs) VALUES ("
-                + employeeid + ", " + clientid + ", '" + date + "', '" + starttime + "', '" + endtime + "', " + charge + ", " + slot + ")";
+        query = "INSERT INTO Operations (employeeid, clientid, date, starttime, endtime, charge, slot, is_paid) VALUES ("
+                + employeeid + ", " + clientid + ", '" + date + "', '" + starttime + "', '" + endtime + "', " + charge + ", " + slot + ", " + is_paid + ")";
          
         try (Statement stmt = dbcon.conn.createStatement()) {
             stmt.execute(query);
@@ -240,6 +249,6 @@ public class Operation {
         this.setEndTime(endtime);
         this.setCharge(charge);
         this.setSlot(slot);
-        this.setIsnhs(is_nhs_patient(dbcon, clientid));
+        this.setIsPaid(is_paid);
     }
 }
