@@ -112,7 +112,7 @@ public class User {
     }
     
     public void retrieveByUserId(DBConnection dbcon, int id) {
-        String query = "SELECT * FROM Users WHERE id = '" + id + "'";
+        String query = "SELECT * FROM Users WHERE id = " + id;
 
         try (Statement stmt = dbcon.conn.createStatement()) {
             ResultSet resultSet = stmt.executeQuery(query);

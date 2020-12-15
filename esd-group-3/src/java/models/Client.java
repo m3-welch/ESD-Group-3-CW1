@@ -9,6 +9,8 @@ import dbcon.DBConnection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -108,8 +110,6 @@ public class Client extends User {
     public Client retrieveClientByUserId(DBConnection dbcon, int id) {
         String query = "SELECT * FROM Clients WHERE userid = " + id;
         
-        Client client = new Client();
-        
         try (Statement stmt = dbcon.conn.createStatement()) {
             ResultSet resultSet = stmt.executeQuery(query);
             while (resultSet.next()) {
@@ -122,17 +122,55 @@ public class Client extends User {
         }
         
         User user = new User();
-        user.retrieveByUserId(dbcon, id);
+        user.retrieveByUserId(dbcon, (int)id);
         
-        client.setUsername(user.getUsername());
-        client.setPassword(user.getPassword());
-        client.setFirstname(user.getFirstname());
-        client.setLastname(user.getLastname());
-        client.setEmail(user.getEmail());
-        client.setAddress(user.getAddress());
-        client.setRole(user.getRole());
+        this.setUsername(user.getUsername());
+        this.setPassword(user.getPassword());
+        this.setFirstname(user.getFirstname());
+        this.setLastname(user.getLastname());
+        this.setEmail(user.getEmail());
+        this.setAddress(user.getAddress());
+        this.setRole(user.getRole());
         
-        return client;
+        return this;
+    }
+    
+    public List<Client> getAll(DBConnection dbcon, String filter) {
+        List<Client> clients = new ArrayList<Client>();
+        
+        if (filter.equals("all")) {
+            String query = "SELECT * FROM Clients";
+            
+            try (Statement stmt = dbcon.conn.createStatement()) {
+                ResultSet resultSet = stmt.executeQuery(query);
+                while (resultSet.next()) {
+                    int user_id = resultSet.getInt("userid");
+
+                    Client client = new Client().retrieveClientByUserId(dbcon, user_id);
+
+                    clients.add(client);
+                }
+            } catch (SQLException e) {
+                System.out.println(e);
+            }
+        } else {
+            String query = "SELECT * FROM Clients WHERE type = '" + filter + "'";
+            
+            try (Statement stmt = dbcon.conn.createStatement()) {
+                ResultSet resultSet = stmt.executeQuery(query);
+                while (resultSet.next()) {
+                    int user_id = resultSet.getInt("userid");
+
+                    Client client = new Client().retrieveClientByUserId(dbcon, user_id);
+
+                    clients.add(client);
+                }
+            } catch (SQLException e) {
+                System.out.println(e);
+            }
+        }
+        
+        return clients;
     }
     
     public void drop(DBConnection dbcon) {
