@@ -41,6 +41,13 @@ CREATE TABLE Operations (
     slot int
 );
 
+CREATE TABLE Prices (
+    id int NOT NULL PRIMARY KEY GENERATED ALWAYS AS identity (start with 1, increment by 1),
+    appointmenttype varchar(64),
+    employeetype varchar(64),
+    priceperslot Real
+);
+
 CREATE TABLE Referrals (
     id int NOT NULL PRIMARY KEY GENERATED ALWAYS AS identity (start with 1, increment by 1),
     clientid int REFERENCES Clients(id),
