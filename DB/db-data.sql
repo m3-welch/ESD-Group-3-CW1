@@ -16,5 +16,11 @@ INSERT INTO Employees (userid, isfulltime) VALUES ((SELECT id FROM Users WHERE u
 /* Insert Operations */
 INSERT INTO Operations (employeeid, clientid, date, starttime, endtime, charge, slot) VALUES ((SELECT id FROM Employees WHERE isfulltime = TRUE), (SELECT id FROM Clients WHERE isnhs = TRUE), '2021-01-01', '12:00:00', '13:00:00', 200.00, 1); 
 
-/* Insert Referral */
+/* Insert Prices */
+INSERT INTO Prices (appointmenttype, employeetype, priceperslot) VALUES ('surgery', 'doctor', 9.99);
+INSERT INTO Prices (appointmenttype, employeetype, priceperslot) VALUES ('surgery', 'nurse', 8.99);
+INSERT INTO Prices (appointmenttype, employeetype, priceperslot) VALUES ('consultation', 'doctor', 5.99);
+INSERT INTO Prices (appointmenttype, employeetype, priceperslot) VALUES ('consultation', 'nurse', 4.99);
+
+/* Insert referral */
 INSERT INTO Referrals (clientid, name, address) VALUES ((SELECT id FROM Clients WHERE id = 1), 'RUH Cardiac Ward', 'B45, RUH Bath, Combe Park, Bath, BA1 3NG');
