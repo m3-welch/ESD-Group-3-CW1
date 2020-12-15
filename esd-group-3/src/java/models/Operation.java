@@ -67,23 +67,23 @@ public class Operation {
     }
     
     public void setStartTime(String starttime) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH-mm-ss");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
         this.starttime = LocalTime.parse(starttime, formatter);
     }
     
     public String getStartTime() {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH-mm-ss");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
         String formatted_time = this.starttime.format(formatter);
         return formatted_time;
     }
     
     public void setEndTime(String endtime) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH-mm-ss");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
         this.endtime = LocalTime.parse(endtime, formatter);
     }
     
     public String getEndTime() {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH-mm-ss");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
         String formatted_time = this.endtime.format(formatter);
         return formatted_time;
     }
