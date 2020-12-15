@@ -29,6 +29,10 @@
             <input type="date" id="end" name="end"
                    value="2018-07-22"
                    min="2018-01-01" max="2021-12-31">
+            
+            <form action="InvoiceViewerServlet" method="GET">
+                <input type="submit" value="Update" class="button logout"> 
+            </form>
         </div>
         <h1>Displaying All Operations</h1> 
         <table border ="1" width="500" align="center"> 
