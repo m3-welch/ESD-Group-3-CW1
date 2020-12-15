@@ -29,9 +29,8 @@ import java.time.LocalTime;
  */
 public class Bookings {
     
-   
-    public void patientBooking(DBConnection dbcon, String username, String employeeUsername) {
-//    public void patientBooking(DBConnection dbcon, String username, String employeeUsername, LocalDate date, LocalTime startTime, LocalTime endTime) {
+    // Create a booking by appending data to the bookingslot table
+    public void createBooking(DBConnection dbcon, String username, String employeeUsername, Date date, Time startTime, Time endTime) {
         String query = "";
 
         // Get the user's id depending on the username
@@ -46,6 +45,7 @@ public class Bookings {
             System.out.println(e);
         }
         
+        // Get the client id from the userid in the Clients table
         query = "SELECT id FROM Clients WHERE userid = " + userid;
         int clientid = 0;
         try (Statement stmt = dbcon.conn.createStatement()) {
@@ -57,8 +57,7 @@ public class Bookings {
             System.out.println(e);
         }
         
-        
-        
+        // Get the id of the employee from the employee username
         query = "SELECT id FROM Users WHERE username = '" + employeeUsername + "'";
         int employeeidbefore = 0;
         try (Statement stmt = dbcon.conn.createStatement()) {
@@ -70,6 +69,7 @@ public class Bookings {
             System.out.println(e);
         }
         
+        // Get the employee id from the userid in the Employees table
         query = "SELECT id FROM Employees WHERE userid = " + employeeidbefore;
         int employeeid = 0;
         try (Statement stmt = dbcon.conn.createStatement()) {
@@ -80,22 +80,8 @@ public class Bookings {
         } catch (SQLException e) {
             System.out.println(e);
         }
-                
-//        SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy");
-        int year = 2014;
-        int month = 10;
-        int day = 31;
-        Calendar cal = Calendar.getInstance();
-        cal.set(Calendar.YEAR, year);
-        cal.set(Calendar.MONTH, month - 1); // <-- months start
-                                            // at 0.
-        cal.set(Calendar.DAY_OF_MONTH, day);
-
-        java.sql.Date date = new java.sql.Date(cal.getTimeInMillis());
         
-        java.sql.Time startTime = Time.valueOf("18:45:00");
-        java.sql.Time endTime = Time.valueOf("18:55:00");
-
+        // Insert booking into BookingSlots table
         query = "INSERT INTO BookingSlots (employeeid, clientid, date, starttime, endtime) VALUES (" + employeeid + ", " + clientid + ", '" + date + "', '" + startTime + "', '" + endTime +  "')"; 
 
         try (Statement stmt = dbcon.conn.createStatement()) {
