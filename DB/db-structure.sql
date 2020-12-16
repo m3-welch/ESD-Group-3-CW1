@@ -28,7 +28,9 @@ CREATE TABLE BookingSlots (
     issurgery Boolean,
     date Date,
     starttime Time,
-    endtime Time
+    endtime Time,
+    slot Real,
+    hasbeenpaid Boolean
 );
 
 CREATE TABLE Operations (

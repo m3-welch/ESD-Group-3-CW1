@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
+import java.time.*;
 
 /**
  *
@@ -201,6 +201,8 @@ public class Client extends User {
 	"FROM BookingSlots" +
         "WHERE clientid = " + clid;
         
+        long tCost = 0l;
+        
         try (Statement stmt = dbcon.conn.createStatement()) {
             ResultSet rs = stmt.executeQuery(query);
             ArrayList<Bookings> bookingsArray = new ArrayList<>();
@@ -215,57 +217,48 @@ public class Client extends User {
                 b.setEndTime(rs.getTime("endtime"));
                 bookingsArray.add(b);
             }
+            
             Bookings currentBooking = new Bookings();
+            Price p = new Price();
+            
             for (int i = 0; i < bookingsArray.size(); i++){
                 currentBooking = bookingsArray.get(i); 
                 String role = currentBooking.getRoleFromId(dbcon);
-                
+                String apptType;
+                long timeDiff = Duration.between(currentBooking.getEndTime().toInstant(), currentBooking.getStartTime().toInstant()).toMinutes();
+                long slots = timeDiff/10;
                 //time in doctor surgeries
                 if(role == "doctor" && currentBooking.getIsSurgery()){
                     //is doctor surgery
+                    apptType = "surgery";
+                    tCost += p.getPrice(dbcon, apptType, role, slots);
                 }
                 //time in nurse surgeries
                 else if(role == "nurse" && currentBooking.getIsSurgery()){
                     //is nurse surgery
+                    apptType = "surgery";
+                    tCost += p.getPrice(dbcon, apptType, role, slots);
                 }
                 
                 else if(role == "doctor" && !currentBooking.getIsSurgery()){
                     //is doctor consultation
+                    apptType = "consultaion";
+                    tCost += p.getPrice(dbcon, apptType, role, slots);
                 }
                 //time in nurse surgeries
                 else if(role == "nurse" && !currentBooking.getIsSurgery()){
                     //is nurse consultation
+                    apptType = "consultaion";
+                    tCost += p.getPrice(dbcon, apptType, role, slots);
                 }
-            }
-            
+            }            
         } catch (SQLException e) {
             System.out.println(e);
-            return 0;
         }
-        
-        String query = "SELECT startime, endtime FROM bookingslot WHERE clientid = '" + 
-                clid + "'";
-        
-        String query = "SELECT startime, endtime FROM bookingslot WHERE clientid = '" + 
-                clid + "'";
-        //query client apointments
-        //get booking slots
-        //query client perscriptions
-        //totla together
-        
-        
+        return tCost;
     }
     
     
-    public long getTotalPaid(){
-        //new column in table for running cost
-    }
-    
-    public long getPaymentAmount(){
-        long paymentAmount = 0L;
-        paymentAmount = this.getTotalCost() - this.getTotalPaid();
-        return paymentAmount;
-    }
     
     public void payBill(){
         //validate if NHS patient

@@ -92,7 +92,7 @@ public class Bookings {
         this.endtime = endtime;
     }
     
-    public Time getEndId() {
+    public Time getEndTime() {
         return this.endtime;
     }
     
