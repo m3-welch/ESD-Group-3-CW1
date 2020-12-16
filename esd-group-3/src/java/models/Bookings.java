@@ -205,38 +205,50 @@ public class Bookings {
     
     // Return a schedule for today of the whole
     public void getAllBookingsForDateSpecified(DBConnection dbcon, String startingDate, String endingDate) {        
+                
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         
-        // convert from string to java.sql.date
+        java.util.Date startDate = null, endDate = null;
+        java.sql.Date sqlStartDate = null, sqlEndDate = null;
         
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd");
         try {
-            java.util.Date date = sdf.parse(startingDate);
-
-            java.sql.Date sqlDate = new Date(date.getTime());
-
-            System.out.println("String converted to java.sql.Date :" + sqlDate);
+            startDate = sdf.parse(startingDate);
+            endDate = sdf.parse(endingDate);
+            
+            sqlStartDate = new Date(startDate.getTime());
+            sqlEndDate = new Date(endDate.getTime());
         } catch (Exception ex) {
             ex.printStackTrace();
         }
 
+        System.out.println("startingDate converted to java.sql.Date : " + sqlStartDate);
+        System.out.println("endingDate converted to java.sql.Date : " + sqlEndDate);
         
+        String query = "";
         
-        java.sql.Date todaysDate = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+        if (sqlStartDate.equals(sqlEndDate)) {
+            System.out.println("Schedule for " + sqlStartDate + ":");
+            query = "SELECT * FROM BookingSlots WHERE date  = '" + sqlStartDate + "'";
+
+            // Put in singular date query
+        } else {
+            System.out.println("Schedule for " + sqlStartDate + " to " + sqlEndDate + ":");
+            query = "SELECT * FROM BookingSlots WHERE (date BEtWEEN '" + sqlStartDate + "' AND '" + sqlEndDate + "')";
+        }
         
-        String query = "SELECT * FROM BookingSlots WHERE date  = '" + todaysDate + "'";
+//        String query = "SELECT * FROM BookingSlots WHERE date  = '" + sqlStartDate + "'";
         
         String employeeName = "";
         
         try (Statement stmt = dbcon.conn.createStatement()) {
             ResultSet resultSet = stmt.executeQuery(query);
-            
-            System.out.println("Schedule for today's date: " + todaysDate);
-                
+                            
             while (resultSet.next()) {
                 this.setStartTime(resultSet.getTime("starttime"));
                 this.setEndTime(resultSet.getTime("endtime"));
                 this.setEmployeeId(resultSet.getInt("employeeid"));
                 this.setClientId(resultSet.getInt("clientid"));
+                this.setDate(resultSet.getDate("date"));
                 
                 String queryGetEmployeeName = "SELECT id FROM Employees WHERE userid = " + this.employeeid;
                 employeeName = getEmployeeName(dbcon, queryGetEmployeeName);
@@ -244,9 +256,8 @@ public class Bookings {
                 ///////// PUT SCHEDULE IN ORDER - BASE THIS ON TIMES, NOT EMPLOYEES - ALLOW OVERLAP FOR WHICHEVER START TIME IS FIRST
                 
                 System.out.println("\nEmployee Name: "+ employeeName);
-
-                System.out.println("EmployeeID: "+ this.employeeid);
-                System.out.println("ClientID: "+ this.clientid);
+                // NEED TO PRINT OUT CLIENT NAME HERE - USER OBJECt MEthOD MORGAN MEtIONED
+                System.out.println("Date: "+ this.date);
                 System.out.println("Start time: "+ this.starttime);
                 System.out.println("End time: "+ this.endtime);
             }
