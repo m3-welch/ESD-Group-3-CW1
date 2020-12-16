@@ -175,18 +175,18 @@ public class Bookings {
        
     }
     
-    public String getEmployeeName(DBConnection dbcon, String queryGetEmployeeName) {
-        int idOfEmployee = 0;
+    public String getName(DBConnection dbcon, String queryGetName) {
+        int individualsID = 0;
         try (Statement stmt = dbcon.conn.createStatement()) {
-            ResultSet resultSet = stmt.executeQuery(queryGetEmployeeName);
+            ResultSet resultSet = stmt.executeQuery(queryGetName);
             while (resultSet.next()) {
-                idOfEmployee = resultSet.getInt("id");
+                individualsID = resultSet.getInt("userid");
             }
         } catch (SQLException e) {
             System.out.println(e);
         }
-        
-        String query = "SELECT firstname, lastname FROM Users WHERE id = " + idOfEmployee;
+                
+        String query = "SELECT firstname, lastname FROM Users WHERE id = " + individualsID;
         
         String firstNameEmployee = "", lastNameEmployee = "";
         try (Statement stmt = dbcon.conn.createStatement()) {
@@ -198,47 +198,53 @@ public class Bookings {
         } catch (SQLException e) {
             System.out.println(e);
         }
-                
-        return firstNameEmployee + " " + lastNameEmployee;
 
+        return firstNameEmployee + " " + lastNameEmployee;
     }
     
     // Return a schedule for today of the whole
-    public void getAllBookingsForDateSpecified(DBConnection dbcon, String startingDate, String endingDate) {        
+    public void getAllBookingsForDateSpecified(DBConnection dbcon, int employee, String startingDate, String endingDate) {        
                 
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        // if employee == 0 then that means no specific employee, return all values
         
+//        query = "SELECT * FROM BookingSlots WHERE date  = '" + todaysDate + "' AND employeeid = " + employee;
+
+        
+        // Set the starting date and ending date into the sql format after being recieved as a string
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         java.util.Date startDate = null, endDate = null;
         java.sql.Date sqlStartDate = null, sqlEndDate = null;
-        
         try {
             startDate = sdf.parse(startingDate);
             endDate = sdf.parse(endingDate);
-            
             sqlStartDate = new Date(startDate.getTime());
             sqlEndDate = new Date(endDate.getTime());
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-
-        System.out.println("startingDate converted to java.sql.Date : " + sqlStartDate);
-        System.out.println("endingDate converted to java.sql.Date : " + sqlEndDate);
         
+        // If the start and end date is the same then only return schedule for one day
         String query = "";
-        
         if (sqlStartDate.equals(sqlEndDate)) {
-            System.out.println("Schedule for " + sqlStartDate + ":");
-            query = "SELECT * FROM BookingSlots WHERE date  = '" + sqlStartDate + "'";
-
-            // Put in singular date query
+            System.out.println("\nSchedule for " + sqlStartDate + ":");
+            
+            if (employee == 0) {
+                query = "SELECT * FROM BookingSlots WHERE date  = '" + sqlStartDate + "'";            
+            } else {
+                query = "SELECT * FROM BookingSlots WHERE date  = '" + sqlStartDate + "' AND employeeid = " + employee;        
+            }
+        // Else return the schedule for the date range
         } else {
-            System.out.println("Schedule for " + sqlStartDate + " to " + sqlEndDate + ":");
-            query = "SELECT * FROM BookingSlots WHERE (date BEtWEEN '" + sqlStartDate + "' AND '" + sqlEndDate + "')";
+            System.out.println("\nSchedule for " + sqlStartDate + " to " + sqlEndDate + ":");
+            
+            if (employee == 0) {
+                query = "SELECT * FROM BookingSlots WHERE (date BEtWEEN '" + sqlStartDate + "' AND '" + sqlEndDate + "')";
+            } else {
+                query = "SELECT * FROM BookingSlots WHERE (date BEtWEEN '" + sqlStartDate + "' AND '" + sqlEndDate + "') AND employeeid = " + employee;
+            }
         }
-        
-//        String query = "SELECT * FROM BookingSlots WHERE date  = '" + sqlStartDate + "'";
-        
-        String employeeName = "";
+                
+        String employeeName = "", clientName = "";
         
         try (Statement stmt = dbcon.conn.createStatement()) {
             ResultSet resultSet = stmt.executeQuery(query);
@@ -250,13 +256,16 @@ public class Bookings {
                 this.setClientId(resultSet.getInt("clientid"));
                 this.setDate(resultSet.getDate("date"));
                 
-                String queryGetEmployeeName = "SELECT id FROM Employees WHERE userid = " + this.employeeid;
-                employeeName = getEmployeeName(dbcon, queryGetEmployeeName);
+                String queryGetEmployeeName = "SELECT userid FROM Employees WHERE id = " + this.employeeid;
+                employeeName = getName(dbcon, queryGetEmployeeName);
                 
+                String queryGetClientName = "SELECT userid FROM Clients WHERE id = " + this.clientid;
+                clientName = getName(dbcon, queryGetClientName);
+
                 ///////// PUT SCHEDULE IN ORDER - BASE THIS ON TIMES, NOT EMPLOYEES - ALLOW OVERLAP FOR WHICHEVER START TIME IS FIRST
                 
                 System.out.println("\nEmployee Name: "+ employeeName);
-                // NEED TO PRINT OUT CLIENT NAME HERE - USER OBJECt MEthOD MORGAN MEtIONED
+                System.out.println("Client Name: "+ clientName);
                 System.out.println("Date: "+ this.date);
                 System.out.println("Start time: "+ this.starttime);
                 System.out.println("End time: "+ this.endtime);
@@ -264,7 +273,6 @@ public class Bookings {
         } catch (SQLException e) {
             System.out.println(e);
         }
-        
     }
     
     // Return a schedule for a doctor or a nurse
@@ -377,8 +385,6 @@ public class Bookings {
                 System.out.println(schedule.get(counter));
             }
 
-            
-            
         } else if (todayOrFuture == "future") {
             // Get the schedule from today and the future
         }
