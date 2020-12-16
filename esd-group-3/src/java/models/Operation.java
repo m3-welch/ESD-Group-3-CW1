@@ -12,6 +12,7 @@ import java.sql.Statement;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -123,16 +124,17 @@ public class Operation {
     
     public int countAllOperations(DBConnection dbcon) {
                 
-        String query = "SELECT COUNT(*) FROM Operations";
+        String query = "SELECT COUNT(*) AS rowcount FROM Operations";
         
         int noOfOperations = 0;
         
         try (Statement stmt = dbcon.conn.createStatement()) {
             ResultSet resultSet = stmt.executeQuery(query);
-            while (resultSet.next()) {
-                noOfOperations = resultSet.getInt("id");
-            }
-        } catch (SQLException e) {
+            resultSet.next();
+            noOfOperations = resultSet.getInt("rowcount");
+            resultSet.close();
+        } 
+        catch (SQLException e) {
             System.out.println(e);
         }
         
@@ -148,8 +150,7 @@ public class Operation {
         try (Statement stmt = dbcon.conn.createStatement()) {
             ResultSet resultSet = stmt.executeQuery(query);
             while (resultSet.next()) {
-                is_nhs = Boolean.parseBoolean(resultSet.getString("is_nhs"));
-                // isnhs = resultSet.getBoolean("isnhs");
+                is_nhs = resultSet.getBoolean("isnhs");
             }
         } catch (SQLException e) {
             System.out.println(e);
@@ -180,6 +181,90 @@ public class Operation {
         } catch (SQLException e) {
             System.out.println(e);
         }
+    }
+    
+    public ArrayList retrieveAllOperationsWhere(DBConnection dbcon, boolean all, boolean is_nhs, String start_date, String end_date) {
+        ArrayList<Operation> operationsArray = new ArrayList<Operation>();
+        
+//        if (all) {
+//            String query = "SELECT * FROM Operations";
+//            
+//            try (Statement stmt = dbcon.conn.createStatement()) {
+//            ResultSet resultSet = stmt.executeQuery(query);
+//            while (resultSet.next()) {
+//                Operation tempOp = new Operation();
+//                
+//                tempOp.setOperationId(Integer.parseInt(resultSet.getString("id")));
+//                tempOp.setEmployeeId(Integer.parseInt(resultSet.getString("employeeid")));
+//                tempOp.setClientId(Integer.parseInt(resultSet.getString("clientid")));
+//                tempOp.setDate(resultSet.getString("date"));
+//                tempOp.setStartTime(resultSet.getString("starttime"));
+//                tempOp.setEndTime(resultSet.getString("endtime"));
+//                tempOp.setCharge(Float.parseFloat(resultSet.getString("charge")));
+//                tempOp.setSlot(Integer.parseInt(resultSet.getString("slot")));
+//                tempOp.setIsPaid(Boolean.parseBoolean(resultSet.getString("is_paid")));
+//                tempOp.setIsNhs(isNhsPatient(dbcon, tempOp.clientid));
+//                
+//                operationsArray.add(tempOp);
+//            }
+//            }
+//            catch (SQLException e) {
+//                System.out.println(e);
+//            }
+//            
+////            int row_count = countAllOperations(dbcon);
+////            for (int i = 0; i < row_count; i++) {
+////                Operation tempOp = new Operation();
+////                tempOp.retrieveByOperationId(dbcon, (i+1));
+////                operationsArray.add(tempOp);
+////            }
+//        }
+//        else {
+        String query;
+        if (start_date != null && end_date != null) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            LocalDate startdate = LocalDate.parse(start_date, formatter);
+            LocalDate enddate = LocalDate.parse(end_date, formatter);
+            
+            query = "SELECT * FROM Operations WHERE date BETWEEN '" + startdate + "' AND '" + enddate + "'";
+        }
+        else {
+            query = "SELECT * FROM Operations";
+        }
+        
+            
+        try (Statement stmt = dbcon.conn.createStatement()) {
+            ResultSet resultSet = stmt.executeQuery(query);
+            while (resultSet.next()) {
+                Operation tempOp = new Operation();
+
+                tempOp.setOperationId(Integer.parseInt(resultSet.getString("id")));
+                tempOp.setEmployeeId(Integer.parseInt(resultSet.getString("employeeid")));
+                tempOp.setClientId(Integer.parseInt(resultSet.getString("clientid")));
+                tempOp.setDate(resultSet.getString("date"));
+                tempOp.setStartTime(resultSet.getString("starttime"));
+                tempOp.setEndTime(resultSet.getString("endtime"));
+                tempOp.setCharge(Float.parseFloat(resultSet.getString("charge")));
+                tempOp.setSlot(Integer.parseInt(resultSet.getString("slot")));
+                tempOp.setIsPaid(Boolean.parseBoolean(resultSet.getString("is_paid")));
+                tempOp.setIsNhs(isNhsPatient(dbcon, tempOp.clientid));
+
+                if (all) {
+                    operationsArray.add(tempOp);
+                }
+                else if (is_nhs && tempOp.is_nhs) {
+                    operationsArray.add(tempOp);
+                }
+                else if (!is_nhs && !tempOp.is_nhs) {
+                    operationsArray.add(tempOp);
+                }
+            }
+        }
+        catch (SQLException e) {
+            System.out.println(e);
+        }
+        
+        return operationsArray;
     }
     
     public void create(

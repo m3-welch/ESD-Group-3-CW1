@@ -14,8 +14,9 @@
         <title>Administrator Page</title>
     </head>
     <body>
-        <div>    
-            <select name="Filters" id="filter">
+        <div>   
+            <form action="InvoiceViewerServlet" method="GET">
+            <select name="filter" id="filter">
                 <option value="all">All Invoices</option>
                 <option value="nhs">NHS Patient Invoices</option>
                 <option value="private">Private Patient Invoices</option>
@@ -25,12 +26,12 @@
             <input type="date" id="start" name="start"
                    value="2018-07-22"
                    min="2018-01-01" max="2021-12-31">
-            <label for="start">End date:</label>
+            <label for="end">End date:</label>
             <input type="date" id="end" name="end"
-                   value="2018-07-22"
+                   value="2021-07-22"
                    min="2018-01-01" max="2021-12-31">
             
-            <form action="InvoiceViewerServlet" method="GET">
+            
                 <input type="submit" value="Update" class="button logout"> 
             </form>
         </div>
@@ -51,22 +52,29 @@
           <%-- Fetching the attributes of the request object 
                which was previously set by the servlet --%>  
           <%
-            ArrayList<Operation> operationsArray = (ArrayList<Operation>)request.getAttribute("data"); 
-            for(Operation i:operationsArray){%> 
+            try {
+                ArrayList<Operation> operationsArray = (ArrayList<Operation>)request.getAttribute("data"); 
+                for(Operation i:operationsArray){%> 
           <%-- Arranging data in tabular form --%> 
-              <tr> 
-                  <td><%=i.getOperationId()%></td> 
-                  <td><%=i.getEmployeeId()%></td> 
-                  <td><%=i.getClientId()%></td> 
-                  <td><%=i.getDate()%></td> 
-                  <td><%=i.getStartTime()%></td> 
-                  <td><%=i.getEndTime()%></td> 
-                  <td><%=i.getCharge()%></td> 
-                  <td><%=i.getSlot()%></td> 
-                  <td><%=i.getIsPaid()%></td> 
-                  <td><%=i.getIsNhs()%></td> 
-              </tr> 
-              <%}%> 
+                <tr> 
+                    <td><%=i.getOperationId()%></td> 
+                    <td><%=i.getEmployeeId()%></td> 
+                    <td><%=i.getClientId()%></td> 
+                    <td><%=i.getDate()%></td> 
+                    <td><%=i.getStartTime()%></td> 
+                    <td><%=i.getEndTime()%></td> 
+                    <td><%=i.getCharge()%></td> 
+                    <td><%=i.getSlot()%></td> 
+                    <td><%=i.getIsPaid()%></td> 
+                    <td><%=i.getIsNhs()%></td> 
+                </tr> 
+              <%}
+            }
+            catch(NullPointerException e){
+            // send error
+            request.setAttribute("message", "Error - SQL Exception"); // Will be available as ${message}
+            }
+              %> 
           </table>  
         <hr/> 
     </body>
