@@ -202,9 +202,8 @@ public class Bookings {
         return firstNameEmployee + " " + lastNameEmployee;
     }
     
-    // Return a schedule for today of the whole
-    public void getAllBookingsForDateSpecified(DBConnection dbcon, int employee, String startingDate, String endingDate) {        
-                
+    // Return the query which should be sent, depending on the date range and the employee id
+    public String setSelectAllWithDateQuery(String startingDate, String endingDate, int employee) {
         // Set the starting date and ending date into the sql format after being recieved as a string
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         java.util.Date startDate = null, endDate = null;
@@ -222,6 +221,7 @@ public class Bookings {
         String query = "";
         if (sqlStartDate.equals(sqlEndDate)) {
             System.out.println("\nSchedule for " + sqlStartDate + ":");
+            // If no employee selected then return all, else return the specific employees schedule
             if (employee == 0) {
                 query = "SELECT * FROM BookingSlots WHERE date  = '" + sqlStartDate + "'";            
             } else {
@@ -231,73 +231,63 @@ public class Bookings {
         } else {
             System.out.println("\nSchedule for " + sqlStartDate + " to " + sqlEndDate + ":");
             if (employee == 0) {
-                query = "SELECT * FROM BookingSlots WHERE (date BEtWEEN '" + sqlStartDate + "' AND '" + sqlEndDate + "')";
+                query = "SELECT * FROM BookingSlots WHERE (date BETWEEN '" + sqlStartDate + "' AND '" + sqlEndDate + "')";
             } else {
-                query = "SELECT * FROM BookingSlots WHERE (date BEtWEEN '" + sqlStartDate + "' AND '" + sqlEndDate + "') AND employeeid = " + employee;
+                query = "SELECT * FROM BookingSlots WHERE (date BETWEEN '" + sqlStartDate + "' AND '" + sqlEndDate + "') AND employeeid = " + employee;
             }
         }
+        
+        return query;
+    }
+    
+    // Return a schedule for today of the whole
+    public void getAllBookingsForDateSpecified(DBConnection dbcon, int employee, String startingDate, String endingDate) {   
+        
+        String query = "";
+        query = setSelectAllWithDateQuery(startingDate, endingDate, employee);
                 
         String employeeName = "", clientName = "";
         
-        ArrayList<String> schedule = new ArrayList<String>();
         ArrayList<LocalDateTime> scheduleStartTime = new ArrayList<LocalDateTime>();
         
-        
-        
-        
-        
-        
-        
-        
-        
- 
+        // Set the scheduleStartTime array with the dates and times set within the bookingSlot table
         try (Statement stmt = dbcon.conn.createStatement()) {
             ResultSet resultSet = stmt.executeQuery(query);
-
             while (resultSet.next()) {
                 this.setStartTime(resultSet.getTime("starttime"));
                 this.setEndTime(resultSet.getTime("endtime"));
                 this.setDate(resultSet.getDate("date"));
-                
+                // Set the date and time in a compariable format
                 LocalDate date = LocalDate.parse(this.date.toString());
                 LocalTime time = LocalTime.parse(this.starttime.toString());
                 LocalDateTime dt = LocalDateTime.of(date, time);
-
+                // Append to the array list
                 scheduleStartTime.add(dt);
-
             }
         } catch (SQLException e) {
             System.out.println(e);
-        }
-
-        System.out.println("\nPrint scheduleStartTime");
-        for (int counter = 0; counter < scheduleStartTime.size(); counter++) { 		      
-            System.out.println("scheduleStartTime.get(counter) " + scheduleStartTime.get(counter)); 
-        }   	
-
+        }	
+        
+        // Sort the time and dates in chronological order
         Collections.sort(scheduleStartTime);
-
+        
+        // Loop through the sorted time and dates list, to then select the booking information
         for (int counter = 0; counter < scheduleStartTime.size(); counter++) { 	
-            System.out.println(scheduleStartTime.get(counter));
-
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
             String formattedDateTime = scheduleStartTime.get(counter).format(formatter);
-
             String[] dateTimeSplit = formattedDateTime.split(" ");
-
             String date = dateTimeSplit[0];
             String time = dateTimeSplit[1];
-
+            
+            // Select either all bookings or a booking for a specific employee
             if (employee == 0) {
                 query = "SELECT * FROM BookingSlots WHERE date  = '" + date + "' AND starttime = '" + time + "'";
             } else {
                 query = "SELECT * FROM BookingSlots WHERE date  = '" + date + "' AND starttime = '" + time + "' AND employeeid = " + employee;
-//                query = "SELECT * FROM BookingSlots WHERE date  = '" + date + "' AND employeeid = " + employee + "' AND starttime = '" + time + "'";
             }
 
             try (Statement stmt = dbcon.conn.createStatement()) {
                 ResultSet resultSet = stmt.executeQuery(query);
-
                 while (resultSet.next()) {                    
                     this.setStartTime(resultSet.getTime("starttime"));
                     this.setEndTime(resultSet.getTime("endtime"));
@@ -320,115 +310,7 @@ public class Bookings {
                 }
             } catch (SQLException e) {
                 System.out.println(e);
-            
             }	
         }
-    }
-    
-    // Return a schedule for a doctor or a nurse
-    public void getEmployeeSchedule(DBConnection dbcon, int employee, String todayOrFuture) {
-        
-        java.sql.Date todaysDate = new java.sql.Date(Calendar.getInstance().getTime().getTime());
-        
-        String query = "";
-                
-        if (todayOrFuture == "today") {
-            // Get the schedule from today
-            
-            query = "SELECT * FROM BookingSlots WHERE date  = '" + todaysDate + "' AND employeeid = " + employee;
-            
-            ArrayList<String> schedule = new ArrayList<String>();
-            ArrayList<LocalDateTime> scheduleStartTime = new ArrayList<LocalDateTime>();
-            
-            try (Statement stmt = dbcon.conn.createStatement()) {
-                ResultSet resultSet = stmt.executeQuery(query);
-
-                System.out.println("Schedule for employee: " + employee + "\ntoday's date: " + todaysDate);
-
-                while (resultSet.next()) {
-                    this.setStartTime(resultSet.getTime("starttime"));
-                    this.setEndTime(resultSet.getTime("endtime"));
-////                    this.setEmployeeId(resultSet.getInt("employeeid"));
-//                    this.setClientId(resultSet.getInt("clientid"));
-                    this.setDate(resultSet.getDate("date"));
-
-////                    System.out.println("\nEmployeeID "+ this.employeeid);
-//                    System.out.println("\nClientID "+ this.clientid);
-//                    System.out.println("Start time "+ this.starttime);
-//                    System.out.println("End time "+ this.endtime);
-   
-                    LocalDate date = LocalDate.parse(this.date.toString());
-                    LocalTime time = LocalTime.parse(this.starttime.toString());
-                    LocalDateTime dt = LocalDateTime.of(date, time);
-                                        
-//                    String appenedTogether = "ClietnID:" + this.clientid + " Start Time:" + this.starttime + " End Time:" + this.endtime; 
-                    
-                    scheduleStartTime.add(dt);
-                    
-                }
-            } catch (SQLException e) {
-                System.out.println(e);
-            }
-            
-            System.out.println("\nPrint scheduleStartTime");
-            for (int counter = 0; counter < scheduleStartTime.size(); counter++) { 		      
-                System.out.println("scheduleStartTime.get(counter) " + scheduleStartTime.get(counter)); 
-            }   	
-            
-            System.out.println("\nSort array list");
-            
-            Collections.sort(scheduleStartTime);
-            
-            for (int counter = 0; counter < scheduleStartTime.size(); counter++) { 	
-                System.out.println(scheduleStartTime.get(counter));
-                
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-                String formattedDateTime = scheduleStartTime.get(counter).format(formatter);
-                
-//                System.out.println("FORMATTED DATE TIME " + formattedDateTime);
-                
-                String[] dateTimeSplit = formattedDateTime.split(" ");
-                
-                String time = dateTimeSplit[1];
-                
-                query = "SELECT * FROM BookingSlots WHERE date  = '" + todaysDate + "' AND employeeid = " + employee + " AND startTime = '" + time + "'";
-            
-//                ArrayList<String> schedule = new ArrayList<String>();
-
-                try (Statement stmt = dbcon.conn.createStatement()) {
-                    ResultSet resultSet = stmt.executeQuery(query);
-
-                    System.out.println("Schedule for employee: " + employee + "\ntoday's date: " + todaysDate);
-
-                    while (resultSet.next()) {
-                        this.setStartTime(resultSet.getTime("starttime"));
-                        this.setEndTime(resultSet.getTime("endtime"));
-    //                    this.setEmployeeId(resultSet.getInt("employeeid"));
-                        this.setClientId(resultSet.getInt("clientid"));
-                        this.setDate(resultSet.getDate("date"));
-
-    //                    System.out.println("\nEmployeeID "+ this.employeeid);
-                        System.out.println("\nClientID "+ this.clientid);
-                        System.out.println("Start time "+ this.starttime);
-                        System.out.println("End time "+ this.endtime);
-                       
-                        String appenedTogether = "ClietnID:" + this.clientid + " Start Time:" + this.starttime + " End Time:" + this.endtime; 
-
-                        schedule.add(appenedTogether);
-
-                    }
-                } catch (SQLException e) {
-                    System.out.println(e);
-                }
-                
-            }	      
-            
-            // For loop to select data using date and append in order
-            
-            System.out.println("\nSchedule ordered:");
-            for (int counter = 0; counter < schedule.size(); counter++) { 	
-                System.out.println(schedule.get(counter));
-            }
-        }   
     }
 }
