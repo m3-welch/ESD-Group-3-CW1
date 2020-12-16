@@ -10,7 +10,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" href="styles/home.css">
-        <title>SmartCare Home</title>
+        <title>SmartCare - Nurse Home</title>
     </head>
     <body>
     <div class="top-banner">
@@ -21,9 +21,7 @@
           <form action="InvoiceViewerServlet" method="GET">
             <input type="submit" value="Admin Page" class="button logout"> 
           </form>
-          <form action="IssueInvoiceServlet" method="POST">
-            <input type="submit" value="Add Invoice" class="button logout"> 
-          </form>
+          <a href="#">Page 2</a>
           <a href="#">Page 3</a>
         </div>
       </div>      
@@ -40,7 +38,7 @@
     </div>
     <div class="content">
         <p style="color:#FF3232;font-size:12px;text-align:center" id="note">${message}</p>
-
+        <h1>Nurse Dashboard</h1>
     </div>
   </body>
 </html>

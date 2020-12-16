@@ -7,6 +7,7 @@ package models;
 
 import dbcon.DBConnection;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
@@ -200,8 +201,8 @@ public class Prescriptions {
         // Convert date formats and integer list
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         for (int i = 0; i < list_len; i++) {
-            startArr[i] = LocalDate.parse(startList.get(0), formatter);
-            endArr[i] = LocalDate.parse(endList.get(0), formatter);
+            startArr[i] = LocalDate.parse(startList.get(i), formatter);
+            endArr[i] = LocalDate.parse(endList.get(i), formatter);
             employeeArr[i] = employeeList.get(i).intValue();
         }
         
@@ -219,5 +220,68 @@ public class Prescriptions {
         this.setIsRepeat(repeatArr);
         this.setDateStart(startArr);
         this.setDateEnd(endArr);
+    }
+    
+    public void renewRepeatPrescriptions (
+            DBConnection dbcon,
+            int clientid,
+            String drug_name
+    ) {
+        String query = "SELECT is_repeat, date_end FROM Prescriptions WHERE "
+                + "clientid = " + clientid + " AND drug_name = '" + drug_name + "'";
+        
+        Boolean repeatable = false;
+        String date_str = "";
+        
+        // ASSUMING THERE IS 1 DRUG PERSRIPTION PER PERSON OF THE SAME NAME
+        try (Statement stmt = dbcon.conn.createStatement()) {
+            ResultSet resultSet = stmt.executeQuery(query);
+            if (!resultSet.next()) {
+                System.out.println("No results found");
+                return;
+            }
+            else {
+                repeatable = resultSet.getBoolean("is_repeat");
+                date_str = resultSet.getString("date_end");
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        
+        // Change date format
+        LocalDate date_end;
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        date_end = LocalDate.parse(date_str, formatter);
+        // Add 1 month
+        if (repeatable) {
+            date_end = date_end.plusMonths(1);
+        }
+        else {
+            System.out.println("Not a repeat prescription");
+            return;  // Exit if not repeatable
+        }
+        
+        // Setup query to update
+        query = "UPDATE Prescriptions SET date_end = '" + date_end +"' WHERE "
+                + "drug_name = '" + drug_name + "' AND clientid = " + clientid;
+        try (Statement stmt = dbcon.conn.createStatement()) {
+            int resultSet = stmt.executeUpdate(query);
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        
+        // Get index of drug location in their drug list
+        int index = -1;
+        String[] drug_array = this.getDrugName();
+        for (int i = 0; i < drug_array.length; i++) {
+            if (drug_name.equals(drug_array[i])) {
+                index = i;
+            }
+        }
+        
+        // Update end date in class
+        LocalDate[] dates = this.getDateEnd();
+        dates[index] = date_end;
+        this.setDateEnd(dates);
     }
 }

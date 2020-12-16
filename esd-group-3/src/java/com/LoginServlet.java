@@ -92,8 +92,8 @@ public class LoginServlet extends HttpServlet {
             
             // sucessful login response
             request.setAttribute("message", "Successful Login - Welcome " + user_in); // Will be available as ${message}
-            request.getRequestDispatcher("home.jsp").forward(request,response);
-            response.sendRedirect("home.jsp");
+            request.getRequestDispatcher("dashboards/" + user_role + "_home.jsp").forward(request,response);
+            response.sendRedirect("dashboards/" + user_role + "_home.jsp");
         }
         else {
             // bad login response
