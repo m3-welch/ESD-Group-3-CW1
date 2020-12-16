@@ -10,7 +10,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" href="styles/home.css">
-        <title>SmartCare Home</title>
+        <title>SmartCare - Client Home</title>
     </head>
     <body>
     <div class="top-banner">
@@ -38,7 +38,7 @@
     </div>
     <div class="content">
         <p style="color:#FF3232;font-size:12px;text-align:center" id="note">${message}</p>
-
+        <h1>Client Dashboard</h1>
     </div>
   </body>
 </html>
