@@ -38,16 +38,16 @@
         <h1>Displaying All Operations</h1> 
         <table border ="1" width="500" align="center"> 
            <tr bgcolor="00FF7F"> 
-            <th><b>Operation ID</b></th> 
-            <th><b>Employee ID</b></th> 
-            <th><b>Client ID</b></th> 
-            <th><b>Date</b></th> 
-            <th><b>Start Time</b></th> 
-            <th><b>End Time</b></th> 
-            <th><b>Charge</b></th> 
-            <th><b>Slot</b></th> 
-            <th><b>Invoice Paid</b></th> 
-            <th><b>NHS Patient</b></th> 
+                <th><b>Operation ID</b></th> 
+                <th><b>Employee ID</b></th> 
+                <th><b>Client ID</b></th> 
+                <th><b>Date</b></th> 
+                <th><b>Start Time</b></th> 
+                <th><b>End Time</b></th> 
+                <th><b>Charge</b></th> 
+                <th><b>Slot</b></th> 
+                <th><b>Invoice Paid</b></th> 
+                <th><b>NHS Patient</b></th> 
            </tr> 
           <%-- Fetching the attributes of the request object 
                which was previously set by the servlet --%>  
@@ -77,5 +77,49 @@
               %> 
           </table>  
         <hr/> 
+        <div>
+            <form action="TurnoverServlet" method="GET">
+            <select name="filter" id="filter">
+                <option value="all">All Invoices</option>
+                <option value="nhs">NHS Patient Invoices</option>
+                <option value="private">Private Patient Invoices</option>
+            </select>
+            
+            <select name="time" id="time">
+                <option value="daily">Daily</option>
+                <option value="weekly">Weekly</option>
+                <option value="monthly">Monthly</option>
+            </select>
+
+                <input type="submit" value="Update" class="button logout"> 
+            </form>
+        </div>
+        <div>
+            <h1>Displaying Turnover for Today, this Week, and this Month</h1> 
+            <%= new java.util.Date() %>
+            <table border ="1" width="500" align="center"> 
+               <tr bgcolor="00FF7F"> 
+                    <th><b>Daily Turnover</b></th> 
+                    <th><b>Weekly Turnover</b></th> 
+                    <th><b>Monthly Turnover</b></th> 
+                    <th><b>Daily Private Payments</b></th> 
+                    <th><b>Weekly Private Payments</b></th> 
+                    <th><b>Monthly Private Payments</b></th> 
+                    <th><b>Daily NHS Payments</b></th> 
+                    <th><b>Weekly NHS Payments</b></th> 
+                    <th><b>Monthly NHS Payments</b></th> 
+               </tr> 
+               <tr> 
+                    <td>${daily_t}</td> 
+                    <td>${weekly_t}</td> 
+                    <td>${monthly_t}</td> 
+                    <td>${daily_p}</td> 
+                    <td>${weekly_p}</td> 
+                    <td>${monthly_p}</td> 
+                    <td>${daily_n}</td> 
+                    <td>${weekly_n}</td> 
+                    <td>${monthly_n}</td> 
+                </tr> 
+        </div>
     </body>
 </html>
