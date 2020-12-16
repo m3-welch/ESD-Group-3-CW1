@@ -15,6 +15,7 @@ import dbcon.DBConnection;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 /**
  *
@@ -38,7 +39,6 @@ public class InvoiceViewerServlet extends HttpServlet {
         try {
             DBConnection dbcon = new DBConnection("smartcaretest", "", "");
             Operation operationsCaller = new Operation();
-            int noOfRows = operationsCaller.countAllOperations(dbcon);
             ArrayList<Operation> operationsArray = new ArrayList<Operation>();
             
             boolean all = false;
@@ -50,18 +50,23 @@ public class InvoiceViewerServlet extends HttpServlet {
             
             operationsArray = operationsCaller.retrieveAllOperationsWhere(dbcon, all, is_nhs, start_date, end_date);
             
+            float turnover = 0;
+            for(Operation i:operationsArray){
+                turnover = turnover + i.getCharge();
+            }
             
             request.setAttribute("data", operationsArray); // Will be available as ${data}
+            request.setAttribute("turnover", turnover);
             request.getRequestDispatcher("admin.jsp").forward(request,response);
-            response.sendRedirect("admin.jsp");
+            // response.sendRedirect("admin.jsp");
         }
         catch(SQLException e){
             // send error
             request.setAttribute("message", "Error - SQL Exception"); // Will be available as ${message}
             request.getRequestDispatcher("admin.jsp").forward(request,response);
             response.sendRedirect("admin.jsp");
-        }    
-            
+        }
+        
     }  
   
 }  

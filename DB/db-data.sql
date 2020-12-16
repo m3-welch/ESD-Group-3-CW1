@@ -17,6 +17,9 @@ INSERT INTO Employees (userid, isfulltime) VALUES ((SELECT id FROM Users WHERE u
 INSERT INTO Operations (employeeid, clientid, date, starttime, endtime, charge, slot, is_paid) VALUES ((SELECT id FROM Employees WHERE id = 1), (SELECT id FROM Clients WHERE id = 1), '2021-01-01', '12:00:00', '13:00:00', 200.00, 1, TRUE); 
 INSERT INTO Operations (employeeid, clientid, date, starttime, endtime, charge, slot, is_paid) VALUES ((SELECT id FROM Employees WHERE id = 1), (SELECT id FROM Clients WHERE id = 1), '2021-01-02', '12:00:00', '13:00:00', 200.00, 1, FALSE);
 INSERT INTO Operations (employeeid, clientid, date, starttime, endtime, charge, slot, is_paid) VALUES ((SELECT id FROM Employees WHERE id = 2), (SELECT id FROM Clients WHERE id = 2), '2021-01-02', '12:00:00', '13:00:00', 200.00, 1, FALSE);
+INSERT INTO Operations (employeeid, clientid, date, starttime, endtime, charge, slot, is_paid) VALUES ((SELECT id FROM Employees WHERE id = 1), (SELECT id FROM Clients WHERE id = 1), '2020-12-16', '12:00:00', '13:00:00', 200.00, 1, TRUE); 
+INSERT INTO Operations (employeeid, clientid, date, starttime, endtime, charge, slot, is_paid) VALUES ((SELECT id FROM Employees WHERE id = 1), (SELECT id FROM Clients WHERE id = 1), '2020-12-14', '12:00:00', '13:00:00', 200.00, 1, FALSE);
+INSERT INTO Operations (employeeid, clientid, date, starttime, endtime, charge, slot, is_paid) VALUES ((SELECT id FROM Employees WHERE id = 2), (SELECT id FROM Clients WHERE id = 2), '2021-12-02', '12:00:00', '13:00:00', 200.00, 1, FALSE);
 
 /* Create Prescriptions */
 INSERT INTO Prescriptions (clientid, employeeid, drug_name, dosage, is_repeat, date_start, date_end) VALUES ((SELECT id FROM Clients WHERE id = 1), (SELECT id FROM Employees WHERE id = 1), 'Codeine', '50mg daily', TRUE, '2020-12-15', '2021-01-15');

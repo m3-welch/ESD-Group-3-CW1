@@ -38,16 +38,16 @@
         <h1>Displaying All Operations</h1> 
         <table border ="1" width="500" align="center"> 
            <tr bgcolor="00FF7F"> 
-            <th><b>Operation ID</b></th> 
-            <th><b>Employee ID</b></th> 
-            <th><b>Client ID</b></th> 
-            <th><b>Date</b></th> 
-            <th><b>Start Time</b></th> 
-            <th><b>End Time</b></th> 
-            <th><b>Charge</b></th> 
-            <th><b>Slot</b></th> 
-            <th><b>Invoice Paid</b></th> 
-            <th><b>NHS Patient</b></th> 
+                <th><b>Operation ID</b></th> 
+                <th><b>Employee ID</b></th> 
+                <th><b>Client ID</b></th> 
+                <th><b>Date</b></th> 
+                <th><b>Start Time</b></th> 
+                <th><b>End Time</b></th> 
+                <th><b>Charge</b></th> 
+                <th><b>Slot</b></th> 
+                <th><b>Invoice Paid</b></th> 
+                <th><b>NHS Patient</b></th> 
            </tr> 
           <%-- Fetching the attributes of the request object 
                which was previously set by the servlet --%>  
@@ -77,5 +77,6 @@
               %> 
           </table>  
         <hr/> 
+        Turnover for this period: ${turnover}
     </body>
 </html>
