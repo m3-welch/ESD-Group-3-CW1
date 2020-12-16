@@ -236,7 +236,11 @@ public class Prescriptions {
         // ASSUMING THERE IS 1 DRUG PERSRIPTION PER PERSON OF THE SAME NAME
         try (Statement stmt = dbcon.conn.createStatement()) {
             ResultSet resultSet = stmt.executeQuery(query);
-            while (resultSet.next()) {
+            if (!resultSet.next()) {
+                System.out.println("No results found");
+                return
+            }
+            else {
                 repeatable = resultSet.getBoolean("is_repeat");
                 date_str = resultSet.getString("date_end");
             }
