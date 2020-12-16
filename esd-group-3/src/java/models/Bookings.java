@@ -202,6 +202,37 @@ public class Bookings {
         return firstNameEmployee + " " + lastNameEmployee;
     }
     
+    // Return the bookings from the table
+    public void getBookings(DBConnection dbcon, String query) {
+        String employeeName = "", clientName = "";
+
+        try (Statement stmt = dbcon.conn.createStatement()) {
+                ResultSet resultSet = stmt.executeQuery(query);
+                while (resultSet.next()) {                    
+                    this.setStartTime(resultSet.getTime("starttime"));
+                    this.setEndTime(resultSet.getTime("endtime"));
+                    this.setEmployeeId(resultSet.getInt("employeeid"));
+                    this.setClientId(resultSet.getInt("clientid"));
+                    this.setDate(resultSet.getDate("date"));
+                    
+                    // Get the employee and clients name
+                    String queryGetEmployeeName = "SELECT userid FROM Employees WHERE id = " + this.employeeid;
+                    employeeName = getName(dbcon, queryGetEmployeeName);
+                    String queryGetClientName = "SELECT userid FROM Clients WHERE id = " + this.clientid;
+                    clientName = getName(dbcon, queryGetClientName);
+
+                    // Print out the booking information in full in chronological order
+                    System.out.println("\nEmployee Name: "+ employeeName);
+                    System.out.println("Client Name: "+ clientName);
+                    System.out.println("Date: "+ this.date);
+                    System.out.println("Start time: "+ this.starttime);
+                    System.out.println("End time: "+ this.endtime);
+                }
+            } catch (SQLException e) {
+                System.out.println(e);
+            }	
+    }
+    
     // Return the query which should be sent, depending on the date range and the employee id
     public String setSelectAllWithDateQuery(String startingDate, String endingDate, int employee) {
         // Set the starting date and ending date into the sql format after being recieved as a string
@@ -245,9 +276,7 @@ public class Bookings {
         
         String query = "";
         query = setSelectAllWithDateQuery(startingDate, endingDate, employee);
-                
-        String employeeName = "", clientName = "";
-        
+                        
         ArrayList<LocalDateTime> scheduleStartTime = new ArrayList<LocalDateTime>();
         
         // Set the scheduleStartTime array with the dates and times set within the bookingSlot table
@@ -273,6 +302,7 @@ public class Bookings {
         
         // Loop through the sorted time and dates list, to then select the booking information
         for (int counter = 0; counter < scheduleStartTime.size(); counter++) { 	
+                        
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
             String formattedDateTime = scheduleStartTime.get(counter).format(formatter);
             String[] dateTimeSplit = formattedDateTime.split(" ");
@@ -285,32 +315,9 @@ public class Bookings {
             } else {
                 query = "SELECT * FROM BookingSlots WHERE date  = '" + date + "' AND starttime = '" + time + "' AND employeeid = " + employee;
             }
-
-            try (Statement stmt = dbcon.conn.createStatement()) {
-                ResultSet resultSet = stmt.executeQuery(query);
-                while (resultSet.next()) {                    
-                    this.setStartTime(resultSet.getTime("starttime"));
-                    this.setEndTime(resultSet.getTime("endtime"));
-                    this.setEmployeeId(resultSet.getInt("employeeid"));
-                    this.setClientId(resultSet.getInt("clientid"));
-                    this.setDate(resultSet.getDate("date"));
-
-                    String queryGetEmployeeName = "SELECT userid FROM Employees WHERE id = " + this.employeeid;
-                    employeeName = getName(dbcon, queryGetEmployeeName);
-
-                    String queryGetClientName = "SELECT userid FROM Clients WHERE id = " + this.clientid;
-                    clientName = getName(dbcon, queryGetClientName);
-
-                    System.out.println("\nEmployee Name: "+ employeeName);
-                    System.out.println("Client Name: "+ clientName);
-                    System.out.println("Date: "+ this.date);
-                    System.out.println("Start time: "+ this.starttime);
-                    System.out.println("End time: "+ this.endtime);
-
-                }
-            } catch (SQLException e) {
-                System.out.println(e);
-            }	
+            
+            // Output the bookings from the table
+            getBookings(dbcon, query);
         }
     }
 }
