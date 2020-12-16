@@ -6,12 +6,10 @@
 package models;
 
 import dbcon.DBConnection;
-import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -116,7 +114,7 @@ public class Bookings {
             }
         }
     }
-    public int getID(DBConnection dbcon, String user) {
+    public int getIdFromDatabase(DBConnection dbcon, String user) {
         String query = "SELECT id FROM Users WHERE username = '" + user + "'";
         int userid = 0;
         try (Statement stmt = dbcon.conn.createStatement()) {
@@ -136,7 +134,7 @@ public class Bookings {
         String query = "";
         
         // Get the user's id depending on the username
-        int userid = getID(dbcon, username);
+        int userid = getIdFromDatabase(dbcon, username);
         
         // Get the client id from the userid in the Clients table
         query = "SELECT id FROM Clients WHERE userid = " + userid;
@@ -149,7 +147,7 @@ public class Bookings {
         } catch (SQLException e) {
             System.out.println(e);
         }
-        int employeeidbefore = getID(dbcon, employeeUsername);
+        int employeeidbefore = getIdFromDatabase(dbcon, employeeUsername);
         
         // Get the employee id from the userid in the Employees table
         query = "SELECT id FROM Employees WHERE userid = " + employeeidbefore;
@@ -172,5 +170,143 @@ public class Bookings {
             System.out.println(e);
         }
        
+    }
+    
+    public void getEmployeeName(DBConnection dbcon, String queryGetEmployeeName) {
+        int idOfEmployee = 0;
+        try (Statement stmt = dbcon.conn.createStatement()) {
+            ResultSet resultSet = stmt.executeQuery(queryGetEmployeeName);
+            while (resultSet.next()) {
+                idOfEmployee = resultSet.getInt("id");
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        
+        System.out.println("\nid of employee " + idOfEmployee);
+
+        String query = "SELECT firstname FROM Users WHERE id = " + idOfEmployee;
+        
+        String firstNameEmployee = "";
+        try (Statement stmt = dbcon.conn.createStatement()) {
+            ResultSet resultSet = stmt.executeQuery(queryGetEmployeeName);
+            while (resultSet.next()) {
+                firstNameEmployee = resultSet.getString("firstname");
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        
+        System.out.println("Employee first name " + firstNameEmployee);
+    }
+    
+    // Return a schedule for today of the whole
+    public void getTodaysBookings(DBConnection dbcon) {        
+        
+        java.sql.Date todaysDate = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+        
+        String query = "SELECT * FROM BookingSlots WHERE date  = '" + todaysDate + "'";
+        
+        try (Statement stmt = dbcon.conn.createStatement()) {
+            ResultSet resultSet = stmt.executeQuery(query);
+            
+            System.out.println("Schedule for today's date: " + todaysDate);
+                
+            while (resultSet.next()) {
+                this.setStartTime(resultSet.getTime("starttime"));
+                this.setEndTime(resultSet.getTime("endtime"));
+                this.setEmployeeId(resultSet.getInt("employeeid"));
+                this.setClientId(resultSet.getInt("clientid"));
+                
+                String queryGetEmployeeName = "SELECT id FROM Employees WHERE userid = " + this.employeeid;
+                getEmployeeName(dbcon, queryGetEmployeeName);
+                
+                ///////// PUT SCHEDULE IN ORDER - BASE THIS ON TIMES, NOT EMPLOYEES - ALLOW OVERLAP FOR WHICHEVER START TIME IS FIRST
+
+                System.out.println("EmployeeID "+ this.employeeid);
+                System.out.println("ClientID "+ this.clientid);
+                System.out.println("Start time "+ this.starttime);
+                System.out.println("End time "+ this.endtime);
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        
+    }
+    
+    // Return a schedule for a doctor or a nurse
+    public void getEmployeeSchedule(DBConnection dbcon, int employee, String todayOrFuture) {
+        
+        java.sql.Date todaysDate = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+        
+        String query = "";
+                
+        if (todayOrFuture == "today") {
+            // Get the schedule from today
+            
+            query = "SELECT * FROM BookingSlots WHERE date  = '" + todaysDate + "' AND employeeid = " + employee;
+            
+            ArrayList<String> schedule = new ArrayList<String>();
+            
+            try (Statement stmt = dbcon.conn.createStatement()) {
+                ResultSet resultSet = stmt.executeQuery(query);
+
+                System.out.println("Schedule for employee: " + employee + "\ntoday's date: " + todaysDate);
+
+                while (resultSet.next()) {
+                    this.setStartTime(resultSet.getTime("starttime"));
+                    this.setEndTime(resultSet.getTime("endtime"));
+//                    this.setEmployeeId(resultSet.getInt("employeeid"));
+                    this.setClientId(resultSet.getInt("clientid"));
+
+//                    String queryGetEmployeeName = "SELECT id FROM Employees WHERE userid = " + this.employeeid;
+//                    getEmployeeName(dbcon, queryGetEmployeeName);
+
+                    ///////// PUT SCHEDULE IN ORDER
+                    
+                    // Append to an array, print in order outside of loop 
+
+//                    System.out.println("\nEmployeeID "+ this.employeeid);
+                    System.out.println("\nClientID "+ this.clientid);
+                    System.out.println("Start time "+ this.starttime);
+                    System.out.println("End time "+ this.endtime);
+                    
+                    String appenedTogether = "ClietnID:" + this.clientid + " Start Time:" + this.starttime + " End Time:" + this.endtime; 
+                    
+                    schedule.add(appenedTogether);
+                }
+            } catch (SQLException e) {
+                System.out.println(e);
+            }
+            
+            System.out.println("\nschedule " + schedule);
+            
+            
+            for (int counter = 0; counter < schedule.size(); counter++) { 		      
+                System.out.println(schedule.get(counter)); 		
+            }   	
+            
+            // ARRAY LIST ORDERED IN DATE
+            // REORDER ARRAY LIST BASED ON DATE
+            
+        } else if (todayOrFuture == "future") {
+            // Get the schedule from today and the future
+        }
+        
+        // Determine here which employee schedule we are getting
+        
+        // If this schedule is for today only
+        
+        // Or if this schedule is from today and in the future (including today) but not showing previous
+        
+        
+        // Input a certain employee id/other way, a variable for today or in the future
+        // If today
+        //      Return the schedule for today for an employee with the date, client name, time
+        
+        // If future
+        //      Return the schedule for today and onwards for an employee with the date, client name, time
+        
+        
     }
 }
