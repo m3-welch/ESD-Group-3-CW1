@@ -35,6 +35,7 @@ public class Bookings {
     private int id;
     private int employeeid;
     private int clientid;
+    private boolean isSurgery;
     private Date date;
     private Time starttime;
     private Time endtime;
@@ -61,6 +62,14 @@ public class Bookings {
     
     public int getClientId() {
         return this.clientid;
+    }
+    
+    public void setIsSurgery(boolean isSurgery) {
+        this.isSurgery = isSurgery;
+    }
+    
+    public boolean getIsSurgery() {
+        return this.isSurgery;
     }
     
     public void setDate(Date date) {
@@ -128,7 +137,21 @@ public class Bookings {
             System.out.println(e);
         }
         
-        return userid; 
+        return userid;
+    }
+    public String getRoleFromId(DBConnection dbcon){
+        String query = "SELECT role FROM Users WHERE id = " + this.employeeid;
+        String role = "Unkown";
+        try (Statement stmt = dbcon.conn.createStatement()) {
+            ResultSet resultSet = stmt.executeQuery(query);
+            while (resultSet.next()) {
+                role = resultSet.getString("role");
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+            
+        }
+        return role;
     }
     
     // Create a booking by appending data to the bookingslot table

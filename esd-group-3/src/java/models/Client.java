@@ -190,4 +190,89 @@ public class Client extends User {
             System.out.println(e);
         }
     }
+    
+    public long getTotalCost(DBConnection dbcon, String clid){        
+        /*String query = "SELECT SUM(DATEDIFF(starttime, endtime)) as MinuteDiff, issurgery, employeeid" +
+	"FROM BookingSlots" +
+        "WHERE clientid = " + clid +
+        " GROUP BY issurgery, employeeid";*/
+        
+        String query = "SELECT *" +
+	"FROM BookingSlots" +
+        "WHERE clientid = " + clid;
+        
+        try (Statement stmt = dbcon.conn.createStatement()) {
+            ResultSet rs = stmt.executeQuery(query);
+            ArrayList<Bookings> bookingsArray = new ArrayList<>();
+            while(rs.next()){
+                Bookings b = new Bookings();
+                b.setId(Integer.parseInt(rs.getString("id")));
+                b.setEmployeeId(Integer.parseInt(rs.getString("employeeid")));
+                b.setClientId(Integer.parseInt(rs.getString("clientid")));
+                b.setIsSurgery(rs.getBoolean("issurgery"));
+                b.setDate(rs.getDate("date"));
+                b.setStartTime(rs.getTime("starttime"));
+                b.setEndTime(rs.getTime("endtime"));
+                bookingsArray.add(b);
+            }
+            Bookings currentBooking = new Bookings();
+            for (int i = 0; i < bookingsArray.size(); i++){
+                currentBooking = bookingsArray.get(i); 
+                String role = currentBooking.getRoleFromId(dbcon);
+                
+                //time in doctor surgeries
+                if(role == "doctor" && currentBooking.getIsSurgery()){
+                    //is doctor surgery
+                }
+                //time in nurse surgeries
+                else if(role == "nurse" && currentBooking.getIsSurgery()){
+                    //is nurse surgery
+                }
+                
+                else if(role == "doctor" && !currentBooking.getIsSurgery()){
+                    //is doctor consultation
+                }
+                //time in nurse surgeries
+                else if(role == "nurse" && !currentBooking.getIsSurgery()){
+                    //is nurse consultation
+                }
+            }
+            
+        } catch (SQLException e) {
+            System.out.println(e);
+            return 0;
+        }
+        
+        String query = "SELECT startime, endtime FROM bookingslot WHERE clientid = '" + 
+                clid + "'";
+        
+        String query = "SELECT startime, endtime FROM bookingslot WHERE clientid = '" + 
+                clid + "'";
+        //query client apointments
+        //get booking slots
+        //query client perscriptions
+        //totla together
+        
+        
+    }
+    
+    
+    public long getTotalPaid(){
+        //new column in table for running cost
+    }
+    
+    public long getPaymentAmount(){
+        long paymentAmount = 0L;
+        paymentAmount = this.getTotalCost() - this.getTotalPaid();
+        return paymentAmount;
+    }
+    
+    public void payBill(){
+        //validate if NHS patient
+        if (this.type == "true"){
+            System.out.println("NHS Patient - No payment required");
+        } else {
+            //pay bill
+        }
+    }
 }
