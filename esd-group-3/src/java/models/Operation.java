@@ -185,41 +185,6 @@ public class Operation {
     
     public ArrayList retrieveAllOperationsWhere(DBConnection dbcon, boolean all, boolean is_nhs, String start_date, String end_date) {
         ArrayList<Operation> operationsArray = new ArrayList<Operation>();
-        
-//        if (all) {
-//            String query = "SELECT * FROM Operations";
-//            
-//            try (Statement stmt = dbcon.conn.createStatement()) {
-//            ResultSet resultSet = stmt.executeQuery(query);
-//            while (resultSet.next()) {
-//                Operation tempOp = new Operation();
-//                
-//                tempOp.setOperationId(Integer.parseInt(resultSet.getString("id")));
-//                tempOp.setEmployeeId(Integer.parseInt(resultSet.getString("employeeid")));
-//                tempOp.setClientId(Integer.parseInt(resultSet.getString("clientid")));
-//                tempOp.setDate(resultSet.getString("date"));
-//                tempOp.setStartTime(resultSet.getString("starttime"));
-//                tempOp.setEndTime(resultSet.getString("endtime"));
-//                tempOp.setCharge(Float.parseFloat(resultSet.getString("charge")));
-//                tempOp.setSlot(Integer.parseInt(resultSet.getString("slot")));
-//                tempOp.setIsPaid(Boolean.parseBoolean(resultSet.getString("is_paid")));
-//                tempOp.setIsNhs(isNhsPatient(dbcon, tempOp.clientid));
-//                
-//                operationsArray.add(tempOp);
-//            }
-//            }
-//            catch (SQLException e) {
-//                System.out.println(e);
-//            }
-//            
-////            int row_count = countAllOperations(dbcon);
-////            for (int i = 0; i < row_count; i++) {
-////                Operation tempOp = new Operation();
-////                tempOp.retrieveByOperationId(dbcon, (i+1));
-////                operationsArray.add(tempOp);
-////            }
-//        }
-//        else {
         String query;
         if (start_date != null && end_date != null) {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
