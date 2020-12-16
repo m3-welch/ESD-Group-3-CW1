@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+
+
+<root>
+    <keys>
+        <google>
+            <maps>
+                GOOGLE_MAPS_API_KEY
+            </maps>
+            <calendar>
+                GOOGLE_CALENDAR_API_KEY
+            </calendar>
+        </google>
+    </keys>
+</root>
