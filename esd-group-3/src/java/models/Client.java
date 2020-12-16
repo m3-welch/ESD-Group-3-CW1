@@ -191,21 +191,54 @@ public class Client extends User {
         }
     }
     
-    public long getTotalCost(DBConnection dbcon, String clid){        
-        /*String query = "SELECT SUM(DATEDIFF(starttime, endtime)) as MinuteDiff, issurgery, employeeid" +
-	"FROM BookingSlots" +
-        "WHERE clientid = " + clid +
-        " GROUP BY issurgery, employeeid";*/
-        
+    public long calculateTotalCost(DBConnection dbcon, ArrayList<Bookings> bookings){
+        long tCost = 0l;
+        Bookings currentBooking = new Bookings();
+        Price p = new Price();
+        for (int i = 0; i < bookings.size(); i++){
+            currentBooking = bookings.get(i); 
+            String role = currentBooking.getRoleFromId(dbcon);
+            String apptType;
+            long timeDiff = Duration.between(currentBooking.getEndTime().toInstant(), currentBooking.getStartTime().toInstant()).toMinutes();
+            long slots = timeDiff/10;
+            //time in doctor surgeries
+            if(role == "doctor" && currentBooking.getIsSurgery()){
+                //is doctor surgery
+                apptType = "surgery";
+                tCost += p.getPrice(dbcon, apptType, role, slots);
+            }
+            //time in nurse surgeries
+            else if(role == "nurse" && currentBooking.getIsSurgery()){
+                //is nurse surgery
+                apptType = "surgery";
+                tCost += p.getPrice(dbcon, apptType, role, slots);
+            }
+
+            else if(role == "doctor" && !currentBooking.getIsSurgery()){
+                //is doctor consultation
+                apptType = "consultaion";
+                tCost += p.getPrice(dbcon, apptType, role, slots);
+            }
+            //time in nurse surgeries
+            else if(role == "nurse" && !currentBooking.getIsSurgery()){
+                //is nurse consultation
+                apptType = "consultaion";
+                tCost += p.getPrice(dbcon, apptType, role, slots);
+            }
+        }
+        return tCost;
+    }
+    
+    public ArrayList<String> getInvoice(DBConnection dbcon, String clid){        
         String query = "SELECT *" +
 	"FROM BookingSlots" +
-        "WHERE clientid = " + clid;
-        
-        long tCost = 0l;
+        "WHERE clientid = " + clid + " AND hasbeenpaid = FALSE";
+        ArrayList<String> invoice = new ArrayList<>();
         
         try (Statement stmt = dbcon.conn.createStatement()) {
             ResultSet rs = stmt.executeQuery(query);
             ArrayList<Bookings> bookingsArray = new ArrayList<>();
+            invoice.add("Is Surgery | Date | Start Time | End Time | Cost");
             while(rs.next()){
                 Bookings b = new Bookings();
                 b.setId(Integer.parseInt(rs.getString("id")));
@@ -215,57 +248,26 @@ public class Client extends User {
                 b.setDate(rs.getDate("date"));
                 b.setStartTime(rs.getTime("starttime"));
                 b.setEndTime(rs.getTime("endtime"));
+                b.setSlot(rs.getLong("slot"));
+                b.setHasBeenPaid(rs.getBoolean("hasbeenpaid"));
                 bookingsArray.add(b);
+                invoice.add(String.valueOf(b.getIsSurgery()) + String.valueOf(b.getDate()) + String.valueOf(b.getStartTime()) + String.valueOf(b.getEndTime()));
             }
-            
-            Bookings currentBooking = new Bookings();
-            Price p = new Price();
-            
-            for (int i = 0; i < bookingsArray.size(); i++){
-                currentBooking = bookingsArray.get(i); 
-                String role = currentBooking.getRoleFromId(dbcon);
-                String apptType;
-                long timeDiff = Duration.between(currentBooking.getEndTime().toInstant(), currentBooking.getStartTime().toInstant()).toMinutes();
-                long slots = timeDiff/10;
-                //time in doctor surgeries
-                if(role == "doctor" && currentBooking.getIsSurgery()){
-                    //is doctor surgery
-                    apptType = "surgery";
-                    tCost += p.getPrice(dbcon, apptType, role, slots);
-                }
-                //time in nurse surgeries
-                else if(role == "nurse" && currentBooking.getIsSurgery()){
-                    //is nurse surgery
-                    apptType = "surgery";
-                    tCost += p.getPrice(dbcon, apptType, role, slots);
-                }
-                
-                else if(role == "doctor" && !currentBooking.getIsSurgery()){
-                    //is doctor consultation
-                    apptType = "consultaion";
-                    tCost += p.getPrice(dbcon, apptType, role, slots);
-                }
-                //time in nurse surgeries
-                else if(role == "nurse" && !currentBooking.getIsSurgery()){
-                    //is nurse consultation
-                    apptType = "consultaion";
-                    tCost += p.getPrice(dbcon, apptType, role, slots);
-                }
-            }            
+            invoice.add("Total = " + String.valueOf(this.calculateTotalCost(dbcon, bookingsArray)));
+                       
         } catch (SQLException e) {
             System.out.println(e);
         }
-        return tCost;
+        return invoice;
     }
     
-    
-    
-    public void payBill(){
-        //validate if NHS patient
-        if (this.type == "true"){
-            System.out.println("NHS Patient - No payment required");
-        } else {
-            //pay bill
+    public void payBill(DBConnection dbcon, String clid){
+        String query = "UPDATE BookingSlots SET hasbeenpaid = True WHERE hasbeenpaid = False;";
+        try (Statement stmt = dbcon.conn.createStatement()) {
+            stmt.execute(query);
+            System.out.println("Payment made");
+        } catch (SQLException e) {
+            System.out.println(e);
         }
-    }
+    } 
 }
