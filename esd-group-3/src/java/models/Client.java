@@ -240,6 +240,7 @@ public class Client extends User {
             ArrayList<Bookings> bookingsArray = new ArrayList<>();
             invoice.add("Is Surgery | Date | Start Time | End Time | Cost");
             while(rs.next()){
+                ArrayList<Bookings> singleBooking = new ArrayList<>();
                 Bookings b = new Bookings();
                 b.setId(Integer.parseInt(rs.getString("id")));
                 b.setEmployeeId(Integer.parseInt(rs.getString("employeeid")));
@@ -251,7 +252,10 @@ public class Client extends User {
                 b.setSlot(rs.getLong("slot"));
                 b.setHasBeenPaid(rs.getBoolean("hasbeenpaid"));
                 bookingsArray.add(b);
-                invoice.add(String.valueOf(b.getIsSurgery()) + String.valueOf(b.getDate()) + String.valueOf(b.getStartTime()) + String.valueOf(b.getEndTime()));
+                singleBooking.set(0, b);
+                invoice.add(String.valueOf(b.getIsSurgery()) + String.valueOf(b.getDate()) +
+                        String.valueOf(b.getStartTime()) + String.valueOf(b.getEndTime()) +
+                        String.valueOf(this.calculateTotalCost(dbcon, singleBooking)));
             }
             invoice.add("Total = " + String.valueOf(this.calculateTotalCost(dbcon, bookingsArray)));
                        
