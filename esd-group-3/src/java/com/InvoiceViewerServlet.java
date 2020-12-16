@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import models.Operation;
 import dbcon.DBConnection;
+import java.sql.Date;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -24,19 +25,31 @@ public class InvoiceViewerServlet extends HttpServlet {
                            throws ServletException, IOException {  
         response.setContentType("text/html");   
           
-        request.getRequestDispatcher("home.jsp").include(request, response);  
-          
+        request.getRequestDispatcher("admin.jsp").include(request, response);  
+        
+        String filter = request.getParameter("filter");  
+        String start_date = request.getParameter("start");
+        String end_date = request.getParameter("end");
+        
+        if (filter == null) {
+            filter = "all";
+        }
+        
         try {
             DBConnection dbcon = new DBConnection("smartcaretest", "", "");
-            Operation operationsCounter = new Operation();
-            int noOfRows = operationsCounter.countAllOperations(dbcon);
+            Operation operationsCaller = new Operation();
+            int noOfRows = operationsCaller.countAllOperations(dbcon);
             ArrayList<Operation> operationsArray = new ArrayList<Operation>();
             
-            for (int i = 0; i <= noOfRows; i++) {
-                Operation tempOp = new Operation();
-                tempOp.retrieveByOperationId(dbcon, (i+1));
-                operationsArray.add(tempOp);
-            }
+            boolean all = false;
+            boolean is_nhs = false;
+            
+            if (filter.equals("all")) {all = true;}
+            else if (filter.equals("nhs")) {is_nhs = true; }
+            else if (filter.equals("private")) {is_nhs = false; }
+            
+            operationsArray = operationsCaller.retrieveAllOperationsWhere(dbcon, all, is_nhs, start_date, end_date);
+            
             
             request.setAttribute("data", operationsArray); // Will be available as ${data}
             request.getRequestDispatcher("admin.jsp").forward(request,response);

@@ -38,7 +38,8 @@ CREATE TABLE Operations (
     starttime Time,
     endtime Time,
     charge Real,
-    slot int
+    slot int,
+    is_paid Boolean
 );
 
 CREATE TABLE Prescriptions (

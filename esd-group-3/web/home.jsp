@@ -21,7 +21,9 @@
           <form action="InvoiceViewerServlet" method="GET">
             <input type="submit" value="Admin Page" class="button logout"> 
           </form>
-          <a href="#">Page 2</a>
+          <form action="IssueInvoiceServlet" method="POST">
+            <input type="submit" value="Add Invoice" class="button logout"> 
+          </form>
           <a href="#">Page 3</a>
         </div>
       </div>      
