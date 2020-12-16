@@ -238,7 +238,7 @@ public class Prescriptions {
             ResultSet resultSet = stmt.executeQuery(query);
             if (!resultSet.next()) {
                 System.out.println("No results found");
-                return
+                return;
             }
             else {
                 repeatable = resultSet.getBoolean("is_repeat");
