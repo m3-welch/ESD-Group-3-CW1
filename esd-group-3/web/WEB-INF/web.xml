@@ -31,6 +31,10 @@
         <servlet-name>IssueInvoiceServlet</servlet-name>
         <servlet-class>com.IssueInvoiceServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>InvoiceDownload</servlet-name>
+        <servlet-class>com.InvoiceDownload</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/LoginServlet</url-pattern>
@@ -50,6 +54,10 @@
     <servlet-mapping>
         <servlet-name>IssueInvoiceServlet</servlet-name>
         <url-pattern>/IssueInvoiceServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>InvoiceDownload</servlet-name>
+        <url-pattern>/InvoiceDownload</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
