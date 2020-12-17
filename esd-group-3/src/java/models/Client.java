@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
+import java.time.*;
 
 /**
  *
@@ -190,4 +190,88 @@ public class Client extends User {
             System.out.println(e);
         }
     }
+    
+    public long calculateTotalCost(DBConnection dbcon, ArrayList<Bookings> bookings){
+        long tCost = 0l;
+        Bookings currentBooking = new Bookings();
+        Price p = new Price();
+        for (int i = 0; i < bookings.size(); i++){
+            currentBooking = bookings.get(i); 
+            String role = currentBooking.getRoleFromId(dbcon);
+            String apptType;
+            long timeDiff = Duration.between(currentBooking.getEndTime().toInstant(), currentBooking.getStartTime().toInstant()).toMinutes();
+            long slots = timeDiff/10;
+            //time in doctor surgeries
+            if(role == "doctor" && currentBooking.getIsSurgery()){
+                //is doctor surgery
+                apptType = "surgery";
+                tCost += p.getPrice(dbcon, apptType, role, slots);
+            }
+            //time in nurse surgeries
+            else if(role == "nurse" && currentBooking.getIsSurgery()){
+                //is nurse surgery
+                apptType = "surgery";
+                tCost += p.getPrice(dbcon, apptType, role, slots);
+            }
+
+            else if(role == "doctor" && !currentBooking.getIsSurgery()){
+                //is doctor consultation
+                apptType = "consultaion";
+                tCost += p.getPrice(dbcon, apptType, role, slots);
+            }
+            //time in nurse surgeries
+            else if(role == "nurse" && !currentBooking.getIsSurgery()){
+                //is nurse consultation
+                apptType = "consultaion";
+                tCost += p.getPrice(dbcon, apptType, role, slots);
+            }
+        }
+        return tCost;
+    }
+    
+    public ArrayList<String> getInvoice(DBConnection dbcon, String clid){        
+        String query = "SELECT *" +
+	"FROM BookingSlots" +
+        "WHERE clientid = " + clid + " AND hasbeenpaid = FALSE";
+        ArrayList<String> invoice = new ArrayList<>();
+        
+        try (Statement stmt = dbcon.conn.createStatement()) {
+            ResultSet rs = stmt.executeQuery(query);
+            ArrayList<Bookings> bookingsArray = new ArrayList<>();
+            invoice.add("Is Surgery | Date | Start Time | End Time | Cost");
+            while(rs.next()){
+                ArrayList<Bookings> singleBooking = new ArrayList<>();
+                Bookings b = new Bookings();
+                b.setId(Integer.parseInt(rs.getString("id")));
+                b.setEmployeeId(Integer.parseInt(rs.getString("employeeid")));
+                b.setClientId(Integer.parseInt(rs.getString("clientid")));
+                b.setIsSurgery(rs.getBoolean("issurgery"));
+                b.setDate(rs.getDate("date"));
+                b.setStartTime(rs.getTime("starttime"));
+                b.setEndTime(rs.getTime("endtime"));
+                b.setSlot(rs.getLong("slot"));
+                b.setHasBeenPaid(rs.getBoolean("hasbeenpaid"));
+                bookingsArray.add(b);
+                singleBooking.set(0, b);
+                invoice.add(String.valueOf(b.getIsSurgery()) + String.valueOf(b.getDate()) +
+                        String.valueOf(b.getStartTime()) + String.valueOf(b.getEndTime()) +
+                        String.valueOf(this.calculateTotalCost(dbcon, singleBooking)));
+            }
+            invoice.add("Total = " + String.valueOf(this.calculateTotalCost(dbcon, bookingsArray)));
+                       
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return invoice;
+    }
+    
+    public void payBill(DBConnection dbcon, String clid){
+        String query = "UPDATE BookingSlots SET hasbeenpaid = True WHERE hasbeenpaid = False;";
+        try (Statement stmt = dbcon.conn.createStatement()) {
+            stmt.execute(query);
+            System.out.println("Payment made");
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+    } 
 }

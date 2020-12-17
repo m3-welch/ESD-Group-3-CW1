@@ -35,3 +35,6 @@ INSERT INTO Prices (appointmenttype, employeetype, priceperslot) VALUES ('consul
 
 /* Insert referral */
 INSERT INTO Referrals (clientid, name, address) VALUES ((SELECT id FROM Clients WHERE id = 1), 'RUH Cardiac Ward', 'B45, RUH Bath, Combe Park, Bath, BA1 3NG');
+
+/* Insert BookingSlots */
+INSERT INTO BookingSlots (employeeid, clientid, issurgery, date, starttime, endtime, slot, hasbeenpaid) VALUES (1, 2, TRUE,'2020-01-01','12:00:00','12:10:00', 1, FALSE);

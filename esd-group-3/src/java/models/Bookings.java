@@ -36,9 +36,12 @@ public class Bookings {
     private int id;
     private int employeeid;
     private int clientid;
+    private boolean isSurgery;
     private Date date;
     private Time starttime;
     private Time endtime;
+    private long slot;
+    private boolean hasBeenPaid;
     
     public void setId(int id) {
         this.id = id;
@@ -64,6 +67,14 @@ public class Bookings {
         return this.clientid;
     }
     
+    public void setIsSurgery(boolean isSurgery) {
+        this.isSurgery = isSurgery;
+    }
+    
+    public boolean getIsSurgery() {
+        return this.isSurgery;
+    }
+    
     public void setDate(Date date) {
         this.date = date;
     }
@@ -84,8 +95,24 @@ public class Bookings {
         this.endtime = endtime;
     }
     
-    public Time getEndId() {
+    public Time getEndTime() {
         return this.endtime;
+    }
+    
+    public void setSlot(long slot) {
+        this.slot = slot;
+    }
+    
+    public long getSlot() {
+        return this.slot;
+    }
+    
+    public void setHasBeenPaid(boolean hasBeenPaid) {
+        this.hasBeenPaid = hasBeenPaid;
+    }
+    
+    public boolean getHasBeenPaid() {
+        return this.hasBeenPaid;
     }
     
     public void cancel(DBConnection dbcon, int bookingId) {
@@ -129,11 +156,25 @@ public class Bookings {
             System.out.println(e);
         }
         
-        return userid; 
+        return userid;
+    }
+    public String getRoleFromId(DBConnection dbcon){
+        String query = "SELECT role FROM Users WHERE id = " + this.employeeid;
+        String role = "Unknown";
+        try (Statement stmt = dbcon.conn.createStatement()) {
+            ResultSet resultSet = stmt.executeQuery(query);
+            while (resultSet.next()) {
+                role = resultSet.getString("role");
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+            
+        }
+        return role;
     }
     
     // Create a booking by appending data to the bookingslot table
-    public void createBooking(DBConnection dbcon, String username, String employeeUsername, Date date, Time startTime, Time endTime) {
+    public void createBooking(DBConnection dbcon, String username, String employeeUsername, boolean isSurgery, Date date, Time startTime, Time endTime, long slot, boolean hasBeenPaid) {
         String query = "";
         
         // Get the user's id depending on the username
@@ -165,7 +206,7 @@ public class Bookings {
         }
         
         // Insert booking into BookingSlots table
-        query = "INSERT INTO BookingSlots (employeeid, clientid, date, starttime, endtime) VALUES (" + employeeid + ", " + clientid + ", '" + date + "', '" + startTime + "', '" + endTime +  "')"; 
+        query = "INSERT INTO BookingSlots (employeeid, clientid, issurgery, date, starttime, endtime, slot, hasbeenpaid) VALUES (" + employeeid + ", " + clientid + ", " + isSurgery + ", '" + date + "', '" + startTime + "', '" + endTime + "', " + slot + ", " + hasBeenPaid + ")"; 
 
         try (Statement stmt = dbcon.conn.createStatement()) {
             int resultSet = stmt.executeUpdate(query);
