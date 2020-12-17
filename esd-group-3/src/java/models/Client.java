@@ -135,6 +135,26 @@ public class Client extends User {
         return this;
     }
     
+    public Client retrieveClientByUsername(DBConnection dbcon, String username) {
+        String query = "SELECT id FROM Users WHERE username = '" + username + "'";
+        
+        int userid = 0;
+        
+        try (Statement stmt = dbcon.conn.createStatement()) {
+            ResultSet resultSet = stmt.executeQuery(query);
+            while (resultSet.next()) {
+                userid = resultSet.getInt("id");
+            }
+            
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        
+        this.retrieveClientByUserId(dbcon, userid);
+        
+        return this;
+    }
+    
     public List<Client> getAll(DBConnection dbcon, String filter) {
         List<Client> clients = new ArrayList<Client>();
         
@@ -199,7 +219,7 @@ public class Client extends User {
             currentBooking = bookings.get(i); 
             String role = currentBooking.getRoleFromId(dbcon);
             String apptType;
-            long timeDiff = Duration.between(currentBooking.getEndTime().toInstant(), currentBooking.getStartTime().toInstant()).toMinutes();
+            long timeDiff = Duration.between(currentBooking.getEndTime().toLocalTime(), currentBooking.getStartTime().toLocalTime()).toMinutes();
             long slots = timeDiff/10;
             //time in doctor surgeries
             if(role == "doctor" && currentBooking.getIsSurgery()){
@@ -229,10 +249,10 @@ public class Client extends User {
         return tCost;
     }
     
-    public ArrayList<String> getInvoice(DBConnection dbcon, String clid){        
+    public ArrayList<String> getInvoice(DBConnection dbcon, int clid){        
         String query = "SELECT *" +
 	"FROM BookingSlots" +
-        "WHERE clientid = " + clid + " AND hasbeenpaid = FALSE";
+        " WHERE clientid = " + clid + " AND hasbeenpaid = FALSE";
         ArrayList<String> invoice = new ArrayList<>();
         
         try (Statement stmt = dbcon.conn.createStatement()) {
@@ -252,10 +272,10 @@ public class Client extends User {
                 b.setSlot(rs.getLong("slot"));
                 b.setHasBeenPaid(rs.getBoolean("hasbeenpaid"));
                 bookingsArray.add(b);
-                singleBooking.set(0, b);
-                invoice.add(String.valueOf(b.getIsSurgery()) + String.valueOf(b.getDate()) +
-                        String.valueOf(b.getStartTime()) + String.valueOf(b.getEndTime()) +
-                        String.valueOf(this.calculateTotalCost(dbcon, singleBooking)));
+                singleBooking.add(b);
+                invoice.add(String.valueOf(b.getIsSurgery()) + "\t" + String.valueOf(b.getDate()) +
+                        "\t" + String.valueOf(b.getStartTime()) + "\t" +String.valueOf(b.getEndTime()) +
+                        "\t" + String.valueOf(this.calculateTotalCost(dbcon, singleBooking)));
             }
             invoice.add("Total = " + String.valueOf(this.calculateTotalCost(dbcon, bookingsArray)));
                        
