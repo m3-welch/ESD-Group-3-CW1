@@ -159,7 +159,7 @@ public class Bookings {
     }
     public String getRoleFromId(DBConnection dbcon){
         String query = "SELECT role FROM Users WHERE id = " + this.employeeid;
-        String role = "Unkown";
+        String role = "Unknown";
         try (Statement stmt = dbcon.conn.createStatement()) {
             ResultSet resultSet = stmt.executeQuery(query);
             while (resultSet.next()) {
