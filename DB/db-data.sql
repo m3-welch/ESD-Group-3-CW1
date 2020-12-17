@@ -32,4 +32,3 @@ INSERT INTO Referrals (clientid, name, address) VALUES ((SELECT id FROM Clients 
 
 /* Insert BookingSlots */
 INSERT INTO BookingSlots (employeeid, clientid, issurgery, date, starttime, endtime, slot, hasbeenpaid) VALUES (1, 2, TRUE,'2020-01-01','12:00:00','12:10:00', 1, FALSE);
-INSERT INTO BookingSlots (employeeid, clientid, issurgery, date, starttime, endtime, slot, hasbeenpaid) VALUES (1, 3, TRUE,'2020-03-01','12:00:00','12:10:00', 1, FALSE);
