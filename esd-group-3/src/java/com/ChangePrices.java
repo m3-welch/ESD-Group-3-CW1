@@ -34,7 +34,7 @@ public class ChangePrices extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html");   
           
-        request.getRequestDispatcher("admin.jsp").include(request, response);  
+        request.getRequestDispatcher("changePrices.jsp").include(request, response);  
         
         String filter = request.getParameter("filter");  
         String start_date = request.getParameter("start");

@@ -14,9 +14,8 @@
         <title>Change Price</title>
     </head>
     <body>
-        <h1>Hello World!</h1>
         <div>
-            <h1>Displaying All Operations</h1> 
+            <h1>Displaying All Prices</h1> 
             <table border ="1" width="500" align="center"> 
                 <tr bgcolor="00FF7F">
                     <th><b>Appointment Type</b></th>

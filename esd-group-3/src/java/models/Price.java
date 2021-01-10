@@ -63,7 +63,6 @@ public class Price {
     public ArrayList retrievePriceTable(DBConnection dbcon) {
         ArrayList<Price> pricesArray = new ArrayList<Price>();
         String query = "SELECT * FROM Prices";
-                    
         try (Statement stmt = dbcon.conn.createStatement()) {
             ResultSet resultSet = stmt.executeQuery(query);
             while (resultSet.next()) {
@@ -72,12 +71,13 @@ public class Price {
                 tempPrice.setEmployeeType(resultSet.getString("employeetype"));
                 tempPrice.setAppointmentType(resultSet.getString("appointmenttype"));
                 tempPrice.setPricePerSlot(resultSet.getLong("priceperslot"));
+                pricesArray.add(tempPrice);
             }
         }
         catch (SQLException e) {
             System.out.println(e);
         }
-        
+        System.out.println(pricesArray);
         return pricesArray;
     }
     
