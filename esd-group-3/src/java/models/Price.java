@@ -15,6 +15,35 @@ import java.sql.Statement;
  * @author Sam
  */
 public class Price {
+
+    
+    private String employeeType;
+    private String appointmentType;
+    private long pricePerSlot;
+
+    public String getEmployeeType() {
+        return employeeType;
+    }
+
+    public void setEmployeeType(String employeeType) {
+        this.employeeType = employeeType;
+    }
+
+    public String getAppointmentType() {
+        return appointmentType;
+    }
+
+    public void setAppointmentType(String appointmentType) {
+        this.appointmentType = appointmentType;
+    }
+
+    public long getPricePerSlot() {
+        return pricePerSlot;
+    }
+
+    public void setPricePerSlot(long pricePerSlot) {
+        this.pricePerSlot = pricePerSlot;
+    }
     
     public void setPrice(DBConnection dbcon, String appointmentType, 
             String employeeType, String price) {
