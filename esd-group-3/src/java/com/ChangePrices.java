@@ -49,30 +49,17 @@ public class ChangePrices extends HttpServlet {
             Price pricesCaller = new Price();
             ArrayList<Price> pricesArray = new ArrayList<Price>();
             
-            boolean all = false;
-            boolean is_nhs = false;
-            
-            if (filter.equals("all")) {all = true;}
-            else if (filter.equals("nhs")) {is_nhs = true; }
-            else if (filter.equals("private")) {is_nhs = false; }
-            
-            pricesArray = pricesCaller.retrievePriceTable(dbcon, all, is_nhs, start_date, end_date);
-            
-            float turnover = 0;
-            for(Price i:pricesArray){
-                turnover = turnover + i.getCharge();
-            }
-            
+            pricesArray = pricesCaller.retrievePriceTable(dbcon);
+                        
             request.setAttribute("data", pricesArray); // Will be available as ${data}
-            request.setAttribute("turnover", turnover);
-            request.getRequestDispatcher("admin.jsp").forward(request,response);
+            request.getRequestDispatcher("changePrices.jsp").forward(request,response);
             // response.sendRedirect("admin.jsp");
         }
         catch(SQLException e){
             // send error
             request.setAttribute("message", "Error - SQL Exception"); // Will be available as ${message}
-            request.getRequestDispatcher("admin.jsp").forward(request,response);
-            response.sendRedirect("admin.jsp");
+            request.getRequestDispatcher("changePrices.jsp").forward(request,response);
+            response.sendRedirect("changePrices.jsp");
         }
     }
 

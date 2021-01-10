@@ -9,8 +9,6 @@ import dbcon.DBConnection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 /**
@@ -62,7 +60,7 @@ public class Price {
         }
     }
     
-    public ArrayList retrievePriceTable(DBConnection dbcon, boolean all, boolean is_nhs, String start_date, String end_date) {
+    public ArrayList retrievePriceTable(DBConnection dbcon) {
         ArrayList<Price> pricesArray = new ArrayList<Price>();
         String query = "SELECT * FROM Prices";
                     
