@@ -27,8 +27,8 @@
                      which was previously set by the servlet --%>  
                 <%
                 try {
-                    ArrayList<Price> operationsArray = (ArrayList<Price>)request.getAttribute("data"); 
-                    for(Price i:operationsArray){%> 
+                    ArrayList<Price> pricesArray = (ArrayList<Price>)request.getAttribute("data"); 
+                    for(Price i:pricesArray){%> 
                         <%-- Arranging data in tabular form --%> 
                         <tr> 
                             <td><%=i.getEmployeeType()%></td> 

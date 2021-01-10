@@ -9,6 +9,9 @@ import dbcon.DBConnection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 
 /**
  *
@@ -57,6 +60,27 @@ public class Price {
         } catch (SQLException e) {
             System.out.println(e);
         }
+    }
+    
+    public ArrayList retrievePriceTable(DBConnection dbcon, boolean all, boolean is_nhs, String start_date, String end_date) {
+        ArrayList<Price> pricesArray = new ArrayList<Price>();
+        String query = "SELECT * FROM Prices";
+                    
+        try (Statement stmt = dbcon.conn.createStatement()) {
+            ResultSet resultSet = stmt.executeQuery(query);
+            while (resultSet.next()) {
+                Price tempPrice = new Price();
+
+                tempPrice.setEmployeeType(resultSet.getString("employeetype"));
+                tempPrice.setAppointmentType(resultSet.getString("appointmenttype"));
+                tempPrice.setPricePerSlot(resultSet.getLong("priceperslot"));
+            }
+        }
+        catch (SQLException e) {
+            System.out.println(e);
+        }
+        
+        return pricesArray;
     }
     
     public long getPrice(DBConnection dbcon, String appointmentType, 

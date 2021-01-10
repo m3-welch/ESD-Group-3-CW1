@@ -5,12 +5,15 @@
  */
 package com;
 
+import dbcon.DBConnection;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import models.Price;
 
 /**
  *
@@ -29,18 +32,47 @@ public class ChangePrices extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet ChangePrices</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet ChangePrices at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+        response.setContentType("text/html");   
+          
+        request.getRequestDispatcher("admin.jsp").include(request, response);  
+        
+        String filter = request.getParameter("filter");  
+        String start_date = request.getParameter("start");
+        String end_date = request.getParameter("end");
+        
+        if (filter == null) {
+            filter = "all";
+        }
+        
+        try {
+            DBConnection dbcon = new DBConnection("smartcaretest", "", "");
+            Price pricesCaller = new Price();
+            ArrayList<Price> pricesArray = new ArrayList<Price>();
+            
+            boolean all = false;
+            boolean is_nhs = false;
+            
+            if (filter.equals("all")) {all = true;}
+            else if (filter.equals("nhs")) {is_nhs = true; }
+            else if (filter.equals("private")) {is_nhs = false; }
+            
+            pricesArray = pricesCaller.retrievePriceTable(dbcon, all, is_nhs, start_date, end_date);
+            
+            float turnover = 0;
+            for(Price i:pricesArray){
+                turnover = turnover + i.getCharge();
+            }
+            
+            request.setAttribute("data", pricesArray); // Will be available as ${data}
+            request.setAttribute("turnover", turnover);
+            request.getRequestDispatcher("admin.jsp").forward(request,response);
+            // response.sendRedirect("admin.jsp");
+        }
+        catch(SQLException e){
+            // send error
+            request.setAttribute("message", "Error - SQL Exception"); // Will be available as ${message}
+            request.getRequestDispatcher("admin.jsp").forward(request,response);
+            response.sendRedirect("admin.jsp");
         }
     }
 
