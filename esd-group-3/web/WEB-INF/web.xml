@@ -23,6 +23,11 @@
         <servlet-class>com.InvoiceViewerServlet</servlet-class>
     </servlet>
     <servlet>
+        <display-name>NewUserServlet</display-name>
+        <servlet-name>NewUserServlet</servlet-name>
+        <servlet-class>com.NewUserServlet</servlet-class>
+    </servlet>
+    <servlet>
         <display-name>SignupServlet</display-name>
         <servlet-name>SignupServlet</servlet-name>
         <servlet-class>com.SignupServlet</servlet-class>
@@ -46,6 +51,10 @@
     <servlet-mapping>
         <servlet-name>InvoiceViewerServlet</servlet-name>
         <url-pattern>/InvoiceViewerServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>NewUserServlet</servlet-name>
+        <url-pattern>/NewUserServlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>SignupServlet</servlet-name>
