@@ -28,6 +28,11 @@
         <servlet-class>com.SignupServlet</servlet-class>
     </servlet>
     <servlet>
+        <display-name>NewEmployeeServlet</display-name>
+        <servlet-name>NewEmployeeServlet</servlet-name>
+        <servlet-class>com.NewEmployeeServlet</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>IssueInvoiceServlet</servlet-name>
         <servlet-class>com.IssueInvoiceServlet</servlet-class>
     </servlet>
@@ -50,6 +55,10 @@
     <servlet-mapping>
         <servlet-name>SignupServlet</servlet-name>
         <url-pattern>/SignupServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>NewEmployeeServlet</servlet-name>
+        <url-pattern>/NewEmployeeServlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>IssueInvoiceServlet</servlet-name>

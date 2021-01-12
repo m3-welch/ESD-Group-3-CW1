@@ -18,6 +18,7 @@ import java.util.logging.Logger;
  */
 public class Employee extends User {
     private int employeeId;
+    private String isFullTime;
     
     public void setEmployeeId(int employeeId) {
         this.employeeId = employeeId;
@@ -25,6 +26,14 @@ public class Employee extends User {
     
     public int getEmployeeId() {
         return this.employeeId;
+    }
+    
+    public void setFullTime(String isFullTime) {
+        this.isFullTime = isFullTime;
+    }
+    
+    public String isFullTime() {
+        return this.isFullTime;
     }
     
     public void create(
@@ -35,7 +44,8 @@ public class Employee extends User {
         String lastname,
         String email,
         String address,
-        String role
+        String role,
+        String isFullTime
     ) {
         String query = "INSERT INTO Users (username, password, firstname, lastname,"
             + "email, address, role) VALUES ('" + username + "', '" 
@@ -61,7 +71,7 @@ public class Employee extends User {
             System.out.println(e);
         }
         
-        query = "INSERT INTO Employees (userid) VALUES (" + userid + ")";
+        query = "INSERT INTO Employees (userid, isfulltime) VALUES (" + userid + ", " + isFullTime + ")";
          
         try (Statement stmt = dbcon.conn.createStatement()) {
             stmt.execute(query);
