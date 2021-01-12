@@ -10,13 +10,13 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" href="styles/login.css">
-        <title>SmartCare Signup</title>
+        <title>Smartcare - New Patient</title>
     </head>
     <body>
         <div class="center">
           <div class="card">
             <div class="container">
-              <h2 style="text-align:center">SmartCare Signup</h2>
+              <h2 style="text-align:center">Smartcare - New Patient</h2>
               <p style="color:#FF3232;font-size:12px;text-align:center" id="note">${message}</p>
               <div class="container">
                 <form action="SignupServlet" method="POST">

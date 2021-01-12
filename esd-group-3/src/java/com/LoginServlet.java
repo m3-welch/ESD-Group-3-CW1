@@ -33,11 +33,12 @@ public class LoginServlet extends HttpServlet {
         String actual_password = "";
         String user_role = "";
         int user_type = 0;
-        
+        DBConnection dbcon = null;
+        User user_to_login = null;
         // get password from db
         try {
-            DBConnection dbcon = new DBConnection("smartcaretest", "", "");
-            User user_to_login = new User();
+            dbcon = new DBConnection("smartcaretest", "", "");
+            user_to_login = new User();
             user_to_login.retrieveByUsername(dbcon, user_in);
             if (user_to_login.getUsername() == null) {
                 // if username mismatch, send error
@@ -95,7 +96,6 @@ public class LoginServlet extends HttpServlet {
             
             // sucessful login response
             request.setAttribute("message", "Successful Login - Welcome " + user_in); // Will be available as ${message}
-            
             request.getRequestDispatcher((String)loginSession.getAttribute("dashboard")).forward(request,response);
             response.sendRedirect((String)loginSession.getAttribute("dashboard"));
         }

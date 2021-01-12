@@ -74,7 +74,14 @@ public class Client extends User {
             System.out.println(e);
         }
         
-        query = "INSERT INTO Clients (userid, type) VALUES (" + userid + ", '" + type + "')";
+        String isNHS;
+        if (type.equals("NHS")) {
+            isNHS = "TRUE";
+        } else {
+            isNHS = "FALSE";
+        }
+        
+        query = "INSERT INTO Clients (userid, isNHS) VALUES (" + userid + ", " + isNHS + ")";
          
         try (Statement stmt = dbcon.conn.createStatement()) {
             stmt.execute(query);
