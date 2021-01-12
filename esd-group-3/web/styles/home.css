@@ -101,3 +101,84 @@ h2 {
   display: block;
 }
 
+.left {
+    margin-left: 15px;
+    width: 30%;
+    float: left;
+}
+
+/* Creates a card type effect */
+.card {
+  /* Add shadows to create the "card" effect */
+  box-shadow: 10px 50px 60px -20px rgba(0, 0, 0, 0.4);
+  border-radius: 5px;
+  /* 5px rounded corners */
+  background: linear-gradient(140deg, #84CEEB 10%, #8860D0 90%);
+  color: white;
+  font-family: Avantgarde, TeX Gyre Adventor, URW Gothic L, sans-serif;
+}
+
+/* On mouse-over, add a deeper shadow */
+.card:hover {}
+
+
+/* Add some padding inside the card container */
+.container {
+  padding: 2px 16px;
+}
+
+/* Full-width inputs */
+input[type=text],
+input[type=password] {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px rgba(46, 49, 49, 0.3);
+  border-radius: 10px;
+  box-sizing: border-box;
+  background-color: rgba(46, 49, 49, 0.3);
+  color: white;
+}
+
+
+/* Set a style for all buttons */
+.button {
+  background-color: transparent;
+  color: white;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+}
+
+
+/* Formating pre filled  */
+::placeholder {
+  color: white;
+}
+
+
+/* Add a hover effect for buttons */
+.button:hover {
+  opacity: 0.8;
+}
+
+
+/* The "Forgot password" text */
+span.psw {
+  float: right;
+  padding-top: 16px;
+}
+
+select {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px rgba(46, 49, 49, 0.3);
+  border-radius: 10px;
+  box-sizing: border-box;
+  background-color: rgba(46, 49, 49, 0.3);
+  color: white;
+}
