@@ -11,7 +11,6 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -22,7 +21,6 @@ import models.Referrals;
  *
  * @author Harrison B
  */
-@WebServlet(name = "NewReferralServlet", urlPatterns = {"/NewReferralServlet"})
 public class NewReferralServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
                             throws ServletException, IOException {
@@ -41,7 +39,7 @@ public class NewReferralServlet extends HttpServlet {
         try {
             DBConnection dbcon = new DBConnection("smartcaretest", "", "");
             ref.retreiveAll(dbcon, clientid);
-            count = ref.getName().length;
+            count = ref.getNameArr().length;
             ref.create(dbcon, clientid, name, address);
         } catch (SQLException ex) {
             Logger.getLogger(SignupServlet.class.getName()).log(Level.SEVERE, null, ex);
@@ -50,7 +48,7 @@ public class NewReferralServlet extends HttpServlet {
         HttpSession loginSession = request.getSession();
 
         
-        if (ref.getName().length > count) {
+        if (ref.getNameArr().length > count) {
             request.setAttribute("message", "New Referral added to client");
             request.getRequestDispatcher((String)loginSession.getAttribute("dashboard")).forward(request,response);
             response.sendRedirect((String)loginSession.getAttribute("dashboard"));

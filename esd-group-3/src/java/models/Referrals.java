@@ -50,15 +50,15 @@ public class Referrals {
     }
     
     private void addNames(String[] new_names) {
-        List<String> names = Arrays.asList(this.getNameArr());
-        Collections.addAll(names, new_names);
+        ArrayList<String> names = new ArrayList<String>(Arrays.asList(this.getNameArr()));
+        names.addAll(Arrays.asList(new_names));
         
         this.nameArr = names.toArray(this.nameArr);
     }
     
     private void addAddresses(String[] new_addresses) {
-        List<String> addresses = Arrays.asList(this.getAddressArr());
-        Collections.addAll(addresses, new_addresses);
+        ArrayList<String> addresses = new ArrayList<String>(Arrays.asList(this.getAddressArr()));
+        addresses.addAll(Arrays.asList(new_addresses));
         
         this.addressArr = addresses.toArray(this.addressArr);
     }
@@ -108,6 +108,7 @@ public class Referrals {
         String query = "SELECT name, address FROM Referrals WHERE clientid = "
                 + cid;
         
+        this.setClientId(clientid);
         List<String> nameList = new ArrayList<String>();
         List<String> addressList = new ArrayList<String>();
         
