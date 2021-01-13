@@ -68,6 +68,35 @@
             </div>
           </div>
         </div>
+        <div class="left">
+          <div class="card">
+            <div class="container">
+              <h2 style="text-align:center;margin-top: 10px;">Add a referral to a patient</h2>
+              <div class="container">
+                <form action="NewUserServlet" method="POST">
+                  <label for="uname"><b>Username</b></label>
+                  <input type="text" placeholder="Enter Username" name="uname" required>
+                  <label for="psw"><b>Password</b></label>
+                  <input type="password" placeholder="Enter Password" name="psw" required>
+                  <label for="firstname"><b>Firstname</b></label>
+                  <input type="text" placeholder="Enter firstname" name="firstname" required>
+                  <label for="lastname"><b>Lastname</b></label>
+                  <input type="text" placeholder="Enter lastname" name="lastaname" required>
+                  <label for="email"><b>Email</b></label>
+                  <input type="text" placeholder="Enter email address" name="email" required>
+                  <label for="address"><b>Address</b></label>
+                  <input type="text" placeholder="Enter address" name="address" required>
+                  <label for="type"><b>Type</b></label>
+                  <select name="type">
+                      <option value="NHS">NHS</option>
+                      <option value="private">Private</option
+                  </select>
+                  <input type="submit" value="Create" class="button"> 
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
     </div>
   </body>
 </html>
