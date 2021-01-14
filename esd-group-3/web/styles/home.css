@@ -189,7 +189,7 @@ select {
 
 .list {
     overflow: auto;
-    height: 470px;
+    height: 450px;
 }
 
 .patients-table {
@@ -223,11 +223,37 @@ th {
     width: 100%;
     margin-bottom: 10px;
     margin-top: 10px;
-    margin-left: 60px;
+    margin-left: 50px;
 }
 
-.radio-button input:checked[type="radio"] + label {
+.patientlist-filteroptions input[type="radio"] {
+    display: none;
+}
+
+.patientlist-filteroptions label {
+    display: inline-block;
+    border: 1px rgba(46, 49, 49, 0.3);
+    border-radius: 10px;
+    box-sizing: border-box;
+    background-color: rgba(46, 49, 49, 0.3);
+    color: white;
+    padding: 10px;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+.patientlist-filteroptions input[type="radio"]:checked+label {
+    background-color: rgba(46, 49, 49, 0.6);
     font-weight: bold;
-    text-decoration: underline;
-    color: red;
+}
+
+.update-button {
+    background-color: transparent;
+    color: white;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+    font-weight: bold;
+    font-size: 15px;
 }

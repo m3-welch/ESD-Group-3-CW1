@@ -5,6 +5,7 @@
  */
 package com;
 
+import api.GoogleMaps;
 import dbcon.DBConnection;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -38,6 +39,9 @@ public class SignupServlet extends HttpServlet {
         String type = request.getParameter("type");
         Client client = new Client();
         
+        GoogleMaps maps = new GoogleMaps();
+        
+        address = maps.lookupAddress(address);
         
         try {
             DBConnection dbcon = new DBConnection("smartcaretest", "", "");

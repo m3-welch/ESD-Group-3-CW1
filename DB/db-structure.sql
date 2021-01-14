@@ -69,3 +69,7 @@ CREATE TABLE Referrals (
     name varchar(64),
     address varchar(64)
 );
+
+CREATE TABLE ApiCredentials (
+    googlemapsapisecret varchar(128)
+);

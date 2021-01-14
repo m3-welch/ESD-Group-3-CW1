@@ -5,6 +5,7 @@
  */
 package com;
 
+import api.GoogleMaps;
 import dbcon.DBConnection;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -38,7 +39,9 @@ public class NewUserServlet extends HttpServlet {
         String address = request.getParameter("address");
         String type = request.getParameter("type");
         
-        System.out.println(lastname);
+        GoogleMaps maps = new GoogleMaps();
+        
+        address = maps.lookupAddress(address);
         
         Client client = new Client();
         

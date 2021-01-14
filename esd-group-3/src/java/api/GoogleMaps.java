@@ -5,6 +5,7 @@
  */
 package api;
 
+import dbcon.DBConnection;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -21,6 +22,9 @@ import java.util.logging.Logger;
 import org.w3c.dom.*;
 import javax.xml.parsers.*;
 import java.io.*;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 /**
  *
  * @author morgan
@@ -32,13 +36,16 @@ public class GoogleMaps {
         try {
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             DocumentBuilder builder = factory.newDocumentBuilder();
-            
             StringBuilder xmlStringBuilder = new StringBuilder();
-            Document doc = builder.parse(new java.io.File("src/java/api/api_keys.xml"));
             
-            Element root = doc.getDocumentElement();
+            Document doc = null;
+            Element root = null;
             
-            String maps_api_key = root.getElementsByTagName("maps").item(0).getTextContent().trim();
+            DBConnection dbcon = new DBConnection("smartcaretest", "", "");
+            
+            String maps_api_key = this.getApiCredentials(dbcon);
+            
+            System.out.println("----- " + maps_api_key + " -----");
             
             //Create connection
             String url_string = "https://maps.googleapis.com/maps/api/place/findplacefromtext/xml?key=" + maps_api_key + "&inputtype=textquery&fields=formatted_address&input=" + URLEncoder.encode(address, "UTF-8"); 
@@ -89,5 +96,23 @@ public class GoogleMaps {
                 connection.disconnect();
             }
         }
+    }
+    
+    private String getApiCredentials(DBConnection dbcon) {
+        String query = "SELECT googlemapsapisecret FROM ApiCredentials";
+        
+        String APIKey = null;
+        
+        try (Statement stmt = dbcon.conn.createStatement()) {
+            ResultSet resultSet = stmt.executeQuery(query);
+            while (resultSet.next()) {
+                APIKey = resultSet.getString("googlemapsapisecret");
+            }
+            
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        
+        return APIKey;
     }
 }

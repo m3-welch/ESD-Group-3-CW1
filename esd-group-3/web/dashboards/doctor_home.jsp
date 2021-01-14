@@ -74,19 +74,13 @@
                     <h2 style="text-align:center;margin-top: 10px;">View Patients</h2>
                     <div class="container">
                         <form class="patientlist-filteroptions" action="ViewPatientsServlet" method="POST">
-                            <div class="radio-button">
-                                <label for="nhs">NHS</label>
-                                <input ${checkednhs} type="radio" value="NHS" id="nhs" name="filter" class="patientlist-filter"/>
-                            </div>
-                            <div class="radio-button">
-                                <label for="private">Private</label>
-                                <input ${checkedprivate} type="radio" value="private" id="private" name="filter" class="patientlist-filter"/>
-                            </div>
-                            <div class="radio-button">
-                                <label for="combined">Combined</label>
-                                <input ${checkedcombined} type="radio" value="all" id="combined" name="filter" class="patientlist-filter"/>
-                            </div>
-                            <input type="submit" value="Update" class="patientlist-filter-update"/>
+                            <input ${checkednhs} type="radio" value="NHS" id="nhs" name="filter" class="patientlist-filter"/>
+                            <label for="nhs">NHS</label>
+                            <input ${checkedprivate} type="radio" value="private" id="private" name="filter" class="patientlist-filter"/>
+                            <label for="private">Private</label>
+                            <input ${checkedcombined} type="radio" value="all" id="combined" name="filter" class="patientlist-filter"/>
+                            <label for="combined">Combined</label>                                
+                            <input type="submit" value="Update" class="update-button"/>
                         </form>
                         <table class='patients-table-header'>
                             <tr>
