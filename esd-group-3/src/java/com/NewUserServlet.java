@@ -41,7 +41,11 @@ public class NewUserServlet extends HttpServlet {
         
         GoogleMaps maps = new GoogleMaps();
         
-        address = maps.lookupAddress(address);
+        String formatted_address = maps.lookupAddress(address);
+        
+        if (formatted_address != null) {
+            address = formatted_address;
+        }   
         
         Client client = new Client();
         

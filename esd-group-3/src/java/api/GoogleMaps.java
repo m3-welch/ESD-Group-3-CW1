@@ -45,8 +45,6 @@ public class GoogleMaps {
             
             String maps_api_key = this.getApiCredentials(dbcon);
             
-            System.out.println("----- " + maps_api_key + " -----");
-            
             //Create connection
             String url_string = "https://maps.googleapis.com/maps/api/place/findplacefromtext/xml?key=" + maps_api_key + "&inputtype=textquery&fields=formatted_address&input=" + URLEncoder.encode(address, "UTF-8"); 
             URL url = new URL(url_string);
