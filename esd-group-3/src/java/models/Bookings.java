@@ -11,23 +11,13 @@ import java.sql.Date;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Calendar;
 import java.sql.Time;
-import java.text.DateFormat;
 import java.time.LocalTime;
 import java.util.*;
-import java.time.*;
 /**
  *
  * @author conranpearce
