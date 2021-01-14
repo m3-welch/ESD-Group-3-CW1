@@ -48,6 +48,7 @@
                 <th><b>Slot</b></th> 
                 <th><b>Invoice Paid</b></th> 
                 <th><b>NHS Patient</b></th> 
+                <th><b>Is surgery</b></th>
            </tr> 
           <%-- Fetching the attributes of the request object 
                which was previously set by the servlet --%>  
@@ -66,7 +67,8 @@
                     <td><%=i.getCharge()%></td> 
                     <td><%=i.getSlot()%></td> 
                     <td><%=i.getIsPaid()%></td> 
-                    <td><%=i.getIsNhs()%></td> 
+                    <td><%=i.getIsNhs()%></td>
+                    <td><%=i.getIsSurgery()%></td>
                 </tr> 
               <%}
             }
