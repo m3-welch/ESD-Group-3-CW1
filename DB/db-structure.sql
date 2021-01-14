@@ -25,13 +25,13 @@ CREATE TABLE Operations (
     id int NOT NULL PRIMARY KEY GENERATED ALWAYS AS identity (start with 1, increment by 1),
     employeeid int references Employees(id),
     clientid int references Clients(id),
-    issurgery Boolean,
     date Date,
     starttime Time,
     endtime Time,
     charge Real,
     slot int,
-    is_paid Boolean
+    is_paid Boolean,
+    is_surgery Boolean
 );
 
 CREATE TABLE Prescriptions (
