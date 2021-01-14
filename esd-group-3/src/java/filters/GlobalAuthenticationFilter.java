@@ -70,6 +70,9 @@ public class GlobalAuthenticationFilter implements Filter {
                     }
                 }
 		
+                // authentication logic
+                // NOTE - servlet names are as per web.xml
+                
                 // admin, access all pages
                 if(role == 4){
                     chain.doFilter(request, response);

@@ -32,8 +32,8 @@
         <servlet-class>com.IssueInvoiceServlet</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>InvoiceDownload</servlet-name>
-        <servlet-class>com.InvoiceDownload</servlet-class>
+        <servlet-name>InvoiceDownloadServlet</servlet-name>
+        <servlet-class>com.InvoiceDownloadServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
@@ -56,8 +56,8 @@
         <url-pattern>/IssueInvoiceServlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>InvoiceDownload</servlet-name>
-        <url-pattern>/InvoiceDownload</url-pattern>
+        <servlet-name>InvoiceDownloadServlet</servlet-name>
+        <url-pattern>/InvoiceDownloadServlet</url-pattern>
     </servlet-mapping>
     <filter>
         <filter-name>GlobalAuthenticationFilter</filter-name>
