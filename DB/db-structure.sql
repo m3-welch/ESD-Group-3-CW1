@@ -21,22 +21,11 @@ CREATE TABLE Employees (
     isfulltime Boolean
 );
 
-CREATE TABLE BookingSlots (
-    id int NOT NULL PRIMARY KEY GENERATED ALWAYS AS identity (start with 1, increment by 1),
-    employeeid int references Employees(id),
-    clientid int references Clients(id),
-    issurgery Boolean,
-    date Date,
-    starttime Time,
-    endtime Time,
-    slot Real,
-    hasbeenpaid Boolean
-);
-
 CREATE TABLE Operations (
     id int NOT NULL PRIMARY KEY GENERATED ALWAYS AS identity (start with 1, increment by 1),
     employeeid int references Employees(id),
     clientid int references Clients(id),
+    issurgery Boolean,
     date Date,
     starttime Time,
     endtime Time,
