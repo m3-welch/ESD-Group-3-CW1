@@ -25,8 +25,10 @@ public class NewReferralServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
                             throws ServletException, IOException {
         response.setContentType("text/html");
+        
+        HttpSession loginSession = request.getSession();
 
-        request.getRequestDispatcher("addReferral.jsp").include(request, response);
+        request.getRequestDispatcher((String)loginSession.getAttribute("dashboard")).include(request, response);
 
         //decare vars
         int clientid = Integer.parseInt(request.getParameter("clientid"));
@@ -44,9 +46,6 @@ public class NewReferralServlet extends HttpServlet {
         } catch (SQLException ex) {
             Logger.getLogger(SignupServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
-
-        HttpSession loginSession = request.getSession();
-
         
         if (ref.getNameArr().length > count) {
             request.setAttribute("message", "New Referral added to client");
