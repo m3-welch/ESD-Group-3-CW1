@@ -32,7 +32,8 @@ public class Operation {
     private int slot;
     private boolean is_paid;
     private boolean is_nhs;
-    
+    private boolean is_surgery;
+   
     public void setOperationId(int operationid) {
         this.operationid = operationid;
     }
@@ -79,6 +80,10 @@ public class Operation {
         return formatted_time;
     }
     
+    public LocalTime getStartLocalTime() {
+        return this.starttime;
+    }
+    
     public void setEndTime(String endtime) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
         this.endtime = LocalTime.parse(endtime, formatter);
@@ -88,6 +93,10 @@ public class Operation {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
         String formatted_time = this.endtime.format(formatter);
         return formatted_time;
+    }
+    
+    public LocalTime getEndLocalTime() {
+        return this.endtime;
     }
     
     public void setCharge(float charge) {
@@ -122,6 +131,14 @@ public class Operation {
         return this.is_nhs;
     }
     
+    public boolean getIsSurgery() {
+        return is_surgery;
+    }
+
+    public void setIsSurgery(boolean is_surgery) {
+        this.is_surgery = is_surgery;
+    }
+   
     public int countAllOperations(DBConnection dbcon) {
                 
         String query = "SELECT COUNT(*) AS rowcount FROM Operations";
@@ -174,7 +191,8 @@ public class Operation {
                 this.setEndTime(resultSet.getString("endtime"));
                 this.setCharge(Float.parseFloat(resultSet.getString("charge")));
                 this.setSlot(Integer.parseInt(resultSet.getString("slot")));
-                this.setIsPaid(Boolean.parseBoolean(resultSet.getString("is_paid")));
+                this.setIsPaid(resultSet.getBoolean("is_paid"));
+                this.setIsSurgery(resultSet.getBoolean("is_surgery"));
                 this.setIsNhs(isNhsPatient(dbcon, this.clientid));
             }
 
@@ -211,7 +229,8 @@ public class Operation {
                 tempOp.setEndTime(resultSet.getString("endtime"));
                 tempOp.setCharge(Float.parseFloat(resultSet.getString("charge")));
                 tempOp.setSlot(Integer.parseInt(resultSet.getString("slot")));
-                tempOp.setIsPaid(Boolean.parseBoolean(resultSet.getString("is_paid")));
+                tempOp.setIsPaid(resultSet.getBoolean("is_paid"));
+                tempOp.setIsSurgery(resultSet.getBoolean("is_surgery"));
                 tempOp.setIsNhs(isNhsPatient(dbcon, tempOp.clientid));
 
                 if (all) {
@@ -241,7 +260,8 @@ public class Operation {
         String endtime,
         float charge,
         int slot,
-        boolean is_paid) {
+        boolean is_paid,
+        boolean is_surgery) {
         
         String query = "SELECT id FROM Employees WHERE 'userid' = " + employee_userid;
         
@@ -269,8 +289,8 @@ public class Operation {
             System.out.println(e);
         }
         
-        query = "INSERT INTO Operations (employeeid, clientid, date, starttime, endtime, charge, slot, is_paid) VALUES ("
-                + employeeid + ", " + clientid + ", '" + date + "', '" + starttime + "', '" + endtime + "', " + charge + ", " + slot + ", " + is_paid + ")";
+        query = "INSERT INTO Operations (employeeid, clientid, date, starttime, endtime, charge, slot, is_paid, is_surgery) VALUES ("
+                + employeeid + ", " + clientid + ", '" + date + "', '" + starttime + "', '" + endtime + "', " + charge + ", " + slot + ", " + is_paid + ", " + is_surgery + ")";
          
         try (Statement stmt = dbcon.conn.createStatement()) {
             stmt.execute(query);
@@ -300,5 +320,21 @@ public class Operation {
         this.setCharge(charge);
         this.setSlot(slot);
         this.setIsPaid(is_paid);
+        this.setIsSurgery(is_surgery);
+    }
+    
+    public String getRoleFromId(DBConnection dbcon){
+        String query = "SELECT role FROM Users WHERE id = " + this.employeeid;
+        String role = "Unknown";
+        try (Statement stmt = dbcon.conn.createStatement()) {
+            ResultSet resultSet = stmt.executeQuery(query);
+            while (resultSet.next()) {
+                role = resultSet.getString("role");
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+            
+        }
+        return role;
     }
 }
