@@ -46,7 +46,7 @@ public class SignupServlet extends HttpServlet {
             Logger.getLogger(SignupServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        if (client.getUsername().equals(username) && client.getType().equals(type)) {
+        if (client.getUsername().equals(username) && client.getIsNHS().equals(type)) {
             request.setAttribute("message", "Successful Signup - Login to continue");
             request.getRequestDispatcher("login.jsp").forward(request, response);
             response.sendRedirect("login.jsp");

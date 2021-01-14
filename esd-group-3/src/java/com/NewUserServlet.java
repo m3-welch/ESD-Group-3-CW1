@@ -38,6 +38,8 @@ public class NewUserServlet extends HttpServlet {
         String address = request.getParameter("address");
         String type = request.getParameter("type");
         
+        System.out.println(lastname);
+        
         Client client = new Client();
         
         
@@ -50,7 +52,7 @@ public class NewUserServlet extends HttpServlet {
         
         HttpSession loginSession = request.getSession();
 
-        if (client.getUsername().equals(username) && client.getType().equals(type)) {
+        if (client.getUsername().equals(username) && client.getIsNHS().equals(type)) {
             request.setAttribute("message", "New Patient successfully created!");
             request.getRequestDispatcher((String)loginSession.getAttribute("dashboard")).forward(request,response);
             response.sendRedirect((String)loginSession.getAttribute("dashboard"));

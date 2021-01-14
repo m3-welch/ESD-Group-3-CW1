@@ -45,6 +45,15 @@
         <servlet-name>InvoiceDownload</servlet-name>
         <servlet-class>com.InvoiceDownload</servlet-class>
     </servlet>
+    <servlet>
+        <display-name>ViewPatientsServlet</display-name>
+        <servlet-name>ViewPatientsServlet</servlet-name>
+        <servlet-class>com.ViewPatientsServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ViewPatientsServlet</servlet-name>
+        <url-pattern>/ViewPatientsServlet</url-pattern>
+    </servlet-mapping>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/LoginServlet</url-pattern>

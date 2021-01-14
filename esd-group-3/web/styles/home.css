@@ -182,3 +182,52 @@ select {
   background-color: rgba(46, 49, 49, 0.3);
   color: white;
 }
+
+.patients-card {
+    height: 603px;    
+}
+
+.list {
+    overflow: auto;
+    height: 470px;
+}
+
+.patients-table {
+    width: 100%;
+    text-align: center;
+}
+
+td {
+    width: 169px;
+}
+
+th {
+    width: 169px;
+}
+
+.patients-table-header {
+    width: 100%;
+    text-align: center;
+    border-bottom: 1px solid black;
+    border-bottom-width: 75%;
+    margin-bottom: 5px;
+}
+
+.radio-button {
+    max-width: 100px;
+    float: left;
+    margin-right: 30px;
+}
+
+.patientlist-filteroptions {
+    width: 100%;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    margin-left: 60px;
+}
+
+.radio-button input:checked[type="radio"] + label {
+    font-weight: bold;
+    text-decoration: underline;
+    color: red;
+}
