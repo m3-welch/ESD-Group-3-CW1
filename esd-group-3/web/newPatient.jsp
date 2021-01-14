@@ -1,5 +1,5 @@
 <%-- 
-    Document   : signup
+    Document   : newPatient
     Created on : 10-Dec-2020, 14:59:12
     Author     : morgan
 --%>
