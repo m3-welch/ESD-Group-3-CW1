@@ -29,7 +29,6 @@ CREATE TABLE Operations (
     starttime Time,
     endtime Time,
     charge Real,
-    slot int,
     is_paid Boolean,
     is_surgery Boolean
 );

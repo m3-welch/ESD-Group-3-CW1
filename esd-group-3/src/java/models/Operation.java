@@ -29,7 +29,6 @@ public class Operation {
     private LocalTime starttime;
     private LocalTime endtime;
     private float charge;
-    private int slot;
     private boolean is_paid;
     private boolean is_nhs;
     private boolean is_surgery;
@@ -107,14 +106,6 @@ public class Operation {
         return this.charge;
     }
     
-    public void setSlot(int slot) {
-        this.slot = slot;
-    }
-    
-    public int getSlot() {
-        return this.slot;
-    }
-    
     public void setIsPaid(boolean is_paid) {
         this.is_paid = is_paid;
     }
@@ -190,7 +181,6 @@ public class Operation {
                 this.setStartTime(resultSet.getString("starttime"));
                 this.setEndTime(resultSet.getString("endtime"));
                 this.setCharge(Float.parseFloat(resultSet.getString("charge")));
-                this.setSlot(Integer.parseInt(resultSet.getString("slot")));
                 this.setIsPaid(resultSet.getBoolean("is_paid"));
                 this.setIsSurgery(resultSet.getBoolean("is_surgery"));
                 this.setIsNhs(isNhsPatient(dbcon, this.clientid));
@@ -228,7 +218,6 @@ public class Operation {
                 tempOp.setStartTime(resultSet.getString("starttime"));
                 tempOp.setEndTime(resultSet.getString("endtime"));
                 tempOp.setCharge(Float.parseFloat(resultSet.getString("charge")));
-                tempOp.setSlot(Integer.parseInt(resultSet.getString("slot")));
                 tempOp.setIsPaid(resultSet.getBoolean("is_paid"));
                 tempOp.setIsSurgery(resultSet.getBoolean("is_surgery"));
                 tempOp.setIsNhs(isNhsPatient(dbcon, tempOp.clientid));
@@ -318,7 +307,6 @@ public class Operation {
         this.setStartTime(starttime);
         this.setEndTime(endtime);
         this.setCharge(charge);
-        this.setSlot(slot);
         this.setIsPaid(is_paid);
         this.setIsSurgery(is_surgery);
     }
