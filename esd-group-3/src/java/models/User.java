@@ -23,6 +23,7 @@ public class User {
     private String email;
     private String address;
     private String role;
+    private Events events;
     
     public User setId(int id) {
         this.id = id;
@@ -87,6 +88,12 @@ public class User {
     
     public String getRole() {
         return this.role;
+    }
+    
+    public void setEvents(DBConnection dbcon) {
+        Events ev = new Events();
+        ev.getOperationsFromDB(dbcon, this.id);
+        this.events = ev;
     }
     
     public void retrieveByUsername(DBConnection dbcon, String uname) {
