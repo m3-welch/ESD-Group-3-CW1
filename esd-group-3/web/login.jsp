@@ -27,7 +27,7 @@
                   <input type="submit" value="login" class="button"> 
                 </form>
                 
-                <a href="/esd-group-3/signup.jsp" class="button">Signup</a>
+                <a href="/esd-group-3/newPatient.jsp" class="button">Signup</a>
               </div>
             </div>
           </div>

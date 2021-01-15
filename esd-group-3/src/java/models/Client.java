@@ -74,7 +74,14 @@ public class Client extends User {
             System.out.println(e);
         }
         
-        query = "INSERT INTO Clients (userid, type) VALUES (" + userid + ", '" + type + "')";
+        String isNHS;
+        if (type.equals("NHS")) {
+            isNHS = "TRUE";
+        } else {
+            isNHS = "FALSE";
+        }
+        
+        query = "INSERT INTO Clients (userid, isNHS) VALUES (" + userid + ", " + isNHS + ")";
          
         try (Statement stmt = dbcon.conn.createStatement()) {
             stmt.execute(query);
@@ -211,36 +218,36 @@ public class Client extends User {
         }
     }
     
-    public long calculateTotalCost(DBConnection dbcon, ArrayList<Bookings> bookings){
+    public long calculateTotalCost(DBConnection dbcon, ArrayList<Operation> operations){
         long tCost = 0l;
-        Bookings currentBooking = new Bookings();
+        Operation currentOp = new Operation();
         Price p = new Price();
-        for (int i = 0; i < bookings.size(); i++){
-            currentBooking = bookings.get(i); 
-            String role = currentBooking.getRoleFromId(dbcon);
+        for (int i = 0; i < operations.size(); i++){
+            currentOp = operations.get(i); 
+            String role = currentOp.getRoleFromId(dbcon);
             String apptType;
-            long timeDiff = Duration.between(currentBooking.getEndTime().toLocalTime(), currentBooking.getStartTime().toLocalTime()).toMinutes();
+            long timeDiff = Duration.between(currentOp.getEndLocalTime(), currentOp.getStartLocalTime()).toMinutes();
             long slots = timeDiff/10;
             //time in doctor surgeries
-            if(role == "doctor" && currentBooking.getIsSurgery()){
+            if(role == "doctor" && currentOp.getIsSurgery()){
                 //is doctor surgery
                 apptType = "surgery";
                 tCost += p.getPrice(dbcon, apptType, role, slots);
             }
             //time in nurse surgeries
-            else if(role == "nurse" && currentBooking.getIsSurgery()){
+            else if(role == "nurse" && currentOp.getIsSurgery()){
                 //is nurse surgery
                 apptType = "surgery";
                 tCost += p.getPrice(dbcon, apptType, role, slots);
             }
 
-            else if(role == "doctor" && !currentBooking.getIsSurgery()){
+            else if(role == "doctor" && !currentOp.getIsSurgery()){
                 //is doctor consultation
                 apptType = "consultaion";
                 tCost += p.getPrice(dbcon, apptType, role, slots);
             }
             //time in nurse surgeries
-            else if(role == "nurse" && !currentBooking.getIsSurgery()){
+            else if(role == "nurse" && !currentOp.getIsSurgery()){
                 //is nurse consultation
                 apptType = "consultaion";
                 tCost += p.getPrice(dbcon, apptType, role, slots);
@@ -251,33 +258,33 @@ public class Client extends User {
     
     public ArrayList<String> getInvoice(DBConnection dbcon, int clid){        
         String query = "SELECT *" +
-	"FROM BookingSlots" +
-        " WHERE clientid = " + clid + " AND hasbeenpaid = FALSE";
+	"FROM Operations" +
+        " WHERE clientid = " + clid + " AND is_paid = FALSE";
         ArrayList<String> invoice = new ArrayList<>();
         
         try (Statement stmt = dbcon.conn.createStatement()) {
             ResultSet rs = stmt.executeQuery(query);
-            ArrayList<Bookings> bookingsArray = new ArrayList<>();
+            ArrayList<Operation> operationsArray = new ArrayList<>();
             invoice.add("Is Surgery | Date | Start Time | End Time | Cost");
             while(rs.next()){
-                ArrayList<Bookings> singleBooking = new ArrayList<>();
-                Bookings b = new Bookings();
-                b.setId(Integer.parseInt(rs.getString("id")));
-                b.setEmployeeId(Integer.parseInt(rs.getString("employeeid")));
-                b.setClientId(Integer.parseInt(rs.getString("clientid")));
-                b.setIsSurgery(rs.getBoolean("issurgery"));
-                b.setDate(rs.getDate("date"));
-                b.setStartTime(rs.getTime("starttime"));
-                b.setEndTime(rs.getTime("endtime"));
-                b.setSlot(rs.getLong("slot"));
-                b.setHasBeenPaid(rs.getBoolean("hasbeenpaid"));
-                bookingsArray.add(b);
-                singleBooking.add(b);
-                invoice.add(String.valueOf(b.getIsSurgery()) + "\t" + String.valueOf(b.getDate()) +
-                        "\t" + String.valueOf(b.getStartTime()) + "\t" +String.valueOf(b.getEndTime()) +
-                        "\t" + String.valueOf(this.calculateTotalCost(dbcon, singleBooking)));
+                ArrayList<Operation> singleOp = new ArrayList<>();
+                Operation op = new Operation();
+                op.setOperationId(Integer.parseInt(rs.getString("id")));
+                op.setEmployeeId(Integer.parseInt(rs.getString("employeeid")));
+                op.setClientId(Integer.parseInt(rs.getString("clientid")));
+                op.setIsSurgery(rs.getBoolean("issurgery"));
+                op.setDate(rs.getString("date"));
+                op.setStartTime(rs.getString("starttime"));
+                op.setEndTime(rs.getString("endtime"));
+                //op.setSlot(rs.getLong("slot"));
+                op.setIsPaid(rs.getBoolean("ispaid"));
+                operationsArray.add(op);
+                singleOp.add(op);
+                invoice.add(String.valueOf(op.getIsSurgery()) + "\t" + String.valueOf(op.getDate()) +
+                        "\t" + String.valueOf(op.getStartTime()) + "\t" +String.valueOf(op.getEndTime()) +
+                        "\t" + String.valueOf(this.calculateTotalCost(dbcon, singleOp)));
             }
-            invoice.add("Total = " + String.valueOf(this.calculateTotalCost(dbcon, bookingsArray)));
+            invoice.add("Total = " + String.valueOf(this.calculateTotalCost(dbcon, operationsArray)));
                        
         } catch (SQLException e) {
             System.out.println(e);
@@ -286,7 +293,7 @@ public class Client extends User {
     }
     
     public void payBill(DBConnection dbcon, String clid){
-        String query = "UPDATE BookingSlots SET hasbeenpaid = True WHERE hasbeenpaid = False;";
+        String query = "UPDATE Operations SET hasbeenpaid = True WHERE hasbeenpaid = False;";
         try (Statement stmt = dbcon.conn.createStatement()) {
             stmt.execute(query);
             System.out.println("Payment made");
