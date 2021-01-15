@@ -77,6 +77,19 @@ public class GlobalAuthenticationFilter implements Filter {
                 if(role == 4){
                     chain.doFilter(request, response);
                 }
+                // no login, pages that require any authentication
+                else if(role == 0){
+                    if (uri.endsWith("login.jsp") || uri.endsWith("signup.jsp") || uri.endsWith("LoginServlet") || uri.endsWith("SignupServlet") || uri.endsWith("esd-group-3/")){
+                        chain.doFilter(request, response);
+                    }
+                    else{
+                        // if no user logged in, and page requires authentication, send to login
+                        this.context.log("Unauthorized access request");
+                        req.setAttribute("message", "ERROR - Please Login"); // Will be available as ${message}
+                        req.getRequestDispatcher("login.jsp").forward(request,response);
+                        res.sendRedirect("login.jsp");
+                    }
+                }
                 // not admin, pages that require admin authenticaion
                 else if(role != 4 && (uri.endsWith("admin.jsp") || uri.endsWith("admin_home.jsp") || uri.endsWith("InvoiceViewerServlet") || uri.endsWith("InvoiceDownloadServlet"))){
                     // if user is not admin, redirect to dashboard and display message
@@ -116,19 +129,6 @@ public class GlobalAuthenticationFilter implements Filter {
                     req.setAttribute("message", "ERROR - Please Logout to Signup or Login"); // Will be available as ${message}
                     req.getRequestDispatcher("dashboards/" + user_role + "_home.jsp").forward(request,response);
                     res.sendRedirect("dashboards/" + user_role + "_home.jsp");
-                }
-                // no login, pages that require any authentication
-                else if(role == 0){
-                    if (uri.endsWith("login.jsp") || uri.endsWith("signup.jsp") || uri.endsWith("LoginServlet") || uri.endsWith("SignupServlet") || uri.endsWith("esd-group-3/")){
-                        chain.doFilter(request, response);
-                    }
-                    else{
-                        // if no user logged in, and page requires authentication, send to login
-                        this.context.log("Unauthorized access request");
-                        req.setAttribute("message", "ERROR - Please Login"); // Will be available as ${message}
-                        req.getRequestDispatcher("login.jsp").forward(request,response);
-                        res.sendRedirect("login.jsp");
-                    }
                 }
                 else{
 			// pass the request along the filter chain
