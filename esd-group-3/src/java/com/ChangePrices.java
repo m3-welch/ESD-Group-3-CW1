@@ -36,9 +36,7 @@ public class ChangePrices extends HttpServlet {
           
         request.getRequestDispatcher("changePrices.jsp").include(request, response);  
         
-        String filter = request.getParameter("filter");  
-        String start_date = request.getParameter("start");
-        String end_date = request.getParameter("end");
+        String filter = request.getParameter("filter"); 
         
         if (filter == null) {
             filter = "all";
@@ -52,8 +50,9 @@ public class ChangePrices extends HttpServlet {
             pricesArray = pricesCaller.retrievePriceTable(dbcon);
                         
             request.setAttribute("data", pricesArray); // Will be available as ${data}
+            System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" + pricesArray.get(0).getPricePerSlot());
             request.getRequestDispatcher("changePrices.jsp").forward(request,response);
-            // response.sendRedirect("admin.jsp");
+            
         }
         catch(SQLException e){
             // send error

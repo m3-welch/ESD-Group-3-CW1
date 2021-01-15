@@ -20,7 +20,7 @@ public class Price {
     
     private String employeeType;
     private String appointmentType;
-    private long pricePerSlot;
+    private float pricePerSlot;
 
     public String getEmployeeType() {
         return employeeType;
@@ -38,11 +38,11 @@ public class Price {
         this.appointmentType = appointmentType;
     }
 
-    public long getPricePerSlot() {
+    public float getPricePerSlot() {
         return pricePerSlot;
     }
 
-    public void setPricePerSlot(long pricePerSlot) {
+    public void setPricePerSlot(float pricePerSlot) {
         this.pricePerSlot = pricePerSlot;
     }
     
@@ -70,7 +70,7 @@ public class Price {
 
                 tempPrice.setEmployeeType(resultSet.getString("employeetype"));
                 tempPrice.setAppointmentType(resultSet.getString("appointmenttype"));
-                tempPrice.setPricePerSlot(resultSet.getLong("priceperslot"));
+                tempPrice.setPricePerSlot(resultSet.getFloat("priceperslot"));
                 pricesArray.add(tempPrice);
             }
         }
@@ -81,16 +81,16 @@ public class Price {
         return pricesArray;
     }
     
-    public long getPrice(DBConnection dbcon, String appointmentType, 
-            String employeeType, long slots) {
+    public float getPrice(DBConnection dbcon, String appointmentType, 
+            String employeeType, float slots) {
         String query = "SELECT priceperslot FROM Prices WHERE appointmenttype = '" + 
                 appointmentType + "' AND employeetype = '" + employeeType + "'";
         
         try (Statement stmt = dbcon.conn.createStatement()) {
             ResultSet rs = stmt.executeQuery(query);
             rs.next();
-            long price = rs.getLong(1);
-            System.out.println("Price got = " + Long.toString(price));
+            float price = rs.getFloat(1);
+            System.out.println("Price got = " + price);
             price = price * slots;
             return price;
         } catch (SQLException e) {
