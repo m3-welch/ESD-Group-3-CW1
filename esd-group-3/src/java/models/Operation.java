@@ -32,7 +32,22 @@ public class Operation {
     private boolean is_paid;
     private boolean is_nhs;
     private boolean is_surgery;
-   
+
+    public Operation(int operationid, int employeeid, int clientid, LocalDate date, LocalTime starttime, LocalTime endtime, float charge, boolean is_paid, boolean is_surgery) {
+        this.operationid = operationid;
+        this.employeeid = employeeid;
+        this.clientid = clientid;
+        this.date = date;
+        this.starttime = starttime;
+        this.endtime = endtime;
+        this.charge = charge;
+        this.is_paid = is_paid;
+        this.is_surgery = is_surgery;
+    }
+    
+    public Operation() {
+    }
+    
     public void setOperationId(int operationid) {
         this.operationid = operationid;
     }
