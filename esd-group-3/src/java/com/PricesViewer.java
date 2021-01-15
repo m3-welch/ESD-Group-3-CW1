@@ -19,7 +19,7 @@ import models.Price;
  *
  * @author Sam
  */
-public class ChangePrices extends HttpServlet {
+public class PricesViewer extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -34,7 +34,7 @@ public class ChangePrices extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html");   
           
-        request.getRequestDispatcher("changePrices.jsp").include(request, response);  
+        request.getRequestDispatcher("prices.jsp").include(request, response);  
         
         String filter = request.getParameter("filter"); 
         
@@ -47,18 +47,21 @@ public class ChangePrices extends HttpServlet {
             Price pricesCaller = new Price();
             ArrayList<Price> pricesArray = new ArrayList<Price>();
             
+            request.setAttribute("readonly", "readonly");
+            request.setAttribute("editOrSave", "edit");
+            request.setAttribute("delete", "<input type='submit' name='delete' value='Delete' class='button'>");
+            
             pricesArray = pricesCaller.retrievePriceTable(dbcon);
                         
             request.setAttribute("data", pricesArray); // Will be available as ${data}
-            System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" + pricesArray.get(0).getPricePerSlot());
-            request.getRequestDispatcher("changePrices.jsp").forward(request,response);
+            request.getRequestDispatcher("prices.jsp").forward(request,response);
             
         }
         catch(SQLException e){
             // send error
             request.setAttribute("message", "Error - SQL Exception"); // Will be available as ${message}
-            request.getRequestDispatcher("changePrices.jsp").forward(request,response);
-            response.sendRedirect("changePrices.jsp");
+            request.getRequestDispatcher("prices.jsp").forward(request,response);
+            response.sendRedirect("prices.jsp");
         }
     }
 

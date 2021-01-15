@@ -36,8 +36,12 @@
         <servlet-class>com.InvoiceDownload</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>ChangePrices</servlet-name>
-        <servlet-class>com.ChangePrices</servlet-class>
+        <servlet-name>PriceChanger</servlet-name>
+        <servlet-class>com.PriceChanger</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>PricesViewer</servlet-name>
+        <servlet-class>com.PricesViewer</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
@@ -64,8 +68,8 @@
         <url-pattern>/InvoiceDownload</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>ChangePrices</servlet-name>
-        <url-pattern>/ChangePrices</url-pattern>
+        <servlet-name>PricesViewer</servlet-name>
+        <url-pattern>/PricesViewer</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

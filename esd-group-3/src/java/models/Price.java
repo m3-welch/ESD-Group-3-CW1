@@ -21,7 +21,17 @@ public class Price {
     private String employeeType;
     private String appointmentType;
     private float pricePerSlot;
+    
+    
+    public Price() {
+    }
 
+    public Price(String employeeType, String appointmentType, float pricePerSlot) {
+        this.employeeType = employeeType;
+        this.appointmentType = appointmentType;
+        this.pricePerSlot = pricePerSlot;
+    }
+    
     public String getEmployeeType() {
         return employeeType;
     }
@@ -46,13 +56,13 @@ public class Price {
         this.pricePerSlot = pricePerSlot;
     }
     
-    public void setPrice(DBConnection dbcon, String appointmentType, 
-            String employeeType, String price) {
-        String query = "UPDATE Prices SET priceperslot = " + price +
-                " WHERE appointmenttype = '" + appointmentType + 
-                "' AND employeetype = '" + employeeType + "'";
+    public void setPrice(DBConnection dbcon, String id) {
+        String query = "UPDATE Prices SET priceperslot = " + String.valueOf(this.getPricePerSlot()) +
+                ", appointmenttype = '" + this.getAppointmentType() + 
+                "', employeetype = '" + this.getEmployeeType() + "' WHERE Id = " + id;
         
         try (Statement stmt = dbcon.conn.createStatement()) {
+            System.out.println("+++++++++++++++++++++++++++++ Triggered");
             stmt.execute(query);
             System.out.println("Price changed");
         } catch (SQLException e) {
@@ -67,9 +77,9 @@ public class Price {
             ResultSet resultSet = stmt.executeQuery(query);
             while (resultSet.next()) {
                 Price tempPrice = new Price();
-
-                tempPrice.setEmployeeType(resultSet.getString("employeetype"));
+                
                 tempPrice.setAppointmentType(resultSet.getString("appointmenttype"));
+                tempPrice.setEmployeeType(resultSet.getString("employeetype"));
                 tempPrice.setPricePerSlot(resultSet.getFloat("priceperslot"));
                 pricesArray.add(tempPrice);
             }
@@ -81,6 +91,7 @@ public class Price {
         return pricesArray;
     }
     
+    //maybe redundent
     public float getPrice(DBConnection dbcon, String appointmentType, 
             String employeeType, float slots) {
         String query = "SELECT priceperslot FROM Prices WHERE appointmenttype = '" + 
@@ -126,17 +137,20 @@ public class Price {
         }
     }
     
-    public void removePrice(DBConnection dbcon, String appointmentType, 
-            String employeeType, String price) {
-        String query = "DELETE FROM Prices WHERE priceperslot = " + price +
-                " AND appointmenttype = '" + appointmentType + 
-                "' AND employeetype = '" + employeeType + "'";
-        
-        try (Statement stmt = dbcon.conn.createStatement()) {
-            stmt.execute(query);
-            System.out.println("Price removed");
-        } catch (SQLException e) {
-            System.out.println(e);
-        }
+    public void removePrice() {
+        String query = "DELETE FROM Prices WHERE priceperslot = " + this.getPricePerSlot() +
+                " AND appointmenttype = '" + this.getAppointmentType() + 
+                "' AND employeetype = '" + this.getEmployeeType() + "'";
+        try {
+            DBConnection dbcon = new DBConnection("smartcaretest", "", "");
+            try (Statement stmt = dbcon.conn.createStatement()) {
+                stmt.execute(query);
+                System.out.println("Price removed");
+            } catch (SQLException e) {
+                System.out.println(e);
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }       
     }
 }

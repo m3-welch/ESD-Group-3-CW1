@@ -18,9 +18,11 @@
             <h1>Displaying All Prices</h1> 
             <table border ="1" width="500" align="center"> 
                 <tr bgcolor="00FF7F">
+                    <th><b>id</b></th>
                     <th><b>Appointment Type</b></th>
-                    <th><b>Employee Type</b></th> 
-                    <th><b>Price per Hour</b></th> 
+                    <th><b>Employee Type</b></th>
+                    <th><b>Price per Hour</b></th>
+                    <th></th> <!-- Empty as contains buttons -->
                 </tr> 
                 <%-- Fetching the attributes of the request object 
                      which was previously set by the servlet --%>  
@@ -29,10 +31,25 @@
                     ArrayList<Price> pricesArray = (ArrayList<Price>)request.getAttribute("data"); 
                     for(Price i:pricesArray){%> 
                         <%-- Arranging data in tabular form --%> 
-                        <tr> 
-                            <td><%=i.getEmployeeType()%></td> 
-                            <td><%=i.getAppointmentType()%></td> 
-                            <td><%=i.getPricePerSlot()%></td>            
+                        <tr>
+                            <form action="PriceChanger" method="POST">
+                            <td>
+                                <input type="text" name="idValue" value="<%= pricesArray.indexOf(i) + 1%>" ${readonly}>
+                            </td>
+                            <td>
+                                <input type="text" name="apptType" value="<%=i.getAppointmentType()%>"  ${readonly}>
+                            </td>
+                            <td>
+                                <input type="text" name="empType" value="<%=i.getEmployeeType()%>"  ${readonly}>
+                            </td>                         
+                            <td>
+                                <input type="text" name="priceValue" value="<%=i.getPricePerSlot()%>"  ${readonly}>
+                            </td>
+                            <td>                            
+                                <input type="submit" name="${editOrSave}" value="${editOrSave}" class="button">
+                                ${delete}
+                            </td>
+                            </form>
                         </tr> 
                 <%}
                 }
