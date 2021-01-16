@@ -225,25 +225,25 @@ public class Client extends User {
             if(role == "doctor" && currentBooking.getIsSurgery()){
                 //is doctor surgery
                 apptType = "surgery";
-                tCost += p.getPrice(dbcon, apptType, role, slots);
+                tCost += p.calcPrice(apptType, role, slots);
             }
             //time in nurse surgeries
             else if(role == "nurse" && currentBooking.getIsSurgery()){
                 //is nurse surgery
                 apptType = "surgery";
-                tCost += p.getPrice(dbcon, apptType, role, slots);
+                tCost += p.calcPrice(apptType, role, slots);
             }
 
             else if(role == "doctor" && !currentBooking.getIsSurgery()){
                 //is doctor consultation
                 apptType = "consultaion";
-                tCost += p.getPrice(dbcon, apptType, role, slots);
+                tCost += p.calcPrice(apptType, role, slots);
             }
             //time in nurse surgeries
             else if(role == "nurse" && !currentBooking.getIsSurgery()){
                 //is nurse consultation
                 apptType = "consultaion";
-                tCost += p.getPrice(dbcon, apptType, role, slots);
+                tCost += p.calcPrice(apptType, role, slots);
             }
         }
         return tCost;

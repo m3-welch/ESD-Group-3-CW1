@@ -32,7 +32,7 @@
                         <%-- Arranging data in tabular form --%> 
                         <tr>
                             <form action="PricesChanger" method="POST">
-                            
+
                             <input type="hidden" name="idValue" value="<%=i.getID()%>" readonly>
                             
                             <td>
@@ -45,11 +45,12 @@
                                 <input type="text" name="priceValue" value="<%=i.getPricePerSlot()%>">
                             </td>
                             <td>                            
-                                <input type="submit" name="save" value="Save" class="button">
+                                <input type="submit" name="save" value="Save" class="button"><!-- name could be generic -->
                                 <input type="submit" name="delete" value="Delete" class="button">
                             </td>
                             </form>
                         </tr>
+                        
                     <%
                         
                     }
@@ -70,8 +71,9 @@
                                 <input type="text" name="newPriceValue" placeholder="Price per Hour" required>
                             </td>
                             <td>                            
-                                <input type="submit" name="add" value="Add" class="button">
+                                <input type="submit" name="add" value="Add" class="button"> 
                             </td>
+                            </form>
                         </tr>
                            
                          

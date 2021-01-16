@@ -27,7 +27,7 @@ public class Price {
     public Price() {
     }
 
-    public Price(String employeeType, String appointmentType, float pricePerSlot) {
+    public Price(String appointmentType, String employeeType, float pricePerSlot) {
         this.employeeType = employeeType;
         this.appointmentType = appointmentType;
         this.pricePerSlot = pricePerSlot;
@@ -68,8 +68,9 @@ public class Price {
     public void update(int id) {
         String query = "UPDATE Prices SET priceperslot = " + String.valueOf(this.getPricePerSlot()) +
                 ", appointmenttype = '" + this.getAppointmentType() + 
-                "', employeetype = '" + this.getEmployeeType() + "' WHERE Id = " + this.getID();
+                "', employeetype = '" + this.getEmployeeType() + "' WHERE Id = " + id;
         
+        System.out.println(query);
         try {
             DBConnection dbcon = new DBConnection("smartcaretest", "", "");
             try (Statement stmt = dbcon.conn.createStatement()) {
@@ -144,7 +145,8 @@ public class Price {
                 this.getEmployeeType() + "', " +this.getPricePerSlot() + ")";
         
         String checkQuery = "SELECT COUNT(*) FROM Prices WHERE appointmenttype = '" + 
-                appointmentType + "' AND employeetype = '" + employeeType + "'";
+                this.getAppointmentType() + "' AND employeetype = '" + this.getEmployeeType() + "'";
+        
         try {
             DBConnection dbcon = new DBConnection("smartcaretest", "", "");
             try (Statement stmt = dbcon.conn.createStatement()) {
