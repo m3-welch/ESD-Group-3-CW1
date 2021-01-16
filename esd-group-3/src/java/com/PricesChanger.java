@@ -34,9 +34,7 @@ public class PricesChanger extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html");
-        String delete = "";
-        String save = ""; 
-        String add = "";
+        String select = "";
         
         request.getRequestDispatcher("prices.jsp").include(request, response);
         
@@ -44,43 +42,25 @@ public class PricesChanger extends HttpServlet {
         try{
             //check the editOrSave parameter is save
             System.out.println("-------------------------- 00001");
-            delete = request.getParameter("delete");            
+            select = request.getParameter("select");            
         }
         catch(Exception e){
             System.out.println(e);
         }
         
-        try{
-            //check the editOrSave parameter is save
-            System.out.println("-------------------------- 00002");
-            save = request.getParameter("save");            
-        }
-        catch(Exception e){
-            System.out.println(e);
-        }
-        
-        try{
-            //check the editOrSave parameter is save
-            System.out.println("-------------------------- 00003");
-            add = request.getParameter("add");            
-        }
-        catch(Exception e){
-            System.out.println(e);
-        }
-        
-        if ("Delete".equals(delete)) {
+        if ("Delete".equals(select)) {
             System.out.println("-------------------------- 00005");
             System.out.println("-" + request.getParameter("apptType") + request.getParameter("empType") + Float.parseFloat(request.getParameter("priceValue")));
             Price deletePrice = new Price(request.getParameter("apptType"), request.getParameter("empType"), Float.parseFloat(request.getParameter("priceValue"))); //populate with table attributes
             deletePrice.removePrice();
         }
-        else if ("Save".equals(save)) {
+        else if ("Save".equals(select)) {
             System.out.println("-------------------------- 00006");
             Price savePrice = new Price(request.getParameter("apptType"), request.getParameter("empType"), Float.parseFloat(request.getParameter("priceValue"))); //populate with table attributes
             System.out.println(Integer.parseInt(request.getParameter("idValue")));
             savePrice.update(Integer.parseInt(request.getParameter("idValue")));
         }
-        else if ("Add".equals(add)) {
+        else if ("Add".equals(select)) {
             System.out.println("-------------------------- 00007");
             Price addPrice = new Price(request.getParameter("newApptType"), request.getParameter("newEmpType"), Float.parseFloat(request.getParameter("newPriceValue"))); //populate with table attributes
             addPrice.addPrice();
