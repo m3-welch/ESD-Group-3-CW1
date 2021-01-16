@@ -18,8 +18,9 @@ import java.util.ArrayList;
 public class Price {
 
     
-    private String employeeType;
+    private int id;
     private String appointmentType;
+    private String employeeType;
     private float pricePerSlot;
     
     
@@ -56,84 +57,114 @@ public class Price {
         this.pricePerSlot = pricePerSlot;
     }
     
-    public void setPrice(DBConnection dbcon, String id) {
-        String query = "UPDATE Prices SET priceperslot = " + String.valueOf(this.getPricePerSlot()) +
-                ", appointmenttype = '" + this.getAppointmentType() + 
-                "', employeetype = '" + this.getEmployeeType() + "' WHERE Id = " + id;
-        
-        try (Statement stmt = dbcon.conn.createStatement()) {
-            System.out.println("+++++++++++++++++++++++++++++ Triggered");
-            stmt.execute(query);
-            System.out.println("Price changed");
-        } catch (SQLException e) {
-            System.out.println(e);
-        }
+    public int getID() {
+        return id;
+    }
+
+    public void setID(int id) {
+        this.id = id;
     }
     
-    public ArrayList retrievePriceTable(DBConnection dbcon) {
+    public void update(int id) {
+        String query = "UPDATE Prices SET priceperslot = " + String.valueOf(this.getPricePerSlot()) +
+                ", appointmenttype = '" + this.getAppointmentType() + 
+                "', employeetype = '" + this.getEmployeeType() + "' WHERE Id = " + this.getID();
+        
+        try {
+            DBConnection dbcon = new DBConnection("smartcaretest", "", "");
+            try (Statement stmt = dbcon.conn.createStatement()) {
+                stmt.execute(query);
+                System.out.println("Price changed");
+            } catch (SQLException e) {
+                System.out.println(e);
+        }
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+        
+    }
+    
+    public ArrayList retrievePriceTable() {
         ArrayList<Price> pricesArray = new ArrayList<Price>();
         String query = "SELECT * FROM Prices";
-        try (Statement stmt = dbcon.conn.createStatement()) {
-            ResultSet resultSet = stmt.executeQuery(query);
-            while (resultSet.next()) {
-                Price tempPrice = new Price();
-                
-                tempPrice.setAppointmentType(resultSet.getString("appointmenttype"));
-                tempPrice.setEmployeeType(resultSet.getString("employeetype"));
-                tempPrice.setPricePerSlot(resultSet.getFloat("priceperslot"));
-                pricesArray.add(tempPrice);
+        try {
+            DBConnection dbcon = new DBConnection("smartcaretest", "", "");
+            try (Statement stmt = dbcon.conn.createStatement()) {
+                ResultSet resultSet = stmt.executeQuery(query);
+                while (resultSet.next()) {
+                    Price tempPrice = new Price();
+                    
+                    tempPrice.setID(resultSet.getInt("id"));
+                    tempPrice.setAppointmentType(resultSet.getString("appointmenttype"));
+                    tempPrice.setEmployeeType(resultSet.getString("employeetype"));
+                    tempPrice.setPricePerSlot(resultSet.getFloat("priceperslot"));
+                    pricesArray.add(tempPrice);
+                }
             }
-        }
-        catch (SQLException e) {
-            System.out.println(e);
+            catch (SQLException e) {
+                System.out.println(e);
+            }
+        } catch (SQLException e) {
+                System.out.println(e);
         }
         System.out.println(pricesArray);
         return pricesArray;
     }
     
     //maybe redundent
-    public float getPrice(DBConnection dbcon, String appointmentType, 
-            String employeeType, float slots) {
+    public float calcPrice(String appointmentType, String employeeType, float slots) {
         String query = "SELECT priceperslot FROM Prices WHERE appointmenttype = '" + 
                 appointmentType + "' AND employeetype = '" + employeeType + "'";
         
-        try (Statement stmt = dbcon.conn.createStatement()) {
-            ResultSet rs = stmt.executeQuery(query);
-            rs.next();
-            float price = rs.getFloat(1);
-            System.out.println("Price got = " + price);
-            price = price * slots;
-            return price;
+        float price = 0;
+        
+        try {
+            DBConnection dbcon = new DBConnection("smartcaretest", "", "");
+            try (Statement stmt = dbcon.conn.createStatement()) {
+                ResultSet rs = stmt.executeQuery(query);
+                rs.next();
+                price = rs.getFloat(1);
+                System.out.println("Price got = " + price);
+                price = price * slots;
+            } catch (SQLException e) {
+                System.out.println(e);
+                
+            }
         } catch (SQLException e) {
-            System.out.println(e);
-            return 0;
+                System.out.println(e);
+                
         }
+        return price;
     }
     
-    public void addPrice(DBConnection dbcon, String appointmentType,
-            String employeeType, String price) {
+    public void addPrice() {     
+        
         String query = "INSERT INTO Prices (appointmenttype, employeetype,"
-                + " priceperslot) VALUES ('" + appointmentType + "', '" +
-                employeeType + "', " + price + ")";
+                + " priceperslot) VALUES ('" + this.getAppointmentType() + "', '" +
+                this.getEmployeeType() + "', " +this.getPricePerSlot() + ")";
         
         String checkQuery = "SELECT COUNT(*) FROM Prices WHERE appointmenttype = '" + 
                 appointmentType + "' AND employeetype = '" + employeeType + "'";
+        try {
+            DBConnection dbcon = new DBConnection("smartcaretest", "", "");
+            try (Statement stmt = dbcon.conn.createStatement()) {
+                ResultSet rs = stmt.executeQuery(checkQuery);
+                rs.next();
+                int count = rs.getInt(1);
+                if (count > 0) {
+                  System.out.println("Can't add - appointment employee combonation "
+                          + "already exists \n edit price instead");
+                }
+                else {
+                    stmt.execute(query);
+                    System.out.println("Price added");
+                }
 
-        try (Statement stmt = dbcon.conn.createStatement()) {
-            ResultSet rs = stmt.executeQuery(checkQuery);
-            rs.next();
-            int count = rs.getInt(1);
-            if (count > 0) {
-              System.out.println("Can't add - appointment employee combo "
-                      + "already exists \n use setPrice instead");
+            } catch (SQLException e) {
+                System.out.println(e);
             }
-            else {
-                stmt.execute(query);
-                System.out.println("Price added");
-            }
-            
         } catch (SQLException e) {
-            System.out.println(e);
+                System.out.println(e);
         }
     }
     

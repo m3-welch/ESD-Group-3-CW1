@@ -18,7 +18,6 @@
             <h1>Displaying All Prices</h1> 
             <table border ="1" width="500" align="center"> 
                 <tr bgcolor="00FF7F">
-                    <th><b>id</b></th>
                     <th><b>Appointment Type</b></th>
                     <th><b>Employee Type</b></th>
                     <th><b>Price per Hour</b></th>
@@ -32,31 +31,51 @@
                     for(Price i:pricesArray){%> 
                         <%-- Arranging data in tabular form --%> 
                         <tr>
-                            <form action="PriceChanger" method="POST">
+                            <form action="PricesChanger" method="POST">
+                            
+                            <input type="hidden" name="idValue" value="<%=i.getID()%>" readonly>
+                            
                             <td>
-                                <input type="text" name="idValue" value="<%= pricesArray.indexOf(i) + 1%>" ${readonly}>
+                                <input type="text" name="apptType" value="<%=i.getAppointmentType()%>">
                             </td>
                             <td>
-                                <input type="text" name="apptType" value="<%=i.getAppointmentType()%>"  ${readonly}>
-                            </td>
-                            <td>
-                                <input type="text" name="empType" value="<%=i.getEmployeeType()%>"  ${readonly}>
+                                <input type="text" name="empType" value="<%=i.getEmployeeType()%>">
                             </td>                         
                             <td>
-                                <input type="text" name="priceValue" value="<%=i.getPricePerSlot()%>"  ${readonly}>
+                                <input type="text" name="priceValue" value="<%=i.getPricePerSlot()%>">
                             </td>
                             <td>                            
-                                <input type="submit" name="${editOrSave}" value="${editOrSave}" class="button">
-                                ${delete}
+                                <input type="submit" name="save" value="Save" class="button">
+                                <input type="submit" name="delete" value="Delete" class="button">
                             </td>
                             </form>
-                        </tr> 
-                <%}
+                        </tr>
+                    <%
+                        
+                    }
                 }
                 catch(NullPointerException e){
                 // send error
                 request.setAttribute("message", "Error - SQL Exception"); // Will be available as ${message}
-                }%> 
+                }%>
+                        <tr>
+                            <form action="PricesChanger" method="POST">
+                            <td>
+                                <input type="text" name="newApptType" placeholder="Appointment Type" required>
+                            </td>
+                            <td>
+                                <input type="text" name="newEmpType" placeholder="Employee Type" required>
+                            </td>                         
+                            <td>
+                                <input type="text" name="newPriceValue" placeholder="Price per Hour" required>
+                            </td>
+                            <td>                            
+                                <input type="submit" name="add" value="Add" class="button">
+                            </td>
+                        </tr>
+                           
+                         
+                
           </table>
         </div>
     </body>

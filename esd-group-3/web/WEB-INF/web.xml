@@ -43,6 +43,10 @@
         <servlet-name>PricesViewer</servlet-name>
         <servlet-class>com.PricesViewer</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>PricesChanger</servlet-name>
+        <servlet-class>com.PricesChanger</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/LoginServlet</url-pattern>
@@ -70,6 +74,10 @@
     <servlet-mapping>
         <servlet-name>PricesViewer</servlet-name>
         <url-pattern>/PricesViewer</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>PricesChanger</servlet-name>
+        <url-pattern>/PricesChanger</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

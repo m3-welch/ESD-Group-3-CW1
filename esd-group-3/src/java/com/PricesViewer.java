@@ -33,33 +33,22 @@ public class PricesViewer extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html");   
-          
-        request.getRequestDispatcher("prices.jsp").include(request, response);  
-        
-        String filter = request.getParameter("filter"); 
-        
-        if (filter == null) {
-            filter = "all";
-        }
+  
+        request.getRequestDispatcher("prices.jsp").include(request, response);
         
         try {
-            DBConnection dbcon = new DBConnection("smartcaretest", "", "");
             Price pricesCaller = new Price();
             ArrayList<Price> pricesArray = new ArrayList<Price>();
             
-            request.setAttribute("readonly", "readonly");
-            request.setAttribute("editOrSave", "edit");
-            request.setAttribute("delete", "<input type='submit' name='delete' value='Delete' class='button'>");
-            
-            pricesArray = pricesCaller.retrievePriceTable(dbcon);
+            DBConnection dbcon = new DBConnection("smartcaretest", "", "");
+            pricesArray = pricesCaller.retrievePriceTable();
                         
-            request.setAttribute("data", pricesArray); // Will be available as ${data}
+            request.setAttribute("data", pricesArray);
             request.getRequestDispatcher("prices.jsp").forward(request,response);
-            
         }
         catch(SQLException e){
             // send error
-            request.setAttribute("message", "Error - SQL Exception"); // Will be available as ${message}
+            request.setAttribute("message", "Error - SQL Exception");
             request.getRequestDispatcher("prices.jsp").forward(request,response);
             response.sendRedirect("prices.jsp");
         }

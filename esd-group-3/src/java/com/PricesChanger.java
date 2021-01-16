@@ -11,7 +11,6 @@ import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -21,8 +20,7 @@ import models.Price;
  *
  * @author Sam
  */
-@WebServlet(name = "PriceChanger", urlPatterns = {"/PriceChanger"})
-public class PriceChanger extends HttpServlet {
+public class PricesChanger extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -35,9 +33,20 @@ public class PriceChanger extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String save = "";
+        response.setContentType("text/html");
+        String delete = "";
+        String save = ""; 
+        String add = "";
+        
         request.getRequestDispatcher("prices.jsp").include(request, response);  
-           
+        try{
+            //check the editOrSave parameter is save
+            delete = request.getParameter("delete");            
+        }
+        catch(Exception e){
+            System.out.println(e);
+        }
+        
         try{
             //check the editOrSave parameter is save
             save = request.getParameter("save");            
@@ -46,33 +55,44 @@ public class PriceChanger extends HttpServlet {
             System.out.println(e);
         }
         
+        try{
+            //check the editOrSave parameter is save
+            save = request.getParameter("add");            
+        }
+        catch(Exception e){
+            System.out.println(e);
+        }
+        
         try {
-            request.setAttribute("readonly", "");
-            request.setAttribute("editOrSave", "save");
-            request.setAttribute("delete", "");
-            DBConnection dbcon = new DBConnection("smartcaretest", "", "");
             
-            System.out.println(save);
-            if ("save".equals(save)) {
-                System.out.println("+++++++++++++++++++++++++++++ reeeepkkk");
-                System.out.println(request.getParameter("apptType"));
-                System.out.println(request.getParameter("empType"));
-                System.out.println(request.getParameter("priceValue"));
-                                          
-                Price newPrice = new Price(request.getParameter("apptType"), request.getParameter("empType"), Float.parseFloat(request.getParameter("priceValue"))); //populate with table attributes
-                //only id is consistent
-                newPrice.setPrice(dbcon, request.getParameter("idValue"));
+            
+            if (delete == "Delete") {
+                Price deletePrice = new Price(request.getParameter("apptType"), request.getParameter("empType"), Float.parseFloat(request.getParameter("priceValue"))); //populate with table attributes
+                deletePrice.removePrice();
             }
+            else if (save == "Save") {
+                Price savePrice = new Price(request.getParameter("apptType"), request.getParameter("empType"), Float.parseFloat(request.getParameter("priceValue"))); //populate with table attributes
+                savePrice.update(Integer.parseInt(request.getParameter("idValue")));
+            }
+            else if (add == "Add") {
+                Price addPrice = new Price(request.getParameter("apptType"), request.getParameter("empType"), Float.parseFloat(request.getParameter("priceValue"))); //populate with table attributes
+                addPrice.addPrice();
+            }
+            
+            
             
             Price pricesCaller = new Price();
             ArrayList<Price> pricesArray = new ArrayList<Price>();
-
-            pricesArray = pricesCaller.retrievePriceTable(dbcon);
-
+            
+            request.setAttribute("readonly", "readonly");
+            request.setAttribute("editOrSave", "edit");
+            request.setAttribute("delete", "<input type='submit' name='delete' value='Delete' class='button'>");
+            
+            DBConnection dbcon = new DBConnection("smartcaretest", "", "");
+            pricesArray = pricesCaller.retrievePriceTable();
+                        
             request.setAttribute("data", pricesArray); // Will be available as ${data}
             request.getRequestDispatcher("prices.jsp").forward(request,response);
-            
-            
             
         }
         catch(SQLException e){
