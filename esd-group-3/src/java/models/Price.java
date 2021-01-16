@@ -77,9 +77,6 @@ public class Price {
         String checkQuery = "SELECT COUNT(*) FROM Prices WHERE appointmenttype = '" + 
                 this.getAppointmentType() + "' AND employeetype = '" + this.getEmployeeType() + "'";
         
-        String queryFindPrice = "SELECT priceperslot FROM Prices WHERE appointmenttype = '" + 
-                this.getAppointmentType() + "' AND employeetype = '" + this.getEmployeeType() + "'";
-        
         try {
             DBConnection dbcon = new DBConnection("smartcaretest", "", "");
             try (Statement stmt = dbcon.conn.createStatement()) {
