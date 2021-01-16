@@ -39,6 +39,18 @@
     <div class="content">
         <p style="color:#FF3232;font-size:12px;text-align:center" id="note">${message}</p>
         <h1>Client Dashboard</h1>
+        <div class="left">
+          <div class="card">
+            <div class="container">
+              <h2 style="text-align:center;margin-top: 10px;">List upcoming appointments</h2>
+              <div class="container">
+                <form action="DisplayCalendarServlet" method="POST">
+                  <input type="submit" value="Create" class="button"> 
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
     </div>
   </body>
 </html>

@@ -11,7 +11,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 /**
@@ -107,4 +106,19 @@ public class Events {
         return cid;
     }
     
+    public Operation[] getEventsBetweenDates(LocalDate start, LocalDate end) {
+        ArrayList<Operation> opList = new ArrayList<>();
+        
+        for (Operation op : this.ops) {
+            // For each operation, check if in range.
+            if (op.getDateLocalDate().isAfter(start) && 
+                    op.getDateLocalDate().isBefore(start)) {
+                opList.add(op);
+            }
+        }
+        
+        Operation[] opArr = new Operation[opList.size()];
+        opArr = opList.toArray(opArr);
+        return opArr;
+    }
 }

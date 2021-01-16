@@ -12,6 +12,9 @@
         <servlet-name>LoginServlet</servlet-name>
         <servlet-class>com.LoginServlet</servlet-class>
     </servlet>
+    <listener>
+        <listener-class>com.AppLoginListener</listener-class>
+    </listener>
     <servlet>
         <display-name>LogoutServlet</display-name>
         <servlet-name>LogoutServlet</servlet-name>
