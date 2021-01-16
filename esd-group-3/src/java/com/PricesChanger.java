@@ -38,10 +38,8 @@ public class PricesChanger extends HttpServlet {
         
         request.getRequestDispatcher("prices.jsp").include(request, response);
         
-        System.out.println("-------------------------- 00000");
         try{
             //check the editOrSave parameter is save
-            System.out.println("-------------------------- 00001");
             select = request.getParameter("select");            
         }
         catch(Exception e){
@@ -49,19 +47,16 @@ public class PricesChanger extends HttpServlet {
         }
         
         if ("Delete".equals(select)) {
-            System.out.println("-------------------------- 00005");
             System.out.println("-" + request.getParameter("apptType") + request.getParameter("empType") + Float.parseFloat(request.getParameter("priceValue")));
             Price deletePrice = new Price(request.getParameter("apptType"), request.getParameter("empType"), Float.parseFloat(request.getParameter("priceValue"))); //populate with table attributes
             deletePrice.removePrice();
         }
         else if ("Save".equals(select)) {
-            System.out.println("-------------------------- 00006");
             Price savePrice = new Price(request.getParameter("apptType"), request.getParameter("empType"), Float.parseFloat(request.getParameter("priceValue"))); //populate with table attributes
             System.out.println(Integer.parseInt(request.getParameter("idValue")));
             savePrice.update(Integer.parseInt(request.getParameter("idValue")));
         }
         else if ("Add".equals(select)) {
-            System.out.println("-------------------------- 00007");
             Price addPrice = new Price(request.getParameter("newApptType"), request.getParameter("newEmpType"), Float.parseFloat(request.getParameter("newPriceValue"))); //populate with table attributes
             addPrice.addPrice();
         }

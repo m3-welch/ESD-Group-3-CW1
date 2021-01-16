@@ -65,24 +65,51 @@ public class Price {
         this.id = id;
     }
     
-    public void update(int id) {
+    public void update(int id) {     
+        
         String query = "UPDATE Prices SET priceperslot = " + String.valueOf(this.getPricePerSlot()) +
                 ", appointmenttype = '" + this.getAppointmentType() + 
                 "', employeetype = '" + this.getEmployeeType() + "' WHERE Id = " + id;
         
-        System.out.println(query);
+        String queryPriceOnly = "UPDATE Prices SET priceperslot = " + String.valueOf(this.getPricePerSlot()) +
+                "WHERE Id = " + id;
+        
+        String checkQuery = "SELECT COUNT(*) FROM Prices WHERE appointmenttype = '" + 
+                this.getAppointmentType() + "' AND employeetype = '" + this.getEmployeeType() + "'";
+        
+        String queryFindPrice = "SELECT priceperslot FROM Prices WHERE appointmenttype = '" + 
+                this.getAppointmentType() + "' AND employeetype = '" + this.getEmployeeType() + "'";
+        
         try {
             DBConnection dbcon = new DBConnection("smartcaretest", "", "");
             try (Statement stmt = dbcon.conn.createStatement()) {
-                stmt.execute(query);
-                System.out.println("Price changed");
+                ResultSet rs = stmt.executeQuery(checkQuery);
+                rs.next();
+                int count = rs.getInt(1);
+                if (count > 0) {
+                    ResultSet resset = stmt.executeQuery(checkQuery);
+                    resset.next();
+                    float pps = resset.getFloat(1);
+                    if (pps == this.getPricePerSlot()){
+                        System.out.println("Can't change - appointment employee combonation "
+                        + "already exists");
+                    }
+                    else{
+                        stmt.execute(queryPriceOnly);
+                        System.out.println("Price changed");
+                        }
+                }
+                else {
+                    stmt.execute(query);
+                    System.out.println("Price changed");
+                }
+
             } catch (SQLException e) {
                 System.out.println(e);
+            }
+        } catch (SQLException e) {
+                System.out.println(e);
         }
-        } catch (SQLException ex) {
-            System.out.println(ex);
-        }
-        
     }
     
     public ArrayList retrievePriceTable() {
