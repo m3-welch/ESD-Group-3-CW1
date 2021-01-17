@@ -92,9 +92,8 @@ public class LoginServlet extends HttpServlet {
             loginSession.setAttribute("dashboard", "dashboards/" + user_role + "_home.jsp");
             loginSession.setMaxInactiveInterval(20*60);
             
-            System.out.println("---- " + (String)loginSession.getAttribute("dashboard") + " ----");
-            
             // sucessful login response
+            request.setAttribute("userid", user_to_login.getId());
             request.setAttribute("message", "Successful Login - Welcome " + user_in); // Will be available as ${message}
             request.getRequestDispatcher((String)loginSession.getAttribute("dashboard")).forward(request,response);
             response.sendRedirect((String)loginSession.getAttribute("dashboard"));

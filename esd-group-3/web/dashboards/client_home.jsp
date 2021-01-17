@@ -45,7 +45,7 @@
               <h2 style="text-align:center;margin-top: 10px;">Book an appointment</h2>
               <div class="container">
                 <form action="NewAppointmentServlet" method="POST">
-                  <label for="doctor-nurse"><b>Doctor</b></label>
+                  <label for="doctor-nurse"><b>Staff</b></label>
                   <select name="doctor-nurse">
                       ${doctornurseoptions}
                   </select>
@@ -60,6 +60,7 @@
                   <input type="time" name="starttime" required/>
                   <label for="endtime"><b>End Time</b></label>
                   <input type="time" name="endtime" required/>
+                  <input type="hidden" name="clientid" value="${userid}"/>
                   <input type="submit" value="Create" class="button"/> 
                 </form>
               </div>
