@@ -39,6 +39,33 @@
     <div class="content">
         <p style="color:#FF3232;font-size:12px;text-align:center" id="note">${message}</p>
         <h1>Client Dashboard</h1>
+        <div class="left">
+          <div class="card">
+            <div class="container">
+              <h2 style="text-align:center;margin-top: 10px;">Book an appointment</h2>
+              <div class="container">
+                <form action="NewAppointmentServlet" method="POST">
+                  <label for="doctor-nurse"><b>Doctor</b></label>
+                  <select name="doctor-nurse">
+                      ${doctornurseoptions}
+                  </select>
+                  <label for="type"><b>Type</b></label>
+                  <select name="type" required>
+                      <option value="surgery">Surgery</option>
+                      <option value="other">Other</option>
+                  </select>
+                  <label for="date"><b>Date</b></label>
+                  <input type="date" name="date" required/>
+                  <label for="starttime"><b>Start Time</b></label>
+                  <input type="time" name="starttime" required/>
+                  <label for="endtime"><b>End Time</b></label>
+                  <input type="time" name="endtime" required/>
+                  <input type="submit" value="Create" class="button"/> 
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
     </div>
   </body>
 </html>

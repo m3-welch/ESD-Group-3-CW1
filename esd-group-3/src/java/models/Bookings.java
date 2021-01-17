@@ -174,7 +174,17 @@ public class Bookings {
     }
     
     // Create a booking by appending data to the bookingslot table
-    public void createBooking(DBConnection dbcon, String username, String employeeUsername, boolean isSurgery, Date date, Time startTime, Time endTime, long slot, boolean hasBeenPaid) {
+    public void createBooking(
+            DBConnection dbcon,
+            String username,
+            String employeeUsername,
+            boolean isSurgery,
+            Date date,
+            Time startTime,
+            Time endTime,
+            long slot,
+            boolean hasBeenPaid
+    ) {
         String query = "";
         
         // Get the user's id depending on the username
