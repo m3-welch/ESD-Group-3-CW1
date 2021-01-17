@@ -15,7 +15,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import models.Client;
-import models.Price;
 
 /**
  *
@@ -26,7 +25,7 @@ public class SignupServlet extends HttpServlet {
                             throws ServletException, IOException {
         response.setContentType("text/html");
         
-        request.getRequestDispatcher("signup.jsp").include(request, response);
+        request.getRequestDispatcher("newPatient.jsp").include(request, response);
         
         //decare vars
         String username = request.getParameter("uname");
@@ -52,8 +51,8 @@ public class SignupServlet extends HttpServlet {
             response.sendRedirect("login.jsp");
         } else {
             request.setAttribute("message", "Error - Failed Signup. Please try again.");
-            request.getRequestDispatcher("signup.jsp").forward(request, response);
-            response.sendRedirect("signup.jsp");
+            request.getRequestDispatcher("newPatient.jsp").forward(request, response);
+            response.sendRedirect("newPatient.jsp");
         }
     }
 }
