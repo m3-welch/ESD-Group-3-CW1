@@ -26,7 +26,7 @@ public class InvoiceViewerServlet extends HttpServlet {
                            throws ServletException, IOException {  
         response.setContentType("text/html");   
           
-        request.getRequestDispatcher("admin.jsp").include(request, response);  
+        request.getRequestDispatcher("invoiceViewer.jsp").include(request, response);  
         
         String filter = request.getParameter("filter");  
         String start_date = request.getParameter("start");
@@ -57,14 +57,13 @@ public class InvoiceViewerServlet extends HttpServlet {
             
             request.setAttribute("data", operationsArray); // Will be available as ${data}
             request.setAttribute("turnover", turnover);
-            request.getRequestDispatcher("admin.jsp").forward(request,response);
-            // response.sendRedirect("admin.jsp");
+            request.getRequestDispatcher("invoiceViewer.jsp").forward(request,response);
         }
         catch(SQLException e){
             // send error
             request.setAttribute("message", "Error - SQL Exception"); // Will be available as ${message}
-            request.getRequestDispatcher("admin.jsp").forward(request,response);
-            response.sendRedirect("admin.jsp");
+            request.getRequestDispatcher("invoiceViewer.jsp").forward(request,response);
+            response.sendRedirect("invoiceViewer.jsp");
         }
         
     }  
