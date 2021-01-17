@@ -54,6 +54,10 @@
         <servlet-name>ViewPatientsServlet</servlet-name>
         <url-pattern>/ViewPatientsServlet</url-pattern>
     </servlet-mapping>
+        <display-name>NewReferralServlet</display-name>
+        <servlet-name>NewReferralServlet</servlet-name>
+        <servlet-class>com.NewReferralServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/LoginServlet</url-pattern>
@@ -85,6 +89,10 @@
     <servlet-mapping>
         <servlet-name>InvoiceDownload</servlet-name>
         <url-pattern>/InvoiceDownload</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>NewReferralServlet</servlet-name>
+        <url-pattern>/NewReferralServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

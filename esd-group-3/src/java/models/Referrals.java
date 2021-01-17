@@ -21,10 +21,10 @@ import java.util.logging.Logger;
  */
 public class Referrals {
     private int clientid;
-    private String[] name;
-    private String[] address;
+    private String[] nameArr = new String[0];
+    private String[] addressArr = new String[0];
     
-    public void setClientId(int clientid) {
+    private void setClientId(int clientid) {
         this.clientid = clientid;
     }
     
@@ -32,20 +32,34 @@ public class Referrals {
         return this.clientid;
     }
     
-    public void setName(String[] name) {
-        this.name = name;
+    private void setNameArr(String[] name) {
+        this.nameArr = name;
     }
     
-    public String[] getName() {
-        return this.name;
+    public String[] getNameArr() {
+        return this.nameArr;
     }
     
-    public void setAddress(String[] address) {
-        this.address = address;
+    private void setAddressArr(String[] address) {
+        this.addressArr = address;
     }
     
-    public String[] getAddress() {
-        return this.address;
+    public String[] getAddressArr() {
+        return this.addressArr;
+    }
+    
+    private void addNames(String[] new_names) {
+        ArrayList<String> names = new ArrayList<String>(Arrays.asList(this.getNameArr()));
+        names.addAll(Arrays.asList(new_names));
+        
+        this.nameArr = names.toArray(this.nameArr);
+    }
+    
+    private void addAddresses(String[] new_addresses) {
+        ArrayList<String> addresses = new ArrayList<String>(Arrays.asList(this.getAddressArr()));
+        addresses.addAll(Arrays.asList(new_addresses));
+        
+        this.addressArr = addresses.toArray(this.addressArr);
     }
     
     private int CountResultSetSize(ResultSet rs) {
@@ -81,8 +95,8 @@ public class Referrals {
         String[] addressArr = {address};
         
         this.setClientId(clientid);
-        this.setName(nameArr);
-        this.setAddress(addressArr);
+        this.addNames(nameArr);
+        this.addAddresses(addressArr);
     }
     
     public void retreiveAll (
@@ -93,6 +107,7 @@ public class Referrals {
         String query = "SELECT name, address FROM Referrals WHERE clientid = "
                 + cid;
         
+        this.setClientId(clientid);
         List<String> nameList = new ArrayList<String>();
         List<String> addressList = new ArrayList<String>();
         
@@ -114,7 +129,7 @@ public class Referrals {
         System.out.println(Arrays.toString(nameArr));
         System.out.println(Arrays.toString(addressArr));
         
-        this.setName(nameArr);
-        this.setAddress(addressArr);
+        this.setNameArr(nameArr);
+        this.setAddressArr(addressArr);
     }
 }

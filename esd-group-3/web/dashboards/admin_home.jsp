@@ -130,6 +130,24 @@
                 </div>
             </div>
         </div>
+    <div class="left">
+      <div class="card">
+        <div class="container">
+          <h2 style="text-align:center;margin-top: 10px;">Add a referral to a patient</h2>
+          <div class="container">
+            <form action="NewReferralServlet" method="POST">
+              <label for="clientid"><b>Client ID</b></label>
+              <input type="number" name="clientid" required>
+              <br>
+              <label for="name"><b>Hospital/Ward/Surgery Name</b></label>
+              <input type="text" placeholder="Enter name of referral location" name="name" required>
+              <label for="address"><b>Address</b></label>
+              <input type="text" placeholder="Enter address" name="address" required>
+              <input type="submit" value="Add referral" class="button">
+            </form>
+          </div>
+        </div>
+      </div>
     </div>
   </body>
 </html>
