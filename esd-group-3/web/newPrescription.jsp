@@ -32,6 +32,7 @@
                   <input type="date" value=${currentdate} name="date_start" required> 
                   <label for="date_end"><b>End Date</b></label>
                   <input type="date" value=${currentdate} name="date_end" required>   
+                  <input type="hidden" value=${employeeid} name="employeeid">   
                   <input type="submit" value="Create" class="button"> 
                 </form>
               </div>

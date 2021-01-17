@@ -16,6 +16,7 @@ import dbcon.DBConnection;
 import java.time.LocalDate;
 import javax.servlet.annotation.WebServlet;
 import models.User;
+import models.Bookings;
 
 /**
  *
@@ -96,11 +97,21 @@ public class LoginServlet extends HttpServlet {
             loginSession.setAttribute("dashboard", "dashboards/" + user_role + "_home.jsp");
             loginSession.setMaxInactiveInterval(20*60);
             
+            
+//           Use user_in to get id from bookings using username
+               
+            Bookings booking = new Bookings();
+            
+            int employeeid = booking.getIdFromDatabase(dbcon, user_in);
+            
             System.out.println("---- " + (String)loginSession.getAttribute("dashboard") + " ----");
             
             // sucessful login response
             request.setAttribute("message", "Successful Login - Welcome " + user_in); // Will be available as ${message}
             request.setAttribute("currentdate", currentdate); // Setting the current date to be able to be avialable as ${currentdate}
+            
+            request.setAttribute("employeeid", employeeid);
+            
             request.getRequestDispatcher((String)loginSession.getAttribute("dashboard")).forward(request,response);
             response.sendRedirect((String)loginSession.getAttribute("dashboard"));
         }
