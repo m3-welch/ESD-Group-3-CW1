@@ -9,6 +9,7 @@ import dbcon.DBConnection;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -34,29 +35,38 @@ public class NewPrescriptionServlet extends HttpServlet {
         int employeeid = 1;
         String drug_name = request.getParameter("drug_name");
         String dosage = request.getParameter("dosage");
-//        Boolean is_repeat = Boolean.parseBoolean(request.getParameter("is_repeat"));
-        Boolean is_repeat = false;
+        String is_repeat = "FALSE";
         LocalDate date_start = LocalDate.parse(request.getParameter("date_start"));
         LocalDate date_end = LocalDate.parse(request.getParameter("date_end"));
         
-        if (request.getParameter("is_repeat").equals("on")) {
-            is_repeat = true;
+        try {
+            if (request.getParameter("is_repeat").equals("on")) {
+                is_repeat = "TRUE";
+            }
+        } catch(Exception e) {
+            is_repeat = "FALSE";
         }
-        
-        System.out.println("WHY DOES It NOt WORK WHEN FALSE");
-        System.out.println("IS REAPEAT " + is_repeat);
-        System.out.println("after repeat boolean " + request.getParameter("is_repeat"));
         
         Prescriptions prescription = new Prescriptions();
         
         try {
             DBConnection dbcon = new DBConnection("smartcaretest", "", "");
-            prescription.create(dbcon, clientid, employeeid, drug_name, dosage, is_repeat, date_start, date_end);
+            prescription.create(dbcon, clientid, employeeid, drug_name, dosage, Boolean.valueOf(is_repeat), date_start, date_end);
         } catch (SQLException ex) {
             Logger.getLogger(NewPrescriptionServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         HttpSession loginSession = request.getSession();
+        
+        System.out.println("prescription.getDrugName()(): " + prescription.getDrugName());
+        System.out.println("prescription.getDrugName() to string(): " + Arrays.toString(prescription.getDrugName()));
+        System.out.println("drug_name: " + drug_name);
+        System.out.println("prescription.getDrugName().equals): " + Arrays.toString(prescription.getDrugName()).equals(drug_name));
+        
+        System.out.println("prescription.getDrugName().contains): " + Arrays.toString(prescription.getDrugName()).contains(drug_name));
+        
+        System.out.println("GET CLIENT: " + prescription.getClient());
+
 
         if ((prescription.getClient() == clientid)) {
 //        if ((prescription.getClient() == clientid) && prescription.getDrugName().equals(drug_name)) {
