@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse; 
 import javax.servlet.http.HttpSession;
 import dbcon.DBConnection;
+import java.time.LocalDate;
 import javax.servlet.annotation.WebServlet;
 import models.User;
 
@@ -35,6 +36,9 @@ public class LoginServlet extends HttpServlet {
         int user_type = 0;
         DBConnection dbcon = null;
         User user_to_login = null;
+        
+        String currentdate = (LocalDate.now()).toString();
+        
         // get password from db
         try {
             dbcon = new DBConnection("smartcaretest", "", "");
@@ -96,6 +100,7 @@ public class LoginServlet extends HttpServlet {
             
             // sucessful login response
             request.setAttribute("message", "Successful Login - Welcome " + user_in); // Will be available as ${message}
+            request.setAttribute("currentdate", currentdate); // Setting the current date to be able to be avialable as ${currentdate}
             request.getRequestDispatcher((String)loginSession.getAttribute("dashboard")).forward(request,response);
             response.sendRedirect((String)loginSession.getAttribute("dashboard"));
         }
