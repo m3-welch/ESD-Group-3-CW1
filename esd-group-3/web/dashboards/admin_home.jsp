@@ -103,7 +103,7 @@
         </div>
       </div>
     </div>
-    <div class="left">
+<!--    <div class="left">
       <div class="card">
         <div class="container">
           <h2 style="text-align:center;margin-top: 10px;">Add a referral to a patient</h2>
@@ -121,6 +121,6 @@
           </div>
         </div>
       </div>
-    </div>
+    </div>-->
   </body>
 </html>
