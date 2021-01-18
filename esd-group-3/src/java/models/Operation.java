@@ -344,4 +344,57 @@ public class Operation {
         }
         return role;
     }
+    
+    public String getEmpLastNameFromId(DBConnection dbcon){
+        String query = "SELECT userid FROM Employees WHERE id = " + this.employeeid;
+        int userid = 0;
+        try (Statement stmt = dbcon.conn.createStatement()) {
+            ResultSet resultSet = stmt.executeQuery(query);
+            while (resultSet.next()) {
+                userid = resultSet.getInt("userid");
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        
+        query = "SELECT lastname FROM Users WHERE id = " + userid;
+        String name = "Unknown";
+        try (Statement stmt = dbcon.conn.createStatement()) {
+            ResultSet resultSet = stmt.executeQuery(query);
+            while (resultSet.next()) {
+                name = resultSet.getString("lastname");
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return name;
+    }
+    
+    public String getClientFullNameFromId(DBConnection dbcon) {
+        String query = "SELECT userid FROM Clients WHERE id = " + this.clientid;
+        int userid = 0;
+        try (Statement stmt = dbcon.conn.createStatement()) {
+            ResultSet resultSet = stmt.executeQuery(query);
+            while (resultSet.next()) {
+                userid = resultSet.getInt("userid");
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        
+        query = "SELECT firstname, lastname FROM Users WHERE id = " + userid;
+        String firstname = "Unknown";
+        String lastname = "Unknown";
+        try (Statement stmt = dbcon.conn.createStatement()) {
+            ResultSet resultSet = stmt.executeQuery(query);
+            while (resultSet.next()) {
+                firstname = resultSet.getString("firstname");
+                lastname = resultSet.getString("lastname");
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        
+        return firstname + " " + lastname;
+    }
 }

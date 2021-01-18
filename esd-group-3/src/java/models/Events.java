@@ -12,6 +12,8 @@ import java.sql.Statement;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 
 /**
  *
@@ -19,6 +21,10 @@ import java.util.ArrayList;
  */
 public class Events {
     private Operation[] ops;
+    
+    public Operation[] getOps() {
+        return this.ops;
+    }
     
     public void getOperationsFromDB(DBConnection dbcon, int userid) {
         // Set up query
@@ -120,5 +126,16 @@ public class Events {
         Operation[] opArr = new Operation[opList.size()];
         opArr = opList.toArray(opArr);
         return opArr;
+    }
+    
+    public void orderEvents() {
+        ArrayList<Operation> orderList = new ArrayList<Operation>(Arrays.asList(ops));
+        
+        Collections.sort(orderList, (op1, op2) -> {
+            if (op1.getDateLocalDate().isBefore(op2.getDateLocalDate())) return -1; 
+            else return 1;
+        });
+        
+        this.ops = orderList.toArray(this.ops);
     }
 }

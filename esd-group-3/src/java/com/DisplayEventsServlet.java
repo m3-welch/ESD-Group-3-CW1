@@ -21,7 +21,7 @@ import models.Operation;
  *
  * @author Harrison B
  */
-public class DisplayCalendarServlet extends HttpServlet {
+public class DisplayEventsServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
@@ -37,14 +37,31 @@ public class DisplayCalendarServlet extends HttpServlet {
             dbcon = new DBConnection("smartcaretest", "", "");
             Events events = new Events();
             events.getOperationsFromDB(dbcon, userid);
+            events.orderEvents();
             
             LocalDate startDate = LocalDate.parse(request.getParameter("start"));
             LocalDate endDate = startDate.plusWeeks(1);
             
             Operation[] ops = events.getEventsBetweenDates(startDate, endDate);
             
-            request.setAttribute("message", "Data Loaded Successfully");
-            request.setAttribute("data", ops);
+            String outputList = "<table>";
+            for (int i = 0; i < ops.length; i++) {
+                outputList += "<tr><td>" + ops[i].getDate() + "</td><td>" + 
+                        ops[i].getClientFullNameFromId(dbcon) + "</td><td>" + 
+                        capitalizeWord(ops[i].getRoleFromId(dbcon)) + " " + 
+                        ops[i].getEmpLastNameFromId(dbcon) + "</td><td>" + 
+                        ops[i].getStartTime() + "</td><td>" + 
+                        ops[i].getEndTime() + "</td></tr>";
+            }
+            outputList += "</table>";
+            
+            System.out.println(outputList);
+            
+            request.setAttribute("message", "Data Loaded Successfully");       
+            request.setAttribute("eventList", outputList);
+            request.getRequestDispatcher((String)loginSession.getAttribute("dashboard")).forward(request,response);
+            response.sendRedirect((String)loginSession.getAttribute("dashboard"));
+            
             request.getRequestDispatcher((String)loginSession.getAttribute("dashboard")).forward(request,response);
             
         } catch (SQLException ex) {
@@ -55,6 +72,17 @@ public class DisplayCalendarServlet extends HttpServlet {
         }
         
     }
+    
+    private static String capitalizeWord(String str){  
+        String words[]=str.split("\\s");  
+        String capitalizeWord="";  
+        for(String w:words){  
+            String first=w.substring(0,1);  
+            String afterfirst=w.substring(1);  
+            capitalizeWord+=first.toUpperCase()+afterfirst+" ";  
+        }  
+        return capitalizeWord.trim();  
+    }  
 
     /**
      * Returns a short description of the servlet.
