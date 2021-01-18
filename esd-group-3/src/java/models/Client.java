@@ -23,21 +23,13 @@ public class Client extends User {
     private int clientid;
     private String type;
     private Boolean is_nhs;
-    
+  
     public void setClientId(int clientid) {
         this.clientid = clientid;
     }
     
     public int getClientId() {
         return this.clientid;
-    }
-    
-    public void setType(String type) {
-        this.type = type;
-    }
-    
-    public String getType() {
-        return this.type;
     }
     
     public void setIsNhs(Boolean is_nhs) {
@@ -59,6 +51,7 @@ public class Client extends User {
         String role,
         String type
     ) {
+        System.out.println(lastname);
         String query = "INSERT INTO Users (username, password, firstname, lastname,"
             + "email, address, role) VALUES ('" + username + "', '" 
             + password + "', '" + firstname + "', '" + lastname + "', '" + email 
@@ -83,11 +76,11 @@ public class Client extends User {
             System.out.println(e);
         }
         
-        String isNHS;
+        Boolean isNHS;
         if (type.equals("NHS")) {
-            isNHS = "TRUE";
+            isNHS = true;
         } else {
-            isNHS = "FALSE";
+            isNHS = false;
         }
         
         query = "INSERT INTO Clients (userid, isNHS) VALUES (" + userid + ", " + isNHS + ")";
@@ -120,7 +113,7 @@ public class Client extends User {
         this.setAddress(address);
         this.setRole(role);
         this.setClientId(clientid);
-        this.setType(type);
+        this.setIsNhs(isNHS);
     }
     
     public Client retrieveClientByUserId(DBConnection dbcon, int id) {
@@ -174,7 +167,7 @@ public class Client extends User {
     public List<Client> getAll(DBConnection dbcon, String filter) {
         List<Client> clients = new ArrayList<Client>();
         
-        if (filter.equals("all")) {
+        if ("all".equals(filter)) {
             String query = "SELECT * FROM Clients";
             
             try (Statement stmt = dbcon.conn.createStatement()) {
@@ -190,7 +183,15 @@ public class Client extends User {
                 System.out.println(e);
             }
         } else {
-            String query = "SELECT * FROM Clients WHERE type = '" + filter + "'";
+            String isNHS;
+            
+            if ("NHS".equals(filter)) {
+                isNHS = "TRUE";
+            } else {
+                isNHS = "FALSE";
+            }
+            
+            String query = "SELECT * FROM Clients WHERE isNHS = " + isNHS;
             
             try (Statement stmt = dbcon.conn.createStatement()) {
                 ResultSet resultSet = stmt.executeQuery(query);
@@ -241,25 +242,25 @@ public class Client extends User {
             if(role == "doctor" && currentOp.getIsSurgery()){
                 //is doctor surgery
                 apptType = "surgery";
-                tCost += p.getPrice(dbcon, apptType, role, slots);
+                tCost += p.calcPrice(apptType, role, slots);
             }
             //time in nurse surgeries
             else if(role == "nurse" && currentOp.getIsSurgery()){
                 //is nurse surgery
                 apptType = "surgery";
-                tCost += p.getPrice(dbcon, apptType, role, slots);
+                tCost += p.calcPrice(apptType, role, slots);
             }
 
             else if(role == "doctor" && !currentOp.getIsSurgery()){
                 //is doctor consultation
                 apptType = "consultaion";
-                tCost += p.getPrice(dbcon, apptType, role, slots);
+                tCost += p.calcPrice(apptType, role, slots);
             }
             //time in nurse surgeries
             else if(role == "nurse" && !currentOp.getIsSurgery()){
                 //is nurse consultation
                 apptType = "consultaion";
-                tCost += p.getPrice(dbcon, apptType, role, slots);
+                tCost += p.calcPrice(apptType, role, slots);
             }
         }
         return tCost;

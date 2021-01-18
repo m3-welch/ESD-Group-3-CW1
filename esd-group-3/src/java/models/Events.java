@@ -108,4 +108,20 @@ public class Events {
         return cid;
     }
     
+    public Operation[] getEventsBetweenDates(LocalDate start, LocalDate end) {
+        ArrayList<Operation> opList = new ArrayList<>();
+        
+        for (Operation op : this.ops) {
+            // For each operation, check if in range.
+            if (op.getDate().isAfter(start) && 
+                    op.getDate().isBefore(end)) {
+                opList.add(op);
+            }
+        }
+        
+        Operation[] opArr = new Operation[opList.size()];
+        opArr = opList.toArray(opArr);
+        return opArr;
+    }
+    
 }

@@ -5,6 +5,7 @@
  */
 package com;
 
+import api.GoogleMaps;
 import dbcon.DBConnection;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -37,6 +38,9 @@ public class SignupServlet extends HttpServlet {
         String type = request.getParameter("type");
         Client client = new Client();
         
+        GoogleMaps maps = new GoogleMaps();
+        
+        address = maps.lookupAddress(address);
         
         try {
             DBConnection dbcon = new DBConnection("smartcaretest", "", "");
@@ -45,7 +49,7 @@ public class SignupServlet extends HttpServlet {
             Logger.getLogger(SignupServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        if (client.getUsername().equals(username) && client.getType().equals(type)) {
+        if (client.getUsername().equals(username) && client.getIsNhs().equals(type)) {
             request.setAttribute("message", "Successful Signup - Login to continue");
             request.getRequestDispatcher("login.jsp").forward(request, response);
             response.sendRedirect("login.jsp");
