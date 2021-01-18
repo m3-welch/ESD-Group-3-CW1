@@ -57,7 +57,7 @@
         <servlet-name>PricesChanger</servlet-name>
         <servlet-class>com.PricesChanger</servlet-class>
     </servlet>
-
+    <servlet>
         <display-name>ViewPatientsServlet</display-name>
         <servlet-name>ViewPatientsServlet</servlet-name>
         <servlet-class>com.ViewPatientsServlet</servlet-class>
