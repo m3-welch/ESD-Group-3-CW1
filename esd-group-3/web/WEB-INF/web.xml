@@ -46,6 +46,18 @@
         <servlet-class>com.InvoiceDownload</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>PriceChanger</servlet-name>
+        <servlet-class>com.PriceChanger</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>PricesViewer</servlet-name>
+        <servlet-class>com.PricesViewer</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>PricesChanger</servlet-name>
+        <servlet-class>com.PricesChanger</servlet-class>
+    </servlet>
+
         <display-name>ViewPatientsServlet</display-name>
         <servlet-name>ViewPatientsServlet</servlet-name>
         <servlet-class>com.ViewPatientsServlet</servlet-class>
@@ -90,6 +102,14 @@
     <servlet-mapping>
         <servlet-name>InvoiceDownload</servlet-name>
         <url-pattern>/InvoiceDownload</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>PricesViewer</servlet-name>
+        <url-pattern>/PricesViewer</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>PricesChanger</servlet-name>
+        <url-pattern>/PricesChanger</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>NewReferralServlet</servlet-name>

@@ -241,25 +241,25 @@ public class Client extends User {
             if(role == "doctor" && currentOp.getIsSurgery()){
                 //is doctor surgery
                 apptType = "surgery";
-                tCost += p.getPrice(dbcon, apptType, role, slots);
+                tCost += p.calcPrice(apptType, role, slots);
             }
             //time in nurse surgeries
             else if(role == "nurse" && currentOp.getIsSurgery()){
                 //is nurse surgery
                 apptType = "surgery";
-                tCost += p.getPrice(dbcon, apptType, role, slots);
+                tCost += p.calcPrice(apptType, role, slots);
             }
 
             else if(role == "doctor" && !currentOp.getIsSurgery()){
                 //is doctor consultation
                 apptType = "consultaion";
-                tCost += p.getPrice(dbcon, apptType, role, slots);
+                tCost += p.calcPrice(apptType, role, slots);
             }
             //time in nurse surgeries
             else if(role == "nurse" && !currentOp.getIsSurgery()){
                 //is nurse consultation
                 apptType = "consultaion";
-                tCost += p.getPrice(dbcon, apptType, role, slots);
+                tCost += p.calcPrice(apptType, role, slots);
             }
         }
         return tCost;
