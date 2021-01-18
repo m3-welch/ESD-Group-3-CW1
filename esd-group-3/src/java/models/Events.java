@@ -113,7 +113,7 @@ public class Events {
         for (Operation op : this.ops) {
             // For each operation, check if in range.
             if (op.getDateLocalDate().isAfter(start) && 
-                    op.getDateLocalDate().isBefore(start)) {
+                    op.getDateLocalDate().isBefore(end)) {
                 opList.add(op);
             }
         }
