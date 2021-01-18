@@ -1,12 +1,14 @@
 <%-- 
-    Document   : admin
+    Document   : invoiceViewer
     Created on : 10-Dec-2020, 15:11:56
     Author     : Austin
 --%>
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page language="java" contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="models.Operation"%> 
 <%@page import="java.util.ArrayList"%> 
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="java.util.Date"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -43,7 +45,10 @@
             <div> <p style="color:#FF3232;font-size:12px;text-align:center" id="note">${message}</p> </div>
 
             <h3>Displaying All Operations</h3> 
-
+            
+            <%  Date date = new Date();
+                String currentDate= new SimpleDateFormat("yyyy-MM-dd").format(date);%>
+            
             <div>   
                 <form action="InvoiceViewerServlet" method="GET">
                     <select name="filter" id="filter">
@@ -54,12 +59,12 @@
 
                     <label for="start">Start date:</label>
                     <input type="date" id="start" name="start"
-                           value="2018-07-22"
-                           min="2018-01-01" max="2021-12-31">
+                           value=<%= currentDate %>
+                           min="2000-01-01" max="2050-12-31">
                     <label for="end">End date:</label>
                     <input type="date" id="end" name="end"
-                           value="2021-07-22"
-                           min="2018-01-01" max="2021-12-31">
+                           value=<%= currentDate %>
+                           min="2000-01-01" max="2050-12-31">
 
                     <input type="submit" value="Update" class="button" style="color:#FFFFFF"> 
                 </form>
@@ -75,7 +80,6 @@
                         <th><b>Start Time</b></th> 
                         <th><b>End Time</b></th> 
                         <th><b>Charge</b></th> 
-                        <th><b>Slot</b></th> 
                         <th><b>Invoice Paid</b></th> 
                         <th><b>NHS Patient</b></th> 
                    </tr> 
@@ -94,7 +98,6 @@
                             <td><%=i.getStartTime()%></td> 
                             <td><%=i.getEndTime()%></td> 
                             <td><%=i.getCharge()%></td> 
-                            <td><%=i.getSlot()%></td> 
                             <td><%=i.getIsPaid()%></td> 
                             <td><%=i.getIsNhs()%></td> 
                         </tr> 
