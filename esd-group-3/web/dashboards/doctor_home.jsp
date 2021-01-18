@@ -130,7 +130,7 @@
                                     >
                             <label for="start">End date:</label>
                             <input type="date" id="end" name="end"
-                                    value="<%= LocalDate.now().toString() %>"
+                                   value="<%= LocalDate.now().plusMonths(1).toString() %>"
                                     min="<%= LocalDate.now().minusYears(1).toString() %>"
                                     max="<%= LocalDate.now().plusYears(1).toString() %>"
                                     >
