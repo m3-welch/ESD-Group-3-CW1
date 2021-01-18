@@ -84,7 +84,8 @@ public class GlobalAuthenticationFilter implements Filter {
             }
             
             // handles permissions for logged in users
-            if ((uri.endsWith("admin_home.jsp") || uri.endsWith("invoiceViewer.jsp") || uri.endsWith("InvoiceViewerServlet") || uri.endsWith("InvoiceDownloadServlet") || uri.endsWith("NewEmployeeServlet")) && role != 4){
+            if ((uri.endsWith("admin_home.jsp") || uri.endsWith("invoiceViewer.jsp") || uri.endsWith("InvoiceViewerServlet") || uri.endsWith("InvoiceDownloadServlet") 
+                    || uri.endsWith("NewEmployeeServlet") || uri.endsWith("prices.jsp") || uri.endsWith("PricesChanger") || uri.endsWith("PricesViewer")) && role != 4){
                 is_errorHome = true;
                 errorMsg = "ERROR - User is not an Administrator";
             }
@@ -104,7 +105,7 @@ public class GlobalAuthenticationFilter implements Filter {
                 is_errorHome = true;
                 errorMsg = "ERROR - User is not a Doctor or Nurse";
             }
-            else if (uri.endsWith("NewUserServlet") && !(role == 1 || role == 2 || role == 4)){
+            else if ((uri.endsWith("NewUserServlet") || uri.endsWith("ViewPatientsServlet")) && !(role == 1 || role == 2 || role == 4)){
                 is_errorHome = true;
                 errorMsg = "ERROR - User is not a Doctor, Nurse, or Admin";
             }
