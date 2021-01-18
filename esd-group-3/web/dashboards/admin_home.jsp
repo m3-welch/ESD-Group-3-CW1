@@ -28,7 +28,7 @@
       
       <div class="logout">        
         <form action="LogoutServlet" method="GET">
-            <input type="submit" value="logout" class="button logout"> 
+            <input type="submit" value="Logout" class="button logout"> 
         </form>
       </div>
       
@@ -102,35 +102,35 @@
         </div>
       </div>
     </div>
-        <div class="left">
-            <div class="card patients-card">
-                <div class="container">
-                    <h2 style="text-align:center;margin-top: 10px;">View Patients</h2>
-                    <div class="container">
-                        <form class="patientlist-filteroptions" action="ViewPatientsServlet" method="POST">
-                            <input ${checkednhs} type="radio" value="NHS" id="nhs" name="filter" class="patientlist-filter"/>
-                            <label for="nhs">NHS</label>
-                            <input ${checkedprivate} type="radio" value="private" id="private" name="filter" class="patientlist-filter"/>
-                            <label for="private">Private</label>
-                            <input ${checkedcombined} type="radio" value="all" id="combined" name="filter" class="patientlist-filter"/>
-                            <label for="combined">Combined</label>                                
-                            <input type="submit" value="Update" class="update-button"/>
-                        </form>
-                        <table class='patients-table-header'>
-                            <tr>
-                                <th>Patient ID</th>
-                                <th>Patient Name</th>
-                                <th>Patient Type</th>
-                            </tr>
-                        </table>
-                        <div class="list">
-                            ${patientlist}
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    <div class="left">
+      <div class="left">
+          <div class="card patients-card">
+              <div class="container">
+                  <h2 style="text-align:center;margin-top: 10px;">View Patients</h2>
+                  <div class="container">
+                      <form class="patientlist-filteroptions" action="ViewPatientsServlet" method="POST">
+                          <input ${checkednhs} type="radio" value="NHS" id="nhs" name="filter" class="patientlist-filter"/>
+                          <label for="nhs">NHS</label>
+                          <input ${checkedprivate} type="radio" value="private" id="private" name="filter" class="patientlist-filter"/>
+                          <label for="private">Private</label>
+                          <input ${checkedcombined} type="radio" value="all" id="combined" name="filter" class="patientlist-filter"/>
+                          <label for="combined">Combined</label>                                
+                          <input type="submit" value="Update" class="update-button"/>
+                      </form>
+                      <table class='patients-table-header'>
+                          <tr>
+                              <th>Patient ID</th>
+                              <th>Patient Name</th>
+                              <th>Patient Type</th>
+                          </tr>
+                      </table>
+                      <div class="list">
+                          ${patientlist}
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+<!--  <div class="left">
       <div class="card">
         <div class="container">
           <h2 style="text-align:center;margin-top: 10px;">Add a referral to a patient</h2>
@@ -148,6 +148,6 @@
           </div>
         </div>
       </div>
-    </div>
+    </div>-->
   </body>
 </html>
