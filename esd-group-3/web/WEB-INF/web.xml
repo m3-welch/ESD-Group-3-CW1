@@ -46,10 +46,31 @@
         <servlet-class>com.InvoiceDownloadServlet</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>PriceChanger</servlet-name>
+        <servlet-class>com.PriceChanger</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>PricesViewer</servlet-name>
+        <servlet-class>com.PricesViewer</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>PricesChanger</servlet-name>
+        <servlet-class>com.PricesChanger</servlet-class>
+    </servlet>
+    <servlet>
+        <display-name>ViewPatientsServlet</display-name>
+        <servlet-name>ViewPatientsServlet</servlet-name>
+        <servlet-class>com.ViewPatientsServlet</servlet-class>
+    </servlet>
+    <servlet>
         <display-name>NewReferralServlet</display-name>
         <servlet-name>NewReferralServlet</servlet-name>
         <servlet-class>com.NewReferralServlet</servlet-class>
     </servlet>
+    <servlet-mapping>
+        <servlet-name>ViewPatientsServlet</servlet-name>
+        <url-pattern>/ViewPatientsServlet</url-pattern>
+    </servlet-mapping>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/LoginServlet</url-pattern>
@@ -99,6 +120,14 @@
         <url-pattern>/*</url-pattern>
         <dispatcher>REQUEST</dispatcher>
     </filter-mapping>
+    <servlet-mapping>
+        <servlet-name>PricesViewer</servlet-name>
+        <url-pattern>/PricesViewer</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>PricesChanger</servlet-name>
+        <url-pattern>/PricesChanger</url-pattern>
+    </servlet-mapping>
     <servlet-mapping>
         <servlet-name>NewReferralServlet</servlet-name>
         <url-pattern>/NewReferralServlet</url-pattern>

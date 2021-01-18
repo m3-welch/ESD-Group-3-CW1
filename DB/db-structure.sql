@@ -29,7 +29,6 @@ CREATE TABLE Operations (
     starttime Time,
     endtime Time,
     charge Real,
-    slot int,
     is_paid Boolean,
     is_surgery Boolean
 );
@@ -57,4 +56,8 @@ CREATE TABLE Referrals (
     clientid int REFERENCES Clients(id),
     name varchar(64),
     address varchar(64)
+);
+
+CREATE TABLE ApiCredentials (
+    googlemapsapisecret varchar(128)
 );
