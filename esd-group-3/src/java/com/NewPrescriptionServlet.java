@@ -18,8 +18,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import models.Bookings;
 import models.Prescriptions;
+import models.Employee;
 
 /**
  *
@@ -42,9 +42,21 @@ public class NewPrescriptionServlet extends HttpServlet {
         HttpSession loginSession = request.getSession();
         request.getRequestDispatcher((String)loginSession.getAttribute("dashboard")).include(request, response);
         
+        // Get Employee id from employees table using user id
+        int user_id = Integer.parseInt((loginSession.getAttribute("userID").toString()));
+        DBConnection dbcon = null;
+        try {
+            dbcon = new DBConnection("smartcaretest", "", "");
+        } catch (SQLException ex) {
+            Logger.getLogger(NewPrescriptionServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        Employee employee = new Employee();
         //decare vars
+
+        int employee_id = employee.retrieveEmployeeIdByUserId(dbcon,user_id);        
         int clientid = Integer.parseInt(request.getParameter("clientid"));
-        int employee_id = Integer.parseInt((loginSession.getAttribute("employeeid").toString()));
+//        int employee_id = Integer.parseInt((loginSession.getAttribute("employeeid").toString()));
         String drug_name = request.getParameter("drug_name");
         String dosage = request.getParameter("dosage");
         String is_repeat = "FALSE";
@@ -63,7 +75,7 @@ public class NewPrescriptionServlet extends HttpServlet {
         Prescriptions prescription = new Prescriptions();
         
         try {
-            DBConnection dbcon = new DBConnection("smartcaretest", "", "");
+            dbcon = new DBConnection("smartcaretest", "", "");
             prescription.create(dbcon, clientid, employee_id, drug_name, dosage, Boolean.valueOf(is_repeat), date_start, date_end);
         } catch (SQLException ex) {
             Logger.getLogger(NewPrescriptionServlet.class.getName()).log(Level.SEVERE, null, ex);
