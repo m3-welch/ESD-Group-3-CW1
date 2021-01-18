@@ -100,11 +100,11 @@ public class GlobalAuthenticationFilter implements Filter {
                 is_errorHome = true;
                 errorMsg = "ERROR - User is not a Doctor";
             }
-            else if (uri.endsWith("NewReferralServlet") && (role != 1 || role != 2)){
+            else if (uri.endsWith("NewReferralServlet") && !(role == 1 || role == 2)){
                 is_errorHome = true;
                 errorMsg = "ERROR - User is not a Doctor or Nurse";
             }
-            else if (uri.endsWith("NewUserServlet") && (role != 1 || role != 2 || role != 4)){
+            else if (uri.endsWith("NewUserServlet") && !(role == 1 || role == 2 || role == 4)){
                 is_errorHome = true;
                 errorMsg = "ERROR - User is not a Doctor, Nurse, or Admin";
             }
