@@ -5,7 +5,6 @@
  */
 package com;
 
-import api.GoogleMaps;
 import dbcon.DBConnection;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -15,13 +14,14 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import models.Client;
+import javax.servlet.http.HttpSession;
+import models.Employee;
 
 /**
  *
  * @author morgan
  */
-public class SignupServlet extends HttpServlet {
+public class NewEmployeeServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
                             throws ServletException, IOException {
         response.setContentType("text/html");
@@ -36,27 +36,28 @@ public class SignupServlet extends HttpServlet {
         String email = request.getParameter("email");
         String address = request.getParameter("address");
         String type = request.getParameter("type");
-        Client client = new Client();
+        String isFullTime = request.getParameter("isFullTime");
         
-        GoogleMaps maps = new GoogleMaps();
+        Employee employee = new Employee();
         
-        address = maps.lookupAddress(address);
         
         try {
             DBConnection dbcon = new DBConnection("smartcaretest", "", "");
-            client.create(dbcon, username, password, firstname, lastname, email, address, "client", type);
+            employee.create(dbcon, username, password, firstname, lastname, email, address, type, isFullTime);
         } catch (SQLException ex) {
             Logger.getLogger(SignupServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        if (client.getUsername().equals(username) && client.getIsNHS().equals(type)) {
-            request.setAttribute("message", "Successful Signup - Login to continue");
-            request.getRequestDispatcher("login.jsp").forward(request, response);
-            response.sendRedirect("login.jsp");
+        HttpSession loginSession = request.getSession();
+
+        if (employee.getUsername().equals(username) && employee.getRole().equals(type)) {
+            request.setAttribute("message", "New Employee successfully created!");
+            request.getRequestDispatcher((String)loginSession.getAttribute("dashboard")).forward(request,response);
+            response.sendRedirect((String)loginSession.getAttribute("dashboard"));
         } else {
-            request.setAttribute("message", "Error - Failed Signup. Please try again.");
-            request.getRequestDispatcher("newPatient.jsp").forward(request, response);
-            response.sendRedirect("newPatient.jsp");
+            request.setAttribute("message", "Error! - New Employee not created");
+            request.getRequestDispatcher((String)loginSession.getAttribute("dashboard")).forward(request,response);
+            response.sendRedirect((String)loginSession.getAttribute("dashboard"));
         }
     }
 }
