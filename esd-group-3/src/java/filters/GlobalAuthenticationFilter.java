@@ -82,11 +82,8 @@ public class GlobalAuthenticationFilter implements Filter {
                 req.getRequestDispatcher("login.jsp").forward(request,response);
                 res.sendRedirect("login.jsp");
             }
-            else{
-                chain.doFilter(request, response);
-            }
             
-            
+            // handles permissions for logged in users
             if ((uri.endsWith("admin_home.jsp") || uri.endsWith("invoiceViewer.jsp") || uri.endsWith("InvoiceViewerServlet") || uri.endsWith("InvoiceDownloadServlet") || uri.endsWith("NewEmployeeServlet")) && role != 4){
                 is_errorHome = true;
                 errorMsg = "ERROR - User is not an Administrator";
