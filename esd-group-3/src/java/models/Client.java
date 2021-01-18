@@ -22,6 +22,7 @@ import java.time.*;
 public class Client extends User {
     private int clientid;
     private String type;
+    private Boolean is_nhs;
     
     public void setClientId(int clientid) {
         this.clientid = clientid;
@@ -37,6 +38,14 @@ public class Client extends User {
     
     public String getType() {
         return this.type;
+    }
+    
+    public void setIsNhs(Boolean is_nhs) {
+        this.is_nhs = is_nhs;
+    }
+    
+    public Boolean getIsNhs() {
+        return this.is_nhs;
     }
     
     public void create(
@@ -121,7 +130,7 @@ public class Client extends User {
             ResultSet resultSet = stmt.executeQuery(query);
             while (resultSet.next()) {
                 this.setClientId(resultSet.getInt("id"));
-                this.setType(resultSet.getString("type"));
+                this.setIsNhs(resultSet.getBoolean("isNhs"));
             }
             
         } catch (SQLException e) {
@@ -226,7 +235,7 @@ public class Client extends User {
             currentOp = operations.get(i); 
             String role = currentOp.getRoleFromId(dbcon);
             String apptType;
-            long timeDiff = Duration.between(currentOp.getEndLocalTime(), currentOp.getStartLocalTime()).toMinutes();
+            long timeDiff = Duration.between(currentOp.getEndTime(), currentOp.getStartTime()).toMinutes();
             long slots = timeDiff/10;
             //time in doctor surgeries
             if(role == "doctor" && currentOp.getIsSurgery()){
@@ -273,9 +282,9 @@ public class Client extends User {
                 op.setEmployeeId(Integer.parseInt(rs.getString("employeeid")));
                 op.setClientId(Integer.parseInt(rs.getString("clientid")));
                 op.setIsSurgery(rs.getBoolean("issurgery"));
-                op.setDate(rs.getString("date"));
-                op.setStartTime(rs.getString("starttime"));
-                op.setEndTime(rs.getString("endtime"));
+                op.setDate(LocalDate.parse(rs.getDate("date").toString()));
+                op.setStartTime(LocalTime.parse(rs.getTime("starttime").toString()));
+                op.setEndTime(LocalTime.parse(rs.getTime("endtime").toString()));
                 //op.setSlot(rs.getLong("slot"));
                 op.setIsPaid(rs.getBoolean("ispaid"));
                 operationsArray.add(op);

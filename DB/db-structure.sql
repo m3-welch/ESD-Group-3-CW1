@@ -30,7 +30,8 @@ CREATE TABLE Operations (
     endtime Time,
     charge Real,
     is_paid Boolean,
-    is_surgery Boolean
+    is_surgery Boolean,
+    description varchar(64)
 );
 
 CREATE TABLE Prescriptions (

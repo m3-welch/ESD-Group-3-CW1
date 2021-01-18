@@ -13,6 +13,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse; 
 import javax.servlet.http.HttpSession;
 import dbcon.DBConnection;
+import java.awt.Label;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+import models.Employee;
 import models.User;
 
 /**
@@ -47,6 +53,35 @@ public class LoginServlet extends HttpServlet {
             }
             actual_password = user_to_login.getPassword();
             user_role = user_to_login.getRole();
+            
+            // get list of employees
+            Employee employee = new Employee();
+            List<Employee> employees = employee.retrieveAllEmployees(dbcon);
+            
+            String doctornurseoptions = "";
+           
+            for (int i = 0; i < employees.size(); i++) {
+                    doctornurseoptions += "<option value='" + employees.get(i).getId() + "'>" + employees.get(i).getFirstname() + " " + employees.get(i).getLastname() + "</option>";
+            }
+        
+            request.setAttribute("doctornurseoptions", doctornurseoptions);
+            
+            LocalDate today = LocalDate.now();
+            request.setAttribute("todaydate", today.toString());
+            
+            LocalDate oneYear = today.plusYears(1);
+            request.setAttribute("maxdate", oneYear.toString());
+            
+            LocalTime now = LocalTime.now();
+            LocalTime tenmins = now.plusMinutes(10);
+            
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm");
+            String timeLabel = new String(now.format(dtf));
+            
+            String timeLabelTenMins = new String(tenmins.format(dtf));
+            
+            request.setAttribute("nowtime", timeLabel);
+            request.setAttribute("tenmins", timeLabelTenMins);
         }
         catch(SQLException e){
             // send error

@@ -50,6 +50,15 @@
         <servlet-name>NewReferralServlet</servlet-name>
         <servlet-class>com.NewReferralServlet</servlet-class>
     </servlet>
+    <servlet>
+        <display-name>NewAppointmentServlet</display-name>
+        <servlet-name>NewAppointmentServlet</servlet-name>
+        <servlet-class>com.NewAppointmentServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>NewAppointmentServlet</servlet-name>
+        <url-pattern>/NewAppointmentServlet</url-pattern>
+    </servlet-mapping>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/LoginServlet</url-pattern>

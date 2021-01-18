@@ -8,6 +8,8 @@ package com;
 import dbcon.DBConnection;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -15,6 +17,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import models.Employee;
 import models.Operation;
 import models.Referrals;
 
@@ -32,31 +35,43 @@ public class NewAppointmentServlet extends HttpServlet {
         request.getRequestDispatcher((String)loginSession.getAttribute("dashboard")).include(request, response);
 
         //decare vars
-        String clientid = request.getParameter("clientid");
-        String employeeId = request.getParameter("doctor-nurse");
+        String client_userid = request.getParameter("clientid");
+        String employee_userid = request.getParameter("doctor-nurse");
         String type = request.getParameter("type");
-        String date = request.getParameter("date");
-        String starttime = request.getParameter("starttime");
-        String endtime = request.getParameter("endtime");
+        LocalDate date = LocalDate.parse(request.getParameter("date"));
+        LocalTime starttime = LocalTime.parse(request.getParameter("starttime"));
+        LocalTime endtime = LocalTime.parse(request.getParameter("endtime"));
+        String reason = request.getParameter("reason");
 
         //create appointment
         Operation operation = new Operation();
         
         DBConnection dbcon;
+        
+        Boolean isSurgery = null;
+        
+        if ("surgery".equals(type)) {
+            isSurgery = true;
+        } else {
+            isSurgery = false;
+        }
+        
+        Employee employee = new Employee();
+        
         try {
             dbcon = new DBConnection("smartcaretest", "", "");
-            operation.create(dbcon, employeeId, clientid, date, starttime, endtime, (float)0.00, 0, false);
+            operation.create(dbcon, Integer.parseInt(employee_userid), Integer.parseInt(client_userid), date, starttime, endtime, (float)0.00, false, isSurgery, reason);
         } catch (SQLException ex) {
             Logger.getLogger(NewAppointmentServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         
-        if (ref.getNameArr().length > count) {
-            request.setAttribute("message", "New Referral added to client");
+        if (operation.getIsSurgery() == isSurgery && operation.getDate() == date) {
+            request.setAttribute("message", "Appointment successfully booked");
             request.getRequestDispatcher((String)loginSession.getAttribute("dashboard")).forward(request,response);
             response.sendRedirect((String)loginSession.getAttribute("dashboard"));
         } else {
-            request.setAttribute("message", "Error! - Referral failed to add");
+            request.setAttribute("message", "Error! - Appointment failed to book. Please try again.");
             request.getRequestDispatcher((String)loginSession.getAttribute("dashboard")).forward(request,response);
             response.sendRedirect((String)loginSession.getAttribute("dashboard"));
         }
@@ -69,7 +84,7 @@ public class NewAppointmentServlet extends HttpServlet {
      */
     @Override
     public String getServletInfo() {
-        return "Adds referral to db through calls to class in models package";
+        return "Adds operation to db through calls to class in models package";
     }
 
 }

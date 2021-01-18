@@ -54,12 +54,14 @@
                       <option value="surgery">Surgery</option>
                       <option value="other">Other</option>
                   </select>
-                  <label for="date"><b>Date</b></label>
-                  <input type="date" name="date" required/>
-                  <label for="starttime"><b>Start Time</b></label>
-                  <input type="time" name="starttime" required/>
-                  <label for="endtime"><b>End Time</b></label>
-                  <input type="time" name="endtime" required/>
+                  <label for="date"><b>Date (Mon - Fri)</b></label>
+                  <input type="date" value="${todaydate}" max="${maxdate}" name="date" required/>
+                  <label for="starttime"><b>Start Time (09:00 - 17:00)</b></label>
+                  <input type="time" min="09:00" max="17:00" value="${nowtime}" name="starttime" required/>
+                  <label for="endtime"><b>End Time (09:00 - 17:00)</b></label>
+                  <input type="time" min="09:00" max="17:00" value="${tenmins}" name="endtime" required/>
+                  <label for="reason"><b>Reason</b></label>
+                  <input type="text" name="reason" required/>
                   <input type="hidden" name="clientid" value="${userid}"/>
                   <input type="submit" value="Create" class="button"/> 
                 </form>

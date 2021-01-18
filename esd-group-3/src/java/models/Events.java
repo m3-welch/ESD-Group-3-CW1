@@ -48,8 +48,9 @@ public class Events {
                 float charge = resultSet.getFloat("charge");
                 Boolean is_paid = resultSet.getBoolean("is_paid");
                 Boolean is_surgery = resultSet.getBoolean("is_surgery");
+                String description = resultSet.getString("description");
                 
-                ops.add(new Operation(opid, employeeid, clientid, date, start, end, charge, is_paid, is_surgery));
+                ops.add(new Operation(opid, employeeid, clientid, date, start, end, charge, is_paid, is_surgery, description));
             }
         } catch (SQLException e) {
             System.out.println(e);
