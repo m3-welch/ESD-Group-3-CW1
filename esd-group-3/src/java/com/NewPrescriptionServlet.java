@@ -37,9 +37,11 @@ public class NewPrescriptionServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
                             throws ServletException, IOException {
         response.setContentType("text/html");
-        
-        request.getRequestDispatcher("newPrescription.jsp").include(request, response);
-        
+
+        HttpSession loginSession = request.getSession();
+
+        request.getRequestDispatcher((String)loginSession.getAttribute("dashboard")).include(request, response);
+
         //decare vars
         int clientid = Integer.parseInt(request.getParameter("clientid"));
         int employeeid = Integer.parseInt(request.getParameter("employeeid"));
@@ -66,9 +68,7 @@ public class NewPrescriptionServlet extends HttpServlet {
         } catch (SQLException ex) {
             Logger.getLogger(NewPrescriptionServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        HttpSession loginSession = request.getSession();
-        
+                
         // Format the start and end date so that it can be compared against a string
         String startDateFormatted = removeBrackets(Arrays.toString(prescription.getDateStart()));
         String endDateFormatted = removeBrackets(Arrays.toString(prescription.getDateEnd()));
