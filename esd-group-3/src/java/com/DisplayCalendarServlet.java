@@ -13,11 +13,9 @@ import javax.servlet.http.HttpServletResponse;
 import dbcon.DBConnection;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.http.HttpSession;
+import models.Events;
 import models.Operation;
-import models.User;
 
 /**
  *
@@ -37,20 +35,23 @@ public class DisplayCalendarServlet extends HttpServlet {
         DBConnection dbcon;
         try {
             dbcon = new DBConnection("smartcaretest", "", "");
-            User user = new User();
-            user.retrieveByUserId(dbcon, userid);
-            user.events.getOperationsFromDB(dbcon, user.getId());
+            Events events = new Events();
+            events.getOperationsFromDB(dbcon, userid);
             
             LocalDate startDate = LocalDate.parse(request.getParameter("start"));
             LocalDate endDate = startDate.plusWeeks(1);
             
-            Operation[] ops = user.events.getEventsBetweenDates(startDate, endDate);
+            Operation[] ops = events.getEventsBetweenDates(startDate, endDate);
             
             request.setAttribute("message", "Data Loaded Successfully");
             request.setAttribute("data", ops);
+            request.getRequestDispatcher((String)loginSession.getAttribute("dashboard")).forward(request,response);
             
         } catch (SQLException ex) {
-            Logger.getLogger(DisplayCalendarServlet.class.getName()).log(Level.SEVERE, null, ex);
+            // send error
+            request.setAttribute("message", "Error - SQL Exception"); // Will be available as ${message}
+            request.getRequestDispatcher((String)loginSession.getAttribute("dashboard")).forward(request,response);
+            response.sendRedirect((String)loginSession.getAttribute("dashboard"));
         }
         
     }
@@ -62,7 +63,7 @@ public class DisplayCalendarServlet extends HttpServlet {
      */
     @Override
     public String getServletInfo() {
-        return "Fetches calendar info and displays it";
+        return "Fetches calendar info";
     }
 
 }

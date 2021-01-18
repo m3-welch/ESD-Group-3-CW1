@@ -4,6 +4,7 @@
     Author     : Sam
 --%>
 
+<%@page import="java.time.LocalDate"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -15,58 +16,58 @@
     <body>
     <div class="top-banner">
     
-      <div class="dropdown">
-        <button class="menu button">Menu</button>
-        <div class="menu-content">
-          <form action="InvoiceViewerServlet" method="GET">
-            <input type="submit" value="Admin Page" class="button logout"> 
-          </form>
-          <a href="#">Page 2</a>
-          <a href="#">Page 3</a>
+        <div class="dropdown">
+            <button class="menu button">Menu</button>
+            <div class="menu-content">
+                <form action="InvoiceViewerServlet" method="GET">
+                    <input type="submit" value="Admin Page" class="button logout"> 
+                </form>
+                <a href="#">Page 2</a>
+                <a href="#">Page 3</a>
+            </div>
+        </div>      
+      
+        <div class="logout">        
+            <form action="LogoutServlet" method="GET">
+                <input type="submit" value="Logout" class="button logout"> 
+            </form>
         </div>
-      </div>      
       
-      <div class="logout">        
-        <form action="LogoutServlet" method="GET">
-            <input type="submit" value="Logout" class="button logout"> 
-        </form>
-      </div>
-      
-      <div class="center">
-        <h2>SmartCare</h2>
-      </div>
+        <div class="center">
+            <h2>SmartCare</h2>
+        </div>
     </div>
     <div class="content">
         <p style="color:#FF3232;font-size:12px;text-align:center" id="note">${message}</p>
         <h1>Doctor Dashboard</h1>
         <div class="left">
-          <div class="card">
-            <div class="container">
-              <h2 style="text-align:center;margin-top: 10px;">Create New Patient</h2>
-              <div class="container">
-                <form action="NewUserServlet" method="POST">
-                  <label for="uname"><b>Username</b></label>
-                  <input type="text" placeholder="Enter Username" name="uname" required>
-                  <label for="psw"><b>Password</b></label>
-                  <input type="password" placeholder="Enter Password" name="psw" required>
-                  <label for="firstname"><b>Firstname</b></label>
-                  <input type="text" placeholder="Enter firstname" name="firstname" required>
-                  <label for="lastname"><b>Lastname</b></label>
-                  <input type="text" placeholder="Enter lastname" name="lastname" required>
-                  <label for="email"><b>Email</b></label>
-                  <input type="text" placeholder="Enter email address" name="email" required>
-                  <label for="address"><b>Address</b></label>
-                  <input type="text" placeholder="Enter address" name="address" required>
-                  <label for="type"><b>Type</b></label>
-                  <select name="type">
-                      <option value="NHS">NHS</option>
-                      <option value="private">Private</option
-                  </select>
-                  <input type="submit" value="Create" class="button"> 
-                </form>
-              </div>
+            <div class="card">
+                <div class="container">
+                    <h2 style="text-align:center;margin-top: 10px;">Create New Patient</h2>
+                    <div class="container">
+                        <form action="NewUserServlet" method="POST">
+                            <label for="uname"><b>Username</b></label>
+                            <input type="text" placeholder="Enter Username" name="uname" required>
+                            <label for="psw"><b>Password</b></label>
+                            <input type="password" placeholder="Enter Password" name="psw" required>
+                            <label for="firstname"><b>Firstname</b></label>
+                            <input type="text" placeholder="Enter firstname" name="firstname" required>
+                            <label for="lastname"><b>Lastname</b></label>
+                            <input type="text" placeholder="Enter lastname" name="lastname" required>
+                            <label for="email"><b>Email</b></label>
+                            <input type="text" placeholder="Enter email address" name="email" required>
+                            <label for="address"><b>Address</b></label>
+                            <input type="text" placeholder="Enter address" name="address" required>
+                            <label for="type"><b>Type</b></label>
+                            <select name="type">
+                                <option value="NHS">NHS</option>
+                                <option value="private">Private</option>
+                            </select>
+                            <input type="submit" value="Create" class="button"> 
+                        </form>
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
         <div class="left">
             <div class="card patients-card">
@@ -94,25 +95,49 @@
                         </div>
                     </div>
                 </div>
-          </div>
-          <div class="card">
-            <div class="container">
-              <h2 style="text-align:center;margin-top: 10px;">Add a referral to a patient</h2>
-              <div class="container">
-                <form action="NewReferralServlet" method="POST">
-                  <label for="clientid"><b>Client ID</b></label>
-                  <input type="number" name="clientid" required>
-                  <br>
-                  <label for="name"><b>Hospital/Ward/Surgery Name</b></label>
-                  <input type="text" placeholder="Enter name of referral location" name="name" required>
-                  <label for="address"><b>Address</b></label>
-                  <input type="text" placeholder="Enter address" name="address" required>
-                  <input type="submit" value="Add referral" class="button">
-                </form>
-              </div>
             </div>
-          </div>
         </div>
-    </div>
-  </body>
+        <div class="left">
+            <div class="card">
+                <div class="container">
+                    <h2 style="text-align:center;margin-top: 10px;">Add a referral to a patient</h2>
+                    <div class="container">
+                        <form action="NewReferralServlet" method="POST">
+                            <label for="clientid"><b>Client ID</b></label>
+                            <input type="number" name="clientid" required>
+                            <br>
+                            <label for="name"><b>Hospital/Ward/Surgery Name</b></label>
+                            <input type="text" placeholder="Enter name of referral location" name="name" required>
+                            <label for="address"><b>Address</b></label>
+                            <input type="text" placeholder="Enter address" name="address" required>
+                            <input type="submit" value="Add referral" class="button">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <h3>Displaying appointment information</h3>
+        <div class="left">
+            <div class="card">
+                <div class="container">
+                    <form action="DisplayCalendarServlet" method="POST">
+                        <label for="start">Start date:</label>
+                        <input type="date" id="start" name="start"
+                           value="<%= LocalDate.now().toString() %>"
+                           min="<%= LocalDate.now().minusYears(1).toString() %>"
+                           max="<%= LocalDate.now().plusYears(1).toString() %>"
+                           >
+                        <input type="submit" value="Update" class="button">
+                    </form>
+                </div>
+                <div class="container">
+                    <table border="1" width="500" align="center">
+                        <tr bgcolour="6c9ee0">
+                            <th><b>Monday</b></th>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </body>
 </html>
