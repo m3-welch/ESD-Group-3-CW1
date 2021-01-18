@@ -37,9 +37,7 @@ public class LoginServlet extends HttpServlet {
         int user_type = 0;
         DBConnection dbcon = null;
         User user_to_login = null;
-        
-        String currentdate = (LocalDate.now()).toString();
-        
+                
         // get password from db
         try {
             dbcon = new DBConnection("smartcaretest", "", "");
@@ -97,21 +95,17 @@ public class LoginServlet extends HttpServlet {
             loginSession.setAttribute("dashboard", "dashboards/" + user_role + "_home.jsp");
             loginSession.setMaxInactiveInterval(20*60);
             
-            
-//           Use user_in to get id from bookings using username
-               
             Bookings booking = new Bookings();
-            
-            int employeeid = booking.getIdFromDatabase(dbcon, user_in);
+                    
+            String currentdate = (LocalDate.now()).toString(); // Setting the current date to be able to be avialable as ${currentdate}
+            int employeeid = booking.getIdFromDatabase(dbcon, user_in); // Get employee id from the databased, based on the currently logged in user
             
             System.out.println("---- " + (String)loginSession.getAttribute("dashboard") + " ----");
             
             // sucessful login response
             request.setAttribute("message", "Successful Login - Welcome " + user_in); // Will be available as ${message}
-            request.setAttribute("currentdate", currentdate); // Setting the current date to be able to be avialable as ${currentdate}
-            
-            request.setAttribute("employeeid", employeeid);
-            
+            request.setAttribute("currentdate", currentdate);
+            request.setAttribute("employeeid", employeeid); // Will be available as ${employeeid}
             request.getRequestDispatcher((String)loginSession.getAttribute("dashboard")).forward(request,response);
             response.sendRedirect((String)loginSession.getAttribute("dashboard"));
         }

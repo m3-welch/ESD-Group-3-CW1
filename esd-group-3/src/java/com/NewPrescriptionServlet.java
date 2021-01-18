@@ -9,6 +9,7 @@ import dbcon.DBConnection;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -24,6 +25,15 @@ import models.Prescriptions;
  * @author conranpearce
  */
 public class NewPrescriptionServlet extends HttpServlet {
+    
+    // Remove brackets from array.toString() return, to be able to compare strings
+    public String removeBrackets(String message) {
+        message = message.replace("[","");
+        message = message.replace("]","");
+        
+        return message;
+    } 
+    
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
                             throws ServletException, IOException {
         response.setContentType("text/html");
@@ -32,7 +42,6 @@ public class NewPrescriptionServlet extends HttpServlet {
         
         //decare vars
         int clientid = Integer.parseInt(request.getParameter("clientid"));
-//        int employeeid = 1;
         int employeeid = Integer.parseInt(request.getParameter("employeeid"));
         String drug_name = request.getParameter("drug_name");
         String dosage = request.getParameter("dosage");
@@ -40,6 +49,7 @@ public class NewPrescriptionServlet extends HttpServlet {
         LocalDate date_start = LocalDate.parse(request.getParameter("date_start"));
         LocalDate date_end = LocalDate.parse(request.getParameter("date_end"));
         
+        // Set boolean for if the repeat value is on or off (checkbox)
         try {
             if (request.getParameter("is_repeat").equals("on")) {
                 is_repeat = "TRUE";
@@ -59,19 +69,12 @@ public class NewPrescriptionServlet extends HttpServlet {
         
         HttpSession loginSession = request.getSession();
         
-        System.out.println("prescription.getDrugName()(): " + prescription.getDrugName());
-        System.out.println("prescription.getDrugName() to string(): " + Arrays.toString(prescription.getDrugName()));
-        System.out.println("drug_name: " + drug_name);
-        System.out.println("prescription.getDrugName().equals): " + Arrays.toString(prescription.getDrugName()).equals(drug_name));
+        // Format the start and end date so that it can be compared against a string
+        String startDateFormatted = removeBrackets(Arrays.toString(prescription.getDateStart()));
+        String endDateFormatted = removeBrackets(Arrays.toString(prescription.getDateEnd()));
         
-        System.out.println("prescription.getDrugName().contains): " + Arrays.toString(prescription.getDrugName()).contains(drug_name));
-        
-        System.out.println("GET CLIENT: " + prescription.getClient());
-
-
-        if ((prescription.getClient() == clientid)) {
-//        if ((prescription.getClient() == clientid) && prescription.getDrugName().equals(drug_name)) {
-//        if (prescription.getDrugName().equals(drug_name) && prescription.getDosage().equals(dosage)) {
+        // If the prescription set has the same dates, drug name and dosage then the prescription has successfully been added to the database
+        if ((startDateFormatted.equals(date_start.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")))) &&  (endDateFormatted.equals(date_end.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")))) && (removeBrackets(Arrays.toString(prescription.getDosage())).equals(dosage)) && (removeBrackets(Arrays.toString(prescription.getDrugName())).equals(drug_name))){
             request.setAttribute("message", "New Prescription successfully created!");
             request.getRequestDispatcher((String)loginSession.getAttribute("dashboard")).forward(request,response);
             response.sendRedirect((String)loginSession.getAttribute("dashboard"));
