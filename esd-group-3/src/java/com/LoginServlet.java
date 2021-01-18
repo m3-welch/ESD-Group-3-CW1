@@ -91,6 +91,7 @@ public class LoginServlet extends HttpServlet {
             loginSession.setAttribute("name",user_in);
             loginSession.setAttribute("role",user_type);
             loginSession.setAttribute("userID",user_id);
+            loginSession.setAttribute("dashboard", "dashboards/" + user_role + "_home.jsp");
             loginSession.setMaxInactiveInterval(20*60);
             
             System.out.println("---- " + (String)loginSession.getAttribute("dashboard") + " ----");

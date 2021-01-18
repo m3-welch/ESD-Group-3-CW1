@@ -53,6 +53,7 @@ public class InvoiceViewerServlet extends HttpServlet {
                 turnover = turnover + i.getCharge();
             }
             
+            request.setAttribute("message", "Data Loaded Successfully");
             request.setAttribute("data", operationsArray); // Will be available as ${data}
             request.setAttribute("turnover", turnover);
             request.getRequestDispatcher("invoiceViewer.jsp").forward(request,response);
