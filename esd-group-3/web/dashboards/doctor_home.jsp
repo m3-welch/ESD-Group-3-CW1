@@ -28,7 +28,7 @@
       
       <div class="logout">        
         <form action="LogoutServlet" method="GET">
-            <input type="submit" value="logout" class="button logout"> 
+            <input type="submit" value="Logout" class="button logout"> 
         </form>
       </div>
       
@@ -52,7 +52,7 @@
                   <label for="firstname"><b>Firstname</b></label>
                   <input type="text" placeholder="Enter firstname" name="firstname" required>
                   <label for="lastname"><b>Lastname</b></label>
-                  <input type="text" placeholder="Enter lastname" name="lastaname" required>
+                  <input type="text" placeholder="Enter lastname" name="lastname" required>
                   <label for="email"><b>Email</b></label>
                   <input type="text" placeholder="Enter email address" name="email" required>
                   <label for="address"><b>Address</b></label>
@@ -69,6 +69,32 @@
           </div>
         </div>
         <div class="left">
+            <div class="card patients-card">
+                <div class="container">
+                    <h2 style="text-align:center;margin-top: 10px;">View Patients</h2>
+                    <div class="container">
+                        <form class="patientlist-filteroptions" action="ViewPatientsServlet" method="POST">
+                            <input ${checkednhs} type="radio" value="NHS" id="nhs" name="filter" class="patientlist-filter"/>
+                            <label for="nhs">NHS</label>
+                            <input ${checkedprivate} type="radio" value="private" id="private" name="filter" class="patientlist-filter"/>
+                            <label for="private">Private</label>
+                            <input ${checkedcombined} type="radio" value="all" id="combined" name="filter" class="patientlist-filter"/>
+                            <label for="combined">Combined</label>                                
+                            <input type="submit" value="Update" class="update-button"/>
+                        </form>
+                        <table class='patients-table-header'>
+                            <tr>
+                                <th>Patient ID</th>
+                                <th>Patient Name</th>
+                                <th>Patient Type</th>
+                            </tr>
+                        </table>
+                        <div class="list">
+                            ${patientlist}
+                        </div>
+                    </div>
+                </div>
+          </div>
           <div class="card">
             <div class="container">
               <h2 style="text-align:center;margin-top: 10px;">Add a referral to a patient</h2>

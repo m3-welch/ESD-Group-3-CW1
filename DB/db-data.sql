@@ -35,3 +35,6 @@ INSERT INTO Prices (appointmenttype, employeetype, priceperslot) VALUES ('consul
 
 /* Insert referral */
 INSERT INTO Referrals (clientid, name, address) VALUES ((SELECT id FROM Clients WHERE id = 1), 'RUH Cardiac Ward', 'B45, RUH Bath, Combe Park, Bath, BA1 3NG');
+
+/* Insert dummy data into ApiCredentials */
+INSERT INTO ApiCredentials (googlemapsapisecret) VALUES ('ReplaceMeWithAValidGoogleMapsAPISecret');

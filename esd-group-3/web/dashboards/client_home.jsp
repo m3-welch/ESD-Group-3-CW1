@@ -37,7 +37,7 @@
       
       <div class="logout">        
         <form action="LogoutServlet" method="GET">
-            <input type="submit" value="logout" class="button logout"> 
+            <input type="submit" value="Logout" class="button logout"> 
         </form>
       </div>
       

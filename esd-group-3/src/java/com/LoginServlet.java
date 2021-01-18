@@ -37,6 +37,7 @@ public class LoginServlet extends HttpServlet {
         String password_in = request.getParameter("psw");  
         String actual_password = "";
         String user_role = "";
+        int user_id = 0;
         int user_type = 0;
         DBConnection dbcon = null;
         HttpSession loginSession = request.getSession();
@@ -83,6 +84,7 @@ public class LoginServlet extends HttpServlet {
             
             loginSession.setAttribute("nowtime", timeLabel);
             loginSession.setAttribute("tenmins", timeLabelTenMins);
+            user_id = user_to_login.getId();
         }
         catch(SQLException e){
             // send error
@@ -123,6 +125,7 @@ public class LoginServlet extends HttpServlet {
             // httpSession creation, store: name - role - timeout(20*60=20 mins)
             loginSession.setAttribute("name",user_in);
             loginSession.setAttribute("role",user_type);
+            loginSession.setAttribute("userID",user_id);
             loginSession.setAttribute("dashboard", "dashboards/" + user_role + "_home.jsp");
             loginSession.setMaxInactiveInterval(20*60);
             

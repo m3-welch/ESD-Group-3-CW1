@@ -56,5 +56,8 @@ CREATE TABLE Referrals (
     id int NOT NULL PRIMARY KEY GENERATED ALWAYS AS identity (start with 1, increment by 1),
     clientid int REFERENCES Clients(id),
     name varchar(64),
-    address varchar(64)
+);
+
+CREATE TABLE ApiCredentials (
+    googlemapsapisecret varchar(128)
 );
