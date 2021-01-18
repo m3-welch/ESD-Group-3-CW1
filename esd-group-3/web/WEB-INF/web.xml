@@ -42,8 +42,8 @@
         <servlet-class>com.IssueInvoiceServlet</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>InvoiceDownload</servlet-name>
-        <servlet-class>com.InvoiceDownload</servlet-class>
+        <servlet-name>InvoiceDownloadServlet</servlet-name>
+        <servlet-class>com.InvoiceDownloadServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>PriceChanger</servlet-name>
@@ -100,9 +100,26 @@
         <url-pattern>/IssueInvoiceServlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>InvoiceDownload</servlet-name>
-        <url-pattern>/InvoiceDownload</url-pattern>
+        <servlet-name>InvoiceDownloadServlet</servlet-name>
+        <url-pattern>/InvoiceDownloadServlet</url-pattern>
     </servlet-mapping>
+    <filter>
+        <filter-name>GlobalAuthenticationFilter</filter-name>
+        <filter-class>filters.GlobalAuthenticationFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>GlobalAuthenticationFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+    <filter>
+        <filter-name>RF</filter-name>
+        <filter-class>filters.LoggingFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>RF</filter-name>
+        <url-pattern>/*</url-pattern>
+        <dispatcher>REQUEST</dispatcher>
+    </filter-mapping>
     <servlet-mapping>
         <servlet-name>PricesViewer</servlet-name>
         <url-pattern>/PricesViewer</url-pattern>

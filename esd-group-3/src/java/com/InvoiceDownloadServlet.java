@@ -2,19 +2,24 @@ package com;
  
 import dbcon.DBConnection;
 import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
  
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import models.Client;
  
-public class InvoiceDownload extends HttpServlet {
+public class InvoiceDownloadServlet extends HttpServlet {
  
     protected void doGet(HttpServletRequest request,
             HttpServletResponse response) throws ServletException, IOException {
@@ -46,7 +51,7 @@ public class InvoiceDownload extends HttpServlet {
             }
 
         } catch (SQLException ex) {
-            Logger.getLogger(InvoiceDownload.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(InvoiceDownloadServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }
