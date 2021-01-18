@@ -12,7 +12,7 @@ import java.sql.Statement;
 
 /**
  *
- * @author Sam
+ * @author Samlong
  */
 public class Price {
     
@@ -30,7 +30,7 @@ public class Price {
         }
     }
     
-    public long getPrice(DBConnection dbcon, String appointmentType, 
+    public double getPrice(DBConnection dbcon, String appointmentType, 
             String employeeType, long slots) {
         String query = "SELECT priceperslot FROM Prices WHERE appointmenttype = '" + 
                 appointmentType + "' AND employeetype = '" + employeeType + "'";
@@ -38,8 +38,8 @@ public class Price {
         try (Statement stmt = dbcon.conn.createStatement()) {
             ResultSet rs = stmt.executeQuery(query);
             rs.next();
-            long price = rs.getLong(1);
-            System.out.println("Price got = " + Long.toString(price));
+            double price = rs.getLong(1);
+            System.out.println("Price got = " + Double.toString(price));
             price = price * slots;
             return price;
         } catch (SQLException e) {

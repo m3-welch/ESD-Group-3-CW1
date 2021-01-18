@@ -106,7 +106,6 @@ public class Employee extends User {
     }
     
     public Employee retrieveEmployeeByUserId(DBConnection dbcon, int id) {
-        System.out.println("---- " + id + " ----");
         String query = "SELECT * FROM Employees WHERE userid = " + id;
         
         Employee employee = new Employee();
@@ -119,7 +118,6 @@ public class Employee extends User {
                 employee.setEmployeeId(employeeid);
                 employee.setId(id);
                 employee.setFullTime(is_fulltime);
-                
             }
             
         } catch (SQLException e) {

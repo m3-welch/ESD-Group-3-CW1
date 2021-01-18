@@ -39,6 +39,7 @@ public class LoginServlet extends HttpServlet {
         String user_role = "";
         int user_type = 0;
         DBConnection dbcon = null;
+        HttpSession loginSession = request.getSession();
         User user_to_login = null;
         // get password from db
         try {
@@ -64,13 +65,13 @@ public class LoginServlet extends HttpServlet {
                     doctornurseoptions += "<option value='" + employees.get(i).getId() + "'>" + employees.get(i).getFirstname() + " " + employees.get(i).getLastname() + "</option>";
             }
         
-            request.setAttribute("doctornurseoptions", doctornurseoptions);
+            loginSession.setAttribute("doctornurseoptions", doctornurseoptions);
             
             LocalDate today = LocalDate.now();
-            request.setAttribute("todaydate", today.toString());
+            loginSession.setAttribute("todaydate", today.toString());
             
             LocalDate oneYear = today.plusYears(1);
-            request.setAttribute("maxdate", oneYear.toString());
+            loginSession.setAttribute("maxdate", oneYear.toString());
             
             LocalTime now = LocalTime.now();
             LocalTime tenmins = now.plusMinutes(10);
@@ -80,8 +81,8 @@ public class LoginServlet extends HttpServlet {
             
             String timeLabelTenMins = new String(tenmins.format(dtf));
             
-            request.setAttribute("nowtime", timeLabel);
-            request.setAttribute("tenmins", timeLabelTenMins);
+            loginSession.setAttribute("nowtime", timeLabel);
+            loginSession.setAttribute("tenmins", timeLabelTenMins);
         }
         catch(SQLException e){
             // send error
@@ -120,14 +121,13 @@ public class LoginServlet extends HttpServlet {
         // results of login attempt
         if (user_type != 0) {
             // httpSession creation, store: name - role - timeout(20*60=20 mins)
-            HttpSession loginSession = request.getSession();
             loginSession.setAttribute("name",user_in);
             loginSession.setAttribute("role",user_type);
             loginSession.setAttribute("dashboard", "dashboards/" + user_role + "_home.jsp");
             loginSession.setMaxInactiveInterval(20*60);
             
             // sucessful login response
-            request.setAttribute("userid", user_to_login.getId());
+            loginSession.setAttribute("userid", user_to_login.getId());
             request.setAttribute("message", "Successful Login - Welcome " + user_in); // Will be available as ${message}
             request.getRequestDispatcher((String)loginSession.getAttribute("dashboard")).forward(request,response);
             response.sendRedirect((String)loginSession.getAttribute("dashboard"));

@@ -11,6 +11,15 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" href="styles/home.css">
         <title>SmartCare - Client Home</title>
+        <%
+            HttpSession loginSession = request.getSession();
+            String doctornurseoptions = loginSession.getAttribute("doctornurseoptions").toString();
+            String todaydate = loginSession.getAttribute("todaydate").toString();
+            String maxdate = loginSession.getAttribute("maxdate").toString();
+            String nowtime = loginSession.getAttribute("nowtime").toString();
+            String tenmins = loginSession.getAttribute("tenmins").toString();
+            String userid = loginSession.getAttribute("userid").toString();
+        %>
     </head>
     <body>
     <div class="top-banner">

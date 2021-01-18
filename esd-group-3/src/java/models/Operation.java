@@ -332,38 +332,38 @@ public class Operation {
     }
     
     public float calculateOperationCost(DBConnection dbcon, Operation op) {
-        long timeDiff = Duration.between(op.getEndTime(), op.getStartTime()).toMinutes();
+        long timeDiff = Duration.between(op.getStartTime(), op.getEndTime()).toMinutes();
         long slots = timeDiff/10;
         
         Price p = new Price();
         String role = op.getRoleFromId(dbcon);
         String apptType;
-        Long cost = null;
+        Double cost = 0.00;
         //time in doctor surgeries
-            if(role == "doctor" && op.getIsSurgery()){
+            if(role.equals("doctor") && op.getIsSurgery()){
                 //is doctor surgery
                 apptType = "surgery";
                 cost = p.getPrice(dbcon, apptType, role, slots);
             }
             //time in nurse surgeries
-            else if(role == "nurse" && op.getIsSurgery()){
+            else if(role.equals("nurse") && op.getIsSurgery()){
                 //is nurse surgery
                 apptType = "surgery";
                 cost = p.getPrice(dbcon, apptType, role, slots);
             }
 
-            else if(role == "doctor" && !op.getIsSurgery()){
+            else if(role.equals("doctor") && !op.getIsSurgery()){
                 //is doctor consultation
                 apptType = "consultaion";
                 cost = p.getPrice(dbcon, apptType, role, slots);
             }
             //time in nurse surgeries
-            else if(role == "nurse" && !op.getIsSurgery()){
+            else if(role.equals("nurse") && !op.getIsSurgery()){
                 //is nurse consultation
                 apptType = "consultaion";
                 cost = p.getPrice(dbcon, apptType, role, slots);
             }
-        this.setCharge((float)cost);
-        return (float)cost;
+        this.setCharge(cost.floatValue());
+        return cost.floatValue();
     }
 }
