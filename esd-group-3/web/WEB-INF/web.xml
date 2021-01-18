@@ -23,9 +23,19 @@
         <servlet-class>com.InvoiceViewerServlet</servlet-class>
     </servlet>
     <servlet>
+        <display-name>NewUserServlet</display-name>
+        <servlet-name>NewUserServlet</servlet-name>
+        <servlet-class>com.NewUserServlet</servlet-class>
+    </servlet>
+    <servlet>
         <display-name>SignupServlet</display-name>
         <servlet-name>SignupServlet</servlet-name>
         <servlet-class>com.SignupServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <display-name>NewEmployeeServlet</display-name>
+        <servlet-name>NewEmployeeServlet</servlet-name>
+        <servlet-class>com.NewEmployeeServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>IssueInvoiceServlet</servlet-name>
@@ -34,6 +44,11 @@
     <servlet>
         <servlet-name>InvoiceDownloadServlet</servlet-name>
         <servlet-class>com.InvoiceDownloadServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <display-name>NewReferralServlet</display-name>
+        <servlet-name>NewReferralServlet</servlet-name>
+        <servlet-class>com.NewReferralServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
@@ -48,8 +63,16 @@
         <url-pattern>/InvoiceViewerServlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
+        <servlet-name>NewUserServlet</servlet-name>
+        <url-pattern>/NewUserServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
         <servlet-name>SignupServlet</servlet-name>
         <url-pattern>/SignupServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>NewEmployeeServlet</servlet-name>
+        <url-pattern>/NewEmployeeServlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>IssueInvoiceServlet</servlet-name>
@@ -76,6 +99,10 @@
         <url-pattern>/*</url-pattern>
         <dispatcher>REQUEST</dispatcher>
     </filter-mapping>
+    <servlet-mapping>
+        <servlet-name>NewReferralServlet</servlet-name>
+        <url-pattern>/NewReferralServlet</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
             30
