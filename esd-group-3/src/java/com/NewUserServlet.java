@@ -5,6 +5,7 @@
  */
 package com;
 
+import api.GoogleMaps;
 import dbcon.DBConnection;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -16,7 +17,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import models.Client;
-import models.Price;
 
 /**
  *
@@ -38,6 +38,14 @@ public class NewUserServlet extends HttpServlet {
         String address = request.getParameter("address");
         String type = request.getParameter("type");
         
+        GoogleMaps maps = new GoogleMaps();
+        
+        String formatted_address = maps.lookupAddress(address);
+        
+        if (formatted_address != null) {
+            address = formatted_address;
+        }   
+        
         Client client = new Client();
         
         
@@ -50,7 +58,7 @@ public class NewUserServlet extends HttpServlet {
         
         HttpSession loginSession = request.getSession();
 
-        if (client.getUsername().equals(username) && client.getType().equals(type)) {
+        if (client.getUsername().equals(username) && client.getIsNHS().equals(type)) {
             request.setAttribute("message", "New Patient successfully created!");
             request.getRequestDispatcher((String)loginSession.getAttribute("dashboard")).forward(request,response);
             response.sendRedirect((String)loginSession.getAttribute("dashboard"));

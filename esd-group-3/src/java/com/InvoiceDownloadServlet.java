@@ -19,7 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import models.Client;
  
-public class InvoiceDownload extends HttpServlet {
+public class InvoiceDownloadServlet extends HttpServlet {
  
     protected void doGet(HttpServletRequest request,
             HttpServletResponse response) throws ServletException, IOException {
@@ -51,7 +51,7 @@ public class InvoiceDownload extends HttpServlet {
             }
 
         } catch (SQLException ex) {
-            Logger.getLogger(InvoiceDownload.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(InvoiceDownloadServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }

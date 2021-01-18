@@ -47,9 +47,35 @@
         <servlet-class>com.IssueInvoiceServlet</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>InvoiceDownload</servlet-name>
-        <servlet-class>com.InvoiceDownload</servlet-class>
+        <servlet-name>InvoiceDownloadServlet</servlet-name>
+        <servlet-class>com.InvoiceDownloadServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>PriceChanger</servlet-name>
+        <servlet-class>com.PriceChanger</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>PricesViewer</servlet-name>
+        <servlet-class>com.PricesViewer</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>PricesChanger</servlet-name>
+        <servlet-class>com.PricesChanger</servlet-class>
+    </servlet>
+    <servlet>
+        <display-name>ViewPatientsServlet</display-name>
+        <servlet-name>ViewPatientsServlet</servlet-name>
+        <servlet-class>com.ViewPatientsServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <display-name>NewReferralServlet</display-name>
+        <servlet-name>NewReferralServlet</servlet-name>
+        <servlet-class>com.NewReferralServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ViewPatientsServlet</servlet-name>
+        <url-pattern>/ViewPatientsServlet</url-pattern>
+    </servlet-mapping>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/LoginServlet</url-pattern>
@@ -83,8 +109,37 @@
         <url-pattern>/IssueInvoiceServlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>InvoiceDownload</servlet-name>
-        <url-pattern>/InvoiceDownload</url-pattern>
+        <servlet-name>InvoiceDownloadServlet</servlet-name>
+        <url-pattern>/InvoiceDownloadServlet</url-pattern>
+    </servlet-mapping>
+    <filter>
+        <filter-name>GlobalAuthenticationFilter</filter-name>
+        <filter-class>filters.GlobalAuthenticationFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>GlobalAuthenticationFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+    <filter>
+        <filter-name>RF</filter-name>
+        <filter-class>filters.LoggingFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>RF</filter-name>
+        <url-pattern>/*</url-pattern>
+        <dispatcher>REQUEST</dispatcher>
+    </filter-mapping>
+    <servlet-mapping>
+        <servlet-name>PricesViewer</servlet-name>
+        <url-pattern>/PricesViewer</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>PricesChanger</servlet-name>
+        <url-pattern>/PricesChanger</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>NewReferralServlet</servlet-name>
+        <url-pattern>/NewReferralServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

@@ -14,12 +14,12 @@ INSERT INTO Employees (userid, isfulltime) VALUES ((SELECT id FROM Users WHERE u
 INSERT INTO Employees (userid, isfulltime) VALUES ((SELECT id FROM Users WHERE username = 'eaydin'), FALSE);
 
 /* Insert Operations */
-INSERT INTO Operations (employeeid, clientid, date, starttime, endtime, charge, slot, is_paid) VALUES ((SELECT id FROM Employees WHERE id = 1), (SELECT id FROM Clients WHERE id = 1), '2021-01-01', '12:00:00', '13:00:00', 200.00, 1, TRUE); 
-INSERT INTO Operations (employeeid, clientid, date, starttime, endtime, charge, slot, is_paid) VALUES ((SELECT id FROM Employees WHERE id = 1), (SELECT id FROM Clients WHERE id = 1), '2021-01-02', '12:00:00', '13:00:00', 200.00, 1, FALSE);
-INSERT INTO Operations (employeeid, clientid, date, starttime, endtime, charge, slot, is_paid) VALUES ((SELECT id FROM Employees WHERE id = 2), (SELECT id FROM Clients WHERE id = 2), '2021-01-02', '12:00:00', '13:00:00', 200.00, 1, FALSE);
-INSERT INTO Operations (employeeid, clientid, date, starttime, endtime, charge, slot, is_paid) VALUES ((SELECT id FROM Employees WHERE id = 1), (SELECT id FROM Clients WHERE id = 1), '2020-12-16', '12:00:00', '13:00:00', 200.00, 1, TRUE); 
-INSERT INTO Operations (employeeid, clientid, date, starttime, endtime, charge, slot, is_paid) VALUES ((SELECT id FROM Employees WHERE id = 1), (SELECT id FROM Clients WHERE id = 1), '2020-12-14', '12:00:00', '13:00:00', 200.00, 1, FALSE);
-INSERT INTO Operations (employeeid, clientid, date, starttime, endtime, charge, slot, is_paid) VALUES ((SELECT id FROM Employees WHERE id = 2), (SELECT id FROM Clients WHERE id = 2), '2021-12-02', '12:00:00', '13:00:00', 200.00, 1, FALSE);
+INSERT INTO Operations (employeeid, clientid, date, starttime, endtime, charge, is_paid, is_surgery) VALUES ((SELECT id FROM Employees WHERE id = 1), (SELECT id FROM Clients WHERE id = 1), '2021-01-01', '12:00:00', '13:00:00', 59.96, TRUE, TRUE);
+INSERT INTO Operations (employeeid, clientid, date, starttime, endtime, charge, is_paid, is_surgery) VALUES ((SELECT id FROM Employees WHERE id = 1), (SELECT id FROM Clients WHERE id = 1), '2021-01-02', '12:00:00', '13:00:00', 59.96, FALSE, TRUE);
+INSERT INTO Operations (employeeid, clientid, date, starttime, endtime, charge, is_paid, is_surgery) VALUES ((SELECT id FROM Employees WHERE id = 2), (SELECT id FROM Clients WHERE id = 2), '2021-01-02', '12:00:00', '12:20:00', 9.98, FALSE, FALSE);
+INSERT INTO Operations (employeeid, clientid, date, starttime, endtime, charge, is_paid, is_surgery) VALUES ((SELECT id FROM Employees WHERE id = 1), (SELECT id FROM Clients WHERE id = 1), '2020-12-16', '12:00:00', '12:30:00', 17.97, TRUE, FALSE);
+INSERT INTO Operations (employeeid, clientid, date, starttime, endtime, charge, is_paid, is_surgery) VALUES ((SELECT id FROM Employees WHERE id = 1), (SELECT id FROM Clients WHERE id = 1), '2020-12-14', '12:00:00', '13:00:00', 35.94, FALSE, FALSE);
+INSERT INTO Operations (employeeid, clientid, date, starttime, endtime, charge, is_paid, is_surgery) VALUES ((SELECT id FROM Employees WHERE id = 2), (SELECT id FROM Clients WHERE id = 2), '2021-12-02', '12:00:00', '13:00:00', 53.94, FALSE, TRUE);
 
 /* Create Prescriptions */
 INSERT INTO Prescriptions (clientid, employeeid, drug_name, dosage, is_repeat, date_start, date_end) VALUES ((SELECT id FROM Clients WHERE id = 1), (SELECT id FROM Employees WHERE id = 1), 'Codeine', '50mg daily', TRUE, '2020-12-15', '2021-01-15');
@@ -36,5 +36,5 @@ INSERT INTO Prices (appointmenttype, employeetype, priceperslot) VALUES ('consul
 /* Insert referral */
 INSERT INTO Referrals (clientid, name, address) VALUES ((SELECT id FROM Clients WHERE id = 1), 'RUH Cardiac Ward', 'B45, RUH Bath, Combe Park, Bath, BA1 3NG');
 
-/* Insert BookingSlots */
-INSERT INTO BookingSlots (employeeid, clientid, issurgery, date, starttime, endtime, slot, hasbeenpaid) VALUES (1, 2, TRUE,'2020-01-01','12:00:00','12:10:00', 1, FALSE);
+/* Insert dummy data into ApiCredentials */
+INSERT INTO ApiCredentials (googlemapsapisecret) VALUES ('ReplaceMeWithAValidGoogleMapsAPISecret');
