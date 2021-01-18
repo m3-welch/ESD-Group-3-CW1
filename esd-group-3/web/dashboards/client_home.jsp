@@ -39,6 +39,23 @@
     <div class="content">
         <p style="color:#FF3232;font-size:12px;text-align:center" id="note">${message}</p>
         <h1>Client Dashboard</h1>
+        <div class="left">
+          <div class="card">
+            <div class="container">
+              <h2 style="text-align:center;margin-top: 10px;">Cancel Appointment</h2>
+              <div class="container">
+                <form action="CancelAppointmentServlet" method="POST">
+                  <label for="type"><b>Appointment</b></label>
+                  <select name="bookingid">
+                      <option value="1">NHS</option>
+                      <option value="2">Private</option
+                  </select>
+                  <input type="submit" value="Create" class="button"> 
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
     </div>
   </body>
 </html>
