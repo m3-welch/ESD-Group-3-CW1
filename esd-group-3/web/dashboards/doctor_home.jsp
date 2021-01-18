@@ -4,7 +4,6 @@
     Author     : Sam
 --%>
 
-<%@page import="models.Operation"%>
 <%@page import="java.time.LocalDate"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -123,11 +122,18 @@
                     <h2 style="text-align:center;margin-top: 10px;">View appointment details</h2>
                     <div class="container">
                         <form action="DisplayEventsServlet" method="POST">
+                            <label for="start">Start date:</label>
                             <input type="date" id="start" name="start"
-                            accept=""value="<%= LocalDate.now().toString() %>"
-                            min="<%= LocalDate.now().minusYears(1).toString() %>"
-                            max="<%= LocalDate.now().plusYears(1).toString() %>"
-                            >
+                                    value="<%= LocalDate.now().toString() %>"
+                                    min="<%= LocalDate.now().minusYears(1).toString() %>"
+                                    max="<%= LocalDate.now().plusYears(1).toString() %>"
+                                    >
+                            <label for="start">End date:</label>
+                            <input type="date" id="end" name="end"
+                                    value="<%= LocalDate.now().toString() %>"
+                                    min="<%= LocalDate.now().minusYears(1).toString() %>"
+                                    max="<%= LocalDate.now().plusYears(1).toString() %>"
+                                    >
                             <input type="submit" value="Update" class="button">
                         </form>
                         <table class='patients-table-header'>

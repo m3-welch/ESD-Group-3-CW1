@@ -40,7 +40,7 @@ public class DisplayEventsServlet extends HttpServlet {
             events.orderEvents();
             
             LocalDate startDate = LocalDate.parse(request.getParameter("start"));
-            LocalDate endDate = startDate.plusWeeks(1);
+            LocalDate endDate = LocalDate.parse(request.getParameter("end"));
             
             Operation[] ops = events.getEventsBetweenDates(startDate, endDate);
             
