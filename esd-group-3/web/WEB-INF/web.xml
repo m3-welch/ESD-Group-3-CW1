@@ -28,6 +28,11 @@
         <servlet-class>com.NewUserServlet</servlet-class>
     </servlet>
     <servlet>
+        <display-name>CancelAppointmentServlet</display-name>
+        <servlet-name>CancelAppointmentServlet</servlet-name>
+        <servlet-class>com.CancelAppointmentServlet</servlet-class>
+    </servlet>
+    <servlet>
         <display-name>SignupServlet</display-name>
         <servlet-name>SignupServlet</servlet-name>
         <servlet-class>com.SignupServlet</servlet-class>
@@ -86,6 +91,10 @@
     <servlet-mapping>
         <servlet-name>NewUserServlet</servlet-name>
         <url-pattern>/NewUserServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CancelAppointmentServlet</servlet-name>
+        <url-pattern>/CancelAppointmentServlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>SignupServlet</servlet-name>

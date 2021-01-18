@@ -110,10 +110,20 @@ public class Events {
     public Operation[] getEventsBetweenDates(LocalDate start, LocalDate end) {
         ArrayList<Operation> opList = new ArrayList<>();
         
+        System.out.println("START ! " + start);
+        System.out.println("END ! " + end);
+        
         for (Operation op : this.ops) {
+            
+            System.out.println("OP IN OP PRINT!! " + op);
+
+            System.out.println("op.getDateLocalDate() " + op.getDateLocalDate());
+            
             // For each operation, check if in range.
             if (op.getDateLocalDate().isAfter(start) && 
                     op.getDateLocalDate().isBefore(end)) {
+                System.out.println("OP IN LOOP PRINT!! " + op);
+
                 opList.add(op);
             }
         }
