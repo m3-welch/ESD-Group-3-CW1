@@ -66,7 +66,7 @@
                            value=<%= currentDate %>
                            min="2000-01-01" max="2050-12-31">
 
-                    <input type="submit" value="Update" class="button" style="color:#FFFFFF"> 
+                    <input type="submit" value="Update" class="button" style="color:#000000"> 
                 </form>
             </div>
 
