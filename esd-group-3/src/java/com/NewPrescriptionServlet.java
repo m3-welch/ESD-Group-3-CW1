@@ -53,10 +53,8 @@ public class NewPrescriptionServlet extends HttpServlet {
         
         Employee employee = new Employee();
         //decare vars
-
         int employee_id = employee.retrieveEmployeeIdByUserId(dbcon,user_id);        
         int clientid = Integer.parseInt(request.getParameter("clientid"));
-//        int employee_id = Integer.parseInt((loginSession.getAttribute("employeeid").toString()));
         String drug_name = request.getParameter("drug_name");
         String dosage = request.getParameter("dosage");
         String is_repeat = "FALSE";
