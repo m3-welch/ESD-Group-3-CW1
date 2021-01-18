@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import models.Bookings;
 import models.Prescriptions;
 
 /**
@@ -39,18 +40,17 @@ public class NewPrescriptionServlet extends HttpServlet {
         response.setContentType("text/html");
 
         HttpSession loginSession = request.getSession();
-
         request.getRequestDispatcher((String)loginSession.getAttribute("dashboard")).include(request, response);
-
+        
         //decare vars
         int clientid = Integer.parseInt(request.getParameter("clientid"));
-        int employeeid = Integer.parseInt(request.getParameter("employeeid"));
+        int employee_id = Integer.parseInt((loginSession.getAttribute("employeeid").toString()));
         String drug_name = request.getParameter("drug_name");
         String dosage = request.getParameter("dosage");
         String is_repeat = "FALSE";
         LocalDate date_start = LocalDate.parse(request.getParameter("date_start"));
         LocalDate date_end = LocalDate.parse(request.getParameter("date_end"));
-        
+                
         // Set boolean for if the repeat value is on or off (checkbox)
         try {
             if (request.getParameter("is_repeat").equals("on")) {
@@ -64,7 +64,7 @@ public class NewPrescriptionServlet extends HttpServlet {
         
         try {
             DBConnection dbcon = new DBConnection("smartcaretest", "", "");
-            prescription.create(dbcon, clientid, employeeid, drug_name, dosage, Boolean.valueOf(is_repeat), date_start, date_end);
+            prescription.create(dbcon, clientid, employee_id, drug_name, dosage, Boolean.valueOf(is_repeat), date_start, date_end);
         } catch (SQLException ex) {
             Logger.getLogger(NewPrescriptionServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -74,7 +74,9 @@ public class NewPrescriptionServlet extends HttpServlet {
         String endDateFormatted = removeBrackets(Arrays.toString(prescription.getDateEnd()));
         
         // If the prescription set has the same dates, drug name and dosage then the prescription has successfully been added to the database
-        if ((startDateFormatted.equals(date_start.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")))) &&  (endDateFormatted.equals(date_end.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")))) && (removeBrackets(Arrays.toString(prescription.getDosage())).equals(dosage)) && (removeBrackets(Arrays.toString(prescription.getDrugName())).equals(drug_name))){
+        if ((startDateFormatted.equals(date_start.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")))) &&  (endDateFormatted.equals(date_end.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")))) && (removeBrackets(Arrays.toString(prescription.getDosage())).equals(dosage)) && (removeBrackets(Arrays.toString(prescription.getDrugName())).equals(drug_name))){            
+            String currentdate = (LocalDate.now()).toString(); // Setting the current date to be able to be avialable as ${currentdate}
+            request.setAttribute("currentdate", currentdate);
             request.setAttribute("message", "New Prescription successfully created!");
             request.getRequestDispatcher((String)loginSession.getAttribute("dashboard")).forward(request,response);
             response.sendRedirect((String)loginSession.getAttribute("dashboard"));

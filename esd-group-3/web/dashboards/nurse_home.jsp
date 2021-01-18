@@ -68,6 +68,7 @@
             </div>
           </div>
         </div>
+        
         <div class="left">
           <div class="card">
             <div class="container">
@@ -80,13 +81,12 @@
                   <input type="text" placeholder="Enter Drug Name" name="drug_name" requried>
                   <label for="dosage"><b>Dosage</b></label>
                   <input type="text" placeholder="Enter a Dosage" name="dosage" required>
-                  <label for="is_repeat"><b>Is the Dosage Repeated?</b></label>
+                  <label for="is_repeat"><b>Is the prescription repeatable?</b></label>
                   <input type="checkbox" name="is_repeat">
                   <label for="date_start"><b>Start Date</b></label>
                   <input type="date" value=${currentdate} name="date_start" required> 
                   <label for="date_end"><b>End Date</b></label>
                   <input type="date" value=${currentdate} name="date_end" required>   
-                  <input type="hidden" value=${employeeid} name="employeeid">   
                   <input type="submit" value="Create" class="button"> 
                 </form>
               </div>

@@ -105,7 +105,7 @@ public class LoginServlet extends HttpServlet {
             // sucessful login response
             request.setAttribute("message", "Successful Login - Welcome " + user_in); // Will be available as ${message}
             request.setAttribute("currentdate", currentdate);
-            request.setAttribute("employeeid", employeeid); // Will be available as ${employeeid}
+            loginSession.setAttribute("employeeid", employeeid); // Will be available as ${employeeid}
             request.getRequestDispatcher((String)loginSession.getAttribute("dashboard")).forward(request,response);
             response.sendRedirect((String)loginSession.getAttribute("dashboard"));
         }
