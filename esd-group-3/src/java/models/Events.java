@@ -133,7 +133,7 @@ public class Events {
         ArrayList<Operation> orderList = new ArrayList<Operation>(Arrays.asList(ops));
         
         Collections.sort(orderList, (op1, op2) -> {
-            if (op1.getDateLocalDate().isBefore(op2.getDateLocalDate())) return -1; 
+            if (op1.getDate().isBefore(op2.getDate())) return -1; 
             else return 1;
         });
         
