@@ -9,6 +9,7 @@ import dbcon.DBConnection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -32,8 +33,20 @@ public class Operation {
     private boolean is_paid;
     private boolean is_nhs;
     private boolean is_surgery;
+    private String description;
 
-    public Operation(int operationid, int employeeid, int clientid, LocalDate date, LocalTime starttime, LocalTime endtime, float charge, boolean is_paid, boolean is_surgery) {
+    public Operation(
+        int operationid,
+        int employeeid,
+        int clientid,
+        LocalDate date,
+        LocalTime starttime,
+        LocalTime endtime,
+        float charge,
+        boolean is_paid,
+        boolean is_surgery,
+        String description
+    ) {
         this.operationid = operationid;
         this.employeeid = employeeid;
         this.clientid = clientid;
@@ -43,6 +56,7 @@ public class Operation {
         this.charge = charge;
         this.is_paid = is_paid;
         this.is_surgery = is_surgery;
+        this.description = description;
     }
     
     public Operation() {
@@ -72,44 +86,27 @@ public class Operation {
         return this.clientid;
     }
     
-    public void setDate(String date) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        this.date = LocalDate.parse(date, formatter);
+    public void setDate(LocalDate date) {
+        this.date = date;
     }
     
-    public String getDate() {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        String formatted_date = this.date.format(formatter);
-        return formatted_date;
+    public LocalDate getDate() {
+        return this.date;
     }
     
-    public void setStartTime(String starttime) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
-        this.starttime = LocalTime.parse(starttime, formatter);
+    public void setStartTime(LocalTime starttime) {
+        this.starttime = starttime;
     }
     
-    public String getStartTime() {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
-        String formatted_time = this.starttime.format(formatter);
-        return formatted_time;
-    }
-    
-    public LocalTime getStartLocalTime() {
+    public LocalTime getStartTime() {
         return this.starttime;
     }
     
-    public void setEndTime(String endtime) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
-        this.endtime = LocalTime.parse(endtime, formatter);
+    public void setEndTime(LocalTime endtime) {
+        this.endtime = endtime;
     }
     
-    public String getEndTime() {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
-        String formatted_time = this.endtime.format(formatter);
-        return formatted_time;
-    }
-    
-    public LocalTime getEndLocalTime() {
+    public LocalTime getEndTime() {
         return this.endtime;
     }
     
@@ -145,6 +142,14 @@ public class Operation {
         this.is_surgery = is_surgery;
     }
    
+    public void setDescription(String description) {
+        this.description = description;
+    }
+    
+    public String getDescription() {
+        return this.description;
+    }
+    
     public int countAllOperations(DBConnection dbcon) {
                 
         String query = "SELECT COUNT(*) AS rowcount FROM Operations";
@@ -192,9 +197,9 @@ public class Operation {
                 this.setOperationId(Integer.parseInt(resultSet.getString("id")));
                 this.setEmployeeId(Integer.parseInt(resultSet.getString("employeeid")));
                 this.setClientId(Integer.parseInt(resultSet.getString("clientid")));
-                this.setDate(resultSet.getString("date"));
-                this.setStartTime(resultSet.getString("starttime"));
-                this.setEndTime(resultSet.getString("endtime"));
+                this.setDate(LocalDate.parse(resultSet.getDate("date").toString()));
+                this.setStartTime(LocalTime.parse(resultSet.getTime("starttime").toString()));
+                this.setEndTime(LocalTime.parse(resultSet.getTime("endtime").toString()));
                 this.setCharge(Float.parseFloat(resultSet.getString("charge")));
                 this.setIsPaid(resultSet.getBoolean("is_paid"));
                 this.setIsSurgery(resultSet.getBoolean("is_surgery"));
@@ -229,9 +234,9 @@ public class Operation {
                 tempOp.setOperationId(Integer.parseInt(resultSet.getString("id")));
                 tempOp.setEmployeeId(Integer.parseInt(resultSet.getString("employeeid")));
                 tempOp.setClientId(Integer.parseInt(resultSet.getString("clientid")));
-                tempOp.setDate(resultSet.getString("date"));
-                tempOp.setStartTime(resultSet.getString("starttime"));
-                tempOp.setEndTime(resultSet.getString("endtime"));
+                tempOp.setDate(LocalDate.parse(resultSet.getDate("date").toString()));
+                tempOp.setStartTime(LocalTime.parse(resultSet.getTime("starttime").toString()));
+                tempOp.setEndTime(LocalTime.parse(resultSet.getTime("endtime").toString()));
                 tempOp.setCharge(Float.parseFloat(resultSet.getString("charge")));
                 tempOp.setIsPaid(resultSet.getBoolean("is_paid"));
                 tempOp.setIsSurgery(resultSet.getBoolean("is_surgery"));
@@ -257,44 +262,39 @@ public class Operation {
     
     public void create(
         DBConnection dbcon,
-        String employee_userid,
-        String client_userid,
-        String date,
-        String starttime,
-        String endtime,
+        int employee_userid,
+        int client_userid,
+        LocalDate date,
+        LocalTime starttime,
+        LocalTime endtime,
         float charge,
-        int slot,
         boolean is_paid,
-        boolean is_surgery) {
+        boolean is_surgery,
+        String description
+    ) {
+        Employee employee = new Employee();
+        employee = employee.retrieveEmployeeByUserId(dbcon, employee_userid);
+        int employeeId = employee.getEmployeeId();
+        System.out.println(employee.getFirstname());
+        Client client = new Client();
+        client.retrieveClientByUserId(dbcon, client_userid);
+        int clientId = client.getClientId();
         
-        String query = "SELECT id FROM Employees WHERE 'userid' = " + employee_userid;
+        this.setOperationId(operationid);
+        this.setEmployeeId(employeeId);
+        this.setClientId(clientId);
+        this.setDate(date);
+        this.setStartTime(starttime);
+        this.setEndTime(endtime);
+        this.setCharge(charge);
+        this.setIsPaid(is_paid);
+        this.setIsSurgery(is_surgery);
         
-        int employeeid = 0;
+        Float cost = this.calculateOperationCost(dbcon, this);
         
-        try (Statement stmt = dbcon.conn.createStatement()) {
-            ResultSet resultSet = stmt.executeQuery(query);
-            while (resultSet.next()) {
-                employeeid = resultSet.getInt("id");
-            }
-        } catch (SQLException e) {
-            System.out.println(e);
-        }
-        
-        query = "SELECT id FROM Clients WHERE 'userid' = " + client_userid;
-        
-        int clientid = 0;
-        
-        try (Statement stmt = dbcon.conn.createStatement()) {
-            ResultSet resultSet = stmt.executeQuery(query);
-            while (resultSet.next()) {
-                clientid = resultSet.getInt("id");
-            }
-        } catch (SQLException e) {
-            System.out.println(e);
-        }
-        
-        query = "INSERT INTO Operations (employeeid, clientid, date, starttime, endtime, charge, slot, is_paid, is_surgery) VALUES ("
-                + employeeid + ", " + clientid + ", '" + date + "', '" + starttime + "', '" + endtime + "', " + charge + ", " + slot + ", " + is_paid + ", " + is_surgery + ")";
+        System.out.println("---\n" + employeeId + "\n" + clientId + "\n" + date + "\n" + starttime + "\n" + endtime + "\n" + cost + "\n" + is_paid + "\n" + is_surgery + "\n" + description);
+        String query = "INSERT INTO Operations (employeeid, clientid, date, starttime, endtime, charge, is_paid, is_surgery, description) VALUES ("
+                + employeeId + ", " + clientId + ", '" + date + "', '" + starttime + "', '" + endtime + "', " + cost + ", " + is_paid + ", " + is_surgery + ", '" + description + "')";
          
         try (Statement stmt = dbcon.conn.createStatement()) {
             stmt.execute(query);
@@ -302,7 +302,7 @@ public class Operation {
             Logger.getLogger(Employee.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        query = "SELECT id FROM Operations WHERE 'employeeid' = " + employeeid + " AND 'clientid' = " + clientid + " AND 'date' = " + date + " AND 'starttime' = " + starttime + ")";
+        query = "SELECT id FROM Operations WHERE 'employeeid' = " + employeeid + " AND 'clientid' = " + clientid + " AND 'date' = '" + date + "' AND 'starttime' = '" + starttime + "')";
         
         int operationid = 0;
         
@@ -314,16 +314,6 @@ public class Operation {
         } catch (SQLException e) {
             System.out.println(e);
         }
-        
-        this.setOperationId(operationid);
-        this.setEmployeeId(employeeid);
-        this.setClientId(clientid);
-        this.setDate(date);
-        this.setStartTime(starttime);
-        this.setEndTime(endtime);
-        this.setCharge(charge);
-        this.setIsPaid(is_paid);
-        this.setIsSurgery(is_surgery);
     }
     
     public String getRoleFromId(DBConnection dbcon){
@@ -339,5 +329,94 @@ public class Operation {
             
         }
         return role;
+    }
+    
+    public float calculateOperationCost(DBConnection dbcon, Operation op) {
+        long timeDiff = Duration.between(op.getStartTime(), op.getEndTime()).toMinutes();
+        long slots = timeDiff/10;
+        
+        Price p = new Price();
+        String role = op.getRoleFromId(dbcon);
+        String apptType;
+        Double cost = 0.00;
+        //time in doctor surgeries
+            if(role.equals("doctor") && op.getIsSurgery()){
+                //is doctor surgery
+                apptType = "surgery";
+                cost = p.getPrice(dbcon, apptType, role, slots);
+            }
+            //time in nurse surgeries
+            else if(role.equals("nurse") && op.getIsSurgery()){
+                //is nurse surgery
+                apptType = "surgery";
+                cost = p.getPrice(dbcon, apptType, role, slots);
+            }
+
+            else if(role.equals("doctor") && !op.getIsSurgery()){
+                //is doctor consultation
+                apptType = "consultaion";
+                cost = p.getPrice(dbcon, apptType, role, slots);
+            }
+            //time in nurse surgeries
+            else if(role.equals("nurse") && !op.getIsSurgery()){
+                //is nurse consultation
+                apptType = "consultaion";
+                cost = p.getPrice(dbcon, apptType, role, slots);
+            }
+        this.setCharge(cost.floatValue());
+        return cost.floatValue();
+    }
+
+    public String getEmpLastNameFromId(DBConnection dbcon){
+        String query = "SELECT userid FROM Employees WHERE id = " + this.employeeid;
+        int userid = 0;
+        try (Statement stmt = dbcon.conn.createStatement()) {
+            ResultSet resultSet = stmt.executeQuery(query);
+            while (resultSet.next()) {
+                userid = resultSet.getInt("userid");
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        
+        query = "SELECT lastname FROM Users WHERE id = " + userid;
+        String name = "Unknown";
+        try (Statement stmt = dbcon.conn.createStatement()) {
+            ResultSet resultSet = stmt.executeQuery(query);
+            while (resultSet.next()) {
+                name = resultSet.getString("lastname");
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return name;
+    }
+    
+    public String getClientFullNameFromId(DBConnection dbcon) {
+        String query = "SELECT userid FROM Clients WHERE id = " + this.clientid;
+        int userid = 0;
+        try (Statement stmt = dbcon.conn.createStatement()) {
+            ResultSet resultSet = stmt.executeQuery(query);
+            while (resultSet.next()) {
+                userid = resultSet.getInt("userid");
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        
+        query = "SELECT firstname, lastname FROM Users WHERE id = " + userid;
+        String firstname = "Unknown";
+        String lastname = "Unknown";
+        try (Statement stmt = dbcon.conn.createStatement()) {
+            ResultSet resultSet = stmt.executeQuery(query);
+            while (resultSet.next()) {
+                firstname = resultSet.getString("firstname");
+                lastname = resultSet.getString("lastname");
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        
+        return firstname + " " + lastname;
     }
 }

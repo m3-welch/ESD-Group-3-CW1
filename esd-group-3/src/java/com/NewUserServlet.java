@@ -58,7 +58,7 @@ public class NewUserServlet extends HttpServlet {
         
         HttpSession loginSession = request.getSession();
 
-        if (client.getUsername().equals(username) && client.getIsNHS().equals(type)) {
+        if (client.getUsername().equals(username) && client.getIsNhs().equals(type)) {
             request.setAttribute("message", "New Patient successfully created!");
             request.getRequestDispatcher((String)loginSession.getAttribute("dashboard")).forward(request,response);
             response.sendRedirect((String)loginSession.getAttribute("dashboard"));
