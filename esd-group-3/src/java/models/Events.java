@@ -11,8 +11,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 
 /**
  *
@@ -20,6 +21,10 @@ import java.util.ArrayList;
  */
 public class Events {
     private Operation[] ops;
+    
+    public Operation[] getOps() {
+        return this.ops;
+    }
     
     public void getOperationsFromDB(DBConnection dbcon, int userid) {
         // Set up query
@@ -48,8 +53,9 @@ public class Events {
                 float charge = resultSet.getFloat("charge");
                 Boolean is_paid = resultSet.getBoolean("is_paid");
                 Boolean is_surgery = resultSet.getBoolean("is_surgery");
+                String description = resultSet.getString("description");
                 
-                ops.add(new Operation(opid, employeeid, clientid, date, start, end, charge, is_paid, is_surgery));
+                ops.add(new Operation(opid, employeeid, clientid, date, start, end, charge, is_paid, is_surgery, description));
             }
         } catch (SQLException e) {
             System.out.println(e);
@@ -112,8 +118,8 @@ public class Events {
         
         for (Operation op : this.ops) {
             // For each operation, check if in range.
-            if (op.getDateLocalDate().isAfter(start) && 
-                    op.getDateLocalDate().isBefore(end)) {
+            if (op.getDate().isAfter(start) && 
+                    op.getDate().isBefore(end)) {
                 opList.add(op);
             }
         }
@@ -123,4 +129,14 @@ public class Events {
         return opArr;
     }
     
+    public void orderEvents() {
+        ArrayList<Operation> orderList = new ArrayList<Operation>(Arrays.asList(ops));
+        
+        Collections.sort(orderList, (op1, op2) -> {
+            if (op1.getDate().isBefore(op2.getDate())) return -1; 
+            else return 1;
+        });
+        
+        this.ops = orderList.toArray(this.ops);
+    }
 }
