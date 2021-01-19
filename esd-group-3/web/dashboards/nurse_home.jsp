@@ -69,56 +69,31 @@
                 </div>
             </div>
         </div>
-        
         <div class="left">
-          <div class="card">
-            <div class="container">
-              <h2 style="text-align:center;margin-top: 10px;">Create New Prescription</h2>
-              <div class="container">
-                <form action="NewPrescriptionServlet" method="POST">
-                  <label for="clientid"><b>Client ID</b></label>
-                  <input type="text" placeholder="Enter Client ID" name="clientid" required>
-                  <label for="drug_name"><b>Drug Name</b></label>
-                  <input type="text" placeholder="Enter Drug Name" name="drug_name" requried>
-                  <label for="dosage"><b>Dosage</b></label>
-                  <input type="text" placeholder="Enter a Dosage" name="dosage" required>
-                  <label for="is_repeat"><b>Is the prescription repeatable?</b></label>
-                  <input type="checkbox" name="is_repeat">
-                  <label for="date_start"><b>Start Date</b></label>
-                  <input type="date" value=${currentdate} name="date_start" required> 
-                  <label for="date_end"><b>End Date</b></label>
-                  <input type="date" value=${currentdate} name="date_end" required>   
-                  <input type="submit" value="Create" class="button"> 
-                </form>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="left">
-          <div class="card patients-card">
-              <div class="container">
-                  <h2 style="text-align:center;margin-top: 10px;">View Patients</h2>
-                  <div class="container">
-                      <form class="patientlist-filteroptions" action="ViewPatientsServlet" method="POST">
-                          <input ${checkednhs} type="radio" value="NHS" id="nhs" name="filter" class="patientlist-filter"/>
-                          <label for="nhs">NHS</label>
-                          <input ${checkedprivate} type="radio" value="private" id="private" name="filter" class="patientlist-filter"/>
-                          <label for="private">Private</label>
-                          <input ${checkedcombined} type="radio" value="all" id="combined" name="filter" class="patientlist-filter"/>
-                          <label for="combined">Combined</label>                                
-                          <input type="submit" value="Update" class="update-button"/>
-                      </form>
-                      <table class='patients-table-header'>
-                          <tr>
-                              <th>Patient ID</th>
-                              <th>Patient Name</th>
-                              <th>Patient Type</th>
-                          </tr>
-                      </table>
-                      <div class="list">
-                          ${patientlist}
-                      </div>
-                  </div>
+            <div class="card patients-card">
+                <div class="container">
+                    <h2 style="text-align:center;margin-top: 10px;">View Patients</h2>
+                    <div class="container">
+                        <form class="patientlist-filteroptions" action="ViewPatientsServlet" method="POST">
+                            <input ${checkednhs} type="radio" value="NHS" id="nhs" name="filter" class="patientlist-filter"/>
+                            <label for="nhs">NHS</label>
+                            <input ${checkedprivate} type="radio" value="private" id="private" name="filter" class="patientlist-filter"/>
+                            <label for="private">Private</label>
+                            <input ${checkedcombined} type="radio" value="all" id="combined" name="filter" class="patientlist-filter"/>
+                            <label for="combined">Combined</label>                                
+                            <input type="submit" value="Update" class="update-button"/>
+                        </form>
+                        <table class='patients-table-header'>
+                            <tr>
+                                <th>Patient ID</th>
+                                <th>Patient Name</th>
+                                <th>Patient Type</th>
+                            </tr>
+                        </table>
+                        <div class="list">
+                            ${patientlist}
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="card">

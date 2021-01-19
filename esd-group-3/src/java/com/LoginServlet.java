@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse; 
 import javax.servlet.http.HttpSession;
 import dbcon.DBConnection;
-import javax.servlet.annotation.WebServlet;
 import java.awt.Label;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -43,7 +42,6 @@ public class LoginServlet extends HttpServlet {
         DBConnection dbcon = null;
         HttpSession loginSession = request.getSession();
         User user_to_login = null;
-                
         // get password from db
         try {
             dbcon = new DBConnection("smartcaretest", "", "");
@@ -130,14 +128,10 @@ public class LoginServlet extends HttpServlet {
             loginSession.setAttribute("userID",user_id);
             loginSession.setAttribute("dashboard", "dashboards/" + user_role + "_home.jsp");
             loginSession.setMaxInactiveInterval(20*60);
-
-            String currentdate = (LocalDate.now()).toString(); // Setting the current date to be able to be avialable as ${currentdate}            
-            System.out.println("---- " + (String)loginSession.getAttribute("dashboard") + " ----");
             
             // sucessful login response
             loginSession.setAttribute("userid", user_to_login.getId());
             request.setAttribute("message", "Successful Login - Welcome " + user_in); // Will be available as ${message}
-            request.setAttribute("currentdate", currentdate);
             request.getRequestDispatcher((String)loginSession.getAttribute("dashboard")).forward(request,response);
             response.sendRedirect((String)loginSession.getAttribute("dashboard"));
         }
