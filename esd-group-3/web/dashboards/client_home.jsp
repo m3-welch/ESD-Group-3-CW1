@@ -109,8 +109,14 @@
                                     >
                             <input type="submit" value="Update" class="button">
                         </form>
+                        <form action="DisplayEventsServlet" method="POST">
+                            <input type="hidden" name="start" value="<%= LocalDate.now().toString() %>">
+                            <input type="hidden" name="end" value="<%= LocalDate.now().plusYears(1).toString() %>">
+                            <input type="submit" value="List upcoming appointments" class="button">
+                        </form>
                         <table class='patients-table-header'>
                             <tr>
+                                <th>Appointment Number</th>
                                 <th>Date</th>
                                 <th>Patient name</th>
                                 <th>Employee Name</th>
