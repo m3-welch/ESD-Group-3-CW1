@@ -121,6 +121,8 @@
                               <th>Patient ID</th>
                               <th>Patient Name</th>
                               <th>Patient Type</th>
+                              <th>Patient Address</th>
+                              <th></th>
                           </tr>
                       </table>
                       <div class="list">
