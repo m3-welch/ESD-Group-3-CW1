@@ -139,4 +139,66 @@ public class Events {
         
         this.ops = orderList.toArray(this.ops);
     }
+    
+    public void getFilteredOperationsFromDB(DBConnection dbcon, String filter) {
+        // Set up query
+        // Get employeeids of them
+        // Get operations where empid = found_empids
+        
+        String queryStart = "SELECT id FROM Users WHERE ";
+        String query = null;
+        if (filter.equals("all")) {
+            query = queryStart.concat("(role = doctor OR role = nurse)");
+        }
+        else {
+            query = queryStart.concat("role = " + filter);
+        }
+        
+        ArrayList<Employee> employees = new ArrayList<>();
+        try (Statement stmt = dbcon.conn.createStatement()) {
+            ResultSet resultSet = stmt.executeQuery(query);
+            while (resultSet.next()) {
+                int userid = resultSet.getInt("id");
+                Employee emp = new Employee().retrieveEmployeeByUserId(dbcon, userid);
+                employees.add(emp);
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        
+        ArrayList<Operation> ops = new ArrayList<>();
+        query = "SELECT * FROM Operations WHERE (";
+        for (int i = 0; i < employees.size() - 1; i++) {
+            query = query.concat("employeeid = " + 
+                    String.valueOf(employees.get(i).getEmployeeId()) + 
+                    " OR ");
+        }
+        query = query.concat("employeeid = " + 
+                String.valueOf(employees.get(employees.size()-1).getEmployeeId()));
+        
+        try (Statement stmt = dbcon.conn.createStatement()) {
+            ResultSet resultSet = stmt.executeQuery(query);
+            while (resultSet.next()) {
+                int opid = resultSet.getInt("id");
+                int employeeid = resultSet.getInt("employeeid");
+                int clientid = resultSet.getInt("clientid");
+                LocalDate date = LocalDate.parse(resultSet.getString("date"));
+                LocalTime start = LocalTime.parse(resultSet.getString("starttime"));
+                LocalTime end = LocalTime.parse(resultSet.getString("endtime"));
+                float charge = resultSet.getFloat("charge");
+                Boolean is_paid = resultSet.getBoolean("is_paid");
+                Boolean is_surgery = resultSet.getBoolean("is_surgery");
+                String description = resultSet.getString("description");
+                
+                ops.add(new Operation(opid, employeeid, clientid, date, start, end, charge, is_paid, is_surgery, description));
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        
+        Operation opArr[] = new Operation[ops.size()];
+        opArr = ops.toArray(opArr);
+        
+        this.ops = opArr;
+    }
 }

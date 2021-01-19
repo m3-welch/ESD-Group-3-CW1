@@ -75,14 +75,20 @@
                     </div>
                 </div>
                 <div class="container">
-                    <h2 style="text-align:center;margin-top: 10px;">List upcoming appointments</h2>
+                    <h2 style="text-align:center;margin-top: 10px;">List employee appointments</h2>
                     <div class="container">
                         <form action="ViewEmployeeAppointments" method="POST">
+                            <input ${checkeddoctor} type="radio" value="doctor" id="doctor" name="filter" class="patientlist-filter"/>
+                            <label for="doctor">Doctors</label>
+                            <input ${checkednurse} type="radio" value="nurse" id="nurse" name="filter" class="patientlist-filter"/>
+                            <label for="nurse">Nurses</label>
+                            <input ${checkedcombined} type="radio" value="all" id="combined" name="filter" class="patientlist-filter"/>
+                            <label for="combined">Combined</label>
                             <label for="start">Start date</label>
                             <input type="date" value="${todaydate}" max="${maxdate}" name="start" required/>
                             <label for="end">End date</label>             
                             <input type="date" value="${todaydate}" max="${maxdate}" name="end" required/>
-                            
+                            <input type="submit" value="Display" class="update-button"/>
                         </form>
                         <table class='patients-table-header'>
                             <tr>
