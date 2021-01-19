@@ -245,9 +245,9 @@ public class Operation {
                 tempOp.setOperationId(Integer.parseInt(resultSet.getString("id")));
                 tempOp.setEmployeeId(Integer.parseInt(resultSet.getString("employeeid")));
                 tempOp.setClientId(Integer.parseInt(resultSet.getString("clientid")));
-                tempOp.setDate(resultSet.getString("date"));
-                tempOp.setStartTime(resultSet.getString("starttime"));
-                tempOp.setEndTime(resultSet.getString("endtime"));
+                tempOp.setDate(LocalDate.parse(resultSet.getString("date")));
+                tempOp.setStartTime(LocalTime.parse(resultSet.getString("starttime")));
+                tempOp.setEndTime(LocalTime.parse(resultSet.getString("endtime")));
                 tempOp.setCharge(Float.parseFloat(resultSet.getString("charge")));
                 tempOp.setIsPaid(resultSet.getBoolean("is_paid"));
                 tempOp.setIsSurgery(resultSet.getBoolean("is_surgery"));
@@ -476,7 +476,7 @@ public class Operation {
         return firstname + " " + lastname;
     }
     
-        public void payByOperationId(DBConnection dbcon, int opId) {
+    public void payByOperationId(DBConnection dbcon, int opId) {
         String query = "UPDATE Operations SET is_paid = TRUE WHERE id = " + opId;
         try (Statement stmt = dbcon.conn.createStatement()) {
             stmt.execute(query);
