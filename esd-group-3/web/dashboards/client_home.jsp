@@ -139,7 +139,7 @@
                         <form action="CancelAppointmentServlet" method="POST">
                             <label for="appointment"><b>Appointment Number</b></label>
                             <input type="number" name="appointment" required/>
-                            <input type="submit" value="Create" class="button">
+                            <input type="submit" value="Cancel" class="button">
                         </form>
                     </div>
                 </div>

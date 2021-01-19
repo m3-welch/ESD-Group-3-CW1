@@ -140,17 +140,20 @@ public class Events {
         this.ops = orderList.toArray(this.ops);
     }
     
-    public void cancelBooking(DBConnection dbcon, int clientid, int appointmentid) {
+    public int cancelBooking(DBConnection dbcon, int clientid, int appointmentid) {
+//    public void cancelBooking(DBConnection dbcon, int clientid, int appointmentid) {
         String query = "";
-           
-        System.out.println("IN CANCEL BOOKING IN EVENTS.jaava");
-        // delete from operations where operation is operation given and user id is userid given
-
+        int resultSet = 0;
+        // delete appointment from operations where operation is operation given the clientid and appointmentid
         query = "DELETE FROM Operations WHERE clientid=" + clientid + " AND id=" + appointmentid;
         try (Statement stmt = dbcon.conn.createStatement()) {
-            int resultSet = stmt.executeUpdate(query);
+            resultSet = stmt.executeUpdate(query);
+//            int resultSet = stmt.executeUpdate(query);
         } catch (SQLException e) {
             System.out.println(e);
         }
+
+        return resultSet;
+        // check if the booking has been cancelled or not, return true or false
     }
 }
