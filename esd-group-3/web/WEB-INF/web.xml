@@ -77,6 +77,11 @@
         <servlet-name>DisplayEventsServlet</servlet-name>
         <servlet-class>com.DisplayEventsServlet</servlet-class>
     </servlet>
+    <servlet>
+        <display-name>CancelAppointmentServlet</display-name>
+        <servlet-name>CancelAppointmentServlet</servlet-name>
+        <servlet-class>com.CancelAppointmentServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>NewAppointmentServlet</servlet-name>
         <url-pattern>/NewAppointmentServlet</url-pattern>
@@ -149,6 +154,10 @@
     <servlet-mapping>
         <servlet-name>NewReferralServlet</servlet-name>
         <url-pattern>/NewReferralServlet</url-pattern>
+    </servlet-mapping> 
+    <servlet-mapping>
+        <servlet-name>CancelAppointmentServlet</servlet-name>
+        <url-pattern>/CancelAppointmentServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
