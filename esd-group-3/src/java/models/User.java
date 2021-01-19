@@ -221,6 +221,13 @@ public class User {
     
     public void dropUserById(DBConnection dbcon, int userid) {
         String query = "";
+        query = "DELETE FROM Users WHERE id=" + userid;
+        try (Statement stmt = dbcon.conn.createStatement()) {
+            System.out.println("-3");
+            int resultSet = stmt.executeUpdate(query);
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
 
         // Delete the user out of the employees or clients table
         query = "DELETE FROM Clients WHERE userid=" + userid;
@@ -240,12 +247,6 @@ public class User {
         }
         
         // Delete from users table
-        query = "DELETE FROM Users WHERE id=" + userid;
-        try (Statement stmt = dbcon.conn.createStatement()) {
-            System.out.println("-3");
-            int resultSet = stmt.executeUpdate(query);
-        } catch (SQLException e) {
-            System.out.println(e);
-        }
+        
     }
 }

@@ -54,7 +54,7 @@ public class ChangePatientServlet extends HttpServlet {
             System.out.println(request.getParameter("clientId"));
             deleteClient.retrieveClientByIdDrop(dbcon, Integer.parseInt(request.getParameter("clientId")));
             System.out.println(deleteClient.getClientId());
-            deleteClient.dropUserById(dbcon, deleteClient.getClientId()); 
+            deleteClient.dropUserById(dbcon, deleteClient.getClientId());      
         }
         
         response.sendRedirect("ViewPatientsServlet");

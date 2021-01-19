@@ -62,9 +62,9 @@ public class ViewPatientsServlet extends HttpServlet {
                     clients.get(i).getAddress() + "</td><td>" +
                     "<input type='submit' name='delete_patient' value='delete' class='button'/></td></form></tr>";
         }
+        
         outputList += "</table>";
         request.setAttribute("patientlist", outputList);
-        
         request.getRequestDispatcher((String)loginSession.getAttribute("dashboard")).forward(request,response);
         response.sendRedirect((String)loginSession.getAttribute("dashboard"));
         
