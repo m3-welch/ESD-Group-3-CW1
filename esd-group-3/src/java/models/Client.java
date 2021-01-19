@@ -143,6 +143,7 @@ public class Client extends User {
         return this;
     } 
     
+    // Similar to retrieveClientByUserId but with differences to support delteing a patient
     public Client retrieveClientByIdDrop(DBConnection dbcon, int id) {
         String query = "SELECT * FROM Clients WHERE id = " + id;
         

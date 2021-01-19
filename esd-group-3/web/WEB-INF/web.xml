@@ -67,10 +67,6 @@
         <servlet-name>NewReferralServlet</servlet-name>
         <servlet-class>com.NewReferralServlet</servlet-class>
     </servlet>
-    <servlet>
-        <servlet-name>ChangePatientServlet</servlet-name>
-        <servlet-class>com.ChangePatientServlet</servlet-class>
-    </servlet>
     <servlet-mapping>
         <servlet-name>ViewPatientsServlet</servlet-name>
         <url-pattern>/ViewPatientsServlet</url-pattern>
@@ -135,10 +131,6 @@
     <servlet-mapping>
         <servlet-name>NewReferralServlet</servlet-name>
         <url-pattern>/NewReferralServlet</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>ChangePatientServlet</servlet-name>
-        <url-pattern>/ChangePatientServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
