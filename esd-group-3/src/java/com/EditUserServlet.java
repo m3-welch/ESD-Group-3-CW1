@@ -76,6 +76,7 @@ public class EditUserServlet extends HttpServlet {
                     if("doctor".equals(dbRole)||("nurse".equals(dbRole))||("admin".equals(dbRole))){//if update user and table user are of the same client or employee then just change role
                         dbUser.editUser(dbcon, "Users", dbUser.getUsername(), "Role", updateUser.getRole());//just change type in users
                     } else {
+                        //functionallity already exists
                         //remove dbUser from employee db
                         //add updateUser to client
                     }
