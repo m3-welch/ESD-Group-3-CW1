@@ -152,7 +152,7 @@ public class Client extends User {
             ResultSet resultSet = stmt.executeQuery(query);
             while (resultSet.next()) {
                 this.setClientId(resultSet.getInt("userid"));
-                this.setIsNHS(resultSet.getString("isNHS"));
+                this.setIsNhs(resultSet.getBoolean("isNHS"));
             }
             
         } catch (SQLException e) {
