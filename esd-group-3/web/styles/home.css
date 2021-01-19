@@ -131,7 +131,9 @@ h2 {
 
 /* Full-width inputs */
 input[type=text],
-input[type=password] {
+input[type=password],
+input[type=date],
+input[type=checkbox] {
   width: 100%;
   padding: 12px 20px;
   margin: 8px 0;
@@ -143,6 +145,14 @@ input[type=password] {
   color: white;
 }
 
+input[type=checkbox] {
+  -ms-transform: scale(1.5); /* IE */
+  -moz-transform: scale(1.5); /* FF */
+  -webkit-transform: scale(1.5); /* Safari and Chrome */
+  -o-transform: scale(1.5); /* Opera */
+  transform: scale(1.5);
+
+}
 
 /* Set a style for all buttons */
 .button {

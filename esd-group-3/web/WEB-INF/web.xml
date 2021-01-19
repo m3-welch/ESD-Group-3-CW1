@@ -28,6 +28,11 @@
         <servlet-class>com.NewUserServlet</servlet-class>
     </servlet>
     <servlet>
+        <display-name>NewPrescriptionServlet</display-name>
+        <servlet-name>NewPrescriptionServlet</servlet-name>
+        <servlet-class>com.NewPrescriptionServlet</servlet-class>
+    </servlet>
+    <servlet>
         <display-name>SignupServlet</display-name>
         <servlet-name>SignupServlet</servlet-name>
         <servlet-class>com.SignupServlet</servlet-class>
@@ -104,6 +109,10 @@
     <servlet-mapping>
         <servlet-name>NewUserServlet</servlet-name>
         <url-pattern>/NewUserServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>NewPrescriptionServlet</servlet-name>
+        <url-pattern>/NewPrescriptionServlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>SignupServlet</servlet-name>
