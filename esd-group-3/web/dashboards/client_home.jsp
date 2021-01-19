@@ -40,7 +40,7 @@
         <p style="color:#FF3232;font-size:12px;text-align:center" id="note">${message}</p>
         <h1>Client Dashboard</h1>
         <div class="left">
-          <div class="card">
+          <div class="card" style="width: 50rem;">
             <div class="container">
               <h2 style="text-align:center;margin-top: 10px;">Invoice Viewer</h2>
               <div class="container">
