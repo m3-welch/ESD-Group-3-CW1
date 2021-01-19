@@ -7,6 +7,7 @@ package com;
 
 import dbcon.DBConnection;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import javax.servlet.ServletException;
@@ -19,7 +20,7 @@ import models.Price;
  *
  * @author Sam
  */
-public class PricesViewer extends HttpServlet {
+public class PricesChangerServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -32,26 +33,34 @@ public class PricesViewer extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html");   
-  
+        response.setContentType("text/html");
+        String select = "";
+        
         request.getRequestDispatcher("prices.jsp").include(request, response);
         
-        try {
-            Price pricesCaller = new Price();
-            ArrayList<Price> pricesArray = new ArrayList<Price>();
-            
-            DBConnection dbcon = new DBConnection("smartcaretest", "", "");
-            pricesArray = pricesCaller.retrievePriceTable();
-                        
-            request.setAttribute("data", pricesArray);
-            request.getRequestDispatcher("prices.jsp").forward(request,response);
+        try{
+            //check the editOrSave parameter is save
+            select = request.getParameter("select");            
         }
-        catch(SQLException e){
-            // send error
-            request.setAttribute("message", "Error - SQL Exception");
-            request.getRequestDispatcher("prices.jsp").forward(request,response);
-            response.sendRedirect("prices.jsp");
+        catch(Exception e){
+            System.out.println(e);
         }
+        
+        if ("Delete".equals(select)) {
+            System.out.println("-" + request.getParameter("apptType") + request.getParameter("empType") + Float.parseFloat(request.getParameter("priceValue")));
+            Price deletePrice = new Price(request.getParameter("apptType"), request.getParameter("empType"), Float.parseFloat(request.getParameter("priceValue"))); //populate with table attributes
+            deletePrice.removePrice();
+        }
+        else if ("Save".equals(select)) {
+            Price savePrice = new Price(request.getParameter("apptType"), request.getParameter("empType"), Float.parseFloat(request.getParameter("priceValue"))); //populate with table attributes
+            System.out.println(Integer.parseInt(request.getParameter("idValue")));
+            savePrice.update(Integer.parseInt(request.getParameter("idValue")));
+        }
+        else if ("Add".equals(select)) {
+            Price addPrice = new Price(request.getParameter("newApptType"), request.getParameter("newEmpType"), Float.parseFloat(request.getParameter("newPriceValue"))); //populate with table attributes
+            addPrice.addPrice();
+        }
+        response.sendRedirect("PricesViewer");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

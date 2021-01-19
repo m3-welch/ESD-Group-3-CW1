@@ -31,7 +31,7 @@
                     for(Price i:pricesArray){%> 
                         <%-- Arranging data in tabular form --%> 
                         <tr>
-                            <form action="PricesChanger" method="POST">
+                            <form action="PricesChangerServlet" method="POST">
 
                             <input type="hidden" name="idValue" value="<%=i.getID()%>" readonly>
                             

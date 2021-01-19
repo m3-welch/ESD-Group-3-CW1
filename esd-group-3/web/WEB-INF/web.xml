@@ -6,7 +6,7 @@
     <context-param>
         <param-name>dbname</param-name>
         <param-value>Users</param-value>
-    </context-param>    
+    </context-param>
     <filter>
         <filter-name>GlobalAuthenticationFilter</filter-name>
         <filter-class>filters.GlobalAuthenticationFilter</filter-class>
@@ -66,13 +66,13 @@
     </servlet>
     <servlet>
         <display-name>PricesChangerServlet</display-name>
-        <servlet-name>PricesChanger</servlet-name>
-        <servlet-class>com.PricesChanger</servlet-class>
+        <servlet-name>PricesChangerServlet</servlet-name>
+        <servlet-class>com.PricesChangerServlet</servlet-class>
     </servlet>
     <servlet>
         <display-name>PricesViewerServlet</display-name>
-        <servlet-name>PricesViewer</servlet-name>
-        <servlet-class>com.PricesViewer</servlet-class>
+        <servlet-name>PricesViewerServlet</servlet-name>
+        <servlet-class>com.PricesViewerServlet</servlet-class>
     </servlet>
     <servlet>
         <display-name>ViewPatientsServlet</display-name>
@@ -103,6 +103,10 @@
         <display-name>DisplayEventsServlet</display-name>
         <servlet-name>DisplayEventsServlet</servlet-name>
         <servlet-class>com.DisplayEventsServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>EditUserServlet</servlet-name>
+        <servlet-class>com.EditUserServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>NewAppointmentServlet</servlet-name>
@@ -149,12 +153,12 @@
         <url-pattern>/InvoiceDownloadServlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>PricesViewer</servlet-name>
-        <url-pattern>/PricesViewer</url-pattern>
+        <servlet-name>PricesViewerServlet</servlet-name>
+        <url-pattern>/PricesViewerServlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>PricesChanger</servlet-name>
-        <url-pattern>/PricesChanger</url-pattern>
+        <servlet-name>PricesChangerServlet</servlet-name>
+        <url-pattern>/PricesChangerServlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>NewReferralServlet</servlet-name>
@@ -167,6 +171,10 @@
     <servlet-mapping>
         <servlet-name>PayInvoiceServlet</servlet-name>
         <url-pattern>/PayInvoiceServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>EditUserServlet</servlet-name>
+        <url-pattern>/EditUserServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
