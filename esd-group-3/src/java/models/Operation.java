@@ -187,15 +187,6 @@ public class Operation {
         
     }
     
-    public void payByOperationId(DBConnection dbcon, int opId) {
-        String query = "UPDATE Operations SET is_paid = TRUE WHERE id = " + opId;
-        try (Statement stmt = dbcon.conn.createStatement()) {
-            stmt.execute(query);
-        } catch (SQLException e) {
-            System.out.println(e);
-        }
-    }
-    
     public void retrieveByOperationId(DBConnection dbcon, int opId) {
         String query = "SELECT * FROM Operations WHERE id = " + opId;
 
@@ -408,4 +399,14 @@ public class Operation {
         }
         return role;
     }
+    
+        public void payByOperationId(DBConnection dbcon, int opId) {
+        String query = "UPDATE Operations SET is_paid = TRUE WHERE id = " + opId;
+        try (Statement stmt = dbcon.conn.createStatement()) {
+            stmt.execute(query);
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+    }
+    
 }
