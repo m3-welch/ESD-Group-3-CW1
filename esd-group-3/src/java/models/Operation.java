@@ -86,7 +86,7 @@ public class Operation {
     public LocalDate getDateLocalDate() {
         return this.date;
     }
-        
+    
     public void setStartTime(String starttime) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
         this.starttime = LocalTime.parse(starttime, formatter);
