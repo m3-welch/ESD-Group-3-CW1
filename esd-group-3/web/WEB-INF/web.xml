@@ -75,6 +75,23 @@
         <servlet-name>PayInvoiceServlet</servlet-name>
         <servlet-class>com.PayInvoiceServlet</servlet-class>
     </servlet>
+        <display-name>NewAppointmentServlet</display-name>
+        <servlet-name>NewAppointmentServlet</servlet-name>
+        <servlet-class>com.NewAppointmentServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <display-name>DisplayEventsServlet</display-name>
+        <servlet-name>DisplayEventsServlet</servlet-name>
+        <servlet-class>com.DisplayEventsServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>NewAppointmentServlet</servlet-name>
+        <url-pattern>/NewAppointmentServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DisplayEventsServlet</servlet-name>
+        <url-pattern>/DisplayEventsServlet</url-pattern>
+    </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ViewPatientsServlet</servlet-name>
         <url-pattern>/ViewPatientsServlet</url-pattern>
