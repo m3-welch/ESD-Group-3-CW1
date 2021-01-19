@@ -56,11 +56,15 @@ public class ViewPatientsServlet extends HttpServlet {
         String outputList = "<table class='patients-table'>";
         
         for (int i = 0; i < clients.size(); i++) {
-            outputList += "<tr><td>" + clients.get(i).getClientId() + "</td><td>" + clients.get(i).getFirstname() + " " + clients.get(i).getLastname() + "</td><td>" + (clients.get(i).getIsNHS().equals("true") ? "NHS" : "Private") + "</td></td>";
+            outputList += "<tr><form action='ChangePatientServlet' method='POST'><td><input type='text' value='" + clients.get(i).getClientId() + "' name='clientId' readonly>" + "</td><td>" +
+                    clients.get(i).getFirstname() + " " + clients.get(i).getLastname() + "</td><td>" +
+                    (clients.get(i).getIsNHS().equals("true") ? "NHS" : "Private") + "</td><td>" +
+                    clients.get(i).getAddress() + "</td><td>" +
+                    "<input type='submit' name='delete_patient' value='delete' class='button'/></td></form></tr>";
         }
-        
         outputList += "</table>";
         request.setAttribute("patientlist", outputList);
+        
         request.getRequestDispatcher((String)loginSession.getAttribute("dashboard")).forward(request,response);
         response.sendRedirect((String)loginSession.getAttribute("dashboard"));
         
