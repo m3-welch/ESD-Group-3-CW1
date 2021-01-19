@@ -1,3 +1,4 @@
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -13,7 +14,7 @@ import java.util.ArrayList;
 
 /**
  *
- * @author Sam
+ * @author Samlong
  */
 public class Price {
 
@@ -136,6 +137,24 @@ public class Price {
         return pricesArray;
     }
     
+    public double getPrice(DBConnection dbcon, String appointmentType, 
+            String employeeType, long slots) {
+        String query = "SELECT priceperslot FROM Prices WHERE appointmenttype = '" + 
+                appointmentType + "' AND employeetype = '" + employeeType + "'";
+
+        try (Statement stmt = dbcon.conn.createStatement()) {
+            ResultSet rs = stmt.executeQuery(query);
+            rs.next();
+            double price = rs.getLong(1);
+            System.out.println("Price got = " + Double.toString(price));
+            price = price * slots;
+            return price;
+        } catch (SQLException e) {
+                System.out.println(e);
+            return 0;
+        }
+    }
+    
     //maybe redundent
     public float calcPrice(String appointmentType, String employeeType, float slots) {
         String query = "SELECT priceperslot FROM Prices WHERE appointmenttype = '" + 
@@ -161,6 +180,7 @@ public class Price {
         }
         return price;
     }
+    
     
     public void addPrice() {     
         

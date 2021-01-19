@@ -13,6 +13,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse; 
 import javax.servlet.http.HttpSession;
 import dbcon.DBConnection;
+import java.awt.Label;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+import models.Employee;
 import models.User;
 
 /**
@@ -34,6 +40,7 @@ public class LoginServlet extends HttpServlet {
         int user_id = 0;
         int user_type = 0;
         DBConnection dbcon = null;
+        HttpSession loginSession = request.getSession();
         User user_to_login = null;
         // get password from db
         try {
@@ -48,6 +55,35 @@ public class LoginServlet extends HttpServlet {
             }
             actual_password = user_to_login.getPassword();
             user_role = user_to_login.getRole();
+            
+            // get list of employees
+            Employee employee = new Employee();
+            List<Employee> employees = employee.retrieveAllEmployees(dbcon);
+            
+            String doctornurseoptions = "";
+           
+            for (int i = 0; i < employees.size(); i++) {
+                    doctornurseoptions += "<option value='" + employees.get(i).getId() + "'>" + employees.get(i).getFirstname() + " " + employees.get(i).getLastname() + "</option>";
+            }
+        
+            loginSession.setAttribute("doctornurseoptions", doctornurseoptions);
+            
+            LocalDate today = LocalDate.now();
+            loginSession.setAttribute("todaydate", today.toString());
+            
+            LocalDate oneYear = today.plusYears(1);
+            loginSession.setAttribute("maxdate", oneYear.toString());
+            
+            LocalTime now = LocalTime.now();
+            LocalTime tenmins = now.plusMinutes(10);
+            
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm");
+            String timeLabel = new String(now.format(dtf));
+            
+            String timeLabelTenMins = new String(tenmins.format(dtf));
+            
+            loginSession.setAttribute("nowtime", timeLabel);
+            loginSession.setAttribute("tenmins", timeLabelTenMins);
             user_id = user_to_login.getId();
         }
         catch(SQLException e){
@@ -87,16 +123,14 @@ public class LoginServlet extends HttpServlet {
         // results of login attempt
         if (user_type != 0) {
             // httpSession creation, store: name - role - timeout(20*60=20 mins)
-            HttpSession loginSession = request.getSession();
             loginSession.setAttribute("name",user_in);
             loginSession.setAttribute("role",user_type);
             loginSession.setAttribute("userID",user_id);
             loginSession.setAttribute("dashboard", "dashboards/" + user_role + "_home.jsp");
             loginSession.setMaxInactiveInterval(20*60);
             
-            System.out.println("---- " + (String)loginSession.getAttribute("dashboard") + " ----");
-            
             // sucessful login response
+            loginSession.setAttribute("userid", user_to_login.getId());
             request.setAttribute("message", "Successful Login - Welcome " + user_in); // Will be available as ${message}
             request.getRequestDispatcher((String)loginSession.getAttribute("dashboard")).forward(request,response);
             response.sendRedirect((String)loginSession.getAttribute("dashboard"));

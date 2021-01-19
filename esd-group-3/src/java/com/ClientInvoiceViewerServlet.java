@@ -20,19 +20,22 @@ import javax.servlet.http.HttpSession;
  *
  * @author Austin
  */
-public class InvoiceViewerServlet extends HttpServlet {  
+public class ClientInvoiceViewerServlet extends HttpServlet {  
     protected void doGet(HttpServletRequest request, HttpServletResponse response)  
                            throws ServletException, IOException {  
         response.setContentType("text/html");   
           
-        request.getRequestDispatcher("invoiceViewer.jsp").include(request, response);  
+        request.getRequestDispatcher("dashboards/client_home.jsp").include(request, response);  
         
-        String filter = request.getParameter("filter");  
-        String start_date = request.getParameter("start");
-        String end_date = request.getParameter("end");
+        HttpSession loginSession = request.getSession(false);
+        int role = (Integer) loginSession.getAttribute("role");
+        int userid = (Integer) loginSession.getAttribute("userID");
 
-        if (filter == null) {
-            filter = "all";
+        String unpaid_str = request.getParameter("unpaid");
+        boolean unpaid = false;
+        if (unpaid_str == null) {}
+        else if (unpaid_str.equals("on")){
+            unpaid = true;
         }
 
         try {
@@ -40,32 +43,18 @@ public class InvoiceViewerServlet extends HttpServlet {
             Operation operationsCaller = new Operation();
             ArrayList<Operation> operationsArray = new ArrayList<Operation>();
 
-            boolean all = false;
-            boolean is_nhs = false;
-
-            if (filter.equals("all")) {all = true;}
-            else if (filter.equals("nhs")) {is_nhs = true; }
-            else if (filter.equals("private")) {is_nhs = false; }
-
-            operationsArray = operationsCaller.retrieveAllOperationsWhere(dbcon, all, is_nhs, start_date, end_date);
-
-            float turnover = 0;
-            for(Operation i:operationsArray){
-                turnover = turnover + i.getCharge();
-            }
+            operationsArray = operationsCaller.retrieveAllClientOperations(dbcon, userid, unpaid);
 
             request.setAttribute("message", "Data Loaded Successfully");
             request.setAttribute("data", operationsArray); // Will be available as ${data}
-            request.setAttribute("turnover", turnover);
-            request.getRequestDispatcher("invoiceViewer.jsp").forward(request,response);
+            request.getRequestDispatcher("dashboards/client_home.jsp").forward(request,response);
         }
         catch(SQLException e){
             // send error
             request.setAttribute("message", "Error - SQL Exception"); // Will be available as ${message}
-            request.getRequestDispatcher("invoiceViewer.jsp").forward(request,response);
-            response.sendRedirect("invoiceViewer.jsp");
+            request.getRequestDispatcher("dashboards/client_home.jsp").forward(request,response);
+            response.sendRedirect("dashboards/client_home.jsp");
         }
-        
-    }  
-  
-}  
+            
+    }
+}

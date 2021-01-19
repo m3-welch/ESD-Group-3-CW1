@@ -9,6 +9,8 @@ import dbcon.DBConnection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -18,7 +20,7 @@ import java.util.logging.Logger;
  */
 public class Employee extends User {
     private int employeeId;
-    private String isFullTime;
+    private Boolean isFullTime;
     
     public void setEmployeeId(int employeeId) {
         this.employeeId = employeeId;
@@ -28,11 +30,11 @@ public class Employee extends User {
         return this.employeeId;
     }
     
-    public void setFullTime(String isFullTime) {
+    public void setFullTime(Boolean isFullTime) {
         this.isFullTime = isFullTime;
     }
     
-    public String isFullTime() {
+    public Boolean isFullTime() {
         return this.isFullTime;
     }
     
@@ -111,9 +113,11 @@ public class Employee extends User {
         try (Statement stmt = dbcon.conn.createStatement()) {
             ResultSet resultSet = stmt.executeQuery(query);
             while (resultSet.next()) {
-                int clientid = resultSet.getInt("id");
-                employee.setEmployeeId(clientid);
+                int employeeid = resultSet.getInt("id");
+                Boolean is_fulltime = resultSet.getBoolean("isFullTime");
+                employee.setEmployeeId(employeeid);
                 employee.setId(id);
+                employee.setFullTime(is_fulltime);
             }
             
         } catch (SQLException e) {
@@ -132,5 +136,26 @@ public class Employee extends User {
         employee.setRole(user.getRole());
         
         return employee;
+    }
+    
+    public List<Employee> retrieveAllEmployees(DBConnection dbcon) {
+        List<Employee> employees = new ArrayList<Employee>();
+        
+            String query = "SELECT * FROM Employees";
+            
+            try (Statement stmt = dbcon.conn.createStatement()) {
+                ResultSet resultSet = stmt.executeQuery(query);
+                while (resultSet.next()) {
+                    int user_id = resultSet.getInt("userid");
+
+                    Employee employee = new Employee().retrieveEmployeeByUserId(dbcon, user_id);
+
+                    employees.add(employee);
+                }
+            } catch (SQLException e) {
+                System.out.println(e);
+            }
+        
+        return employees;
     }
 }

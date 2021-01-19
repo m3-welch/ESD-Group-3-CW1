@@ -23,7 +23,7 @@ public class User {
     private String email;
     private String address;
     private String role;
-    private Events events;
+    public Events events;
     
     public User setId(int id) {
         this.id = id;
