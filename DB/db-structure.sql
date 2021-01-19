@@ -11,20 +11,20 @@ CREATE TABLE Users (
 
 CREATE TABLE Clients (
     id int NOT NULL PRIMARY KEY GENERATED ALWAYS AS identity (start with 1, increment by 1),
-    userid int references Users(id),
+    userid int references Users(id) ON DELETE CASCADE,
     isnhs Boolean
 );
 
 CREATE TABLE Employees (
     id int NOT NULL PRIMARY KEY GENERATED ALWAYS AS identity (start with 1, increment by 1),
-    userid int references Users(id),
+    userid int references Users(id) ON DELETE CASCADE,
     isfulltime Boolean
 );
 
 CREATE TABLE Operations (
     id int NOT NULL PRIMARY KEY GENERATED ALWAYS AS identity (start with 1, increment by 1),
-    employeeid int references Employees(id),
-    clientid int references Clients(id),
+    employeeid int,
+    clientid int,
     date Date,
     starttime Time,
     endtime Time,
@@ -36,8 +36,8 @@ CREATE TABLE Operations (
 
 CREATE TABLE Prescriptions (
     id int NOT NULL PRIMARY KEY GENERATED ALWAYS AS identity (start with 1, increment by 1),
-    clientid int references Clients(id),
-    employeeid int references Employees(id),
+    clientid int,
+    employeeid int,
     drug_name varchar(64),
     dosage varchar(64),
     is_repeat Boolean,
@@ -54,7 +54,7 @@ CREATE TABLE Prices (
 
 CREATE TABLE Referrals (
     id int NOT NULL PRIMARY KEY GENERATED ALWAYS AS identity (start with 1, increment by 1),
-    clientid int REFERENCES Clients(id),
+    clientid int,
     name varchar(64),
     address varchar(64)
 );
