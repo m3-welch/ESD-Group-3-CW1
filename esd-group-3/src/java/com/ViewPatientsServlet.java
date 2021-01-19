@@ -56,7 +56,7 @@ public class ViewPatientsServlet extends HttpServlet {
         String outputList = "<table class='patients-table'>";
         
         for (int i = 0; i < clients.size(); i++) {
-            outputList += "<tr><td>" + clients.get(i).getClientId() + "</td><td>" + clients.get(i).getFirstname() + " " + clients.get(i).getLastname() + "</td><td>" + (clients.get(i).getIsNHS().equals("true") ? "NHS" : "Private") + "</td></td>";
+            outputList += "<tr><td>" + clients.get(i).getClientId() + "</td><td>" + clients.get(i).getFirstname() + " " + clients.get(i).getLastname() + "</td><td>" + (clients.get(i).getIsNHS().equals("true") ? "NHS" : "Private") + "</td></tr>";
         }
         
         outputList += "</table>";

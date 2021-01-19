@@ -67,6 +67,15 @@
         <servlet-name>NewReferralServlet</servlet-name>
         <servlet-class>com.NewReferralServlet</servlet-class>
     </servlet>
+    <servlet>
+        <display-name>DisplayEventsServlet</display-name>
+        <servlet-name>DisplayEventsServlet</servlet-name>
+        <servlet-class>com.DisplayEventsServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DisplayEventsServlet</servlet-name>
+        <url-pattern>/DisplayEventsServlet</url-pattern>
+    </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ViewPatientsServlet</servlet-name>
         <url-pattern>/ViewPatientsServlet</url-pattern>
