@@ -83,6 +83,10 @@ public class Operation {
         return formatted_date;
     }
     
+    public LocalDate getDateLocalDate() {
+        return this.date;
+    }
+        
     public void setStartTime(String starttime) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
         this.starttime = LocalTime.parse(starttime, formatter);
@@ -183,6 +187,15 @@ public class Operation {
         
     }
     
+    public void payByOperationId(DBConnection dbcon, int opId) {
+        String query = "UPDATE Operations SET is_paid = TRUE WHERE id = " + opId;
+        try (Statement stmt = dbcon.conn.createStatement()) {
+            stmt.execute(query);
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+    }
+    
     public void retrieveByOperationId(DBConnection dbcon, int opId) {
         String query = "SELECT * FROM Operations WHERE id = " + opId;
 
@@ -204,6 +217,62 @@ public class Operation {
         } catch (SQLException e) {
             System.out.println(e);
         }
+    }
+    
+    public ArrayList retrieveAllClientOperations(DBConnection dbcon, int client_userid, boolean unpaid_only) {
+        ArrayList<Operation> operationsArray = new ArrayList<Operation>();
+        String query;
+        
+        // get clientID
+        query = "SELECT id FROM Clients WHERE userid = " + client_userid;
+        int clientid = 0;
+        try {
+            Statement stmt = dbcon.conn.createStatement();
+            ResultSet resultSet = stmt.executeQuery(query);
+            while (resultSet.next()) {
+                clientid = resultSet.getInt("id");
+            }
+        } 
+        catch (SQLException e) {
+            System.out.println(e);
+        }
+        
+        // sql query depending on all results or unpaid results
+        if(unpaid_only) {
+            query = "SELECT * FROM Operations WHERE clientid = " + clientid + " AND is_paid = FALSE";
+        }
+        else {
+            query = "SELECT * FROM Operations WHERE clientid = " + clientid;
+        }
+        
+        try (Statement stmt = dbcon.conn.createStatement()) {
+            ResultSet resultSet = stmt.executeQuery(query);
+            while (resultSet.next()) {
+                Operation tempOp = new Operation();
+
+                tempOp.setOperationId(Integer.parseInt(resultSet.getString("id")));
+                tempOp.setEmployeeId(Integer.parseInt(resultSet.getString("employeeid")));
+                tempOp.setClientId(Integer.parseInt(resultSet.getString("clientid")));
+                tempOp.setDate(resultSet.getString("date"));
+                tempOp.setStartTime(resultSet.getString("starttime"));
+                tempOp.setEndTime(resultSet.getString("endtime"));
+                tempOp.setCharge(Float.parseFloat(resultSet.getString("charge")));
+                tempOp.setIsPaid(resultSet.getBoolean("is_paid"));
+                tempOp.setIsSurgery(resultSet.getBoolean("is_surgery"));
+                tempOp.setIsNhs(isNhsPatient(dbcon, tempOp.clientid));
+                
+                // if patient is on nhs, they don't need to pay
+                if (is_nhs && unpaid_only) {}
+                else {
+                    operationsArray.add(tempOp);
+                }
+            }
+        }
+        catch (SQLException e) {
+            System.out.println(e);
+        }
+        
+        return operationsArray;
     }
     
     public ArrayList retrieveAllOperationsWhere(DBConnection dbcon, boolean all, boolean is_nhs, String start_date, String end_date) {
@@ -263,7 +332,6 @@ public class Operation {
         String starttime,
         String endtime,
         float charge,
-        int slot,
         boolean is_paid,
         boolean is_surgery) {
         
@@ -294,7 +362,7 @@ public class Operation {
         }
         
         query = "INSERT INTO Operations (employeeid, clientid, date, starttime, endtime, charge, slot, is_paid, is_surgery) VALUES ("
-                + employeeid + ", " + clientid + ", '" + date + "', '" + starttime + "', '" + endtime + "', " + charge + ", " + slot + ", " + is_paid + ", " + is_surgery + ")";
+                + employeeid + ", " + clientid + ", '" + date + "', '" + starttime + "', '" + endtime + "', " + charge + ", " + is_paid + ", " + is_surgery + ")";
          
         try (Statement stmt = dbcon.conn.createStatement()) {
             stmt.execute(query);

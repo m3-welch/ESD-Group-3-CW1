@@ -18,9 +18,7 @@
       <div class="dropdown">
         <button class="menu button">Menu</button>
         <div class="menu-content">
-          <form action="InvoiceViewerServlet" method="GET">
-            <input type="submit" value="Admin Page" class="button logout"> 
-          </form>
+          <a href="#">Page 1</a>
           <a href="#">Page 2</a>
           <a href="#">Page 3</a>
         </div>

@@ -67,6 +67,14 @@
         <servlet-name>NewReferralServlet</servlet-name>
         <servlet-class>com.NewReferralServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ClientInvoiceViewerServlet</servlet-name>
+        <servlet-class>com.ClientInvoiceViewerServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>PayInvoiceServlet</servlet-name>
+        <servlet-class>com.PayInvoiceServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ViewPatientsServlet</servlet-name>
         <url-pattern>/ViewPatientsServlet</url-pattern>
@@ -131,6 +139,14 @@
     <servlet-mapping>
         <servlet-name>NewReferralServlet</servlet-name>
         <url-pattern>/NewReferralServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ClientInvoiceViewerServlet</servlet-name>
+        <url-pattern>/ClientInvoiceViewerServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>PayInvoiceServlet</servlet-name>
+        <url-pattern>/PayInvoiceServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
