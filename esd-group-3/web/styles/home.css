@@ -119,7 +119,9 @@ h2 {
 }
 
 /* On mouse-over, add a deeper shadow */
-.card:hover {}
+.card:hover {
+    
+}
 
 
 /* Add some padding inside the card container */
@@ -181,6 +183,75 @@ select {
   box-sizing: border-box;
   background-color: rgba(46, 49, 49, 0.3);
   color: white;
+}
+
+input[type=date],
+input[type=time] {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px rgba(46, 49, 49, 0.3);
+    border-radius: 10px;
+    box-sizing: border-box;
+    background-color: rgba(46, 49, 49, 0.3);
+    color: white;
+} 
+
+.patients-card {
+    height: 603px;    
+}
+
+.list {
+    overflow: auto;
+    height: 450px;
+}
+
+.patients-table {
+    width: 100%;
+    text-align: center;
+}
+
+td {
+    width: 169px;
+}
+
+th {
+    width: 169px;
+}
+
+.patients-table-header {
+    width: 100%;
+    text-align: center;
+    border-bottom: 1px solid black;
+    border-bottom-width: 75%;
+    margin-bottom: 5px;
+}
+
+.radio-button {
+    max-width: 100px;
+    float: left;
+    margin-right: 30px;
+}
+
+.patientlist-filteroptions {
+    width: 100%;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    margin-left: 50px;
+}
+
+.patientlist-filteroptions input[type="radio"] {
+    display: none;
+}
+
+.patientlist-filteroptions label {
+    display: inline-block;
+    border: 1px rgba(46, 49, 49, 0.3);
+    border-radius: 10px;
+    box-sizing: border-box;
+    background-color: rgba(46, 49, 49, 0.3);
+    color: white;
 }
 
 .patients-card {
