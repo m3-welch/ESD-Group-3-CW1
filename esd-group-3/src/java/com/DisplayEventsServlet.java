@@ -46,7 +46,8 @@ public class DisplayEventsServlet extends HttpServlet {
             
             String outputList = "<table>";
             for (int i = 0; i < ops.length; i++) {
-                outputList += "<tr><td>" + ops[i].getDate() + "</td><td>" + 
+                outputList += "<tr><td>" + ops[i].getOperationId() + "</td><td>" 
+                        + ops[i].getDate() + "</td><td>" +  
                         ops[i].getClientFullNameFromId(dbcon) + "</td><td>" + 
                         capitalizeWord(ops[i].getRoleFromId(dbcon)) + " " + 
                         ops[i].getEmpLastNameFromId(dbcon) + "</td><td>" + 
@@ -54,8 +55,6 @@ public class DisplayEventsServlet extends HttpServlet {
                         ops[i].getEndTime() + "</td></tr>";
             }
             outputList += "</table>";
-            
-            System.out.println(outputList);
             
             request.setAttribute("message", "Data Loaded Successfully");       
             request.setAttribute("eventList", outputList);
