@@ -63,9 +63,9 @@
                             <input type="hidden" id="start" name="start" value="${todaydate}">
                             <input type="hidden" id="end" name="end" value="${todaydate}">
                             <input type="submit" value="View today's schedule" class="button">
-						</form>
-						<form>
-							<input type="hidden" id="start" name="start" value="${todaydate}">
+			</form>
+			<form>
+                            <input type="hidden" id="start" name="start" value="${todaydate}">
                             <input type="hidden" id="end" name="end" value="${maxdate}">
                             <input type="submit" value="View upcoming appointments" class="button">
                         </form>
