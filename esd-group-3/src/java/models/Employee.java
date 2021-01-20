@@ -162,7 +162,7 @@ public class Employee extends User {
     public List<Employee> filteredRetrieveAllEmployees(DBConnection dbcon, String filter) {
         List<Employee> employees = new ArrayList<Employee>();
         
-        String query = "SELECT userid FROM Users";
+        String query = "SELECT id FROM Users";
         if(filter.equals("all")) {
             query = query.concat(" WHERE role = 'doctor' OR role = 'nurse'");
         }
@@ -173,7 +173,7 @@ public class Employee extends User {
         try (Statement stmt = dbcon.conn.createStatement()) {
             ResultSet resultSet = stmt.executeQuery(query);
             while (resultSet.next()) {
-                int user_id = resultSet.getInt("userid");
+                int user_id = resultSet.getInt("id");
 
                 Employee employee = new Employee().retrieveEmployeeByUserId(dbcon, user_id);
 
