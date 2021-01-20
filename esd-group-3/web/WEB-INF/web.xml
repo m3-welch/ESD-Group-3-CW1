@@ -123,6 +123,11 @@
         <servlet-name>ViewUsersServlet</servlet-name>
         <servlet-class>com.ViewUsersServlet</servlet-class>
     </servlet>
+    <servlet>
+        <display-name>CancelAppointmentServlet</display-name>
+        <servlet-name>CancelAppointmentServlet</servlet-name>
+        <servlet-class>com.CancelAppointmentServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ViewReferralsServlet</servlet-name>
         <url-pattern>/ViewReferralsServlet</url-pattern>
@@ -190,6 +195,10 @@
     <servlet-mapping>
         <servlet-name>NewReferralServlet</servlet-name>
         <url-pattern>/NewReferralServlet</url-pattern>
+    </servlet-mapping> 
+    <servlet-mapping>
+        <servlet-name>CancelAppointmentServlet</servlet-name>
+        <url-pattern>/CancelAppointmentServlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ClientInvoiceViewerServlet</servlet-name>

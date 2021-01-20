@@ -49,6 +49,9 @@
         <form action="/esd-group-3/InvoiceViewerServlet" method="GET">
             <input type="submit" value="View Turnover" class="link-button"> 
         </form>
+        <form action="/esd-group-3/DisplayEventsServlet" method="GET">
+            <input type="submit" value="View Schedule" class="link-button"> 
+        </form>
     </div>
     </body>
 </html>
