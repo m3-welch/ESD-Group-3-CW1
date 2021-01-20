@@ -40,7 +40,7 @@
                   <label for="type"><b>Type</b></label>
                   <select name="type" required>
                       <option value="surgery">Surgery</option>
-                      <option value="other">Other</option>
+                      <option value="consultation">Consultation</option>
                   </select>
                   <label for="date"><b>Date (Mon - Fri)</b></label>
                   <input type="date" value="${todaydate}" max="${maxdate}" name="date" required/>

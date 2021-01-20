@@ -77,6 +77,7 @@ public class DisplayEventsServlet extends HttpServlet {
                         ops[i].getStartTime() + "</td><td>" + 
                         ops[i].getEndTime() + "</td><td>" +
                         ops[i].getDescription() + "</td><td>" +
+                        (ops[i].getIsSurgery() ? "Surgery" : "Consultation") + "</td><td>" +
                         formatter.format(ops[i].getCharge()) + "</td></tr>";
             }
             outputList += "</table>";

@@ -66,6 +66,7 @@
                                 <th>Start Time</th>
                                 <th>End Time</th>
                                 <th>Description</th>
+                                <th>Type of Appointment</th>
                                 <th>Charge</th>
                             </tr>
                         </table>

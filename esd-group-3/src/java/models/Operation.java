@@ -315,7 +315,7 @@ public class Operation {
     }
     
     public String getRoleFromId(DBConnection dbcon){
-        String query = "SELECT role FROM Users WHERE id = " + this.employeeid;
+        String query = "SELECT role FROM Users WHERE id = " + new Employee().retrieveEmployeeByEmployeeId(dbcon, this.employeeid).getId();
         String role = "Unknown";
         try (Statement stmt = dbcon.conn.createStatement()) {
             ResultSet resultSet = stmt.executeQuery(query);
@@ -352,13 +352,13 @@ public class Operation {
 
             else if(role.equals("doctor") && !op.getIsSurgery()){
                 //is doctor consultation
-                apptType = "consultaion";
+                apptType = "consultation";
                 cost = p.getPrice(dbcon, apptType, role, slots);
             }
             //time in nurse surgeries
             else if(role.equals("nurse") && !op.getIsSurgery()){
                 //is nurse consultation
-                apptType = "consultaion";
+                apptType = "consultation";
                 cost = p.getPrice(dbcon, apptType, role, slots);
             }
         this.setCharge(cost.floatValue());
