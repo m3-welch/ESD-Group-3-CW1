@@ -236,7 +236,6 @@ public class Prescriptions {
         try (Statement stmt = dbcon.conn.createStatement()) {
             ResultSet resultSet = stmt.executeQuery(query);
             if (!resultSet.next()) {
-                System.out.println("No results found");
                 return;
             }
             else {
@@ -256,7 +255,6 @@ public class Prescriptions {
             date_end = date_end.plusMonths(1);
         }
         else {
-            System.out.println("Not a repeat prescription");
             return;  // Exit if not repeatable
         }
         

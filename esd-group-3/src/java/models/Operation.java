@@ -331,7 +331,6 @@ public class Operation {
         Employee employee = new Employee();
         employee = employee.retrieveEmployeeByUserId(dbcon, employee_userid);
         int employeeId = employee.getEmployeeId();
-        System.out.println(employee.getFirstname());
         Client client = new Client();
         client.retrieveClientByUserId(dbcon, client_userid);
         int clientId = client.getClientId();
@@ -346,9 +345,8 @@ public class Operation {
         this.setIsPaid(is_paid);
         this.setIsSurgery(is_surgery);
         
-        Float cost = this.calculateOperationCost(dbcon, this);
+        float cost = this.calculateOperationCost(dbcon, this);
         
-        System.out.println("---\n" + employeeId + "\n" + clientId + "\n" + date + "\n" + starttime + "\n" + endtime + "\n" + cost + "\n" + is_paid + "\n" + is_surgery + "\n" + description);
         String query = "INSERT INTO Operations (employeeid, clientid, date, starttime, endtime, charge, is_paid, is_surgery, description) VALUES ("
                 + employeeId + ", " + clientId + ", '" + date + "', '" + starttime + "', '" + endtime + "', " + cost + ", " + is_paid + ", " + is_surgery + ", '" + description + "')";
          
@@ -373,7 +371,7 @@ public class Operation {
     }
     
     public String getRoleFromId(DBConnection dbcon){
-        String query = "SELECT role FROM Users WHERE id = " + this.employeeid;
+        String query = "SELECT role FROM Users WHERE id = " + new Employee().retrieveEmployeeByEmployeeId(dbcon, this.employeeid).getId();
         String role = "Unknown";
         try (Statement stmt = dbcon.conn.createStatement()) {
             ResultSet resultSet = stmt.executeQuery(query);
@@ -410,13 +408,13 @@ public class Operation {
 
             else if(role.equals("doctor") && !op.getIsSurgery()){
                 //is doctor consultation
-                apptType = "consultaion";
+                apptType = "consultation";
                 cost = p.getPrice(dbcon, apptType, role, slots);
             }
             //time in nurse surgeries
             else if(role.equals("nurse") && !op.getIsSurgery()){
                 //is nurse consultation
-                apptType = "consultaion";
+                apptType = "consultation";
                 cost = p.getPrice(dbcon, apptType, role, slots);
             }
         this.setCharge(cost.floatValue());
