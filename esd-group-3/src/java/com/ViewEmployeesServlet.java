@@ -55,7 +55,8 @@ public class ViewEmployeesServlet extends HttpServlet{
                     employees.get(i).getLastname() + "</td><td>" + 
                     employees.get(i).getRole() + "</td><td>" + 
                     employees.get(i).getEmail() + "</td><td>" + 
-                    employees.get(i).getAddress() + "</td></tr>";
+                    employees.get(i).getAddress() + "</td><td>" +
+                    employees.get(i).getDob() +"</td></tr>";
         }
         
         outputList += "</table>";
@@ -106,7 +107,8 @@ public class ViewEmployeesServlet extends HttpServlet{
                     employees.get(i).getLastname() + "</td><td>" + 
                     employees.get(i).getRole() + "</td><td>" + 
                     employees.get(i).getEmail() + "</td><td>" + 
-                    employees.get(i).getAddress() + "</td></tr>";
+                    employees.get(i).getAddress() + "</td><td>" +
+                    employees.get(i).getDob() + "</td></tr>";
         }
         
         outputList += "</table>";

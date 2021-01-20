@@ -9,6 +9,7 @@ import dbcon.DBConnection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,6 +27,7 @@ public class User {
     private String address;
     private String role;
     public Events events;
+    private LocalDate dob;
     
     public User setId(int id) {
         this.id = id;
@@ -97,6 +99,14 @@ public class User {
         ev.getOperationsFromDB(dbcon, this.id);
         this.events = ev;
     }
+
+    public LocalDate getDob() {
+        return dob;
+    }
+
+    public void setDob(LocalDate dob) {
+        this.dob = dob;
+    }
     
     public List<User> retrieveAll(DBConnection dbcon) {
         List<User> users = new ArrayList<User>();
@@ -114,6 +124,7 @@ public class User {
                 user.setEmail(resultSet.getString("email"));
                 user.setAddress(resultSet.getString("address"));
                 user.setRole(resultSet.getString("role"));
+                user.setDob(LocalDate.parse(resultSet.getString("dob")));
                 System.out.println(user);
                 users.add(user);
             }
@@ -137,7 +148,7 @@ public class User {
                 this.setEmail(resultSet.getString("email"));
                 this.setAddress(resultSet.getString("address"));
                 this.setRole(resultSet.getString("role"));
-
+                this.setDob(LocalDate.parse(resultSet.getString("dob")));
             }
 
         } catch (SQLException e) {
@@ -159,7 +170,7 @@ public class User {
                 this.setEmail(resultSet.getString("email"));
                 this.setAddress(resultSet.getString("address"));
                 this.setRole(resultSet.getString("role"));
-
+                this.setDob(LocalDate.parse(resultSet.getString("dob")));
             }
 
         } catch (SQLException e) {

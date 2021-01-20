@@ -35,8 +35,10 @@
                   <label for="type"><b>Type</b></label>
                   <select name="type">
                       <option value="NHS">NHS</option>
-                      <option value="private">Private</option
+                      <option value="private">Private</option>
                   </select>
+                  <label for="dob"><b>Date of Birth</b></label>
+                  <input type="date" name="dob" required>
                   <input type="submit" value="signup" class="button"> 
                 </form>
               </div>

@@ -8,6 +8,7 @@ package com;
 import dbcon.DBConnection;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -50,13 +51,14 @@ public class NewEmployeeServlet extends HttpServlet {
         String address = request.getParameter("address");
         String type = request.getParameter("type");
         String isFullTime = request.getParameter("isFullTime");
+        LocalDate dob = LocalDate.parse(request.getParameter("dob"));
         
         Employee employee = new Employee();
         
         
         try {
             DBConnection dbcon = new DBConnection("smartcaretest", "", "");
-            employee.create(dbcon, username, password, firstname, lastname, email, address, type, isFullTime);
+            employee.create(dbcon, username, password, firstname, lastname, email, address, type, isFullTime, dob);
         } catch (SQLException ex) {
             Logger.getLogger(PatientSignupServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
