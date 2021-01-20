@@ -63,3 +63,9 @@ CREATE TABLE Referrals (
 CREATE TABLE ApiCredentials (
     googlemapsapisecret varchar(128)
 );
+
+CREATE TABLE PendingPrescriptionExtensions (
+    id int NOT NULL PRIMARY KEY GENERATED ALWAYS AS identity (start with 1, increment by 1),
+    prescriptionid int UNIQUE references Prescriptions(id),
+    newEndDate date
+);
