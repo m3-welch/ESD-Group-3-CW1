@@ -123,7 +123,7 @@ public class ViewPatientsServlet extends HttpServlet {
             outputList += "<tr><form action='ViewPatientsServlet' method='POST'><td><input type='text' value='" + clients.get(i).getClientId() + "' name='clientId' readonly>" + "</td><td>" +
                     clients.get(i).getFirstname() + " " + clients.get(i).getLastname() + "</td><td>" +
                     (clients.get(i).getIsNhs().equals("true") ? "NHS" : "Private") + "</td><td>" +
-                    client.get(i).getEmail() + "</td><td>" +
+                    clients.get(i).getEmail() + "</td><td>" +
                     clients.get(i).getAddress() + "</td><td>" +
                     "<input type='submit' name='delete_patient' value='delete' class='button'/></td></form></tr>";
         }
