@@ -124,8 +124,8 @@ public class ViewPatientsServlet extends HttpServlet {
         
         String outputList = "<table class='patients-table'>";
         
-        for (int i = 0; i < clients.size(); i++) {
-            outputList += "<tr><form action='ViewPatientsServlet' method='POST'><td><input type='text' value='" + clients.get(i).getClientId() + "' name='clientId' readonly>" + "</td><td>" +
+        for (int i = 0; i < clients.size(); i++) {//<form action='ViewPatientsServlet' method='POST'>
+            outputList += "<tr><td><input type='text' value='" + clients.get(i).getClientId() + "' name='clientId' readonly>" + "</td><td>" +
                     clients.get(i).getFirstname() + " " + clients.get(i).getLastname() + "</td><td>" +
                     (clients.get(i).getIsNhs().equals("true") ? "NHS" : "Private") + "</td><td>" +
                     clients.get(i).getEmail() + "</td><td>" +

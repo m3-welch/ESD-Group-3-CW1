@@ -41,7 +41,7 @@
                             <input ${checkedcombined} type="radio" value="all" id="combined" name="filter" class="patientlist-filter"/>
                             <label for="combined">Combined</label>                                
                             <input type="submit" value="Update" class="update-button"/>
-                        </form>
+                        <!--</form>-->
                         <table class='patients-table-header'>
                             <tr>
                                 <th>Patient ID</th>
