@@ -37,19 +37,21 @@
         </div>
         <div class="content">
         <p style="color:#FF3232;font-size:12px;text-align:center" id="note">${message}</p>
-        <h1>View Patients</h1>
+        <h1>View Users</h1>
         <div class="center">
             <div class="card users-card">
                 <div class="container">
-                    <h2 style="text-align:center;margin-top: 10px;">View Patients</h2>
+                    <h2 style="text-align:center;margin-top: 10px;">View Users</h2>
                     <div class="container">
                         <table class='patients-table-header'>
                             <tr>
-                                <th>Patient ID</th>
-                                <th>Patient Name</th>
-                                <th>Patient Type</th>
-                                <th>Patient Email</th>
-                                <th>Patient Address</th>
+                                <th>ID</th>
+                                <th>Username</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Address</th>
+                                <th>Role</th>
+                                <th></th>
                             </tr>
                         </table>
                         <div class="list">

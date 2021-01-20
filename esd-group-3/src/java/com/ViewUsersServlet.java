@@ -67,7 +67,7 @@ public class ViewUsersServlet extends HttpServlet{
                         "<option value='admin'>admin</option>" +
                         "<option selected='selected' value='client'>client</option>";
             }
-            outputList += "<tr><form action='EditUserServlet' method='POST'><td>" + users.get(i).getId() + "</td><td>" +
+            outputList += "<tr><form action='ViewUsersServlet' method='POST'><td>" + users.get(i).getId() + "</td><td>" +
                     "<input type='text' name='username' value='" + users.get(i).getUsername() + "' readonly/></td><td>" +
                     users.get(i).getFirstname() + " " + users.get(i).getLastname() + "</td><td>" +
                     users.get(i).getEmail() + "</td><td>" +
@@ -125,7 +125,7 @@ public class ViewUsersServlet extends HttpServlet{
                         dbUser.dropUser(dbcon, dbUser.getUsername());
                         //add updateUser to client
                         Employee updateEmployee = new Employee();
-                        updateEmployee.create(dbcon, updateUser.getUsername(), updateUser.getPassword(), updateUser.getFirstname(), updateUser.getLastname(), updateUser.getEmail(), updateUser.getAddress(), updateUser.getRole(), "True");
+                        updateEmployee.create(dbcon, updateUser.getUsername(), updateUser.getPassword(), updateUser.getFirstname(), updateUser.getLastname(), updateUser.getEmail(), updateUser.getAddress(), updateUser.getRole(), "");
                     }
                         
                 } else if("client".equals(role)){
@@ -133,10 +133,8 @@ public class ViewUsersServlet extends HttpServlet{
                         //remove dbUser from client db
                         dbUser.dropUser(dbcon, dbUser.getUsername());
                         //add updateUser to employee db
-                        Employee updateEmployee = new Employee();
-                        updateEmployee.create(dbcon, updateUser.getUsername(), updateUser.getPassword(), updateUser.getFirstname(), updateUser.getLastname(), updateUser.getEmail(), updateUser.getAddress(), updateUser.getRole(), "True");
                         Client updateClient = new Client();
-                        updateClient.create(dbcon, updateUser.getUsername(), updateUser.getPassword(), updateUser.getFirstname(), updateUser.getLastname(), updateUser.getEmail(), updateUser.getAddress(), updateUser.getRole(), "True");
+                        updateClient.create(dbcon, updateUser.getUsername(), updateUser.getPassword(), updateUser.getFirstname(), updateUser.getLastname(), updateUser.getEmail(), updateUser.getAddress(), updateUser.getRole(), "");
                     } 
                 }
                 
@@ -159,28 +157,35 @@ public class ViewUsersServlet extends HttpServlet{
         
         for (int i = 0; i < users.size(); i++) {
             String selectStatement = "";
-            if("doctor".equals(users.get(i).getRole())){
-                selectStatement = "<option selected='selected' value='doctor'>doctor</doctor>" +
-                        "<option value='nurse'>nurse</option>" +
-                        "<option value='admin'>admin</option>" +
-                        "<option value='client'>client</option>";
-            } else if("nurse".equals(users.get(i).getRole())) {
-                selectStatement = "<option value='doctor'>doctor</doctor>" +
-                        "<option selected='selected' value='nurse'>nurse</option>" +
-                        "<option value='admin'>admin</option>" +
-                        "<option value='client'>client</option>";
-            }else if("admin".equals(users.get(i).getRole())) {
-                selectStatement = "<option value='doctor'>doctor</doctor>" +
-                        "<option value='nurse'>nurse</option>" +
-                        "<option selected='selected' value='admin'>admin</option>" +
-                        "<option value='client'>client</option>";
-            }else if("client".equals(users.get(i).getRole())) {
-                selectStatement = "<option value='doctor'>doctor</doctor>" +
-                        "<option value='nurse'>nurse</option>" +
-                        "<option value='admin'>admin</option>" +
-                        "<option selected='selected' value='client'>client</option>";
+            if(null != users.get(i).getRole())switch (users.get(i).getRole()) {
+                case "doctor":
+                    selectStatement = "<option selected='selected' value='doctor'>doctor</doctor>" +
+                            "<option value='nurse'>nurse</option>" +
+                            "<option value='admin'>admin</option>" +
+                            "<option value='client'>client</option>";
+                    break;
+                case "nurse":
+                    selectStatement = "<option value='doctor'>doctor</doctor>" +
+                            "<option selected='selected' value='nurse'>nurse</option>" +
+                            "<option value='admin'>admin</option>" +
+                            "<option value='client'>client</option>";
+                    break;
+                case "admin":
+                    selectStatement = "<option value='doctor'>doctor</doctor>" +
+                            "<option value='nurse'>nurse</option>" +
+                            "<option selected='selected' value='admin'>admin</option>" +
+                            "<option value='client'>client</option>";
+                    break;
+                case "client":
+                    selectStatement = "<option value='doctor'>doctor</doctor>" +
+                            "<option value='nurse'>nurse</option>" +
+                            "<option value='admin'>admin</option>" +
+                            "<option selected='selected' value='client'>client</option>";
+                    break;
+                default:
+                    break;
             }
-            outputList += "<tr><form action='EditUserServlet' method='POST'><td>" + users.get(i).getId() + "</td><td>" +
+            outputList += "<tr><form action='ViewUsersServlet' method='POST'><td>" + users.get(i).getId() + "</td><td>" +
                     "<input type='text' name='username' value='" + users.get(i).getUsername() + "' readonly/></td><td>" +
                     users.get(i).getFirstname() + " " + users.get(i).getLastname() + "</td><td>" +
                     users.get(i).getEmail() + "</td><td>" +
