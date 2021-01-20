@@ -98,6 +98,31 @@ public class User {
         this.events = ev;
     }
     
+    public List<User> retrieveAll(DBConnection dbcon) {
+        List<User> users = new ArrayList<User>();
+        
+        String query = "SELECT * FROM Users";
+            
+        try (Statement stmt = dbcon.conn.createStatement()) {
+            ResultSet resultSet = stmt.executeQuery(query);
+            while (resultSet.next()) {
+                User user = new User();
+                user.setId(resultSet.getInt("id"));
+                user.setUsername(resultSet.getString("username"));
+                user.setFirstname(resultSet.getString("firstname"));
+                user.setLastname(resultSet.getString("lastname"));
+                user.setEmail(resultSet.getString("email"));
+                user.setAddress(resultSet.getString("address"));
+                user.setRole(resultSet.getString("role"));
+                System.out.println(user);
+                users.add(user);
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return users;
+    }
+    
     public void retrieveByUsername(DBConnection dbcon, String uname) {
         String query = "SELECT * FROM Users WHERE username = '" + uname + "'";
 
