@@ -25,9 +25,65 @@ import models.Client;
  * @author Sam
  */
 public class ViewUsersServlet extends HttpServlet{
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession loginSession = request.getSession(false);
+        request.setAttribute("dashboard", "/esd-group-3/dashboards/" + loginSession.getAttribute("user_role") + "_home.jsp");
+        //response.setContentType("text/html");
+        
+        request.getRequestDispatcher("pages/ViewUsers.jsp").include(request, response);
+        
+        User user = new Client();
+        List<User> users = null;        
+        
+        try {
+            DBConnection dbcon = new DBConnection("smartcaretest", "", "");
+            users = user.retrieveAll(dbcon);
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+        
+        String outputList = "<table class='users-table'>";
+        
+        for (int i = 0; i < users.size(); i++) {
+            String selectStatement = "";
+            if("doctor".equals(users.get(i).getRole())){
+                selectStatement = "<option selected='selected' value='doctor'>doctor</doctor>" +
+                        "<option value='nurse'>nurse</option>" +
+                        "<option value='admin'>admin</option>" +
+                        "<option value='client'>client</option>";
+            } else if("nurse".equals(users.get(i).getRole())) {
+                selectStatement = "<option value='doctor'>doctor</doctor>" +
+                        "<option selected='selected' value='nurse'>nurse</option>" +
+                        "<option value='admin'>admin</option>" +
+                        "<option value='client'>client</option>";
+            }else if("admin".equals(users.get(i).getRole())) {
+                selectStatement = "<option value='doctor'>doctor</doctor>" +
+                        "<option value='nurse'>nurse</option>" +
+                        "<option selected='selected' value='admin'>admin</option>" +
+                        "<option value='client'>client</option>";
+            }else if("client".equals(users.get(i).getRole())) {
+                selectStatement = "<option value='doctor'>doctor</doctor>" +
+                        "<option value='nurse'>nurse</option>" +
+                        "<option value='admin'>admin</option>" +
+                        "<option selected='selected' value='client'>client</option>";
+            }
+            outputList += "<tr><form action='EditUserServlet' method='POST'><td>" + users.get(i).getId() + "</td><td>" +
+                    "<input type='text' name='username' value='" + users.get(i).getUsername() + "' readonly/></td><td>" +
+                    users.get(i).getFirstname() + " " + users.get(i).getLastname() + "</td><td>" +
+                    users.get(i).getEmail() + "</td><td>" +
+                    users.get(i).getAddress() + "</td><td>" +
+                    "<select name='role'>" + selectStatement + "</select></td><td>" +
+                    "<input type='submit' name='save' value='save' class='button'/></td></form></tr>";
+        }
+        
+        outputList += "</table>";
+        request.setAttribute("userlist", outputList);
+        request.getRequestDispatcher("pages/ViewUsers.jsp").forward(request,response);
+    }
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
                             throws ServletException, IOException {
-        response.setContentType("text/html");
+        //response.setContentType("text/html");
         HttpSession loginSession = request.getSession(false);
         request.setAttribute("dashboard", "/esd-group-3/dashboards/" + loginSession.getAttribute("user_role") + "_home.jsp");
         

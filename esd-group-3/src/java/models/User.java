@@ -9,6 +9,8 @@ import dbcon.DBConnection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.List;
+import java.util.ArrayList;
 
 /**
  *
@@ -94,6 +96,31 @@ public class User {
         Events ev = new Events();
         ev.getOperationsFromDB(dbcon, this.id);
         this.events = ev;
+    }
+    
+    public List<User> retrieveAll(DBConnection dbcon) {
+        List<User> users = new ArrayList<User>();
+        
+        String query = "SELECT * FROM Users";
+            
+        try (Statement stmt = dbcon.conn.createStatement()) {
+            ResultSet resultSet = stmt.executeQuery(query);
+            while (resultSet.next()) {
+                User user = new User();
+                user.setId(resultSet.getInt("id"));
+                user.setUsername(resultSet.getString("username"));
+                user.setFirstname(resultSet.getString("firstname"));
+                user.setLastname(resultSet.getString("lastname"));
+                user.setEmail(resultSet.getString("email"));
+                user.setAddress(resultSet.getString("address"));
+                user.setRole(resultSet.getString("role"));
+                System.out.println(user);
+                users.add(user);
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return users;
     }
     
     public void retrieveByUsername(DBConnection dbcon, String uname) {
