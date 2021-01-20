@@ -44,6 +44,7 @@
                     <h2 style="text-align:center;margin-top: 10px;">View appointment details</h2>
                     <div class="container">
                         <form action="/esd-group-3/DisplayEventsServlet" method="POST">
+                            ${ma}
                             <label for="start">Start date:</label>
                             <input type="date" id="start" name="start"
                                     value="${todaydate}"
