@@ -47,11 +47,14 @@ public class EditUserServlet extends HttpServlet {
         String save = "";
         String role = "";
         String dbRole = "";
+        String uname = "";
         
         //request.getRequestDispatcher("admin_home.jsp").include(request, response);
         
         try{
-            save = request.getParameter("save");            
+            save = request.getParameter("save");
+            uname = request.getParameter("username");
+            role = request.getParameter("role");     
         }
         catch(Exception e){
             System.out.println(e);
@@ -60,17 +63,12 @@ public class EditUserServlet extends HttpServlet {
         if ("save".equals(save)) {
             try {
                 DBConnection dbcon = new DBConnection("smartcaretest", "", "");
-                User updateUser = new User();// create a client object to update the old one
-                updateUser.setId(Integer.parseInt(request.getParameter("id"))); //set all user details
-                updateUser.setUsername(request.getParameter("username"));
-                updateUser.setFirstname(request.getParameter("firstname"));
-                updateUser.setLastname(request.getParameter("lasttname"));
-                updateUser.setEmail(request.getParameter("email"));
-                updateUser.setAddress(request.getParameter("address"));
-                updateUser.setRole(request.getParameter("role"));
-
+                User updateUser = new User();// create a client object to update the old one              
                 User dbUser = new User();
-                dbUser.retrieveByUsername(dbcon, request.getParameter("username"));
+                
+                dbUser.retrieveByUsername(dbcon, uname);
+                updateUser.retrieveByUsername(dbcon, uname);
+                updateUser.setRole(role);
                 dbRole = dbUser.getRole();
                 if (("doctor".equals(role))||("nurse".equals(role))||("admin".equals(role))) {
                     if("doctor".equals(dbRole)||("nurse".equals(dbRole))||("admin".equals(dbRole))){//if update user and table user are of the same client or employee then just change role
@@ -78,7 +76,10 @@ public class EditUserServlet extends HttpServlet {
                     } else {
                         //functionallity already exists
                         //remove dbUser from employee db
+                        dbUser.dropUser(dbcon, dbUser.getUsername());
                         //add updateUser to client
+                        Client updateClient = new Client();
+                        updateClient.create(dbcon, updateUser.getUsername(), updateUser.getPassword(), updateUser.getFirstname(), updateUser.getLastname(), updateUser.getEmail(), updateUser.getAddress(), updateUser.getRole(), "True");
                     }
                         
                 } else if("client".equals(role)){
@@ -86,7 +87,10 @@ public class EditUserServlet extends HttpServlet {
                          dbUser.editUser(dbcon, "Users", dbUser.getUsername(), "Role", updateUser.getRole());//just change type in users
                     } else {
                         //remove dbUser from client db
+                        dbUser.dropUser(dbcon, dbUser.getUsername());
                         //add updateUser to employee db
+                        Employee updateEmployee = new Employee();
+                        updateEmployee.create(dbcon, updateUser.getUsername(), updateUser.getPassword(), updateUser.getFirstname(), updateUser.getLastname(), updateUser.getEmail(), updateUser.getAddress(), updateUser.getRole(), "True");
                     } 
                 }
                 
