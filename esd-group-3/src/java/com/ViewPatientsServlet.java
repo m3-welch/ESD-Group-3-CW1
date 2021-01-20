@@ -23,14 +23,49 @@ import models.Client;
  * @author morgan
  */
 public class ViewPatientsServlet extends HttpServlet {
+    
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession loginSession = request.getSession(false);
+        request.setAttribute("dashboard", "/esd-group-3/dashboards/" + loginSession.getAttribute("user_role") + "_home.jsp");
+        response.setContentType("text/html");
+        
+        request.getRequestDispatcher("pages/ViewPatients.jsp").include(request, response);
+        
+        //decare vars
+        String filter = "all";
+        
+        request.setAttribute("checkednhs", "");
+        request.setAttribute("checkedprivate", "");
+        request.setAttribute("checkedcombined", "checked='true'");
+        
+        Client client = new Client();
+        List<Client> clients = null;        
+        
+        try {
+            DBConnection dbcon = new DBConnection("smartcaretest", "", "");
+            clients = client.getAll(dbcon, filter);
+        } catch (SQLException ex) {
+            Logger.getLogger(SignupServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        String outputList = "<table class='patients-table'>";
+        
+        for (int i = 0; i < clients.size(); i++) {
+            outputList += "<tr><td>" + clients.get(i).getClientId() + "</td><td>" + clients.get(i).getFirstname() + " " + clients.get(i).getLastname() + "</td><td>" + (clients.get(i).getIsNhs() ? "NHS" : "Private") + "</td><td>" + clients.get(i).getEmail() + "</td><td>" + clients.get(i).getAddress() + "</td></tr>";
+        }
+        
+        outputList += "</table>";
+        request.setAttribute("patientlist", outputList);
+        request.getRequestDispatcher("pages/ViewPatients.jsp").forward(request,response);
+    }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
                             throws ServletException, IOException {
         response.setContentType("text/html");
+        HttpSession loginSession = request.getSession(false);
+        request.setAttribute("dashboard", "/esd-group-3/dashboards/" + loginSession.getAttribute("user_role") + "_home.jsp");
         
-        HttpSession loginSession = request.getSession();
-        
-        request.getRequestDispatcher((String)loginSession.getAttribute("dashboard")).include(request, response);
+        request.getRequestDispatcher("pages/ViewPatients.jsp").include(request, response);
         
         
         String delete = "";
@@ -60,9 +95,15 @@ public class ViewPatientsServlet extends HttpServlet {
         
         if ("NHS".equals(filter)) {
             request.setAttribute("checkednhs", "checked='true'");
+            request.setAttribute("checkedprivate", "");
+            request.setAttribute("checkedcombined", "");
         } else if ("private".equals(filter)) {
+            request.setAttribute("checkednhs", "");
             request.setAttribute("checkedprivate", "checked='true'");
+            request.setAttribute("checkedcombined", "");
         } else if ("all".equals(filter)) {
+            request.setAttribute("checkednhs", "");
+            request.setAttribute("checkedprivate", "");
             request.setAttribute("checkedcombined", "checked='true'");
         }
         
@@ -82,16 +123,14 @@ public class ViewPatientsServlet extends HttpServlet {
             outputList += "<tr><form action='ViewPatientsServlet' method='POST'><td><input type='text' value='" + clients.get(i).getClientId() + "' name='clientId' readonly>" + "</td><td>" +
                     clients.get(i).getFirstname() + " " + clients.get(i).getLastname() + "</td><td>" +
                     (clients.get(i).getIsNhs().equals("true") ? "NHS" : "Private") + "</td><td>" +
+                    clients.get(i).getEmail() + "</td><td>" +
                     clients.get(i).getAddress() + "</td><td>" +
                     "<input type='submit' name='delete_patient' value='delete' class='button'/></td></form></tr>";
         }
         
         outputList += "</table>";
         request.setAttribute("patientlist", outputList);
-        request.getRequestDispatcher((String)loginSession.getAttribute("dashboard")).forward(request,response);
-        response.sendRedirect((String)loginSession.getAttribute("dashboard"));
-        
-        request.getRequestDispatcher((String)loginSession.getAttribute("dashboard")).forward(request,response);
+        request.getRequestDispatcher("pages/ViewPatients.jsp").forward(request,response);
     }
     
 }
