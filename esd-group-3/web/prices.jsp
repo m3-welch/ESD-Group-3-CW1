@@ -11,12 +11,37 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Change Price</title>
+        <link rel="stylesheet" href="/esd-group-3/styles/home.css">
+        <title>SmartCare - Change Price</title>
     </head>
     <body>
-        <div>
+        <div class="top-banner">
+
+            <div class="dropdown">
+                <button class="menu button">Menu</button>
+                <div class="menu-content">
+                    <form action="/esd-group-3/InvoiceViewerServlet" method="GET">
+                        <input type="submit" value="Admin Page" class="button logout"> 
+                    </form>
+                    <a href="#">Page 2</a>
+                    <a href="#">Page 3</a>
+                </div>
+            </div>      
+
+            <div class="logout">        
+                <form action="/esd-group-3/LogoutServlet" method="GET">
+                    <input type="submit" value="Logout" class="button logout"> 
+                </form>
+            </div>
+
+            <div class="center">
+                <a href="${dashboard}"><h2>SmartCare</h2></a>
+            </div>
+        </div>
+        <div class="content">
+            <p style="color:#FF3232;font-size:12px;text-align:center" id="note">${message}</p>
             <h1>Displaying All Prices</h1> 
-            <table border ="1" width="500" align="center"> 
+            <table border ="1" width="750" align="center"> 
                 <tr bgcolor="00FF7F">
                     <th><b>Appointment Type</b></th>
                     <th><b>Employee Type</b></th>
@@ -45,8 +70,8 @@
                                 <input type="text" name="priceValue" value="<%=i.getPricePerSlot()%>">
                             </td>
                             <td>                            
-                                <input type="submit" name="select" value="Save" class="button">
-                                <input type="submit" name="select" value="Delete" class="button">
+                                <input type="submit" name="select" value="Save">
+                                <input type="submit" name="select" value="Delete">
                             </td>
                             </form>
                         </tr>
@@ -71,7 +96,7 @@
                                 <input type="text" name="newPriceValue" placeholder="Price per Hour" required>
                             </td>
                             <td>                            
-                                <input type="submit" name="select" value="Add" class="button"> 
+                                <input type="submit" name="select" value="Add"> 
                             </td>
                             </form>
                         </tr>

@@ -37,7 +37,7 @@ public class PricesViewer extends HttpServlet {
         request.setAttribute("dashboard", "/esd-group-3/dashboards/" + loginSession.getAttribute("user_role") + "_home.jsp");
         response.setContentType("text/html");   
   
-        request.getRequestDispatcher("prices.jsp").include(request, response);
+        request.getRequestDispatcher((String)loginSession.getAttribute("dashboard")).include(request, response);
         
         try {
             Price pricesCaller = new Price();

@@ -12,7 +12,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import dbcon.DBConnection;
 import java.sql.SQLException;
+import java.text.NumberFormat;
 import java.time.LocalDate;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpSession;
@@ -45,6 +47,11 @@ public class DisplayEventsServlet extends HttpServlet {
         HttpSession loginSession = request.getSession(false);
         request.getRequestDispatcher((String)loginSession.getAttribute("dashboard")).include(request, response);
         
+        request.setAttribute("todaydate", LocalDate.now().toString());
+        request.setAttribute("maxdate", LocalDate.now().plusYears(1).toString());
+        request.setAttribute("onemonth", LocalDate.now().plusMonths(1).toString());
+        request.setAttribute("minusyear", LocalDate.now().minusYears(1).toString());
+        
         int userid = (Integer)loginSession.getAttribute("userID");
         
         request.setAttribute("dashboard", "/esd-group-3/dashboards/" + loginSession.getAttribute("user_role") + "_home.jsp");
@@ -59,6 +66,7 @@ public class DisplayEventsServlet extends HttpServlet {
             LocalDate endDate = LocalDate.parse(request.getParameter("end"));
             
             Operation[] ops = events.getEventsBetweenDates(startDate, endDate);
+            NumberFormat formatter = NumberFormat.getCurrencyInstance(Locale.UK);
             
             String outputList = "<table>";
             for (int i = 0; i < ops.length; i++) {
@@ -68,7 +76,8 @@ public class DisplayEventsServlet extends HttpServlet {
                         ops[i].getEmpLastNameFromId(dbcon) + "</td><td>" + 
                         ops[i].getStartTime() + "</td><td>" + 
                         ops[i].getEndTime() + "</td><td>" +
-                        ops[i].getDescription() + "</td></tr>";
+                        ops[i].getDescription() + "</td><td>" +
+                        formatter.format(ops[i].getCharge()) + "</td></tr>";
             }
             outputList += "</table>";
                         

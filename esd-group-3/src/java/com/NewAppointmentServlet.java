@@ -84,6 +84,49 @@ public class NewAppointmentServlet extends HttpServlet {
         response.setContentType("text/html");
 
         
+        try {
+            DBConnection dbcon = new DBConnection("smartcaretest", "", "");
+            Client client = new Client();
+            List<Client> clients = client.getAll(dbcon, "all");
+            String clientoptions = "";
+            
+            for (int i = 0; i < clients.size(); i++) {
+                clientoptions += "<option value='" + clients.get(i).getId() + "'>" + clients.get(i).getFirstname() + " " + clients.get(i).getLastname() + "</option>";
+            }
+            
+            LocalTime now = LocalTime.now();
+            LocalTime tenmins = now.plusMinutes(10);
+            
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm");
+            String timeLabel = new String(now.format(dtf));
+            
+            String timeLabelTenMins = new String(tenmins.format(dtf));
+            
+            request.setAttribute("nowtime", timeLabel);
+            request.setAttribute("tenmins", timeLabelTenMins);
+            
+            request.setAttribute("userid", loginSession.getAttribute("userID"));
+            
+            // get list of employees
+            Employee employee = new Employee();
+            List<Employee> employees = employee.retrieveAllEmployees(dbcon);
+            
+            String doctornurseoptions = "";
+           
+            for (int i = 0; i < employees.size(); i++) {
+                    doctornurseoptions += "<option value='" + employees.get(i).getId() + "'>" + employees.get(i).getFirstname() + " " + employees.get(i).getLastname() + "</option>";
+            }
+        
+            request.setAttribute("doctornurseoptions", doctornurseoptions);
+            
+            request.setAttribute("todaydate", LocalDate.now().toString());
+            request.setAttribute("maxdate", LocalDate.now().plusYears(1).toString());
+            request.setAttribute("onemonth", LocalDate.now().plusMonths(1).toString());
+            request.setAttribute("minusyear", LocalDate.now().minusYears(1).toString());
+        } catch (SQLException ex) {
+            Logger.getLogger(NewAppointmentServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
         request.getRequestDispatcher((String)loginSession.getAttribute("dashboard")).include(request, response);
 
         //decare vars

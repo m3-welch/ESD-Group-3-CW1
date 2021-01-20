@@ -71,8 +71,42 @@ public class NewEmployeeAppointmentServlet extends HttpServlet {
         request.setAttribute("dashboard", "/esd-group-3/dashboards/" + loginSession.getAttribute("user_role") + "_home.jsp");
         response.setContentType("text/html");
         
-        request.getRequestDispatcher((String)loginSession.getAttribute("dashboard")).include(request, response);
-
+        request.getRequestDispatcher("pages/NewEmployeeAppointment.jsp").include(request, response);
+        
+        DBConnection dbcon;
+        try {
+            dbcon = new DBConnection("smartcaretest", "", "");
+            Client client = new Client();
+            List<Client> clients = client.getAll(dbcon, "all");
+            String clientoptions = "";
+            
+            for (int i = 0; i < clients.size(); i++) {
+                clientoptions += "<option value='" + clients.get(i).getId() + "'>" + clients.get(i).getFirstname() + " " + clients.get(i).getLastname() + "</option>";
+            }
+            
+            LocalTime now = LocalTime.now();
+            LocalTime tenmins = now.plusMinutes(10);
+            
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm");
+            String timeLabel = new String(now.format(dtf));
+            
+            String timeLabelTenMins = new String(tenmins.format(dtf));
+            
+            request.setAttribute("nowtime", timeLabel);
+            request.setAttribute("tenmins", timeLabelTenMins);
+            
+            request.setAttribute("userid", loginSession.getAttribute("userID"));
+            
+            request.setAttribute("clientoptions", clientoptions);
+            request.setAttribute("todaydate", LocalDate.now().toString());
+            request.setAttribute("maxdate", LocalDate.now().plusYears(1).toString());
+            request.setAttribute("onemonth", LocalDate.now().plusMonths(1).toString());
+            request.setAttribute("minusyear", LocalDate.now().minusYears(1).toString());
+        } catch (SQLException ex) {
+            System.out.println(ex);
+            Logger.getLogger(NewEmployeeAppointmentServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+           
         //decare vars
         String client_userid = request.getParameter("clientoptions");
         String employee_userid = request.getParameter("employeeid");
@@ -84,9 +118,7 @@ public class NewEmployeeAppointmentServlet extends HttpServlet {
 
         //create appointment
         Operation operation = new Operation();
-        
-        DBConnection dbcon;
-        
+                
         Boolean isSurgery = null;
         
         if ("surgery".equals(type)) {

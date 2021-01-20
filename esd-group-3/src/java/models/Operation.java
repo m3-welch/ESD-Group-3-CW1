@@ -289,7 +289,7 @@ public class Operation {
         this.setIsPaid(is_paid);
         this.setIsSurgery(is_surgery);
         
-        Float cost = this.calculateOperationCost(dbcon, this);
+        float cost = this.calculateOperationCost(dbcon, this);
         
         String query = "INSERT INTO Operations (employeeid, clientid, date, starttime, endtime, charge, is_paid, is_surgery, description) VALUES ("
                 + employeeId + ", " + clientId + ", '" + date + "', '" + starttime + "', '" + endtime + "', " + cost + ", " + is_paid + ", " + is_surgery + ", '" + description + "')";
