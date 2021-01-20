@@ -57,7 +57,7 @@ public class ViewPatientsServlet extends HttpServlet {
                     clients.get(i).getEmail() + "</td><td>" +
                     clients.get(i).getAddress() + "</td><td>" +
                     clients.get(i).getDob() + "</td><td>" +
-                    "<input type='submit' name='delete_patient' value='delete' class='button'/></td></form></tr>";
+                    "<input type='submit' name='deletePatient' value='delete' class='button'/></td></form></tr>";
         }
         
         outputList += "</table>";
@@ -73,13 +73,12 @@ public class ViewPatientsServlet extends HttpServlet {
         
         request.getRequestDispatcher("pages/ViewPatients.jsp").include(request, response);
         
-        
         String delete = "";
         
         //request.getRequestDispatcher("admin_home.jsp").include(request, response);
         
         try{
-            delete = request.getParameter("delete_patient");            
+            delete = request.getParameter("deletePatient");            
         }
         catch(Exception e){
             System.out.println(e);
@@ -132,7 +131,7 @@ public class ViewPatientsServlet extends HttpServlet {
                     clients.get(i).getEmail() + "</td><td>" +
                     clients.get(i).getAddress() + "</td><td>" +
                     clients.get(i).getDob() + "</td><td>" +
-                    "<input type='submit' name='delete_patient' value='delete' class='button'/></td></form></tr>";
+                    "<input type='submit' name='deletePatient' value='delete' class='button'/></td></form></tr>";
         }
         
         outputList += "</table>";
