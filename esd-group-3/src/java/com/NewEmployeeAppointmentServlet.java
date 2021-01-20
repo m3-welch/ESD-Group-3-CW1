@@ -30,6 +30,8 @@ import models.Referrals;
  */
 public class NewEmployeeAppointmentServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession loginSession = request.getSession(false);
+        request.setAttribute("dashboard", "/esd-group-3/dashboards/" + loginSession.getAttribute("user_role") + "_home.jsp");
         try {
             DBConnection dbcon = new DBConnection("smartcaretest", "", "");
             Client client = new Client();
@@ -51,7 +53,6 @@ public class NewEmployeeAppointmentServlet extends HttpServlet {
             request.setAttribute("nowtime", timeLabel);
             request.setAttribute("tenmins", timeLabelTenMins);
             
-            HttpSession loginSession = request.getSession();
             request.setAttribute("userid", loginSession.getAttribute("userID"));
             
             request.setAttribute("clientoptions", clientoptions);
@@ -66,9 +67,9 @@ public class NewEmployeeAppointmentServlet extends HttpServlet {
     }
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
                             throws ServletException, IOException {
+        HttpSession loginSession = request.getSession(false);
+        request.setAttribute("dashboard", "/esd-group-3/dashboards/" + loginSession.getAttribute("user_role") + "_home.jsp");
         response.setContentType("text/html");
-
-        HttpSession loginSession = request.getSession();
         
         request.getRequestDispatcher((String)loginSession.getAttribute("dashboard")).include(request, response);
 

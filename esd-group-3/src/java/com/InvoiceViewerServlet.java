@@ -14,6 +14,7 @@ import models.Operation;
 import dbcon.DBConnection;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -23,9 +24,9 @@ public class InvoiceViewerServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)  
                            throws ServletException, IOException {  
         response.setContentType("text/html");   
-          
+        HttpSession loginSession = request.getSession(false);
         request.getRequestDispatcher("invoiceViewer.jsp").include(request, response);  
-        
+        request.setAttribute("dashboard", "/esd-group-3/dashboards/" + loginSession.getAttribute("user_role") + "_home.jsp");
         String filter = request.getParameter("filter");  
         String start_date = request.getParameter("start");
         String end_date = request.getParameter("end");

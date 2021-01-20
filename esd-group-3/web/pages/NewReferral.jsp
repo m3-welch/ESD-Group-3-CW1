@@ -32,7 +32,7 @@
             </div>
 
             <div class="center">
-                <h2>SmartCare</h2>
+                <a href="${dashboard}"><h2>SmartCare</h2></a>
             </div>
         </div>
         <div class="content">

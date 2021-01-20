@@ -10,7 +10,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <link rel="stylesheet" href="styles/home.css">
+        <link rel="stylesheet" href="/esd-group-3/styles/home.css">
         <title>SmartCare - Admin Home</title>
     </head>
     <body>
@@ -40,11 +40,15 @@
     <div class="content">
         <p style="color:#FF3232;font-size:12px;text-align:center" id="note">${message}</p>
         <h1>Admin Dashboard</h1>
-        <a href="/esd-group-3/pages/NewEmployee.jsp" class="link">Create a New Employee</a>
+        <form action="/esd-group-3/NewEmployeeServlet" method="GET">
+            <input type="submit" value="Create a new Employee" class="link-button"/>
+        </form>
         <form action="/esd-group-3/ViewPatientsServlet" method="GET">
             <input type="submit" value="View Patients" class="link-button"/>
         </form>
-        <a href="/esd-group-3/pages/NewReferral.jsp" class="link">New Referral</a>
+        <form action="/esd-group-3/NewReferralServlet" method="GET">
+            <input type="submit" value="New Referral" class="link-button"/>
+        </form>
     </div>
     </body>
 </html>

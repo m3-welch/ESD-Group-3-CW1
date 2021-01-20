@@ -25,9 +25,9 @@ import models.Client;
 public class ViewPatientsServlet extends HttpServlet {
     
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession loginSession = request.getSession(false);
+        request.setAttribute("dashboard", "/esd-group-3/dashboards/" + loginSession.getAttribute("user_role") + "_home.jsp");
         response.setContentType("text/html");
-        
-        HttpSession loginSession = request.getSession();
         
         request.getRequestDispatcher("pages/ViewPatients.jsp").include(request, response);
         
@@ -62,8 +62,8 @@ public class ViewPatientsServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
                             throws ServletException, IOException {
         response.setContentType("text/html");
-        
-        HttpSession loginSession = request.getSession();
+        HttpSession loginSession = request.getSession(false);
+        request.setAttribute("dashboard", "/esd-group-3/dashboards/" + loginSession.getAttribute("user_role") + "_home.jsp");
         
         request.getRequestDispatcher("pages/ViewPatients.jsp").include(request, response);
         

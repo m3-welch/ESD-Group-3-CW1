@@ -35,6 +35,7 @@ public class DisplayEventsServlet extends HttpServlet {
         request.setAttribute("onemonth", LocalDate.now().plusMonths(1).toString());
         request.setAttribute("minusyear", LocalDate.now().minusYears(1).toString());
         request.getRequestDispatcher("pages/ViewAppointments.jsp").forward(request,response);
+        request.setAttribute("dashboard", "/esd-group-3/dashboards/" + loginSession.getAttribute("user_role") + "_home.jsp");
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -46,7 +47,7 @@ public class DisplayEventsServlet extends HttpServlet {
         
         int userid = (Integer)loginSession.getAttribute("userID");
         
-        
+        request.setAttribute("dashboard", "/esd-group-3/dashboards/" + loginSession.getAttribute("user_role") + "_home.jsp");
         DBConnection dbcon;
         try {
             dbcon = new DBConnection("smartcaretest", "", "");

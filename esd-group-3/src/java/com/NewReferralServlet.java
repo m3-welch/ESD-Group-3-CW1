@@ -22,13 +22,25 @@ import models.Referrals;
  * @author Harrison B
  */
 public class NewReferralServlet extends HttpServlet {
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
                             throws ServletException, IOException {
+        HttpSession loginSession = request.getSession(false);
+        request.setAttribute("dashboard", "/esd-group-3/dashboards/" + loginSession.getAttribute("user_role") + "_home.jsp");
+        
         response.setContentType("text/html");
         
-        HttpSession loginSession = request.getSession();
-
         request.getRequestDispatcher((String)loginSession.getAttribute("dashboard")).include(request, response);
+        
+        request.getRequestDispatcher("pages/NewReferral.jsp").forward(request,response);
+    }
+    
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+                            throws ServletException, IOException {
+        HttpSession loginSession = request.getSession(false);
+        request.setAttribute("dashboard", "/esd-group-3/dashboards/" + loginSession.getAttribute("user_role") + "_home.jsp");
+        response.setContentType("text/html");
+
+        request.getRequestDispatcher("pages/NewReferral.jsp").include(request, response);
 
         //decare vars
         int clientid = Integer.parseInt(request.getParameter("clientid"));
@@ -52,7 +64,7 @@ public class NewReferralServlet extends HttpServlet {
             request.getRequestDispatcher("pages/NewReferral.jsp").forward(request,response);
         } else {
             request.setAttribute("message", "Error! - Referral failed to add");
-            request.getRequestDispatcher((String)loginSession.getAttribute("dashboard")).forward(request,response);
+            request.getRequestDispatcher("pages/NewReferral.jsp").forward(request,response);
         }
     }
 

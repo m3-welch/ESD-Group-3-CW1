@@ -22,8 +22,21 @@ import models.Employee;
  * @author morgan
  */
 public class NewEmployeeServlet extends HttpServlet {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession loginSession = request.getSession(false);
+        request.setAttribute("dashboard", "/esd-group-3/dashboards/" + loginSession.getAttribute("user_role") + "_home.jsp");
+        
+        response.setContentType("text/html");
+        
+        request.getRequestDispatcher((String)loginSession.getAttribute("dashboard")).include(request, response);
+        
+        request.getRequestDispatcher("pages/NewEmployee.jsp").forward(request,response);
+    }
+    
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
                             throws ServletException, IOException {
+        HttpSession loginSession = request.getSession(false);
+        request.setAttribute("dashboard", "/esd-group-3/dashboards/" + loginSession.getAttribute("user_role") + "_home.jsp");
         response.setContentType("text/html");
         
         request.getRequestDispatcher("pages/NewEmployee.jsp").include(request, response);
@@ -47,8 +60,6 @@ public class NewEmployeeServlet extends HttpServlet {
         } catch (SQLException ex) {
             Logger.getLogger(SignupServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        HttpSession loginSession = request.getSession();
 
         if (employee.getUsername().equals(username) && employee.getRole().equals(type)) {
             request.setAttribute("message", "New Employee successfully created!");

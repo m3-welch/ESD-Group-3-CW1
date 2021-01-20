@@ -10,7 +10,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <link rel="stylesheet" href="styles/home.css">
+        <link rel="stylesheet" href="/esd-group-3/styles/home.css">
         <title>SmartCare - Patient Home</title>
     </head>
     <body>

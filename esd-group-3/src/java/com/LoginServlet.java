@@ -158,19 +158,19 @@ public class LoginServlet extends HttpServlet {
             loginSession.setAttribute("name",user_in);
             loginSession.setAttribute("role",user_type);
             loginSession.setAttribute("userID",user_id);
+            loginSession.setAttribute("user_role", user_role);
             loginSession.setAttribute("dashboard", "dashboards/" + user_role + "_home.jsp");
+            request.setAttribute("dashboard", "/esd-group-3/dashboards/" + user_role + "_home.jsp");
             loginSession.setMaxInactiveInterval(20*60);
             
             // sucessful login response
             request.setAttribute("message", "Successful Login - Welcome " + user_in); // Will be available as ${message}
             request.getRequestDispatcher((String)loginSession.getAttribute("dashboard")).forward(request,response);
-            response.sendRedirect((String)loginSession.getAttribute("dashboard"));
         }
         else {
             // bad login response
             request.setAttribute("message", "Error - Invalid Password"); // Will be available as ${message}
             request.getRequestDispatcher("login.jsp").forward(request,response);
-            response.sendRedirect("login.jsp");
         }
         
     }  
