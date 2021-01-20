@@ -125,7 +125,7 @@ public class ViewUsersServlet extends HttpServlet{
                         dbUser.dropUser(dbcon, dbUser.getUsername());
                         //add updateUser to client
                         Employee updateEmployee = new Employee();
-                        updateEmployee.create(dbcon, updateUser.getUsername(), updateUser.getPassword(), updateUser.getFirstname(), updateUser.getLastname(), updateUser.getEmail(), updateUser.getAddress(), updateUser.getRole(), "");
+                        updateEmployee.create(dbcon, updateUser.getUsername(), updateUser.getPassword(), updateUser.getFirstname(), updateUser.getLastname(), updateUser.getEmail(), updateUser.getAddress(), updateUser.getRole(), "", updateUser.getDob());
                     }
                         
                 } else if("client".equals(role)){
@@ -134,7 +134,7 @@ public class ViewUsersServlet extends HttpServlet{
                         dbUser.dropUser(dbcon, dbUser.getUsername());
                         //add updateUser to employee db
                         Client updateClient = new Client();
-                        updateClient.create(dbcon, updateUser.getUsername(), updateUser.getPassword(), updateUser.getFirstname(), updateUser.getLastname(), updateUser.getEmail(), updateUser.getAddress(), updateUser.getRole(), "");
+                        updateClient.create(dbcon, updateUser.getUsername(), updateUser.getPassword(), updateUser.getFirstname(), updateUser.getLastname(), updateUser.getEmail(), updateUser.getAddress(), updateUser.getRole(), "", updateUser.getDob());
                     } 
                 }
                 

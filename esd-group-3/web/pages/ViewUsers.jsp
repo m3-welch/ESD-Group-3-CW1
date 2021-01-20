@@ -51,7 +51,7 @@
                                 <th>Email</th>
                                 <th>Address</th>
                                 <th>Role</th>
-                                <th></th>
+                                <th>Date of Birth</th>
                             </tr>
                         </table>
                         <div class="list">

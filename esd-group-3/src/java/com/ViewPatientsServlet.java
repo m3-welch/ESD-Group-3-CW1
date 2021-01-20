@@ -125,6 +125,7 @@ public class ViewPatientsServlet extends HttpServlet {
                     (clients.get(i).getIsNhs().equals("true") ? "NHS" : "Private") + "</td><td>" +
                     clients.get(i).getEmail() + "</td><td>" +
                     clients.get(i).getAddress() + "</td><td>" +
+                    clients.get(i).getDob() + "</td><td>" +
                     "<input type='submit' name='delete_patient' value='delete' class='button'/></td></form></tr>";
         }
         
