@@ -24,16 +24,6 @@
                     <a href="${dashboard}"><h2>SmartCare</h2></a>
                 </div>
             </div>     
-
-            <div class="logout">        
-                <form action="/esd-group-3/LogoutServlet" method="GET">
-                    <input type="submit" value="Logout" class="button logout"> 
-                </form>
-            </div>
-
-            <div class="center">
-                <a href="${dashboard}"><h2>SmartCare</h2></a>
-            </div>
         </div>
         <div class="content">
         <p style="color:#FF3232;font-size:12px;text-align:center" id="note">${message}</p>
@@ -43,16 +33,7 @@
                 <div class="container">
                     <h2 style="text-align:center;margin-top: 10px;">View Patients</h2>
                     <div class="container">
-                        <form class="patientlist-filteroptions" action="/esd-group-3/ViewPatientsServlet" method="POST">
-                            <input ${checkednhs} type="radio" value="NHS" id="nhs" name="filter" class="patientlist-filter"/>
-                            <label for="nhs">NHS</label>
-                            <input ${checkedprivate} type="radio" value="private" id="private" name="filter" class="patientlist-filter"/>
-                            <label for="private">Private</label>
-                            <input ${checkedcombined} type="radio" value="all" id="combined" name="filter" class="patientlist-filter"/>
-                            <label for="combined">Combined</label>                                
-                            <input type="submit" value="Update" class="update-button"/>
-                        </form>
-                        <table class='patients-table-header'>
+                        <table class='users-table-header'>
                             <tr>
                                 <th>Patient ID</th>
                                 <th>Patient Name</th>
@@ -62,7 +43,7 @@
                             </tr>
                         </table>
                         <div class="list">
-                            ${patientlist}
+                            ${userlist}
                         </div>
                     </div>
                 </div>
