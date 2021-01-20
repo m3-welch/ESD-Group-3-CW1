@@ -104,6 +104,11 @@
         <servlet-name>DisplayEventsServlet</servlet-name>
         <servlet-class>com.DisplayEventsServlet</servlet-class>
     </servlet>
+    <servlet>
+        <display-name>ViewReferralServlet</display-name>
+        <servlet-name>ViewReferralServlet</servlet-name>
+        <servlet-class>com.ViewReferralServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>NewAppointmentServlet</servlet-name>
         <url-pattern>/NewAppointmentServlet</url-pattern>
@@ -167,6 +172,10 @@
     <servlet-mapping>
         <servlet-name>PayInvoiceServlet</servlet-name>
         <url-pattern>/PayInvoiceServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ViewReferralServlet</servlet-name>
+        <url-pattern>/ViewReferralServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

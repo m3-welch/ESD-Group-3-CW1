@@ -209,6 +209,30 @@
             </div>
           </div>
         </div>
+        <div class="left">
+          <div class="card" style="width: 50rem;">
+            <div class="container">
+              <h2 style="text-align:center;margin-top: 10px;">Referral Details</h2>
+              <div class="container">
+                  <form action="ViewReferralServlet" method="POST">
+                    <input type="submit" value="View Referral Details" class="button">
+                  </form>
+                  <table class='patients-table-header'>
+                    <tr>
+                        <th>Referral Number</th>
+                        <th>Name</th>
+                        <th>Address</th>
+                    </tr>
+                  </table>
+                  <div class="list">
+                    ${referralList}
+                  </div>
+              </div>
+            </div>
+          </div>
+        </div>           
     </div>
   </body>
 </html>
+
+

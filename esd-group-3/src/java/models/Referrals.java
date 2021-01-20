@@ -132,4 +132,28 @@ public class Referrals {
         this.setNameArr(nameArr);
         this.setAddressArr(addressArr);
     }
+    
+    public List<String> getReferralsFromClientId(DBConnection dbcon, int clientid) {        
+        String query = "SELECT id, Name, Address FROM Referrals WHERE clientid = " + clientid;
+        
+        List<String> referral = new ArrayList<String>();
+        List<String> idList = new ArrayList<String>();
+        List<String> nameList = new ArrayList<String>();
+        List<String> addressList = new ArrayList<String>();
+        
+        int count = 0;
+        try (Statement stmt = dbcon.conn.createStatement()) {
+            ResultSet resultSet = stmt.executeQuery(query);
+            while (resultSet.next()) {
+                idList.add(Integer.toString(resultSet.getInt("id")));
+                nameList.add(resultSet.getString("name"));
+                addressList.add(resultSet.getString("address"));
+                referral.add(idList.get(count) + "//" + nameList.get(count) + "//" + addressList.get(count));              
+                count++;
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return referral;
+    }
 }
