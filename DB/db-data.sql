@@ -1,12 +1,12 @@
 /* Insert Users */
-INSERT INTO Users (username, password, firstname, lastname, email, address, role) VALUES ('tfirst', 'firstpassword', 'Tony', 'First', 'first@email.com', 'Firsts house, Bristol, BS7 0PS', 'doctor');
-INSERT INTO Users (username, password, firstname, lastname, email, address, role) VALUES ('jbest', 'jessthebest', 'Jess', 'Best', 'thebestnures@email.co.uk', 'Bests house, Bristol, BS16 1ZG', 'nurse');
-INSERT INTO Users (username, password, firstname, lastname, email, address, role) VALUES ('rsmith', '5432@10', 'Rob', 'Smith', 'robbiebobby@email.com', '14 King Street, Aberdeen, AB24 1BR', 'client');
-INSERT INTO Users (username, password, firstname, lastname, email, address, role) VALUES ('lizzo', 'unknownpassword', 'Liz', 'Brown', 'lizbrown@email.co.uk', 'Somewhere street, Smalltown', 'client');
-INSERT INTO Users (username, password, firstname, lastname, email, address, role) VALUES ('griffo', 'ahafunnyman', 'Peter', 'Hesitant', 'prettyhesitant@email.co.uk', 'Spooner Street, Quahog, Rhode Island', 'client');
-INSERT INTO Users (username, password, firstname, lastname, email, address, role) VALUES ('mhesi', 'stupupmeg', 'Meg', 'Hesitant', 'megmail@email.co.uk', 'Spooner Street, Quahog, Rhode Island', 'client');
-INSERT INTO Users (username, password, firstname, lastname, email, address, role) VALUES ('boneman', 'spinyman101', 'Greg', 'Bones', 'bones4days@email.co.uk', 'Spooky street, Transylvania', 'client');
-INSERT INTO Users (username, password, firstname, lastname, email, address, role) VALUES ('admin', 'admin_passwd', 'admin', 'admin', 'admin@test.com', 'admin', 'admin');
+INSERT INTO Users (username, password, firstname, lastname, email, address, role, dob) VALUES ('tfirst', 'firstpassword', 'Tony', 'First', 'first@email.com', 'Firsts house, Bristol, BS7 0PS', 'doctor', '1990-05-08');
+INSERT INTO Users (username, password, firstname, lastname, email, address, role, dob) VALUES ('jbest', 'jessthebest', 'Jess', 'Best', 'thebestnures@email.co.uk', 'Bests house, Bristol, BS16 1ZG', 'nurse', '1995-06-06');
+INSERT INTO Users (username, password, firstname, lastname, email, address, role, dob) VALUES ('rsmith', '5432@10', 'Rob', 'Smith', 'robbiebobby@email.com', '14 King Street, Aberdeen, AB24 1BR', 'client', '2000-01-01');
+INSERT INTO Users (username, password, firstname, lastname, email, address, role, dob) VALUES ('lizzo', 'unknownpassword', 'Liz', 'Brown', 'lizbrown@email.co.uk', 'Somewhere street, Smalltown', 'client', '1950-03-15');
+INSERT INTO Users (username, password, firstname, lastname, email, address, role, dob) VALUES ('griffo', 'ahafunnyman', 'Peter', 'Hesitant', 'prettyhesitant@email.co.uk', 'Spooner Street, Quahog, Rhode Island', 'client', '1966-07-21');
+INSERT INTO Users (username, password, firstname, lastname, email, address, role, dob) VALUES ('mhesi', 'stupupmeg', 'Meg', 'Hesitant', 'megmail@email.co.uk', 'Spooner Street, Quahog, Rhode Island', 'client', '1983-07-01');
+INSERT INTO Users (username, password, firstname, lastname, email, address, role, dob) VALUES ('boneman', 'spinyman101', 'Greg', 'Bones', 'bones4days@email.co.uk', 'Spooky street, Transylvania', 'client', '1995-05-05');
+INSERT INTO Users (username, password, firstname, lastname, email, address, role, dob) VALUES ('admin', 'admin_passwd', 'admin', 'admin', 'admin@test.com', 'admin', 'admin', '1000-01-01');
 
 /* Insert Clients */
 INSERT INTO Clients (userid, isnhs) VALUES ((SELECT id FROM Users WHERE username = 'rsmith'), TRUE);

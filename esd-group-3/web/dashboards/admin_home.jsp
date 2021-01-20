@@ -32,7 +32,7 @@
             <input type="submit" value="Create a New User" class="link-button"/>
         </form>
         <form action="/esd-group-3/NewEmployeeServlet" method="GET">
-            <input type="submit" value="Create a new Employee" class="link-button"/>
+            <input type="submit" value="Create a New Employee" class="link-button"/>
         </form>
         <form action="/esd-group-3/ViewUsersServlet" method="GET">
             <input type="submit" value="View Users" class="link-button"/>

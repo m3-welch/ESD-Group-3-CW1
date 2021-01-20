@@ -50,6 +50,7 @@
                                 <th>Name</th>
                                 <th>Email</th>
                                 <th>Address</th>
+                                <th>Date of Birth</th>
                                 <th>Role</th>
                                 <th></th>
                             </tr>
