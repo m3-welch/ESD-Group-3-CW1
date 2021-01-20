@@ -70,6 +70,7 @@ public class NewAppointmentServlet extends HttpServlet {
             request.setAttribute("todaydate", LocalDate.now().toString());
             request.setAttribute("maxdate", LocalDate.now().plusYears(1).toString());
             request.setAttribute("onemonth", LocalDate.now().plusMonths(1).toString());
+            request.setAttribute("oneweek", LocalDate.now().plusWeeks(1).toString());
             request.setAttribute("minusyear", LocalDate.now().minusYears(1).toString());
             request.getRequestDispatcher("pages/NewAppointment.jsp").forward(request,response);
         } catch (SQLException ex) {

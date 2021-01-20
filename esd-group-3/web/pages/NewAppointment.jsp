@@ -36,37 +36,73 @@
             </div>
         </div>
         <div class="content">
-        <p style="color:#FF3232;font-size:12px;text-align:center" id="note">${message}</p>
-        <h1>New Appointment</h1>
-        <div class="center">
-          <div class="card">
-            <div class="container">
-              <h2 style="text-align:center;margin-top: 10px;">Book an appointment</h2>
-              <div class="container">
-                <form action="/esd-group-3/NewAppointmentServlet" method="POST">
-                  <label for="doctor-nurse"><b>Staff</b></label>
-                  <select name="doctor-nurse">
-                      ${doctornurseoptions}
-                  </select>
-                  <label for="type"><b>Type</b></label>
-                  <select name="type" required>
-                      <option value="surgery">Surgery</option>
-                      <option value="consultation">Consultation</option>
-                  </select>
-                  <label for="date"><b>Date (Mon - Fri)</b></label>
-                  <input type="date" value="${todaydate}" max="${maxdate}" name="date" required/>
-                  <label for="starttime"><b>Start Time (09:00 - 17:00)</b></label>
-                  <input type="time" min="09:00" max="17:00" value="${nowtime}" name="starttime" required/>
-                  <label for="endtime"><b>End Time (09:00 - 17:00)</b></label>
-                  <input type="time" min="09:00" max="17:00" value="${tenmins}" name="endtime" required/>
-                  <label for="reason"><b>Reason</b></label>
-                  <input type="text" name="reason" required/>
-                  <input type="hidden" name="clientid" value="${userid}"/>
-                  <input type="submit" value="Create" class="button"/> 
-                </form>
+            <p style="color:#FF3232;font-size:12px;text-align:center" id="note">${message}</p>
+            <h1>New Appointment</h1>
+            <div class="center">
+              <div class="card">
+                <div class="container">
+                  <h2 style="text-align:center;margin-top: 10px;">Book an appointment</h2>
+                  <div class="container">
+                    <form action="/esd-group-3/NewAppointmentServlet" method="POST">
+                      <label for="doctor-nurse"><b>Staff</b></label>
+                      <select name="doctor-nurse">
+                          ${doctornurseoptions}
+                      </select>
+                      <label for="type"><b>Type</b></label>
+                      <select name="type" required>
+                          <option value="surgery">Surgery</option>
+                          <option value="consultation">Consultation</option>
+                      </select>
+                      <label for="date"><b>Date (Mon - Fri)</b></label>
+                      <input type="date" value="${todaydate}" max="${maxdate}" name="date" required/>
+                      <label for="starttime"><b>Start Time (09:00 - 17:00)</b></label>
+                      <input type="time" min="09:00" max="17:00" value="${nowtime}" name="starttime" required/>
+                      <label for="endtime"><b>End Time (09:00 - 17:00)</b></label>
+                      <input type="time" min="09:00" max="17:00" value="${tenmins}" name="endtime" required/>
+                      <label for="reason"><b>Reason</b></label>
+                      <input type="text" name="reason" required/>
+                      <input type="hidden" name="clientid" value="${userid}"/>
+                      <input type="submit" value="Create" class="button"/> 
+                    </form>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
+            <div class="center">
+                <div class="card">
+                    <div class="container">
+                        <h2 style="text-align:center;margin-top: 10px;">View this week's schedule</h2>
+                        <div class="container">
+                            <form action="/esd-group-3/ViewEmployeeSchedule" method="POST">
+                                <input ${checkeddoctor} type="radio" value="doctor" id="doctor" name="filter" class="patientlist-filter"/>
+                                <label for="doctor">Doctors</label>
+                                <input ${checkednurse} type="radio" value="nurse" id="nurse" name="filter" class="patientlist-filter"/>
+                                <label for="nurse">Nurses</label>
+                                <input ${checkedcombined} type="radio" value="all" id="combined" name="filter" class="patientlist-filter"/>
+                                <label for="combined">Combined</label>
+                                <br>
+                                <label for="start">Start date</label>
+                                <input type="date" value="${todaydate}" name="start" required/>
+                                <label for="end">End date</label>             
+                                <input type="date" value="${oneweek}" name="end" required/>
+                                <input type="submit" value="Create" class="button"/>
+                            </form>
+                            <table class='patients-table-header'>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Start time</th>
+                                    <th>End time</th>
+                                    <th>Employee Name</th>
+                                    <th>Client ID</th>
+                                </tr>
+                            </table>
+                            <div class="list">
+                                ${appointmentlist}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </body>
 </html>

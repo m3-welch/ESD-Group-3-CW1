@@ -92,6 +92,15 @@
         <servlet-name>DisplayEventsServlet</servlet-name>
         <servlet-class>com.DisplayEventsServlet</servlet-class>
     </servlet>
+    <servlet>
+        <display-name>ViewEmployeeSchedule</display-name>
+        <servlet-name>ViewEmployeeSchedule</servlet-name>
+        <servlet-class>com.ViewEmployeeSchedule</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ViewEmployeeSchedule</servlet-name>
+        <url-pattern>/ViewEmployeeSchedule</url-pattern>
+    </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ViewReferralsServlet</servlet-name>
         <url-pattern>/ViewReferralsServlet</url-pattern>
