@@ -49,6 +49,7 @@
                                 <th>Patient Type</th>
                                 <th>Patient Email</th>
                                 <th>Patient Address</th>
+                                <th>Patient Date of Birth</th>
                             </tr>
                         </table>
                         <div class="list">

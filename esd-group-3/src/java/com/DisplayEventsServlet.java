@@ -40,6 +40,14 @@ public class DisplayEventsServlet extends HttpServlet {
         request.setAttribute("maxdate", LocalDate.now().plusYears(1).toString());
         request.setAttribute("onemonth", LocalDate.now().plusMonths(1).toString());
         request.setAttribute("minusyear", LocalDate.now().minusYears(1).toString());
+       
+        
+        String myAppt = "off";
+        System.out.println("role = " + loginSession.getAttribute("user_role"));
+        
+        if (loginSession.getAttribute("user_role").equals("doctor")||loginSession.getAttribute("user_role").equals("nurse")){
+            request.setAttribute("ma", "<label for='myAppointments'>View my appointments only:</label><input type='checkbox' id='myAppointments' name='myAppointments' /><br>");
+        }
         request.getRequestDispatcher("pages/ViewAppointments.jsp").forward(request,response);
     }
 
@@ -55,15 +63,27 @@ public class DisplayEventsServlet extends HttpServlet {
         request.setAttribute("onemonth", LocalDate.now().plusMonths(1).toString());
         request.setAttribute("minusyear", LocalDate.now().minusYears(1).toString());
         
+       String myAppt = "off";
+        
         int userid = (Integer)loginSession.getAttribute("userID");
         
         // Create a list of ids to loop through the schedule
         List<Integer> ids = new ArrayList<>();
 
         DBConnection dbcon;
-        
+
+        if (loginSession.getAttribute("user_role").equals("doctor")||loginSession.getAttribute("user_role").equals("nurse")){
+            request.setAttribute("ma", "<label for='myAppointments'>View my appointments only:</label><input type='checkbox' id='myAppointments' name='myAppointments' /><br>");
+            
+            if("on".equals(request.getParameter("myAppointments"))){
+                myAppt = "on";
+            } else {
+                myAppt = "off";
+            }
+            System.out.println("myAppt = " + myAppt);
+        }
         // If the user role is an admin then we need to display all appointments in the database
-        if (loginSession.getAttribute("user_role").equals("admin")) {
+        if (loginSession.getAttribute("user_role").equals("admin")||!myAppt.equals("on")) {
             User users = new User();
             try {
                 dbcon = new DBConnection("smartcaretest", "", "");

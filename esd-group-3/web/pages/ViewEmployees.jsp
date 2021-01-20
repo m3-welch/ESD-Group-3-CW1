@@ -59,6 +59,7 @@
                                 <th>Employee Role</th>
                                 <th>Employee Email</th>
                                 <th>Employee Address</th>
+                                <th>Employee Date of Birth</th>
                             </tr>
                         </table>
                         <div class="list">

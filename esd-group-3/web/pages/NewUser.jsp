@@ -61,6 +61,8 @@
                                 <option value="NHS">NHS</option>
                                 <option value="private">Private</option>
                             </select>
+                            <label for="dob"><b>Date of birth</b></label>
+                            <input type="date" name="dob" required>
                             <input type="submit" value="Create" class="button"> 
                         </form>
                     </div>
