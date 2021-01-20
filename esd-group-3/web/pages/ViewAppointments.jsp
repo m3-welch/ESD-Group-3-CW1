@@ -77,6 +77,20 @@
                     </div>
                 </div>
             </div>
+            <div class="left">
+                <div class="card">
+                    <div class="container">
+                        <h2 style="text-align:center;margin-top: 10px;">Cancel appointment</h2>
+                        <div class="container">
+                            <form action="CancelAppointmentServlet" method="POST">
+                                <label for="appointment"><b>Appointment Number</b></label>
+                                <input type="number" name="appointment" required/>
+                                <input type="submit" value="Cancel" class="button">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </body>
 </html>
