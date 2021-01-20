@@ -40,6 +40,15 @@ public class Client extends User {
         return this.is_nhs;
     }
     
+    public String getClientType() {
+        if (this.is_nhs) {
+            return "NHS";
+        }
+        else {
+            return "private";
+        }
+    }
+    
     public void create(
         DBConnection dbcon,
         String username,
