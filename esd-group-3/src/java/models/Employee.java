@@ -223,4 +223,35 @@ public class Employee extends User {
         
         return employees;
     }
+    
+    public void signup(
+        DBConnection dbcon,
+        String username,
+        String password,
+        String firstname,
+        String lastname,
+        String email,
+        String address,
+        String role,
+        String type,
+        LocalDate dob
+    ) {
+        Boolean isFullTime;
+        if (type.equals("fulltime")) {
+            isFullTime = true;
+        } else {
+            isFullTime = false;
+        }
+        
+        String query = "INSERT INTO SignupApproval (username, password, firstname, lastname,"
+            + "email, address, role, dob, isfulltime) VALUES ('" + username + "', '" 
+            + password + "', '" + firstname + "', '" + lastname + "', '" + email 
+            + "', '" + address + "', '" + role + "', '" + dob + "', '" + isFullTime + "')";
+        
+        try (Statement stmt = dbcon.conn.createStatement()) {
+            stmt.execute(query);
+        } catch (SQLException ex) {
+            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }

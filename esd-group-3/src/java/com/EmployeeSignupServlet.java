@@ -15,20 +15,20 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import models.Client;
+import models.Employee;
 
 /**
  *
  * @author morgan
  */
-public class PatientSignupServlet extends HttpServlet {
+public class EmployeeSignupServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
                             throws ServletException, IOException {
         HttpSession loginSession = request.getSession(false);
         request.setAttribute("dashboard", "/esd-group-3/dashboards/" + loginSession.getAttribute("user_role") + "_home.jsp");
         response.setContentType("text/html");
         
-        request.getRequestDispatcher("newPatientSignup.jsp").include(request, response);
+        request.getRequestDispatcher("newEmployeeSignup.jsp").include(request, response);
         
         //decare vars
         String username = request.getParameter("uname");
@@ -39,7 +39,7 @@ public class PatientSignupServlet extends HttpServlet {
         String address = request.getParameter("address");
         String type = request.getParameter("type");
         LocalDate dob = LocalDate.parse(request.getParameter("dob"));
-        Client client = new Client();
+        Employee employee = new Employee();
         
         GoogleMaps maps = new GoogleMaps();
         
@@ -51,7 +51,7 @@ public class PatientSignupServlet extends HttpServlet {
         
         try {
             DBConnection dbcon = new DBConnection("smartcaretest", "", "");
-            client.signup(dbcon, username, password, firstname, lastname, email, address, "client", type, dob);
+            employee.signup(dbcon, username, password, firstname, lastname, email, address, "client", type, dob);
             request.setAttribute("message", "Successful Signup - Await approval");
             request.getRequestDispatcher("login.jsp").forward(request, response);
             response.sendRedirect("login.jsp");
