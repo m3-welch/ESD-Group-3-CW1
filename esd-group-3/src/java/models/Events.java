@@ -148,10 +148,10 @@ public class Events {
         String queryStart = "SELECT id FROM Users WHERE ";
         String query = null;
         if (filter.equals("all")) {
-            query = queryStart.concat("(role = doctor OR role = nurse)");
+            query = queryStart.concat("role = 'doctor' OR role = 'nurse'");
         }
         else {
-            query = queryStart.concat("role = " + filter);
+            query = queryStart.concat("role = '" + filter + "'");
         }
         
         ArrayList<Employee> employees = new ArrayList<>();
@@ -167,7 +167,7 @@ public class Events {
         }
         
         ArrayList<Operation> ops = new ArrayList<>();
-        query = "SELECT * FROM Operations WHERE (";
+        query = "SELECT * FROM Operations WHERE ";
         for (int i = 0; i < employees.size() - 1; i++) {
             query = query.concat("employeeid = " + 
                     String.valueOf(employees.get(i).getEmployeeId()) + 

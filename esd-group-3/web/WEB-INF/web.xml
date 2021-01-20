@@ -104,6 +104,15 @@
         <servlet-name>DisplayEventsServlet</servlet-name>
         <servlet-class>com.DisplayEventsServlet</servlet-class>
     </servlet>
+    <servlet>
+        <display-name>ViewEmployeeAppointments</display-name>
+        <servlet-name>ViewEmployeeAppointments</servlet-name>
+        <servlet-class>com.ViewEmployeeAppointments</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ViewEmployeeAppointments</servlet-name>
+        <url-pattern>/ViewEmployeeAppointments</url-pattern>
+    </servlet-mapping>
     <servlet-mapping>
         <servlet-name>NewAppointmentServlet</servlet-name>
         <url-pattern>/NewAppointmentServlet</url-pattern>
