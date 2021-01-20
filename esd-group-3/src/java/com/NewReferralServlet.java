@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import models.Employee;
 import models.Referrals;
 
 /**
@@ -26,7 +27,7 @@ public class NewReferralServlet extends HttpServlet {
                             throws ServletException, IOException {
         HttpSession loginSession = request.getSession(false);
         request.setAttribute("dashboard", "/esd-group-3/dashboards/" + loginSession.getAttribute("user_role") + "_home.jsp");
-        
+        request.setAttribute("userid", loginSession.getAttribute("userID"));
         response.setContentType("text/html");
         
         request.getRequestDispatcher((String)loginSession.getAttribute("dashboard")).include(request, response);
@@ -38,28 +39,30 @@ public class NewReferralServlet extends HttpServlet {
                             throws ServletException, IOException {
         HttpSession loginSession = request.getSession(false);
         request.setAttribute("dashboard", "/esd-group-3/dashboards/" + loginSession.getAttribute("user_role") + "_home.jsp");
+        request.setAttribute("userid", loginSession.getAttribute("userID"));
         response.setContentType("text/html");
 
         request.getRequestDispatcher("pages/NewReferral.jsp").include(request, response);
 
         //decare vars
+        int employee_userid = Integer.parseInt(request.getParameter("employee_userid"));
         int clientid = Integer.parseInt(request.getParameter("clientid"));
         String name = request.getParameter("name");
         String address = request.getParameter("address");
 
         Referrals ref = new Referrals();
         int count = 0;
-
+        int employeeid = 0;
+        
         try {
             DBConnection dbcon = new DBConnection("smartcaretest", "", "");
-            ref.retreiveAll(dbcon, clientid);
-            count = ref.getNameArr().length;
-            ref.create(dbcon, clientid, name, address);
+            employeeid = new Employee().retrieveEmployeeByUserId(dbcon, employee_userid).getEmployeeId();
+            ref.create(dbcon, employeeid, clientid, name, address);
         } catch (SQLException ex) {
             Logger.getLogger(SignupServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        if (ref.getNameArr().length > count) {
+        if (ref.getClientId() == clientid && ref.getEmployeeId() == employeeid) {
             request.setAttribute("message", "New Referral added to client");
             request.getRequestDispatcher("pages/NewReferral.jsp").forward(request,response);
         } else {

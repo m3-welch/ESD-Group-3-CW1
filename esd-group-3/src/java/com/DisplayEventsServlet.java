@@ -29,13 +29,13 @@ public class DisplayEventsServlet extends HttpServlet {
         HttpSession loginSession = request.getSession(false);
         request.getRequestDispatcher((String)loginSession.getAttribute("dashboard")).include(request, response);
         
+        request.setAttribute("dashboard", "/esd-group-3/dashboards/" + loginSession.getAttribute("user_role") + "_home.jsp");
         
         request.setAttribute("todaydate", LocalDate.now().toString());
         request.setAttribute("maxdate", LocalDate.now().plusYears(1).toString());
         request.setAttribute("onemonth", LocalDate.now().plusMonths(1).toString());
         request.setAttribute("minusyear", LocalDate.now().minusYears(1).toString());
         request.getRequestDispatcher("pages/ViewAppointments.jsp").forward(request,response);
-        request.setAttribute("dashboard", "/esd-group-3/dashboards/" + loginSession.getAttribute("user_role") + "_home.jsp");
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)

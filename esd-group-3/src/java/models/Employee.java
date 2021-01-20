@@ -138,6 +138,39 @@ public class Employee extends User {
         return employee;
     }
     
+    public Employee retrieveEmployeeByEmployeeId(DBConnection dbcon, int id) {
+        String query = "SELECT * FROM Employees WHERE id = " + id;
+        
+        Employee employee = new Employee();
+        
+        try (Statement stmt = dbcon.conn.createStatement()) {
+            ResultSet resultSet = stmt.executeQuery(query);
+            while (resultSet.next()) {
+                int userid = resultSet.getInt("userid");
+                Boolean is_fulltime = resultSet.getBoolean("isFullTime");
+                employee.setEmployeeId(id);
+                employee.setId(userid);
+                employee.setFullTime(is_fulltime);
+            }
+            
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        
+        User user = new User();
+        user.retrieveByUserId(dbcon, employee.getId());
+        
+        employee.setUsername(user.getUsername());
+        employee.setPassword(user.getPassword());
+        employee.setFirstname(user.getFirstname());
+        employee.setLastname(user.getLastname());
+        employee.setEmail(user.getEmail());
+        employee.setAddress(user.getAddress());
+        employee.setRole(user.getRole());
+        
+        return employee;
+    }
+    
     public List<Employee> retrieveAllEmployees(DBConnection dbcon) {
         List<Employee> employees = new ArrayList<Employee>();
         

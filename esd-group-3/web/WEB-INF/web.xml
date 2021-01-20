@@ -78,10 +78,19 @@
         <servlet-class>com.NewAppointmentServlet</servlet-class>
     </servlet>
     <servlet>
+        <display-name>ViewReferralsServlet</display-name>
+        <servlet-name>ViewReferralsServlet</servlet-name>
+        <servlet-class>com.ViewReferralsServlet</servlet-class>
+    </servlet>
+    <servlet>
         <display-name>DisplayEventsServlet</display-name>
         <servlet-name>DisplayEventsServlet</servlet-name>
         <servlet-class>com.DisplayEventsServlet</servlet-class>
     </servlet>
+    <servlet-mapping>
+        <servlet-name>ViewReferralsServlet</servlet-name>
+        <url-pattern>/ViewReferralsServlet</url-pattern>
+    </servlet-mapping>
     <servlet-mapping>
         <servlet-name>NewAppointmentServlet</servlet-name>
         <url-pattern>/NewAppointmentServlet</url-pattern>

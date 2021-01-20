@@ -51,7 +51,7 @@ public class ViewPatientsServlet extends HttpServlet {
         String outputList = "<table class='patients-table'>";
         
         for (int i = 0; i < clients.size(); i++) {
-            outputList += "<tr><td>" + clients.get(i).getClientId() + "</td><td>" + clients.get(i).getFirstname() + " " + clients.get(i).getLastname() + "</td><td>" + (clients.get(i).getIsNhs() ? "NHS" : "Private") + "</td><td>" + clients.get(i).getEmail() + "</td><td>" + clients.get(i).getAddress() + "</tr>";
+            outputList += "<tr><td>" + clients.get(i).getClientId() + "</td><td>" + clients.get(i).getFirstname() + " " + clients.get(i).getLastname() + "</td><td>" + (clients.get(i).getIsNhs() ? "NHS" : "Private") + "</td><td>" + clients.get(i).getEmail() + "</td><td>" + clients.get(i).getAddress() + "</td></tr>";
         }
         
         outputList += "</table>";
@@ -97,7 +97,7 @@ public class ViewPatientsServlet extends HttpServlet {
         String outputList = "<table class='patients-table'>";
         
         for (int i = 0; i < clients.size(); i++) {
-            outputList += "<tr><td>" + clients.get(i).getClientId() + "</td><td>" + clients.get(i).getFirstname() + " " + clients.get(i).getLastname() + "</td><td>" + (clients.get(i).getIsNhs() ? "NHS" : "Private") + "</td><td>" + clients.get(i).getEmail() + "</td><td>" + clients.get(i).getAddress() + "</tr>";
+            outputList += "<tr><td>" + clients.get(i).getClientId() + "</td><td>" + clients.get(i).getFirstname() + " " + clients.get(i).getLastname() + "</td><td>" + (clients.get(i).getIsNhs() ? "NHS" : "Private") + "</td><td>" + clients.get(i).getEmail() + "</td><td>" + clients.get(i).getAddress() + "</td></tr>";
         }
         
         outputList += "</table>";

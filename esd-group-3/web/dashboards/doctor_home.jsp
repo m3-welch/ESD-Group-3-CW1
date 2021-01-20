@@ -55,6 +55,9 @@
         <form action="/esd-group-3/NewEmployeeAppointmentServlet" method="GET">
             <input type="submit" value="New Appointment" class="link-button"/>
         </form>
+        <form action="/esd-group-3/ViewReferralsServlet" method="GET">
+            <input type="submit" value="View Referrals" class="link-button"/>
+        </form>
     </div>
     </body>
 </html>

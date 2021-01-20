@@ -79,10 +79,10 @@ public class NewAppointmentServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
                             throws ServletException, IOException {
-        request.setAttribute("dashboard", "/esd-group-3/dashboards/" + request.getAttribute("userrole") + "_home.jsp");
+        HttpSession loginSession = request.getSession();
+        request.setAttribute("dashboard", "/esd-group-3/dashboards/" + loginSession.getAttribute("user_role") + "_home.jsp");
         response.setContentType("text/html");
 
-        HttpSession loginSession = request.getSession();
         
         request.getRequestDispatcher((String)loginSession.getAttribute("dashboard")).include(request, response);
 
