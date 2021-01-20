@@ -6,7 +6,7 @@
     <context-param>
         <param-name>dbname</param-name>
         <param-value>Users</param-value>
-    </context-param>    
+    </context-param>
     <filter>
         <filter-name>GlobalAuthenticationFilter</filter-name>
         <filter-class>filters.GlobalAuthenticationFilter</filter-class>
@@ -105,13 +105,13 @@
         <servlet-class>com.DisplayEventsServlet</servlet-class>
     </servlet>
     <servlet>
-        <display-name>ViewEmployeeAppointments</display-name>
-        <servlet-name>ViewEmployeeAppointments</servlet-name>
-        <servlet-class>com.ViewEmployeeAppointments</servlet-class>
+        <display-name>ViewEmployeeSchedule</display-name>
+        <servlet-name>ViewEmployeeSchedule</servlet-name>
+        <servlet-class>com.ViewEmployeeSchedule</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>ViewEmployeeAppointments</servlet-name>
-        <url-pattern>/ViewEmployeeAppointments</url-pattern>
+        <servlet-name>ViewEmployeeSchedule</servlet-name>
+        <url-pattern>/ViewEmployeeSchedule</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>NewAppointmentServlet</servlet-name>

@@ -23,7 +23,7 @@ import models.Operation;
  *
  * @author Harrison B
  */
-public class ViewEmployeeAppointments extends HttpServlet {
+public class ViewEmployeeSchedule extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
                             throws ServletException, IOException {

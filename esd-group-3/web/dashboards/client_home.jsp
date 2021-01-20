@@ -77,7 +77,7 @@
                 <div class="container">
                     <h2 style="text-align:center;margin-top: 10px;">List employee appointments</h2>
                     <div class="container">
-                        <form action="ViewEmployeeAppointments" method="POST">
+                        <form action="ViewEmployeeSchedule" method="POST">
                             <input ${checkeddoctor} type="radio" value="doctor" id="doctor" name="filter" class="patientlist-filter"/>
                             <label for="doctor">Doctors</label>
                             <input ${checkednurse} type="radio" value="nurse" id="nurse" name="filter" class="patientlist-filter"/>
