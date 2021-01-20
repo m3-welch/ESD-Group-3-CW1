@@ -145,7 +145,7 @@ public class Price {
         try (Statement stmt = dbcon.conn.createStatement()) {
             ResultSet rs = stmt.executeQuery(query);
             rs.next();
-            double price = rs.getLong(1);
+            double price = rs.getFloat(1);
             System.out.println("Price got = " + Double.toString(price));
             price = price * slots;
             return price;

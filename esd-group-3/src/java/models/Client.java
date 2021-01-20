@@ -51,7 +51,6 @@ public class Client extends User {
         String role,
         String type
     ) {
-        System.out.println(lastname);
         String query = "INSERT INTO Users (username, password, firstname, lastname,"
             + "email, address, role) VALUES ('" + username + "', '" 
             + password + "', '" + firstname + "', '" + lastname + "', '" + email 
@@ -91,7 +90,7 @@ public class Client extends User {
             Logger.getLogger(Employee.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        query = "SELECT id FROM Clients WHERE username = '" + username + "'";
+        query = "SELECT id FROM Clients WHERE userid = " + userid;
         
         int clientid = 0;
         
@@ -133,6 +132,36 @@ public class Client extends User {
         User user = new User();
         user.retrieveByUserId(dbcon, (int)id);
         
+        this.setId(id);
+        this.setUsername(user.getUsername());
+        this.setPassword(user.getPassword());
+        this.setFirstname(user.getFirstname());
+        this.setLastname(user.getLastname());
+        this.setEmail(user.getEmail());
+        this.setAddress(user.getAddress());
+        this.setRole(user.getRole());
+        
+        return this;
+    }
+    
+    public Client retrieveClientByClientId(DBConnection dbcon, int id) {
+        String query = "SELECT * FROM Clients WHERE id = " + id;
+        
+        try (Statement stmt = dbcon.conn.createStatement()) {
+            ResultSet resultSet = stmt.executeQuery(query);
+            while (resultSet.next()) {
+                this.setId(resultSet.getInt("userid"));
+                this.setIsNhs(resultSet.getBoolean("isNhs"));
+            }
+            
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        
+        User user = new User();
+        user.retrieveByUserId(dbcon, this.getId());
+        
+        this.setId(id);
         this.setUsername(user.getUsername());
         this.setPassword(user.getPassword());
         this.setFirstname(user.getFirstname());
@@ -327,7 +356,6 @@ public class Client extends User {
         String query = "UPDATE Operations SET hasbeenpaid = True WHERE hasbeenpaid = False;";
         try (Statement stmt = dbcon.conn.createStatement()) {
             stmt.execute(query);
-            System.out.println("Payment made");
         } catch (SQLException e) {
             System.out.println(e);
         }

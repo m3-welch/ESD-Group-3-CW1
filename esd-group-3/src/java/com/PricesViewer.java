@@ -13,6 +13,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import models.Price;
 
 /**
@@ -32,9 +33,11 @@ public class PricesViewer extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        HttpSession loginSession = request.getSession(false);
+        request.setAttribute("dashboard", "/esd-group-3/dashboards/" + loginSession.getAttribute("user_role") + "_home.jsp");
         response.setContentType("text/html");   
   
-        request.getRequestDispatcher("prices.jsp").include(request, response);
+        request.getRequestDispatcher((String)loginSession.getAttribute("dashboard")).include(request, response);
         
         try {
             Price pricesCaller = new Price();

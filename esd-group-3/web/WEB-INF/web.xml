@@ -55,6 +55,11 @@
         <servlet-class>com.NewEmployeeServlet</servlet-class>
     </servlet>
     <servlet>
+        <display-name>NewEmployeeAppointmentServlet</display-name>
+        <servlet-name>NewEmployeeAppointmentServlet</servlet-name>
+        <servlet-class>com.NewEmployeeAppointmentServlet</servlet-class>
+    </servlet>
+    <servlet>
         <display-name>IssueInvoiceServlet</display-name>
         <servlet-name>IssueInvoiceServlet</servlet-name>
         <servlet-class>com.IssueInvoiceServlet</servlet-class>
@@ -80,6 +85,11 @@
         <servlet-class>com.ViewPatientsServlet</servlet-class>
     </servlet>
     <servlet>
+        <display-name>ViewEmployeesServlet</display-name>
+        <servlet-name>ViewEmployeesServlet</servlet-name>
+        <servlet-class>com.ViewEmployeesServlet</servlet-class>
+    </servlet>
+    <servlet>
         <display-name>NewReferralServlet</display-name>
         <servlet-name>NewReferralServlet</servlet-name>
         <servlet-class>com.NewReferralServlet</servlet-class>
@@ -100,10 +110,19 @@
         <servlet-class>com.NewAppointmentServlet</servlet-class>
     </servlet>
     <servlet>
+        <display-name>ViewReferralsServlet</display-name>
+        <servlet-name>ViewReferralsServlet</servlet-name>
+        <servlet-class>com.ViewReferralsServlet</servlet-class>
+    </servlet>
+    <servlet>
         <display-name>DisplayEventsServlet</display-name>
         <servlet-name>DisplayEventsServlet</servlet-name>
         <servlet-class>com.DisplayEventsServlet</servlet-class>
     </servlet>
+    <servlet-mapping>
+        <servlet-name>ViewReferralsServlet</servlet-name>
+        <url-pattern>/ViewReferralsServlet</url-pattern>
+    </servlet-mapping>
     <servlet-mapping>
         <servlet-name>NewAppointmentServlet</servlet-name>
         <url-pattern>/NewAppointmentServlet</url-pattern>
@@ -115,6 +134,10 @@
     <servlet-mapping>
         <servlet-name>ViewPatientsServlet</servlet-name>
         <url-pattern>/ViewPatientsServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ViewEmployeesServlet</servlet-name>
+        <url-pattern>/ViewEmployeesServlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
@@ -139,6 +162,10 @@
     <servlet-mapping>
         <servlet-name>NewEmployeeServlet</servlet-name>
         <url-pattern>/NewEmployeeServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>NewEmployeeAppointmentServlet</servlet-name>
+        <url-pattern>/NewEmployeeAppointmentServlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>IssueInvoiceServlet</servlet-name>

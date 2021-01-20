@@ -1,0 +1,61 @@
+<%-- 
+    Document   : NewAppointment
+    Created on : 19-Jan-2021, 16:41:00
+    Author     : morgan
+--%>
+
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link rel="stylesheet" href="/esd-group-3/styles/home.css">
+        <title>SmartCare - New Appointment As Employee</title>
+    </head>
+    <body>
+        <div class="top-banner">
+            <div class="logout">        
+                <form action="/esd-group-3/LogoutServlet" method="GET">
+                    <input type="submit" value="Logout" class="button logout"> 
+                </form>
+            </div>
+
+            <div class="center">
+                <a href="${dashboard}"><h2>SmartCare</h2></a>
+            </div>
+        </div>
+        <div class="content">
+        <p style="color:#FF3232;font-size:12px;text-align:center" id="note">${message}</p>
+        <h1>New Appointment</h1>
+        <div class="center">
+          <div class="card">
+            <div class="container">
+              <h2 style="text-align:center;margin-top: 10px;">Book an appointment</h2>
+              <div class="container">
+                <form action="/esd-group-3/NewAppointmentServlet" method="POST">
+                  <label for="doctor-nurse"><b>Staff</b></label>
+                  <select name="doctor-nurse">
+                      ${doctornurseoptions}
+                  </select>
+                  <label for="type"><b>Type</b></label>
+                  <select name="type" required>
+                      <option value="surgery">Surgery</option>
+                      <option value="consultation">Consultation</option>
+                  </select>
+                  <label for="date"><b>Date (Mon - Fri)</b></label>
+                  <input type="date" value="${todaydate}" max="${maxdate}" name="date" required/>
+                  <label for="starttime"><b>Start Time (09:00 - 17:00)</b></label>
+                  <input type="time" min="09:00" max="17:00" value="${nowtime}" name="starttime" required/>
+                  <label for="endtime"><b>End Time (09:00 - 17:00)</b></label>
+                  <input type="time" min="09:00" max="17:00" value="${tenmins}" name="endtime" required/>
+                  <label for="reason"><b>Reason</b></label>
+                  <input type="text" name="reason" required/>
+                  <input type="hidden" name="clientid" value="${userid}"/>
+                  <input type="submit" value="Create" class="button"/> 
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+    </body>
+</html>
