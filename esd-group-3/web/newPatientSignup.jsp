@@ -19,7 +19,7 @@
               <h2 style="text-align:center">Smartcare - New Patient</h2>
               <p style="color:#FF3232;font-size:12px;text-align:center" id="note">${message}</p>
               <div class="container">
-                <form action="SignupServlet" method="POST">
+                <form action="PatientSignupServlet" method="POST">
                   <label for="uname"><b>Username</b></label>
                   <input type="text" placeholder="Enter Username" name="uname" required>
                   <label for="psw"><b>Password</b></label>

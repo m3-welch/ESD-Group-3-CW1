@@ -44,7 +44,7 @@ public class ViewEmployeesServlet extends HttpServlet{
             DBConnection dbcon = new DBConnection("smartcaretest", "", "");
             employees = emp.retrieveAllEmployees(dbcon);
         } catch (SQLException ex) {
-            Logger.getLogger(SignupServlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(PatientSignupServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         String outputList = "<table class='patients-table'>";
@@ -95,7 +95,7 @@ public class ViewEmployeesServlet extends HttpServlet{
             DBConnection dbcon = new DBConnection("smartcaretest", "", "");
             employees = emp.filteredRetrieveAllEmployees(dbcon, filter);
         } catch (SQLException ex) {
-            Logger.getLogger(SignupServlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(PatientSignupServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         String outputList = "<table class='patients-table'>";

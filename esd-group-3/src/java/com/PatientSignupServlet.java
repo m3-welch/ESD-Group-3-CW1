@@ -22,14 +22,14 @@ import models.Client;
  *
  * @author morgan
  */
-public class SignupServlet extends HttpServlet {
+public class PatientSignupServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
                             throws ServletException, IOException {
         HttpSession loginSession = request.getSession(false);
         request.setAttribute("dashboard", "/esd-group-3/dashboards/" + loginSession.getAttribute("user_role") + "_home.jsp");
         response.setContentType("text/html");
         
-        request.getRequestDispatcher("newPatient.jsp").include(request, response);
+        request.getRequestDispatcher("newPatientSignup.jsp").include(request, response);
         
         //decare vars
         String username = request.getParameter("uname");
@@ -49,7 +49,7 @@ public class SignupServlet extends HttpServlet {
             DBConnection dbcon = new DBConnection("smartcaretest", "", "");
             client.create(dbcon, username, password, firstname, lastname, email, address, "client", type);
         } catch (SQLException ex) {
-            Logger.getLogger(SignupServlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(PatientSignupServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         if (client.getUsername().equals(username) && client.getClientType().equals(type)) {

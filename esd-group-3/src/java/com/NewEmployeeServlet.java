@@ -58,7 +58,7 @@ public class NewEmployeeServlet extends HttpServlet {
             DBConnection dbcon = new DBConnection("smartcaretest", "", "");
             employee.create(dbcon, username, password, firstname, lastname, email, address, type, isFullTime);
         } catch (SQLException ex) {
-            Logger.getLogger(SignupServlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(PatientSignupServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         if (employee.getUsername().equals(username) && employee.getRole().equals(type)) {

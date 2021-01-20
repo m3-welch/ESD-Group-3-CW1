@@ -47,7 +47,7 @@
     <servlet>
         <display-name>SignupServlet</display-name>
         <servlet-name>SignupServlet</servlet-name>
-        <servlet-class>com.SignupServlet</servlet-class>
+        <servlet-class>com.PatientSignupServlet</servlet-class>
     </servlet>
     <servlet>
         <display-name>NewEmployeeServlet</display-name>
@@ -195,7 +195,7 @@
     <servlet-mapping>
         <servlet-name>NewReferralServlet</servlet-name>
         <url-pattern>/NewReferralServlet</url-pattern>
-    </servlet-mapping> 
+    </servlet-mapping>
     <servlet-mapping>
         <servlet-name>CancelAppointmentServlet</servlet-name>
         <url-pattern>/CancelAppointmentServlet</url-pattern>

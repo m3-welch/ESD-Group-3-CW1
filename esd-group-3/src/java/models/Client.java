@@ -368,5 +368,80 @@ public class Client extends User {
         } catch (SQLException e) {
             System.out.println(e);
         }
-    } 
+    }
+    
+    public void signup(
+        DBConnection dbcon,
+        String username,
+        String password,
+        String firstname,
+        String lastname,
+        String email,
+        String address,
+        String role,
+        String type
+    ) {
+        String query = "INSERT INTO Users (username, password, firstname, lastname,"
+            + "email, address, role) VALUES ('" + username + "', '" 
+            + password + "', '" + firstname + "', '" + lastname + "', '" + email 
+            + "', '" + address + "', '" + role + "')";
+        
+        try (Statement stmt = dbcon.conn.createStatement()) {
+            stmt.execute(query);
+        } catch (SQLException ex) {
+            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        query = "SELECT id FROM Users WHERE username = '" + username + "'";
+        
+        int userid = 0;
+        
+        try (Statement stmt = dbcon.conn.createStatement()) {
+            ResultSet resultSet = stmt.executeQuery(query);
+            while (resultSet.next()) {
+                userid = resultSet.getInt("id");
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        
+        Boolean isNHS;
+        if (type.equals("NHS")) {
+            isNHS = true;
+        } else {
+            isNHS = false;
+        }
+        
+        query = "INSERT INTO Clients (userid, isNHS) VALUES (" + userid + ", " + isNHS + ")";
+         
+        try (Statement stmt = dbcon.conn.createStatement()) {
+            stmt.execute(query);
+        } catch (SQLException ex) {
+            Logger.getLogger(Employee.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        query = "SELECT id FROM Clients WHERE userid = " + userid;
+        
+        int clientid = 0;
+        
+        try (Statement stmt = dbcon.conn.createStatement()) {
+            ResultSet resultSet = stmt.executeQuery(query);
+            while (resultSet.next()) {
+                clientid = resultSet.getInt("id");
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        
+        this.setId(userid);
+        this.setUsername(username);
+        this.setPassword(password);
+        this.setFirstname(firstname);
+        this.setLastname(lastname);
+        this.setEmail(email);
+        this.setAddress(address);
+        this.setRole(role);
+        this.setClientId(clientid);
+        this.setIsNhs(isNHS);
+    }
 }
