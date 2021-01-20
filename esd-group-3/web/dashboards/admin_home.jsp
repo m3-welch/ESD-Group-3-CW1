@@ -52,6 +52,9 @@
         <form action="/esd-group-3/DisplayEventsServlet" method="GET">
             <input type="submit" value="View Schedule" class="link-button"> 
         </form>
+        <form action="/esd-group-3/ApproveNewUsersServlet" method="GET">
+            <input type="submit" value="Approve New Users" class="link-button"> 
+        </form>
     </div>
     </body>
 </html>

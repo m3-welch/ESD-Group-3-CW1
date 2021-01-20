@@ -38,6 +38,9 @@ public class Employee extends User {
     public Boolean isFullTime() {
         return this.isFullTime;
     }
+
+    public Employee() {
+    }
     
     public void create(
         DBConnection dbcon,
@@ -253,5 +256,55 @@ public class Employee extends User {
         } catch (SQLException ex) {
             Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    
+    public List<Employee> retrieveSignups(DBConnection dbcon) {
+        List<Employee> emps = new ArrayList<Employee>();
+        
+        String query = "SELECT * FROM SignupApproval WHERE role != client";
+            
+        try (Statement stmt = dbcon.conn.createStatement()) {
+            ResultSet resultSet = stmt.executeQuery(query);
+            while (resultSet.next()) {
+                int id = resultSet.getInt("id");
+                String username = resultSet.getString("username");
+                String firstname = resultSet.getString("firstname");
+                String lastname = resultSet.getString("lastname");
+                String email = resultSet.getString("email");
+                String address = resultSet.getString("address");
+                String role = resultSet.getString("role");
+                LocalDate dob = LocalDate.parse(resultSet.getString("dob"));
+                Boolean isfulltime = resultSet.getBoolean("isfulltime");
+
+                Employee emp = new Employee(id, username, firstname, lastname, 
+                        email, address, role, dob, isfulltime);
+
+                emps.add(emp);
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        
+        return emps;
+    }
+    
+    private Employee(int id,
+            String username,
+            String firstname,
+            String lastname, 
+            String email, 
+            String address,
+            String role,
+            LocalDate dob,
+            Boolean isfulltime)
+    {
+        this.setId(id);
+        this.setUsername(username);
+        this.setLastname(lastname);
+        this.setEmail(email);
+        this.setAddress(address);
+        this.setRole(role);
+        this.setDob(dob);
+        this.isFullTime  = isfulltime;
     }
 }

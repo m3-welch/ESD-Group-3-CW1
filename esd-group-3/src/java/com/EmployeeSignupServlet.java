@@ -39,6 +39,7 @@ public class EmployeeSignupServlet extends HttpServlet {
         String address = request.getParameter("address");
         String type = request.getParameter("type");
         LocalDate dob = LocalDate.parse(request.getParameter("dob"));
+        String role = request.getParameter("role");
         Employee employee = new Employee();
         
         GoogleMaps maps = new GoogleMaps();
@@ -51,7 +52,7 @@ public class EmployeeSignupServlet extends HttpServlet {
         
         try {
             DBConnection dbcon = new DBConnection("smartcaretest", "", "");
-            employee.signup(dbcon, username, password, firstname, lastname, email, address, "client", type, dob);
+            employee.signup(dbcon, username, password, firstname, lastname, email, address, role, type, dob);
             request.setAttribute("message", "Successful Signup - Await approval");
             request.getRequestDispatcher("login.jsp").forward(request, response);
             response.sendRedirect("login.jsp");

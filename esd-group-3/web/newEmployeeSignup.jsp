@@ -37,6 +37,12 @@
                       <option value="fulltime">Full time</option>
                       <option value="parttime">Part time</option>
                   </select>
+                  <label for="type"><b>Role</b></label>
+                  <select name="role">
+                      <option value="fulltime">doctor</option>
+                      <option value="parttime">nurse</option>
+                      <option value="parttime">admin</option>
+                  </select>
                   <label for="dob"><b>Date of Birth</b></label>
                   <input type="date" name="dob" required>
                   <input type="submit" value="signup" class="button"> 
