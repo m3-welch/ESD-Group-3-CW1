@@ -9,6 +9,7 @@ import api.GoogleMaps;
 import dbcon.DBConnection;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -50,6 +51,7 @@ public class NewUserServlet extends HttpServlet {
         String email = request.getParameter("email");
         String address = request.getParameter("address");
         String type = request.getParameter("type");
+        LocalDate dob = LocalDate.parse(request.getParameter("dob"));
         
         GoogleMaps maps = new GoogleMaps();
         
@@ -64,7 +66,7 @@ public class NewUserServlet extends HttpServlet {
         
         try {
             DBConnection dbcon = new DBConnection("smartcaretest", "", "");
-            client.create(dbcon, username, password, firstname, lastname, email, address, "client", type);
+            client.create(dbcon, username, password, firstname, lastname, email, address, "client", type, dob);
         } catch (SQLException ex) {
             Logger.getLogger(NewUserServlet.class.getName()).log(Level.SEVERE, null, ex);
         }

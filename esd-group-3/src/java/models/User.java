@@ -9,6 +9,7 @@ import dbcon.DBConnection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
 
 /**
  *
@@ -24,6 +25,7 @@ public class User {
     private String address;
     private String role;
     public Events events;
+    private LocalDate dob;
     
     public User setId(int id) {
         this.id = id;
@@ -95,6 +97,14 @@ public class User {
         ev.getOperationsFromDB(dbcon, this.id);
         this.events = ev;
     }
+
+    public LocalDate getDob() {
+        return dob;
+    }
+
+    public void setDob(LocalDate dob) {
+        this.dob = dob;
+    }
     
     public void retrieveByUsername(DBConnection dbcon, String uname) {
         String query = "SELECT * FROM Users WHERE username = '" + uname + "'";
@@ -110,7 +120,7 @@ public class User {
                 this.setEmail(resultSet.getString("email"));
                 this.setAddress(resultSet.getString("address"));
                 this.setRole(resultSet.getString("role"));
-
+                this.setDob(LocalDate.parse(resultSet.getString("dob")));
             }
 
         } catch (SQLException e) {
@@ -132,7 +142,7 @@ public class User {
                 this.setEmail(resultSet.getString("email"));
                 this.setAddress(resultSet.getString("address"));
                 this.setRole(resultSet.getString("role"));
-
+                this.setDob(LocalDate.parse(resultSet.getString("dob")));
             }
 
         } catch (SQLException e) {

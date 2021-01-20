@@ -11,7 +11,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" href="/esd-group-3/styles/home.css"/>
-        <title>SmartCare - Create a new Employee</title>
+        <title>SmartCare - Create a New Employee</title>
     </head>
     <body>
         <div class="top-banner">
@@ -57,6 +57,8 @@
                                     <option value="TRUE">Full Time</option>
                                     <option value="FALSE">Part Time</option>
                                 </select>
+                                <label for="dob"><b>Date of birth</b></label>
+                                <input type="date" name="dob" required>
                                 <input type="submit" value="Create" class="button"> 
                             </form>
                         </div>
