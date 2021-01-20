@@ -20,6 +20,7 @@ import javax.servlet.http.HttpSession;
 import models.Client;
 import models.Employee;
 import models.User;
+import models.Client;
 
 /**
  *
@@ -45,10 +46,10 @@ public class ViewUsersServlet extends HttpServlet{
         String outputList = "<table class='patients-table'>";
         
         for (int i = 0; i < users.size(); i++) {
-            outputList += "<tr><form action='ViewPatientsServlet' method='POST'><td><input type='text' value='" + users.get(i).getClientId() + "' name='clientId' readonly>" + "</td><td>" +
-                    users.get(i).getFirstname() + " " + users.get(i).getLastname() + "</td><td>" +
-                    (users.get(i).getIsNhs().equals("true") ? "NHS" : "Private") + "</td><td>" +
-                    users.get(i).getAddress() + "</td><td>" +
+            outputList += "<tr><form action='ViewPatientsServlet' method='POST'><td><input type='text' value='" + clients.get(i).getClientId() + "' name='clientId' readonly>" + "</td><td>" +
+                    clients.get(i).getFirstname() + " " + users.get(i).getLastname() + "</td><td>" +
+                    (userss.get(i).getIsNhs().equals("true") ? "NHS" : "Private") + "</td><td>" +
+                    clients.get(i).getAddress() + "</td><td>" +
                     "<input type='submit' name='delete_patient' value='delete' class='button'/></td></form></tr>";
         }
         
@@ -58,11 +59,67 @@ public class ViewUsersServlet extends HttpServlet{
     
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
                             throws ServletException, IOException {
+        
+        /*
+        String delete = "";
+        
+        //request.getRequestDispatcher("admin_home.jsp").include(request, response);
+        
+        try{
+            delete = request.getParameter("delete_patient");            
+        }
+        catch(Exception e){
+            System.out.println(e);
+        }
+        
+        if ("delete".equals(delete)) {
+            try {
+                DBConnection dbcon = new DBConnection("smartcaretest", "", "");
+                Client deleteClient = new Client();
+                deleteClient.retrieveClientByIdDrop(dbcon, Integer.parseInt(request.getParameter("clientId")));
+                deleteClient.dropUserById(dbcon, deleteClient.getClientId());
+            } catch (SQLException ex) {
+                Logger.getLogger(ViewPatientsServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        
+        //decare vars
+        String filter = request.getParameter("filter");
+        
+        if ("NHS".equals(filter)) {
+            request.setAttribute("checkednhs", "checked='true'");
+        } else if ("private".equals(filter)) {
+            request.setAttribute("checkedprivate", "checked='true'");
+        } else if ("all".equals(filter)) {
+            request.setAttribute("checkedcombined", "checked='true'");
+        }
+        
+        Client client = new Client();
+        List<Client> clients = null;        
+        
+        try {
+            DBConnection dbcon = new DBConnection("smartcaretest", "", "");
+            clients = client.getAll(dbcon, filter);
+        } catch (SQLException ex) {
+            Logger.getLogger(SignupServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        String outputList = "<table class='patients-table'>";
+        
+        for (int i = 0; i < clients.size(); i++) {
+            outputList += "<tr><form action='ViewPatientsServlet' method='POST'><td><input type='text' value='" + clients.get(i).getClientId() + "' name='clientId' readonly>" + "</td><td>" +
+                    clients.get(i).getFirstname() + " " + clients.get(i).getLastname() + "</td><td>" +
+                    (clients.get(i).getIsNhs().equals("true") ? "NHS" : "Private") + "</td><td>" +
+                    clients.get(i).getAddress() + "</td><td>" +
+                    "<input type='submit' name='delete_patient' value='delete' class='button'/></td></form></tr>";
+        }
+        
+        */
         response.setContentType("text/html");
         HttpSession loginSession = request.getSession(false);
         request.setAttribute("dashboard", "/esd-group-3/dashboards/" + loginSession.getAttribute("user_role") + "_home.jsp");
         
-        request.getRequestDispatcher("pages/ViewEmployees.jsp").include(request, response);
+        request.getRequestDispatcher("pages/ViewUsers.jsp").include(request, response);
         
         //decare vars
         String filter = request.getParameter("filter");
@@ -103,7 +160,7 @@ public class ViewUsersServlet extends HttpServlet{
         }
         
         outputList += "</table>";
-        request.setAttribute("employeelist", outputList);
+        request.setAttribute("userlist", outputList);
         request.getRequestDispatcher("pages/ViewUsers.jsp").forward(request,response);
     }
 }
