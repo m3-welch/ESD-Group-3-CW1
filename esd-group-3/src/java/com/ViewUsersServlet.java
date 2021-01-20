@@ -72,6 +72,7 @@ public class ViewUsersServlet extends HttpServlet{
                     users.get(i).getFirstname() + " " + users.get(i).getLastname() + "</td><td>" +
                     users.get(i).getEmail() + "</td><td>" +
                     users.get(i).getAddress() + "</td><td>" +
+                    users.get(i).getDob() + "</td><td>" +
                     "<select name='role'>" + selectStatement + "</select></td><td>" +
                     "<input type='submit' name='save' value='save' class='button'/></td></form></tr>";
         }
@@ -190,6 +191,7 @@ public class ViewUsersServlet extends HttpServlet{
                     users.get(i).getFirstname() + " " + users.get(i).getLastname() + "</td><td>" +
                     users.get(i).getEmail() + "</td><td>" +
                     users.get(i).getAddress() + "</td><td>" +
+                    users.get(i).getDob() + "</td><td>" +
                     "<select name='role'>" + selectStatement + "</select></td><td>" +
                     "<input type='submit' name='save' value='save' class='button'/></td></form></tr>";
         }

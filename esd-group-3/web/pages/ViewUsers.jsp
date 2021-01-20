@@ -52,6 +52,7 @@
                                 <th>Address</th>
                                 <th>Role</th>
                                 <th>Date of Birth</th>
+                                <th></th>
                             </tr>
                         </table>
                         <div class="list">
