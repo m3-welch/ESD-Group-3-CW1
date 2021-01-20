@@ -141,20 +141,47 @@ public class Employee extends User {
     public List<Employee> retrieveAllEmployees(DBConnection dbcon) {
         List<Employee> employees = new ArrayList<Employee>();
         
-            String query = "SELECT * FROM Employees";
+        String query = "SELECT * FROM Employees";
             
-            try (Statement stmt = dbcon.conn.createStatement()) {
-                ResultSet resultSet = stmt.executeQuery(query);
-                while (resultSet.next()) {
-                    int user_id = resultSet.getInt("userid");
+        try (Statement stmt = dbcon.conn.createStatement()) {
+            ResultSet resultSet = stmt.executeQuery(query);
+            while (resultSet.next()) {
+                int user_id = resultSet.getInt("userid");
 
-                    Employee employee = new Employee().retrieveEmployeeByUserId(dbcon, user_id);
+                Employee employee = new Employee().retrieveEmployeeByUserId(dbcon, user_id);
 
-                    employees.add(employee);
-                }
-            } catch (SQLException e) {
-                System.out.println(e);
+                employees.add(employee);
             }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        
+        return employees;
+    }
+    
+    public List<Employee> filteredRetrieveAllEmployees(DBConnection dbcon, String filter) {
+        List<Employee> employees = new ArrayList<Employee>();
+        
+        String query = "SELECT userid FROM Users";
+        if(filter.equals("all")) {
+            query = query.concat(" WHERE role = 'doctor' OR role = 'nurse'");
+        }
+        else {
+            query = query.concat(" WHERE role = '" + filter + "'");
+        }
+        
+        try (Statement stmt = dbcon.conn.createStatement()) {
+            ResultSet resultSet = stmt.executeQuery(query);
+            while (resultSet.next()) {
+                int user_id = resultSet.getInt("userid");
+
+                Employee employee = new Employee().retrieveEmployeeByUserId(dbcon, user_id);
+
+                employees.add(employee);
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
         
         return employees;
     }

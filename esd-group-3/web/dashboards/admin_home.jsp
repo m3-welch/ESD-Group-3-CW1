@@ -43,12 +43,15 @@
         <form action="/esd-group-3/NewEmployeeServlet" method="GET">
             <input type="submit" value="Create a new Employee" class="link-button"/>
         </form>
+        <form action="/esd-group-3/ViewEmployeesServlet" method="GET">
+            <input type="submit" value="View Employees" class="link-button"/>
+        </form>
         <form action="/esd-group-3/ViewPatientsServlet" method="GET">
             <input type="submit" value="View Patients" class="link-button"/>
         </form>
-        <form action="/esd-group-3/NewReferralServlet" method="GET">
+<!--        <form action="/esd-group-3/NewReferralServlet" method="GET">
             <input type="submit" value="New Referral" class="link-button"/>
-        </form>
+        </form>-->
     </div>
     </body>
 </html>
