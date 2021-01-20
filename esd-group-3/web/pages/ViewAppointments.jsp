@@ -60,6 +60,7 @@
                         </form>
                         <table class='events-table-header'>
                             <tr>
+                                <th>Appointment ID</th>
                                 <th>Date</th>
                                 <th>Patient name</th>
                                 <th>Employee Name</th>
