@@ -13,6 +13,8 @@ import javax.servlet.http.HttpServletResponse;
 import dbcon.DBConnection;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.http.HttpSession;
 import models.Events;
 import models.Operation;
@@ -22,6 +24,19 @@ import models.Operation;
  * @author Harrison B
  */
 public class DisplayEventsServlet extends HttpServlet {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.setContentType("text/html");
+        HttpSession loginSession = request.getSession(false);
+        request.getRequestDispatcher((String)loginSession.getAttribute("dashboard")).include(request, response);
+        
+        
+        request.setAttribute("todaydate", LocalDate.now().toString());
+        request.setAttribute("maxdate", LocalDate.now().plusYears(1).toString());
+        request.setAttribute("onemonth", LocalDate.now().plusMonths(1).toString());
+        request.setAttribute("minusyear", LocalDate.now().minusYears(1).toString());
+        request.getRequestDispatcher("pages/ViewAppointments.jsp").forward(request,response);
+    }
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
@@ -51,24 +66,19 @@ public class DisplayEventsServlet extends HttpServlet {
                         capitalizeWord(ops[i].getRoleFromId(dbcon)) + " " + 
                         ops[i].getEmpLastNameFromId(dbcon) + "</td><td>" + 
                         ops[i].getStartTime() + "</td><td>" + 
-                        ops[i].getEndTime() + "</td></tr>";
+                        ops[i].getEndTime() + "</td><td>" +
+                        ops[i].getDescription() + "</td></tr>";
             }
             outputList += "</table>";
-            
-            System.out.println(outputList);
-            
+                        
             request.setAttribute("message", "Data Loaded Successfully");       
             request.setAttribute("eventList", outputList);
-            request.getRequestDispatcher((String)loginSession.getAttribute("dashboard")).forward(request,response);
-            response.sendRedirect((String)loginSession.getAttribute("dashboard"));
-            
-            request.getRequestDispatcher((String)loginSession.getAttribute("dashboard")).forward(request,response);
+            request.getRequestDispatcher("pages/ViewAppointments.jsp").forward(request,response);
             
         } catch (SQLException ex) {
             // send error
             request.setAttribute("message", "Error - SQL Exception"); // Will be available as ${message}
-            request.getRequestDispatcher((String)loginSession.getAttribute("dashboard")).forward(request,response);
-            response.sendRedirect((String)loginSession.getAttribute("dashboard"));
+            request.getRequestDispatcher("pages/ViewAppointments.jsp").forward(request,response);
         }
         
     }

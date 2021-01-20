@@ -27,7 +27,7 @@ public class NewUserServlet extends HttpServlet {
                             throws ServletException, IOException {
         response.setContentType("text/html");
         
-        request.getRequestDispatcher("newPatient.jsp").include(request, response);
+        request.getRequestDispatcher("pages/NewUser.jsp").include(request, response);
         
         //decare vars
         String username = request.getParameter("uname");
@@ -58,14 +58,12 @@ public class NewUserServlet extends HttpServlet {
         
         HttpSession loginSession = request.getSession();
 
-        if (client.getUsername().equals(username) && client.getIsNhs().equals(type)) {
+        if (client.getUsername().equals(username) && client.getFirstname().equals(firstname)) {
             request.setAttribute("message", "New Patient successfully created!");
-            request.getRequestDispatcher((String)loginSession.getAttribute("dashboard")).forward(request,response);
-            response.sendRedirect((String)loginSession.getAttribute("dashboard"));
+            request.getRequestDispatcher("pages/NewUser.jsp").forward(request,response);
         } else {
             request.setAttribute("message", "Error! - New Patient not created");
-            request.getRequestDispatcher((String)loginSession.getAttribute("dashboard")).forward(request,response);
-            response.sendRedirect((String)loginSession.getAttribute("dashboard"));
+            request.getRequestDispatcher("pages/NewUser.jsp").forward(request,response);
         }
     }
 }

@@ -38,6 +38,11 @@
         <servlet-class>com.NewEmployeeServlet</servlet-class>
     </servlet>
     <servlet>
+        <display-name>NewEmployeeAppointmentServlet</display-name>
+        <servlet-name>NewEmployeeAppointmentServlet</servlet-name>
+        <servlet-class>com.NewEmployeeAppointmentServlet</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>IssueInvoiceServlet</servlet-name>
         <servlet-class>com.IssueInvoiceServlet</servlet-class>
     </servlet>
@@ -112,6 +117,10 @@
     <servlet-mapping>
         <servlet-name>NewEmployeeServlet</servlet-name>
         <url-pattern>/NewEmployeeServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>NewEmployeeAppointmentServlet</servlet-name>
+        <url-pattern>/NewEmployeeAppointmentServlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>IssueInvoiceServlet</servlet-name>

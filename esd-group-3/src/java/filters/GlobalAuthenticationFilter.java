@@ -76,7 +76,7 @@ public class GlobalAuthenticationFilter implements Filter {
             String errorMsg = "";
 
             // handles cases of no user logged in
-            if (role == 0 && !(uri.endsWith("login.jsp") || uri.endsWith("newPatient.jsp") || uri.endsWith("LoginServlet") || uri.endsWith("SignupServlet") || uri.endsWith("esd-group-3/"))){
+            if (role == 0 && !(uri.endsWith("login.jsp") || uri.endsWith("newPatient.jsp") || uri.endsWith("LoginServlet") || uri.endsWith("SignupServlet") || uri.endsWith("esd-group-3/") || uri.endsWith(".css"))){
                 this.context.log("Unauthorized access request");
                 req.setAttribute("message", "ERROR - Please Login"); // Will be available as ${message}
                 req.getRequestDispatcher("login.jsp").forward(request,response);

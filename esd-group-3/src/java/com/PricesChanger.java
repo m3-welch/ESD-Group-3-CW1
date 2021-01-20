@@ -47,13 +47,11 @@ public class PricesChanger extends HttpServlet {
         }
         
         if ("Delete".equals(select)) {
-            System.out.println("-" + request.getParameter("apptType") + request.getParameter("empType") + Float.parseFloat(request.getParameter("priceValue")));
             Price deletePrice = new Price(request.getParameter("apptType"), request.getParameter("empType"), Float.parseFloat(request.getParameter("priceValue"))); //populate with table attributes
             deletePrice.removePrice();
         }
         else if ("Save".equals(select)) {
             Price savePrice = new Price(request.getParameter("apptType"), request.getParameter("empType"), Float.parseFloat(request.getParameter("priceValue"))); //populate with table attributes
-            System.out.println(Integer.parseInt(request.getParameter("idValue")));
             savePrice.update(Integer.parseInt(request.getParameter("idValue")));
         }
         else if ("Add".equals(select)) {

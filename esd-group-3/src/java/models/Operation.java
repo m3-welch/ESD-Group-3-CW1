@@ -275,7 +275,6 @@ public class Operation {
         Employee employee = new Employee();
         employee = employee.retrieveEmployeeByUserId(dbcon, employee_userid);
         int employeeId = employee.getEmployeeId();
-        System.out.println(employee.getFirstname());
         Client client = new Client();
         client.retrieveClientByUserId(dbcon, client_userid);
         int clientId = client.getClientId();
@@ -292,7 +291,6 @@ public class Operation {
         
         Float cost = this.calculateOperationCost(dbcon, this);
         
-        System.out.println("---\n" + employeeId + "\n" + clientId + "\n" + date + "\n" + starttime + "\n" + endtime + "\n" + cost + "\n" + is_paid + "\n" + is_surgery + "\n" + description);
         String query = "INSERT INTO Operations (employeeid, clientid, date, starttime, endtime, charge, is_paid, is_surgery, description) VALUES ("
                 + employeeId + ", " + clientId + ", '" + date + "', '" + starttime + "', '" + endtime + "', " + cost + ", " + is_paid + ", " + is_surgery + ", '" + description + "')";
          

@@ -49,12 +49,10 @@ public class NewReferralServlet extends HttpServlet {
         
         if (ref.getNameArr().length > count) {
             request.setAttribute("message", "New Referral added to client");
-            request.getRequestDispatcher((String)loginSession.getAttribute("dashboard")).forward(request,response);
-            response.sendRedirect((String)loginSession.getAttribute("dashboard"));
+            request.getRequestDispatcher("pages/NewReferral.jsp").forward(request,response);
         } else {
             request.setAttribute("message", "Error! - Referral failed to add");
             request.getRequestDispatcher((String)loginSession.getAttribute("dashboard")).forward(request,response);
-            response.sendRedirect((String)loginSession.getAttribute("dashboard"));
         }
     }
 

@@ -125,10 +125,7 @@ public class Referrals {
         nameArr = nameList.toArray(nameArr);
         String addressArr[] = new String[addressList.size()];
         addressArr = addressList.toArray(addressArr);
-        
-        System.out.println(Arrays.toString(nameArr));
-        System.out.println(Arrays.toString(addressArr));
-        
+                
         this.setNameArr(nameArr);
         this.setAddressArr(addressArr);
     }

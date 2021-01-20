@@ -26,7 +26,7 @@ public class NewEmployeeServlet extends HttpServlet {
                             throws ServletException, IOException {
         response.setContentType("text/html");
         
-        request.getRequestDispatcher("newPatient.jsp").include(request, response);
+        request.getRequestDispatcher("pages/NewEmployee.jsp").include(request, response);
         
         //decare vars
         String username = request.getParameter("uname");
@@ -52,12 +52,10 @@ public class NewEmployeeServlet extends HttpServlet {
 
         if (employee.getUsername().equals(username) && employee.getRole().equals(type)) {
             request.setAttribute("message", "New Employee successfully created!");
-            request.getRequestDispatcher((String)loginSession.getAttribute("dashboard")).forward(request,response);
-            response.sendRedirect((String)loginSession.getAttribute("dashboard"));
+            request.getRequestDispatcher("pages/NewEmployee.jsp").forward(request,response);
         } else {
             request.setAttribute("message", "Error! - New Employee not created");
-            request.getRequestDispatcher((String)loginSession.getAttribute("dashboard")).forward(request,response);
-            response.sendRedirect((String)loginSession.getAttribute("dashboard"));
+            request.getRequestDispatcher("pages/NewEmployee.jsp").forward(request,response);
         }
     }
 }

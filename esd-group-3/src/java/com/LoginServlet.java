@@ -18,6 +18,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import models.Client;
 import models.Employee;
 import models.User;
 
@@ -66,13 +67,44 @@ public class LoginServlet extends HttpServlet {
                     doctornurseoptions += "<option value='" + employees.get(i).getId() + "'>" + employees.get(i).getFirstname() + " " + employees.get(i).getLastname() + "</option>";
             }
         
-            loginSession.setAttribute("doctornurseoptions", doctornurseoptions);
+            request.setAttribute("doctornurseoptions", doctornurseoptions);
+            
+            Client client = new Client();
+            List<Client> clients = client.getAll(dbcon, "all");
+            String clientoptions = "";
+           
+            for (int i = 0; i < clients.size(); i++) {
+                    clientoptions += "<option value='" + clients.get(i).getId() + "'>" + clients.get(i).getFirstname() + " " + clients.get(i).getLastname() + "</option>";
+            }
+        
+            request.setAttribute("clientoptions", clientoptions);
+            request.setAttribute("doctornurseoptions", doctornurseoptions);
+            request.setAttribute("checkednhs", "");
+            request.setAttribute("checkedprivate", "");
+            request.setAttribute("checkedcombined", "checked='true'");
+            
+            String outputList = "<table class='patients-table'>";
+        
+            for (int i = 0; i < clients.size(); i++) {
+                outputList += "<tr><td>" + clients.get(i).getClientId() + "</td><td>" + clients.get(i).getFirstname() + " " + clients.get(i).getLastname() + "</td><td>" + (clients.get(i).getIsNhs().equals("true") ? "NHS" : "Private") + "</td></tr>";
+            }
+            
+            outputList += "</table>";
+            
+            request.setAttribute("patientslist", outputList);
+
             
             LocalDate today = LocalDate.now();
-            loginSession.setAttribute("todaydate", today.toString());
+            request.setAttribute("todaydate", today.toString());
             
             LocalDate oneYear = today.plusYears(1);
-            loginSession.setAttribute("maxdate", oneYear.toString());
+            request.setAttribute("maxdate", oneYear.toString());
+            
+            LocalDate oneMonth = today.plusMonths(1);
+            request.setAttribute("onemonth", oneMonth.toString());
+            
+            LocalDate minusYear = today.minusYears(1);
+            request.setAttribute("minusyear", minusYear.toString());
             
             LocalTime now = LocalTime.now();
             LocalTime tenmins = now.plusMinutes(10);
@@ -82,8 +114,8 @@ public class LoginServlet extends HttpServlet {
             
             String timeLabelTenMins = new String(tenmins.format(dtf));
             
-            loginSession.setAttribute("nowtime", timeLabel);
-            loginSession.setAttribute("tenmins", timeLabelTenMins);
+            request.setAttribute("nowtime", timeLabel);
+            request.setAttribute("tenmins", timeLabelTenMins);
             user_id = user_to_login.getId();
         }
         catch(SQLException e){
@@ -130,7 +162,6 @@ public class LoginServlet extends HttpServlet {
             loginSession.setMaxInactiveInterval(20*60);
             
             // sucessful login response
-            loginSession.setAttribute("userid", user_to_login.getId());
             request.setAttribute("message", "Successful Login - Welcome " + user_in); // Will be available as ${message}
             request.getRequestDispatcher((String)loginSession.getAttribute("dashboard")).forward(request,response);
             response.sendRedirect((String)loginSession.getAttribute("dashboard"));
