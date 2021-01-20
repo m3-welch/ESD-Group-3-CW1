@@ -12,39 +12,20 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <link rel="stylesheet" href="styles/home.css">
-        <title>SmartCare - Client Home</title>
-        <%
-            HttpSession loginSession = request.getSession();
-            String doctornurseoptions = loginSession.getAttribute("doctornurseoptions").toString();
-            String todaydate = loginSession.getAttribute("todaydate").toString();
-            String maxdate = loginSession.getAttribute("maxdate").toString();
-            String nowtime = loginSession.getAttribute("nowtime").toString();
-            String tenmins = loginSession.getAttribute("tenmins").toString();
-            String userid = loginSession.getAttribute("userid").toString();
-        %>
+        <link rel="stylesheet" href="/esd-group-3/styles/home.css">
+        <title>SmartCare - Patient Home</title>
     </head>
     <body>
     <div class="top-banner">
-    
-      <div class="dropdown">
-        <button class="menu button">Menu</button>
-        <div class="menu-content">
-          <a href="#">Page 1</a>
-          <a href="#">Page 2</a>
-          <a href="#">Page 3</a>
+        <div class="logout">        
+            <form action="/esd-group-3/LogoutServlet" method="GET">
+                <input type="submit" value="Logout" class="button logout"> 
+            </form>
         </div>
-      </div>      
       
-      <div class="logout">        
-        <form action="LogoutServlet" method="GET">
-            <input type="submit" value="Logout" class="button logout"> 
-        </form>
-      </div>
-      
-      <div class="center">
-        <h2>SmartCare</h2>
-      </div>
+        <div class="center">
+            <h2>SmartCare</h2>
+        </div>
     </div>
     <div class="content">
         <p style="color:#FF3232;font-size:12px;text-align:center" id="note">${message}</p>
@@ -236,3 +217,16 @@
 </html>
 
 
+        <h1>Patient Dashboard</h1>
+        <form action="/esd-group-3/NewAppointmentServlet" method="GET">
+            <input type="submit" value="New Appointment" class="link-button"/>
+        </form>
+        <form action="/esd-group-3/DisplayEventsServlet" method="GET">
+            <input type="submit" value="View Appointments" class="link-button"/>
+        </form>
+        <form action="/esd-group-3/ViewReferralsServlet" method="GET">
+            <input type="submit" value="View Referrals" class="link-button"/>
+        </form>
+    </div>
+    </body>
+</html>

@@ -23,6 +23,9 @@ public class Referrals {
     private int clientid;
     private String[] nameArr = new String[0];
     private String[] addressArr = new String[0];
+    private int employeeid;
+    private String name;
+    private String address;
     
     private void setClientId(int clientid) {
         this.clientid = clientid;
@@ -30,6 +33,30 @@ public class Referrals {
     
     public int getClientId() {
         return this.clientid;
+    }
+    
+    private void setEmployeeId(int employeeid) {
+        this.employeeid = employeeid;
+    }
+    
+    public int getEmployeeId() {
+        return this.employeeid;
+    }
+    
+    private void setName(String name) {
+        this.name = name;
+    }
+    
+    public String getName() {
+        return this.name;
+    }
+    
+    private void setAddress(String address) {
+        this.address = address;
+    }
+    
+    public String getAddress() {
+        return this.address;
     }
     
     private void setNameArr(String[] name) {
@@ -77,13 +104,14 @@ public class Referrals {
     
     public void create(
         DBConnection dbcon,
+        int employeeid,
         int clientid,
         String name,
         String address
     ) {
         // String cid = String.valueOf(clientid); //Convert clientid to string for query
-        String query = "INSERT INTO Referrals (clientid, name, address) VALUES"
-                + "(" + clientid + ", '" + name + "', '" + address + "')";
+        String query = "INSERT INTO Referrals (employeeid, clientid, name, address) VALUES"
+                + "(" + employeeid + ", " + clientid + ", '" + name + "', '" + address + "')";
         
         try (Statement stmt = dbcon.conn.createStatement()) {
             stmt.execute(query);
@@ -94,12 +122,13 @@ public class Referrals {
         String[] nameArr = {name};
         String[] addressArr = {address};
         
+        this.setEmployeeId(employeeid);
         this.setClientId(clientid);
         this.addNames(nameArr);
         this.addAddresses(addressArr);
     }
     
-    public void retreiveAll (
+    public void retreiveAllForClient (
         DBConnection dbcon,
         int clientid
     ) {
@@ -125,10 +154,38 @@ public class Referrals {
         nameArr = nameList.toArray(nameArr);
         String addressArr[] = new String[addressList.size()];
         addressArr = addressList.toArray(addressArr);
+                
+        this.setNameArr(nameArr);
+        this.setAddressArr(addressArr);
+    }
+    
+    public void retreiveAllForEmployee (
+        DBConnection dbcon,
+        int employeeid
+    ) {
+        String cid = String.valueOf(employeeid);
+        String query = "SELECT name, address FROM Referrals WHERE employeeid = "
+                + employeeid;
         
-        System.out.println(Arrays.toString(nameArr));
-        System.out.println(Arrays.toString(addressArr));
+        this.setEmployeeId(employeeid);
+        List<String> nameList = new ArrayList<String>();
+        List<String> addressList = new ArrayList<String>();
         
+        try (Statement stmt = dbcon.conn.createStatement()) {
+            ResultSet resultSet = stmt.executeQuery(query);
+            while (resultSet.next()) {
+                nameList.add(resultSet.getString("name"));
+                addressList.add(resultSet.getString("address"));
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        
+        String nameArr[] = new String[nameList.size()];
+        nameArr = nameList.toArray(nameArr);
+        String addressArr[] = new String[addressList.size()];
+        addressArr = addressList.toArray(addressArr);
+                
         this.setNameArr(nameArr);
         this.setAddressArr(addressArr);
     }
@@ -150,10 +207,35 @@ public class Referrals {
                 addressList.add(resultSet.getString("address"));
                 referral.add(idList.get(count) + "//" + nameList.get(count) + "//" + addressList.get(count));              
                 count++;
+				
+			}
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+		
+		return referral;
+	}
+
+    public List<Referrals> getAllFor(DBConnection dbcon, String id_type, int id) {
+        String query = "SELECT * FROM Referrals WHERE " + id_type + " = "
+                + id;
+        
+        List<Referrals> refs = new ArrayList<Referrals>();;
+        
+        try (Statement stmt = dbcon.conn.createStatement()) {
+            ResultSet resultSet = stmt.executeQuery(query);
+            while (resultSet.next()) {
+                Referrals ref = new Referrals();
+                ref.setName(resultSet.getString("name"));
+                ref.setAddress(resultSet.getString("address"));
+                ref.setClientId(resultSet.getInt("clientid"));
+                ref.setEmployeeId(resultSet.getInt("employeeid"));
+                refs.add(ref);
             }
         } catch (SQLException e) {
             System.out.println(e);
         }
-        return referral;
+        
+        return refs;
     }
 }

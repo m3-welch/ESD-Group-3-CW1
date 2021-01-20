@@ -121,7 +121,10 @@ public class Events {
             if (op.getDate().isAfter(start) && 
                     op.getDate().isBefore(end)) {
                 opList.add(op);
-            }
+            // For each operation, check if the date is equal to so the start or end date.
+            } else if ((op.getDate().equals(start)) || (op.getDate().equals(end))){
+                opList.add(op);
+            } 
         }
         
         Operation[] opArr = new Operation[opList.size()];
@@ -138,5 +141,22 @@ public class Events {
         });
         
         this.ops = orderList.toArray(this.ops);
+    }
+    
+    public int cancelBooking(DBConnection dbcon, int appointmentid) {
+//    public void cancelBooking(DBConnection dbcon, int clientid, int appointmentid) {
+        String query = "";
+        int resultSet = 0;
+        // delete appointment from operations where operation is operation given the clientid and appointmentid
+        query = "DELETE FROM Operations WHERE id = " + appointmentid;
+        try (Statement stmt = dbcon.conn.createStatement()) {
+            resultSet = stmt.executeUpdate(query);
+//            int resultSet = stmt.executeUpdate(query);
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+
+        return resultSet;
+        // check if the booking has been cancelled or not, return true or false
     }
 }

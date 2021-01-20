@@ -27,7 +27,7 @@
                   <label for="firstname"><b>Firstname</b></label>
                   <input type="text" placeholder="Enter firstname" name="firstname" required>
                   <label for="lastname"><b>Lastname</b></label>
-                  <input type="text" placeholder="Enter lastname" name="lastaname" required>
+                  <input type="text" placeholder="Enter lastname" name="lastname" required>
                   <label for="email"><b>Email</b></label>
                   <input type="text" placeholder="Enter email address" name="email" required>
                   <label for="address"><b>Address</b></label>
