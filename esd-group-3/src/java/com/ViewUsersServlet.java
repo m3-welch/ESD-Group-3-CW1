@@ -28,12 +28,11 @@ public class ViewUsersServlet extends HttpServlet{
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession loginSession = request.getSession(false);
         request.setAttribute("dashboard", "/esd-group-3/dashboards/" + loginSession.getAttribute("user_role") + "_home.jsp");
-        //response.setContentType("text/html");
         
         request.getRequestDispatcher("pages/ViewUsers.jsp").include(request, response);
         
         User user = new Client();
-        List<User> users = null;        
+        List<User> users = null;
         
         try {
             DBConnection dbcon = new DBConnection("smartcaretest", "", "");
@@ -56,12 +55,12 @@ public class ViewUsersServlet extends HttpServlet{
                         "<option selected='selected' value='nurse'>nurse</option>" +
                         "<option value='admin'>admin</option>" +
                         "<option value='client'>client</option>";
-            }else if("admin".equals(users.get(i).getRole())) {
+            } else if("admin".equals(users.get(i).getRole())) {
                 selectStatement = "<option value='doctor'>doctor</doctor>" +
                         "<option value='nurse'>nurse</option>" +
                         "<option selected='selected' value='admin'>admin</option>" +
                         "<option value='client'>client</option>";
-            }else if("client".equals(users.get(i).getRole())) {
+            } else if("client".equals(users.get(i).getRole())) {
                 selectStatement = "<option value='doctor'>doctor</doctor>" +
                         "<option value='nurse'>nurse</option>" +
                         "<option value='admin'>admin</option>" +
@@ -84,7 +83,6 @@ public class ViewUsersServlet extends HttpServlet{
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
                             throws ServletException, IOException {
-        //response.setContentType("text/html");
         HttpSession loginSession = request.getSession(false);
         request.setAttribute("dashboard", "/esd-group-3/dashboards/" + loginSession.getAttribute("user_role") + "_home.jsp");
         
@@ -96,13 +94,10 @@ public class ViewUsersServlet extends HttpServlet{
         String role = "";
         String dbRole = "";
         
-        
-        //request.getRequestDispatcher("admin_home.jsp").include(request, response);
-        
         try{
             save = request.getParameter("save");
             uname = request.getParameter("username");
-            role = request.getParameter("role");     
+            role = request.getParameter("role");
         }
         catch(Exception e){
             System.out.println(e);

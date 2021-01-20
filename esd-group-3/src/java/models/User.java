@@ -124,6 +124,7 @@ public class User {
                 user.setEmail(resultSet.getString("email"));
                 user.setAddress(resultSet.getString("address"));
                 user.setRole(resultSet.getString("role"));
+                user.setDob(LocalDate.parse(resultSet.getString("dob")));
                 System.out.println(user);
                 users.add(user);
             }
