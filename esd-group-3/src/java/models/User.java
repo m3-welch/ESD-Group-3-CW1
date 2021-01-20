@@ -9,6 +9,8 @@ import dbcon.DBConnection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -246,4 +248,21 @@ public class User {
         // Delete from users table
         
     }
+    
+    public List<Integer> getAllUserids(DBConnection dbcon){  
+        List<Integer> useridList = new ArrayList<>();
+        String query = "SELECT id FROM Users";
+        int userid = 0;
+        try (Statement stmt = dbcon.conn.createStatement()) {
+            ResultSet resultSet = stmt.executeQuery(query);
+            while (resultSet.next()) {
+                userid = resultSet.getInt("id");
+                useridList.add(userid);
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        
+        return useridList;
+    }      
 }
