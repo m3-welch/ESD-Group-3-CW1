@@ -218,4 +218,32 @@ public class User {
             System.out.println(e);
         }
     }
+    
+    public void dropUserById(DBConnection dbcon, int userid) {
+        String query = "";
+        query = "DELETE FROM Users WHERE id=" + userid;
+        try (Statement stmt = dbcon.conn.createStatement()) {
+            int resultSet = stmt.executeUpdate(query);
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+
+        // Delete the user out of the employees or clients table
+        query = "DELETE FROM Clients WHERE userid=" + userid;
+        try (Statement stmt = dbcon.conn.createStatement()) {
+            int resultSet = stmt.executeUpdate(query);
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        
+        query = "DELETE FROM Employees WHERE userid=" + userid;
+        try (Statement stmt = dbcon.conn.createStatement()) {
+            int resultSet = stmt.executeUpdate(query);
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        
+        // Delete from users table
+        
+    }
 }

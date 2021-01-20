@@ -4,6 +4,8 @@
     Author     : Sam
 --%>
 
+<%@page import="models.Operation"%>
+<%@page import="java.util.ArrayList"%>
 <%@page import="java.time.LocalDate"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>

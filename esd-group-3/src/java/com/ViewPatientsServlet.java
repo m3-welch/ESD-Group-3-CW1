@@ -67,6 +67,29 @@ public class ViewPatientsServlet extends HttpServlet {
         
         request.getRequestDispatcher("pages/ViewPatients.jsp").include(request, response);
         
+        
+        String delete = "";
+        
+        //request.getRequestDispatcher("admin_home.jsp").include(request, response);
+        
+        try{
+            delete = request.getParameter("delete_patient");            
+        }
+        catch(Exception e){
+            System.out.println(e);
+        }
+        
+        if ("delete".equals(delete)) {
+            try {
+                DBConnection dbcon = new DBConnection("smartcaretest", "", "");
+                Client deleteClient = new Client();
+                deleteClient.retrieveClientByIdDrop(dbcon, Integer.parseInt(request.getParameter("clientId")));
+                deleteClient.dropUserById(dbcon, deleteClient.getClientId());
+            } catch (SQLException ex) {
+                Logger.getLogger(ViewPatientsServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        
         //decare vars
         String filter = request.getParameter("filter");
         
@@ -97,7 +120,12 @@ public class ViewPatientsServlet extends HttpServlet {
         String outputList = "<table class='patients-table'>";
         
         for (int i = 0; i < clients.size(); i++) {
-            outputList += "<tr><td>" + clients.get(i).getClientId() + "</td><td>" + clients.get(i).getFirstname() + " " + clients.get(i).getLastname() + "</td><td>" + (clients.get(i).getIsNhs() ? "NHS" : "Private") + "</td><td>" + clients.get(i).getEmail() + "</td><td>" + clients.get(i).getAddress() + "</td></tr>";
+            outputList += "<tr><form action='ViewPatientsServlet' method='POST'><td><input type='text' value='" + clients.get(i).getClientId() + "' name='clientId' readonly>" + "</td><td>" +
+                    clients.get(i).getFirstname() + " " + clients.get(i).getLastname() + "</td><td>" +
+                    (clients.get(i).getIsNhs().equals("true") ? "NHS" : "Private") + "</td><td>" +
+                    client.get(i).getEmail() + "</td><td>" +
+                    clients.get(i).getAddress() + "</td><td>" +
+                    "<input type='submit' name='delete_patient' value='delete' class='button'/></td></form></tr>";
         }
         
         outputList += "</table>";

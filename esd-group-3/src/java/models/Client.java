@@ -171,6 +171,31 @@ public class Client extends User {
         this.setRole(user.getRole());
         
         return this;
+    } 
+    
+    // Similar to retrieveClientByUserId but with differences to support delteing a patient
+    public Client retrieveClientByIdDrop(DBConnection dbcon, int id) {
+        String query = "SELECT * FROM Clients WHERE id = " + id;
+        
+        try (Statement stmt = dbcon.conn.createStatement()) {
+            ResultSet resultSet = stmt.executeQuery(query);
+            while (resultSet.next()) {
+                this.setClientId(resultSet.getInt("userid"));
+                this.setIsNhs(resultSet.getBoolean("isNHS"));
+            }
+            
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        
+        User user = new User();
+        user.retrieveByUserId(dbcon, this.getClientId());
+        
+        this.setUsername(user.getUsername());
+        this.setFirstname(user.getFirstname());
+        this.setLastname(user.getLastname());
+        
+        return this;
     }
     
     public Client retrieveClientByUsername(DBConnection dbcon, String username) {
@@ -241,17 +266,13 @@ public class Client extends User {
     
     public void drop(DBConnection dbcon) {
         
-        String query = "";
-                
+        String query = "DELETE FROM Clients WHERE userid=" + this.getClientId();
+        String query2 = "DELETE FROM Users WHERE role='client' AND username='" + this.getUsername() + "' AND firstname='" + this.getFirstname() + "' AND lastname='" + this.getLastname() + "'";
         
-//        DELETE FROM Customers WHERE CustomerName='Alfreds Futterkiste';
-
-//        query = "DELETE FROM Users";
-        query = "DELETE FROM Clients WHERE userid=3";
-//        query = "DELETE FROM Users WHERE username='connie'";
-
         try (Statement stmt = dbcon.conn.createStatement()) {
-            int resultSet = stmt.executeUpdate(query);
+            System.out.println(query + " and " + query2);
+            //stmt.execute(query);
+            stmt.execute(query2);
         } catch (SQLException e) {
             System.out.println(e);
         }
