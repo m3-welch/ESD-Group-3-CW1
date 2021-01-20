@@ -68,6 +68,11 @@
         <servlet-class>com.ViewPatientsServlet</servlet-class>
     </servlet>
     <servlet>
+        <display-name>ViewEmployeesServlet</display-name>
+        <servlet-name>ViewEmployeesServlet</servlet-name>
+        <servlet-class>com.ViewEmployeesServlet</servlet-class>
+    </servlet>
+    <servlet>
         <display-name>NewReferralServlet</display-name>
         <servlet-name>NewReferralServlet</servlet-name>
         <servlet-class>com.NewReferralServlet</servlet-class>
@@ -93,6 +98,10 @@
     <servlet-mapping>
         <servlet-name>ViewPatientsServlet</servlet-name>
         <url-pattern>/ViewPatientsServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ViewEmployeesServlet</servlet-name>
+        <url-pattern>/ViewEmployeesServlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
