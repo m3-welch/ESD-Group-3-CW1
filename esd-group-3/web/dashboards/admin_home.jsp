@@ -34,6 +34,9 @@
         <form action="/esd-group-3/NewEmployeeServlet" method="GET">
             <input type="submit" value="Create a new Employee" class="link-button"/>
         </form>
+        <form action="/esd-group-3/ViewUsersServlet" method="GET">
+            <input type="submit" value="View Users" class="link-button"/>
+        </form>
         <form action="/esd-group-3/ViewEmployeesServlet" method="GET">
             <input type="submit" value="View Employees" class="link-button"/>
         </form>
@@ -45,6 +48,9 @@
         </form>
         <form action="/esd-group-3/InvoiceViewerServlet" method="GET">
             <input type="submit" value="View Turnover" class="link-button"> 
+        </form>
+        <form action="/esd-group-3/DisplayEventsServlet" method="GET">
+            <input type="submit" value="View Schedule" class="link-button"> 
         </form>
     </div>
     </body>

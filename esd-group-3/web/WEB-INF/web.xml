@@ -6,7 +6,7 @@
     <context-param>
         <param-name>dbname</param-name>
         <param-value>Users</param-value>
-    </context-param>    
+    </context-param>
     <filter>
         <filter-name>GlobalAuthenticationFilter</filter-name>
         <filter-class>filters.GlobalAuthenticationFilter</filter-class>
@@ -120,6 +120,10 @@
         <servlet-class>com.DisplayEventsServlet</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>ViewUsersServlet</servlet-name>
+        <servlet-class>com.ViewUsersServlet</servlet-class>
+    </servlet>
+    <servlet>
         <display-name>CancelAppointmentServlet</display-name>
         <servlet-name>CancelAppointmentServlet</servlet-name>
         <servlet-class>com.CancelAppointmentServlet</servlet-class>
@@ -203,6 +207,10 @@
     <servlet-mapping>
         <servlet-name>PayInvoiceServlet</servlet-name>
         <url-pattern>/PayInvoiceServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ViewUsersServlet</servlet-name>
+        <url-pattern>/ViewUsersServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
