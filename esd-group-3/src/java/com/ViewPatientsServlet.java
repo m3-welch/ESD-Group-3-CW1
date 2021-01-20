@@ -51,13 +51,13 @@ public class ViewPatientsServlet extends HttpServlet {
         String outputList = "<table class='patients-table'>";
         
         for (int i = 0; i < clients.size(); i++) {
-            outputList += "<tr><td>" + clients.get(i).getClientId() + 
-                    "</td><td>" + clients.get(i).getFirstname() + " " + 
-                    clients.get(i).getLastname() + "</td><td>" + 
-                    (clients.get(i).getIsNhs() ? "NHS" : "Private") + 
-                    "</td><td>" + clients.get(i).getEmail() + "</td><td>" + 
-                    clients.get(i).getAddress() + "</td><td>" + 
-                    clients.get(i).getDob() + "</td></tr>";
+            outputList += "<tr><form action='ViewPatientsServlet' method='POST'><td><input type='text' value='" + clients.get(i).getClientId() + "' name='clientId' readonly>" + "</td><td>" +
+                    clients.get(i).getFirstname() + " " + clients.get(i).getLastname() + "</td><td>" +
+                    (clients.get(i).getIsNhs().equals("true") ? "NHS" : "Private") + "</td><td>" +
+                    clients.get(i).getEmail() + "</td><td>" +
+                    clients.get(i).getAddress() + "</td><td>" +
+                    clients.get(i).getDob() + "</td><td>" +
+                    "<input type='submit' name='delete_patient' value='delete' class='button'/></td></form></tr>";
         }
         
         outputList += "</table>";
