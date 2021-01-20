@@ -14,19 +14,7 @@
         <title>SmartCare - Admin Home</title>
     </head>
     <body>
-    <div class="top-banner">
-    
-        <div class="dropdown">
-            <button class="menu button">Menu</button>
-            <div class="menu-content">
-                <form action="/esd-group-3/InvoiceViewerServlet" method="GET">
-                    <input type="submit" value="Admin Page" class="button logout"> 
-                </form>
-                <a href="#">Page 2</a>
-                <a href="#">Page 3</a>
-            </div>
-        </div>      
-      
+    <div class="top-banner">      
         <div class="logout">        
             <form action="/esd-group-3/LogoutServlet" method="GET">
                 <input type="submit" value="Logout" class="button logout"> 
@@ -54,6 +42,9 @@
         </form>
         <form action="/esd-group-3/PricesViewer" method="GET">
             <input type="submit" value="View Price Allocation" class="link-button"/>
+        </form>
+        <form action="/esd-group-3/InvoiceViewerServlet" method="GET">
+            <input type="submit" value="View Turnover" class="link-button"> 
         </form>
     </div>
     </body>

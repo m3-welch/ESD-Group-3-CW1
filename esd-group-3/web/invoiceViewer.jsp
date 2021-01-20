@@ -18,17 +18,16 @@
     </head>
     <body>
         <div class="top-banner">
-
-            <div class="dropdown">
-                <button class="menu button">Menu</button>
-                <div class="menu-content">
-                    <a href="#">Administrator Home</a>
-                    <form action="IssueInvoiceServlet" method="POST">
-                        <input type="submit" value="Add Invoice" class="button logout"> 
+                <div class="logout">        
+                    <form action="/esd-group-3/LogoutServlet" method="GET">
+                        <input type="submit" value="Logout" class="button logout"> 
                     </form>
-                    <a href="#">Page 3</a>
                 </div>
-            </div>
+
+                <div class="center">
+                    <a href="${dashboard}"><h2>SmartCare</h2></a>
+                </div>
+            </div>   
 
             <div class="logout">        
             <form action="LogoutServlet" method="GET">

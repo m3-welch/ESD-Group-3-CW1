@@ -14,17 +14,6 @@
     </head>
     <body>
         <div class="top-banner">
-            <div class="dropdown">
-                <button class="menu button">Menu</button>
-                <div class="menu-content">
-                    <form action="/esd-group-3/InvoiceViewerServlet" method="GET">
-                        <input type="submit" value="Admin Page" class="button logout"> 
-                    </form>
-                    <a href="#">Page 2</a>
-                    <a href="#">Page 3</a>
-                </div>
-            </div>      
-
             <div class="logout">        
                 <form action="/esd-group-3/LogoutServlet" method="GET">
                     <input type="submit" value="Logout" class="button logout"> 
