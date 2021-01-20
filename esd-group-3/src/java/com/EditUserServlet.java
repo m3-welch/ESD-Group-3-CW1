@@ -45,9 +45,10 @@ public class EditUserServlet extends HttpServlet {
         
         
         String save = "";
+        String uname = "";
         String role = "";
         String dbRole = "";
-        String uname = "";
+        
         
         //request.getRequestDispatcher("admin_home.jsp").include(request, response);
         
@@ -74,23 +75,22 @@ public class EditUserServlet extends HttpServlet {
                     if("doctor".equals(dbRole)||("nurse".equals(dbRole))||("admin".equals(dbRole))){//if update user and table user are of the same client or employee then just change role
                         dbUser.editUser(dbcon, "Users", dbUser.getUsername(), "Role", updateUser.getRole());//just change type in users
                     } else {
-                        //functionallity already exists
                         //remove dbUser from employee db
                         dbUser.dropUser(dbcon, dbUser.getUsername());
                         //add updateUser to client
-                        Client updateClient = new Client();
-                        updateClient.create(dbcon, updateUser.getUsername(), updateUser.getPassword(), updateUser.getFirstname(), updateUser.getLastname(), updateUser.getEmail(), updateUser.getAddress(), updateUser.getRole(), "True");
+                        Employee updateEmployee = new Employee();
+                        updateEmployee.create(dbcon, updateUser.getUsername(), updateUser.getPassword(), updateUser.getFirstname(), updateUser.getLastname(), updateUser.getEmail(), updateUser.getAddress(), updateUser.getRole(), "True");
                     }
                         
                 } else if("client".equals(role)){
-                   if("client".equals(dbRole)){//if update user and table user are of the same client or employee then just change role
-                         dbUser.editUser(dbcon, "Users", dbUser.getUsername(), "Role", updateUser.getRole());//just change type in users
-                    } else {
+                   if(!("client".equals(dbRole))){
                         //remove dbUser from client db
                         dbUser.dropUser(dbcon, dbUser.getUsername());
                         //add updateUser to employee db
                         Employee updateEmployee = new Employee();
                         updateEmployee.create(dbcon, updateUser.getUsername(), updateUser.getPassword(), updateUser.getFirstname(), updateUser.getLastname(), updateUser.getEmail(), updateUser.getAddress(), updateUser.getRole(), "True");
+                        Client updateClient = new Client();
+                        updateClient.create(dbcon, updateUser.getUsername(), updateUser.getPassword(), updateUser.getFirstname(), updateUser.getLastname(), updateUser.getEmail(), updateUser.getAddress(), updateUser.getRole(), "True");
                     } 
                 }
                 
@@ -112,12 +112,34 @@ public class EditUserServlet extends HttpServlet {
         String outputList = "<table class='users-table'>";
         
         for (int i = 0; i < users.size(); i++) {
+            String selectStatement = "";
+            if("doctor".equals(users.get(i).getRole())){
+                selectStatement = "<option selected='selected' value='doctor'>doctor</doctor>" +
+                        "<option value='nurse'>nurse</option>" +
+                        "<option value='admin'>admin</option>" +
+                        "<option value='client'>client</option>";
+            } else if("nurse".equals(users.get(i).getRole())) {
+                selectStatement = "<option value='doctor'>doctor</doctor>" +
+                        "<option selected='selected' value='nurse'>nurse</option>" +
+                        "<option value='admin'>admin</option>" +
+                        "<option value='client'>client</option>";
+            }else if("admin".equals(users.get(i).getRole())) {
+                selectStatement = "<option value='doctor'>doctor</doctor>" +
+                        "<option value='nurse'>nurse</option>" +
+                        "<option selected='selected' value='admin'>admin</option>" +
+                        "<option value='client'>client</option>";
+            }else if("client".equals(users.get(i).getRole())) {
+                selectStatement = "<option value='doctor'>doctor</doctor>" +
+                        "<option value='nurse'>nurse</option>" +
+                        "<option value='admin'>admin</option>" +
+                        "<option selected='selected' value='client'>client</option>";
+            }
             outputList += "<tr><form action='EditUserServlet' method='POST'><td>" + users.get(i).getId() + "</td><td>" +
-                    users.get(i).getUsername() + "</td><td>" +
+                    "<input type='text' name='username' value='" + users.get(i).getUsername() + "' readonly/></td><td>" +
                     users.get(i).getFirstname() + " " + users.get(i).getLastname() + "</td><td>" +
                     users.get(i).getEmail() + "</td><td>" +
                     users.get(i).getAddress() + "</td><td>" +
-                    users.get(i).getRole() + "</td><td>" +
+                    "<select name='role'>" + selectStatement + "</select></td><td>" +
                     "<input type='submit' name='save' value='save' class='button'/></td></form></tr>";
         }
         
