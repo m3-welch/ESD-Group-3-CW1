@@ -43,7 +43,6 @@ public class PatientSignupServlet extends HttpServlet {
         LocalDate dob = LocalDate.parse(request.getParameter("dob"));
         Client client = new Client();
         
-        
         GoogleMaps maps = new GoogleMaps();
         
         String formatted_address = maps.lookupAddress(address);
@@ -54,16 +53,11 @@ public class PatientSignupServlet extends HttpServlet {
         
         try {
             DBConnection dbcon = new DBConnection("smartcaretest", "", "");
-            client.create(dbcon, username, password, firstname, lastname, email, address, "client", type, dob);
-        } catch (SQLException ex) {
-            Logger.getLogger(PatientSignupServlet.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        if (client.getUsername().equals(username) && client.getClientType().equals(type)) {
-            request.setAttribute("message", "Successful Signup - Login to continue");
+            client.signup(dbcon, username, password, firstname, lastname, email, address, "client", type, dob);
+            request.setAttribute("message", "Successful Signup - Await approval");
             request.getRequestDispatcher("login.jsp").forward(request, response);
             response.sendRedirect("login.jsp");
-        } else {
+        } catch (SQLException ex) {
             request.setAttribute("message", "Error - Failed Signup. Please try again.");
             request.getRequestDispatcher("newPatient.jsp").forward(request, response);
             response.sendRedirect("newPatient.jsp");

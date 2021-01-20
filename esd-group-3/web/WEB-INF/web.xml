@@ -45,9 +45,14 @@
         <servlet-class>com.NewUserServlet</servlet-class>
     </servlet>
     <servlet>
-        <display-name>SignupServlet</display-name>
-        <servlet-name>SignupServlet</servlet-name>
+        <display-name>PatientSignupServlet</display-name>
+        <servlet-name>PatientSignupServlet</servlet-name>
         <servlet-class>com.PatientSignupServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <display-name>EmployeeSignupServlet</display-name>
+        <servlet-name>EmployeeSignupServlet</servlet-name>
+        <servlet-class>com.EmployeeSignupServlet</servlet-class>
     </servlet>
     <servlet>
         <display-name>NewEmployeeServlet</display-name>
@@ -165,8 +170,12 @@
         <url-pattern>/NewUserServlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>SignupServlet</servlet-name>
-        <url-pattern>/SignupServlet</url-pattern>
+        <servlet-name>PatientSignupServlet</servlet-name>
+        <url-pattern>/PatientSignupServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>EmployeeSignupServlet</servlet-name>
+        <url-pattern>/EmployeeSignupServlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>NewEmployeeServlet</servlet-name>
