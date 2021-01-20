@@ -23,11 +23,24 @@ import models.Client;
  * @author morgan
  */
 public class NewUserServlet extends HttpServlet {
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-                            throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession loginSession = request.getSession(false);
+        request.setAttribute("dashboard", "/esd-group-3/dashboards/" + loginSession.getAttribute("user_role") + "_home.jsp");
+        
         response.setContentType("text/html");
         
-        request.getRequestDispatcher("newPatient.jsp").include(request, response);
+        request.getRequestDispatcher((String)loginSession.getAttribute("dashboard")).include(request, response);
+        
+        request.getRequestDispatcher("pages/NewUser.jsp").forward(request,response);
+    }
+    
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+                            throws ServletException, IOException {
+        HttpSession loginSession = request.getSession(false);
+        request.setAttribute("dashboard", "/esd-group-3/dashboards/" + loginSession.getAttribute("user_role") + "_home.jsp");
+        response.setContentType("text/html");
+        
+        request.getRequestDispatcher("pages/NewUser.jsp").include(request, response);
         
         //decare vars
         String username = request.getParameter("uname");
@@ -55,17 +68,13 @@ public class NewUserServlet extends HttpServlet {
         } catch (SQLException ex) {
             Logger.getLogger(NewUserServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        HttpSession loginSession = request.getSession();
 
-        if (client.getUsername().equals(username) && client.getIsNhs().equals(type)) {
+        if (client.getUsername().equals(username) && client.getFirstname().equals(firstname)) {
             request.setAttribute("message", "New Patient successfully created!");
-            request.getRequestDispatcher((String)loginSession.getAttribute("dashboard")).forward(request,response);
-            response.sendRedirect((String)loginSession.getAttribute("dashboard"));
+            request.getRequestDispatcher("pages/NewUser.jsp").forward(request,response);
         } else {
             request.setAttribute("message", "Error! - New Patient not created");
-            request.getRequestDispatcher((String)loginSession.getAttribute("dashboard")).forward(request,response);
-            response.sendRedirect((String)loginSession.getAttribute("dashboard"));
+            request.getRequestDispatcher("pages/NewUser.jsp").forward(request,response);
         }
     }
 }

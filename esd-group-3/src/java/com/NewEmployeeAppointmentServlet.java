@@ -9,7 +9,9 @@ import dbcon.DBConnection;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.Month;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.logging.Level;
@@ -28,7 +30,7 @@ import models.Referrals;
  *
  * @author Harrison B
  */
-public class NewAppointmentServlet extends HttpServlet {
+public class NewEmployeeAppointmentServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession loginSession = request.getSession(false);
         request.setAttribute("dashboard", "/esd-group-3/dashboards/" + loginSession.getAttribute("user_role") + "_home.jsp");
@@ -55,37 +57,27 @@ public class NewAppointmentServlet extends HttpServlet {
             
             request.setAttribute("userid", loginSession.getAttribute("userID"));
             
-            // get list of employees
-            Employee employee = new Employee();
-            List<Employee> employees = employee.retrieveAllEmployees(dbcon);
-            
-            String doctornurseoptions = "";
-           
-            for (int i = 0; i < employees.size(); i++) {
-                    doctornurseoptions += "<option value='" + employees.get(i).getId() + "'>" + employees.get(i).getFirstname() + " " + employees.get(i).getLastname() + "</option>";
-            }
-        
-            request.setAttribute("doctornurseoptions", doctornurseoptions);
-            
+            request.setAttribute("clientoptions", clientoptions);
             request.setAttribute("todaydate", LocalDate.now().toString());
             request.setAttribute("maxdate", LocalDate.now().plusYears(1).toString());
             request.setAttribute("onemonth", LocalDate.now().plusMonths(1).toString());
             request.setAttribute("minusyear", LocalDate.now().minusYears(1).toString());
-            request.getRequestDispatcher("pages/NewAppointment.jsp").forward(request,response);
+            request.getRequestDispatcher("pages/NewEmployeeAppointment.jsp").forward(request,response);
         } catch (SQLException ex) {
             Logger.getLogger(NewEmployeeAppointmentServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
                             throws ServletException, IOException {
-        HttpSession loginSession = request.getSession();
+        HttpSession loginSession = request.getSession(false);
         request.setAttribute("dashboard", "/esd-group-3/dashboards/" + loginSession.getAttribute("user_role") + "_home.jsp");
         response.setContentType("text/html");
-
         
+        request.getRequestDispatcher("pages/NewEmployeeAppointment.jsp").include(request, response);
+        
+        DBConnection dbcon;
         try {
-            DBConnection dbcon = new DBConnection("smartcaretest", "", "");
+            dbcon = new DBConnection("smartcaretest", "", "");
             Client client = new Client();
             List<Client> clients = client.getAll(dbcon, "all");
             String clientoptions = "";
@@ -107,31 +99,19 @@ public class NewAppointmentServlet extends HttpServlet {
             
             request.setAttribute("userid", loginSession.getAttribute("userID"));
             
-            // get list of employees
-            Employee employee = new Employee();
-            List<Employee> employees = employee.retrieveAllEmployees(dbcon);
-            
-            String doctornurseoptions = "";
-           
-            for (int i = 0; i < employees.size(); i++) {
-                    doctornurseoptions += "<option value='" + employees.get(i).getId() + "'>" + employees.get(i).getFirstname() + " " + employees.get(i).getLastname() + "</option>";
-            }
-        
-            request.setAttribute("doctornurseoptions", doctornurseoptions);
-            
+            request.setAttribute("clientoptions", clientoptions);
             request.setAttribute("todaydate", LocalDate.now().toString());
             request.setAttribute("maxdate", LocalDate.now().plusYears(1).toString());
             request.setAttribute("onemonth", LocalDate.now().plusMonths(1).toString());
             request.setAttribute("minusyear", LocalDate.now().minusYears(1).toString());
         } catch (SQLException ex) {
-            Logger.getLogger(NewAppointmentServlet.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println(ex);
+            Logger.getLogger(NewEmployeeAppointmentServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        request.getRequestDispatcher((String)loginSession.getAttribute("dashboard")).include(request, response);
-
+           
         //decare vars
-        String client_userid = request.getParameter("clientid");
-        String employee_userid = request.getParameter("doctor-nurse");
+        String client_userid = request.getParameter("clientoptions");
+        String employee_userid = request.getParameter("employeeid");
         String type = request.getParameter("type");
         LocalDate date = LocalDate.parse(request.getParameter("date"));
         LocalTime starttime = LocalTime.parse(request.getParameter("starttime"));
@@ -140,9 +120,7 @@ public class NewAppointmentServlet extends HttpServlet {
 
         //create appointment
         Operation operation = new Operation();
-        
-        DBConnection dbcon;
-        
+                
         Boolean isSurgery = null;
         
         if ("surgery".equals(type)) {
@@ -153,20 +131,31 @@ public class NewAppointmentServlet extends HttpServlet {
         
         Employee employee = new Employee();
         
-        try {
-            dbcon = new DBConnection("smartcaretest", "", "");
-            operation.create(dbcon, Integer.parseInt(employee_userid), Integer.parseInt(client_userid), date, starttime, endtime, (float)0.00, false, isSurgery, reason);
-        } catch (SQLException ex) {
-            Logger.getLogger(NewAppointmentServlet.class.getName()).log(Level.SEVERE, null, ex);
+        LocalDateTime opTime = LocalDateTime.of(date, starttime);
+        
+        Boolean dontBook = false;
+        if (opTime.isBefore(LocalDateTime.now())) {
+            dontBook = true;
+            request.setAttribute("message", "Cannot book an appointment with a start time earlier than now.");
+            request.getRequestDispatcher("pages/NewEmployeeAppointment.jsp").forward(request,response);
+        }
+        
+        if (!dontBook) {
+            try {
+                dbcon = new DBConnection("smartcaretest", "", "");
+                operation.create(dbcon, Integer.parseInt(employee_userid), Integer.parseInt(client_userid), date, starttime, endtime, (float)0.00, false, isSurgery, reason);
+            } catch (SQLException ex) {
+                Logger.getLogger(NewEmployeeAppointmentServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         
         
         if (operation.getIsSurgery() == isSurgery && operation.getDate() == date) {
             request.setAttribute("message", "Appointment successfully booked");
-            request.getRequestDispatcher("pages/NewAppointment.jsp").forward(request,response);
+            request.getRequestDispatcher("pages/NewEmployeeAppointment.jsp").forward(request,response);
         } else {
             request.setAttribute("message", "Error! - Appointment failed to book. Please try again.");
-            request.getRequestDispatcher("pages/NewAppointment.jsp").forward(request,response);
+            request.getRequestDispatcher("pages/NewEmployeeAppointment.jsp").forward(request,response);
         }
     }
 

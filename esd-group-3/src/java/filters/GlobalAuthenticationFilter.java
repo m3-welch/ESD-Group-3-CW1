@@ -76,7 +76,7 @@ public class GlobalAuthenticationFilter implements Filter {
             String errorMsg = "";
 
             // handles cases of no user logged in
-            if (role == 0 && !(uri.endsWith("login.jsp") || uri.endsWith("newPatient.jsp") || uri.endsWith("LoginServlet") || uri.endsWith("SignupServlet") || uri.endsWith("esd-group-3/"))){
+            if (role == 0 && !(uri.endsWith("login.jsp") || uri.endsWith("newPatient.jsp") || uri.endsWith("LoginServlet") || uri.endsWith("SignupServlet") || uri.endsWith("esd-group-3/") || uri.endsWith(".css"))){
                 this.context.log("Unauthorized access request");
                 req.setAttribute("message", "ERROR - Please Login"); // Will be available as ${message}
                 req.getRequestDispatcher("login.jsp").forward(request,response);
@@ -84,12 +84,12 @@ public class GlobalAuthenticationFilter implements Filter {
             }
             
             // handles permissions for logged in users
-            if ((uri.endsWith("admin_home.jsp") || uri.endsWith("invoiceViewer.jsp") || uri.endsWith("InvoiceViewerServlet") || uri.endsWith("InvoiceDownloadServlet") 
+            if ((uri.endsWith("admin_home.jsp") || uri.endsWith("invoiceViewer.jsp") || uri.endsWith("com/InvoiceViewerServlet") || uri.endsWith("InvoiceDownloadServlet") 
                     || uri.endsWith("NewEmployeeServlet") || uri.endsWith("prices.jsp") || uri.endsWith("PricesChanger") || uri.endsWith("PricesViewer")) && role != 4){
                 is_errorHome = true;
                 errorMsg = "ERROR - User is not an Administrator";
             }
-            else if (uri.endsWith("client_home.jsp") && role != 3){
+            else if ((uri.endsWith("client_home.jsp") || uri.endsWith("ClientInvoiceViewerServlet") || uri.endsWith("PayInvoiceServlet")) && role != 3){
                 is_errorHome = true;
                 errorMsg = "ERROR - User is not a Patient";
             }
