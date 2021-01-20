@@ -411,7 +411,7 @@ public class Client extends User {
     public List<Client> retrieveSignups(DBConnection dbcon) {
         List<Client> clients = new ArrayList<Client>();
         
-        String query = "SELECT * FROM SignupApproval WHERE role = client";
+        String query = "SELECT * FROM SignupApproval WHERE role = 'client'";
             
         try (Statement stmt = dbcon.conn.createStatement()) {
             ResultSet resultSet = stmt.executeQuery(query);

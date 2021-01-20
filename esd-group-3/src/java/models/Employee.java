@@ -261,7 +261,7 @@ public class Employee extends User {
     public List<Employee> retrieveSignups(DBConnection dbcon) {
         List<Employee> emps = new ArrayList<Employee>();
         
-        String query = "SELECT * FROM SignupApproval WHERE role != client";
+        String query = "SELECT * FROM SignupApproval WHERE role != 'client'";
             
         try (Statement stmt = dbcon.conn.createStatement()) {
             ResultSet resultSet = stmt.executeQuery(query);

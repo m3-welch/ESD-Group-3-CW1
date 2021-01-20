@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -22,7 +23,7 @@ import models.Employee;
  *
  * @author Harrison B
  */
-public class ApproveNewUsersServlet {
+public class ApproveNewUsersServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession loginSession = request.getSession(false);
         request.setAttribute("dashboard", "/esd-group-3/dashboards/" + loginSession.getAttribute("user_role") + "_home.jsp");
@@ -47,13 +48,14 @@ public class ApproveNewUsersServlet {
         String clientList = "<table class='patients-table'>";
         
         for (int i = 0; i < clients.size(); i++) {
-            clientList += "<tr><td>" + clients.get(i).getId() + 
-                    "</td><td>" + clients.get(i).getFirstname() + " " + 
+            clientList += "<tr><td>" + clients.get(i).getId() + "</td><td>" +
+                    clients.get(i).getUsername() + "</td><td>" +
+                    clients.get(i).getFirstname() + " " + 
                     clients.get(i).getLastname() + "</td><td>" + 
-                    clients.get(i).getRole() + "</td><td>" + 
                     clients.get(i).getEmail() + "</td><td>" + 
                     clients.get(i).getAddress() + "</td><td>" +
-                    clients.get(i).getDob() +"</td></tr>";
+                    clients.get(i).getDob() + "</td><td>" +
+                    clients.get(i).getIsNhs() +"</td></tr>";
         }
         
         clientList += "</table>";
@@ -76,6 +78,7 @@ public class ApproveNewUsersServlet {
                     employees.get(i).getRole() + "</td><td>" + 
                     employees.get(i).getEmail() + "</td><td>" + 
                     employees.get(i).getAddress() + "</td><td>" +
+                    employees.get(i).getRole() + "</td><td>" +
                     employees.get(i).getDob() +"</td></tr>";
         }
         

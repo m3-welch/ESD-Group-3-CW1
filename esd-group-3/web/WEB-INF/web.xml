@@ -125,6 +125,11 @@
         <servlet-class>com.DisplayEventsServlet</servlet-class>
     </servlet>
     <servlet>
+        <display-name>ApproveNewUsersServlet</display-name>
+        <servlet-name>ApproveNewUsersServlet</servlet-name>
+        <servlet-class>com.ApproveNewUsersServlet</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>ViewUsersServlet</servlet-name>
         <servlet-class>com.ViewUsersServlet</servlet-class>
     </servlet>
@@ -133,6 +138,10 @@
         <servlet-name>CancelAppointmentServlet</servlet-name>
         <servlet-class>com.CancelAppointmentServlet</servlet-class>
     </servlet>
+    <servlet-mapping>
+        <servlet-name>ApproveNewUsersServlet</servlet-name>
+        <url-pattern>/ApproveNewUsersServlet</url-pattern>
+    </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ViewReferralsServlet</servlet-name>
         <url-pattern>/ViewReferralsServlet</url-pattern>

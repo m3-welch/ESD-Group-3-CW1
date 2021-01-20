@@ -37,11 +37,11 @@
         </div>
         <div class="content">
         <p style="color:#FF3232;font-size:12px;text-align:center" id="note">${message}</p>
-        <h1>View Users</h1>
+        <h1>Approve New Users</h1>
         <div class="center">
             <div class="card users-card">
                 <div class="container">
-                    <h2 style="text-align:center;margin-top: 10px;">View Users</h2>
+                    <h2 style="text-align:center;margin-top: 10px;">Clients</h2>
                     <div class="container">
                         <table class='patients-table-header'>
                             <tr>
@@ -51,12 +51,35 @@
                                 <th>Email</th>
                                 <th>Address</th>
                                 <th>Date of Birth</th>
-                                <th>Role</th>
-                                <th></th>
+                                <th>Is NHS?</th>
+                                <th>Action</th>
                             </tr>
                         </table>
                         <div class="list">
-                            ${userlist}
+                            ${clientList}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card users-card">
+                <div class="container">
+                    <h2 style="text-align:center;margin-top: 10px;">Employees</h2>
+                    <div class="container">
+                        <table class='patients-table-header'>
+                            <tr>
+                                <th>ID</th>
+                                <th>Username</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Address</th>
+                                <th>Role</th>
+                                <th>Date of Birth</th>
+                                <th>Fulltime</th>
+                                <th>Action</th>
+                            </tr>
+                        </table>
+                        <div class="list">
+                            ${employeeList}
                         </div>
                     </div>
                 </div>
