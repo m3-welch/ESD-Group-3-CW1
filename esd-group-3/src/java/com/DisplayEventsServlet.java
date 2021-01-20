@@ -45,7 +45,7 @@ public class DisplayEventsServlet extends HttpServlet {
         String myAppt = "off";
         System.out.println("role = " + loginSession.getAttribute("user_role"));
         
-        if (loginSession.getAttribute("user_role").equals("doctor")){
+        if (loginSession.getAttribute("user_role").equals("doctor")||loginSession.getAttribute("user_role").equals("nurse")){
             request.setAttribute("ma", "<label for='myAppointments'>View my appointments only:</label><input type='checkbox' id='myAppointments' name='myAppointments' /><br>");
         }
         request.getRequestDispatcher("pages/ViewAppointments.jsp").forward(request,response);
