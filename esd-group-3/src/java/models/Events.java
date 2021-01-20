@@ -121,7 +121,10 @@ public class Events {
             if (op.getDate().isAfter(start) && 
                     op.getDate().isBefore(end)) {
                 opList.add(op);
-            }
+            // For each operation, check if the date is equal to so the start or end date.
+            } else if ((op.getDate().equals(start)) || (op.getDate().equals(end))){
+                opList.add(op);
+            } 
         }
         
         Operation[] opArr = new Operation[opList.size()];

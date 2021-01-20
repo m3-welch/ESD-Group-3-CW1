@@ -17,12 +17,15 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import models.Client;
  
 public class InvoiceDownloadServlet extends HttpServlet {
  
     protected void doGet(HttpServletRequest request,
             HttpServletResponse response) throws ServletException, IOException {
+        HttpSession loginSession = request.getSession(false);
+        request.setAttribute("dashboard", "/esd-group-3/dashboards/" + loginSession.getAttribute("user_role") + "_home.jsp");
         try {
             Client client = new Client();
             DBConnection dbcon = new DBConnection("smartcaretest", "", "");
