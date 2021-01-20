@@ -251,7 +251,6 @@ public class User {
     
     public List<Integer> getAllUserids(DBConnection dbcon){  
         List<Integer> useridList = new ArrayList<>();
-        
         String query = "SELECT id FROM Users";
         int userid = 0;
         try (Statement stmt = dbcon.conn.createStatement()) {

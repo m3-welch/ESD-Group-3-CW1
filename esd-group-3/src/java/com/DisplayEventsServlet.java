@@ -81,9 +81,11 @@ public class DisplayEventsServlet extends HttpServlet {
         
         List<Integer> appointmentList = new ArrayList<>();
         
-        // get all userid's to pass in
         String outputList = "<table>";
         
+        boolean emptyTable = true;
+        
+        // For each id in the database then return the apppointment
         for (int idloop: ids) {
             request.setAttribute("dashboard", "/esd-group-3/dashboards/" + loginSession.getAttribute("user_role") + "_home.jsp");
             try {
@@ -99,10 +101,12 @@ public class DisplayEventsServlet extends HttpServlet {
                 NumberFormat formatter = NumberFormat.getCurrencyInstance(Locale.UK);
                 
                 for (int i = 0; i < ops.length; i++) {
-                    
+                    // Display if the appointment if it has not already been displayed
                     if (appointmentList.contains(ops[i].getOperationId()) == false) {                        
                         appointmentList.add(ops[i].getOperationId());
-                       
+                        
+                        emptyTable = false;
+                        
                         outputList += "<tr><td>" + ops[i].getOperationId() + "</td><td>" 
                             + ops[i].getDate() + "</td><td>" +  
                             ops[i].getClientFullNameFromId(dbcon) + "</td><td>" + 
@@ -122,13 +126,15 @@ public class DisplayEventsServlet extends HttpServlet {
             }
         }
         
-     
         outputList += "</table>";
-
-        request.setAttribute("message", "Data Loaded Successfully");       
+        
+        if (emptyTable) {
+            request.setAttribute("message", "Schedule Is Empty!");       
+        } else {
+            request.setAttribute("message", "Schedule Successfully Loaded!");       
+        }
         request.setAttribute("eventList", outputList);
         request.getRequestDispatcher("pages/ViewAppointments.jsp").forward(request,response);
-        
     }
     
     private static String capitalizeWord(String str){  
