@@ -127,6 +127,11 @@
         <display-name>CancelAppointmentServlet</display-name>
         <servlet-name>CancelAppointmentServlet</servlet-name>
         <servlet-class>com.CancelAppointmentServlet</servlet-class>
+    </servlet> 
+    <servlet>
+        <display-name>CreatePrescriptionServlet</display-name>
+        <servlet-name>CreatePrescriptionServlet</servlet-name>
+        <servlet-class>com.CreatePrescriptionServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>ViewReferralsServlet</servlet-name>
@@ -211,6 +216,10 @@
     <servlet-mapping>
         <servlet-name>ViewUsersServlet</servlet-name>
         <url-pattern>/ViewUsersServlet</url-pattern>
+    </servlet-mapping> 
+    <servlet-mapping>
+        <servlet-name>CreatePrescriptionServlet</servlet-name>
+        <url-pattern>/CreatePrescriptionServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

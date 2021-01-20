@@ -46,6 +46,9 @@
         <form action="/esd-group-3/ViewReferralsServlet" method="GET">
             <input type="submit" value="View Referrals" class="link-button"/>
         </form>
+        <form action="/esd-group-3/CreatePrescriptionServlet" method="GET">
+            <input type="submit" value="Create Prescription" class="link-button"/>
+        </form>
     </div>
     </body>
 </html>
