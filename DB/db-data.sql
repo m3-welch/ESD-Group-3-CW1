@@ -46,3 +46,7 @@ INSERT INTO Referrals (employeeid, clientid, name, address) VALUES (1, (SELECT i
 
 /* Insert dummy data into ApiCredentials */
 INSERT INTO ApiCredentials (googlemapsapisecret) VALUES ('ReplaceMeWithAValidGoogleMapsAPISecret');
+
+/* Insert PendingPrescriptionExtensions */
+INSERT INTO PendingPrescriptionExtensions (prescriptionid, newEndDate) VALUES (2, '2022-01-10');
+INSERT INTO PendingPrescriptionExtensions (prescriptionid, newEndDate) VALUES (4, '2021-01-17');
