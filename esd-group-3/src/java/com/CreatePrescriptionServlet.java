@@ -11,6 +11,7 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -18,6 +19,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import models.Client;
 import models.Prescriptions;
 import models.Employee;
 
@@ -37,18 +39,50 @@ public class CreatePrescriptionServlet extends HttpServlet {
     
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession loginSession = request.getSession(false);
-        request.setAttribute("dashboard", "/esd-group-3/dashboards/" + loginSession.getAttribute("user_role") + "_home.jsp");
-        
-        response.setContentType("text/html");
-        
-        request.getRequestDispatcher((String)loginSession.getAttribute("dashboard")).include(request, response);
-        
+        try {
+            request.setAttribute("dashboard", "/esd-group-3/dashboards/" + loginSession.getAttribute("user_role") + "_home.jsp");
+            
+            DBConnection dbcon = new DBConnection("smartcaretest", "", "");
+            Client client = new Client();
+            List<Client> clients = client.getAll(dbcon, "all");
+            String clientoptions = "";
+            
+            for (int i = 0; i < clients.size(); i++) {
+                clientoptions += "<option value='" + clients.get(i).getId() + "'>" + clients.get(i).getFirstname() + " " + clients.get(i).getLastname() + "</option>";
+            }
+            
+            response.setContentType("text/html");
+            request.setAttribute("clientoptions", clientoptions);
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(CreatePrescriptionServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+            
         request.getRequestDispatcher("pages/CreatePrescriptions.jsp").forward(request,response);
     }
     
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
                             throws ServletException, IOException {
         HttpSession loginSession = request.getSession(false);
+        try {
+            request.setAttribute("dashboard", "/esd-group-3/dashboards/" + loginSession.getAttribute("user_role") + "_home.jsp");
+            
+            DBConnection dbcon = new DBConnection("smartcaretest", "", "");
+            Client client = new Client();
+            List<Client> clients = client.getAll(dbcon, "all");
+            String clientoptions = "";
+            
+            for (int i = 0; i < clients.size(); i++) {
+                clientoptions += "<option value='" + clients.get(i).getId() + "'>" + clients.get(i).getFirstname() + " " + clients.get(i).getLastname() + "</option>";
+            }
+            
+            response.setContentType("text/html");
+            request.setAttribute("clientoptions", clientoptions);
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(CreatePrescriptionServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
         request.setAttribute("dashboard", "/esd-group-3/dashboards/" + loginSession.getAttribute("user_role") + "_home.jsp");
         response.setContentType("text/html");
         
@@ -67,7 +101,7 @@ public class CreatePrescriptionServlet extends HttpServlet {
         //decare vars
         int employee_id = employee.retrieveEmployeeIdByUserId(dbcon,user_id);        
 
-        int clientid = Integer.parseInt(request.getParameter("clientid"));
+        int clientid = Integer.parseInt(request.getParameter("clientoptions"));
         String drug_name = request.getParameter("drug_name");
         String dosage = request.getParameter("dosage");
         String is_repeat = "FALSE";
@@ -97,14 +131,12 @@ public class CreatePrescriptionServlet extends HttpServlet {
         String endDateFormatted = removeBrackets(Arrays.toString(prescription.getDateEnd()));
 
         // If the prescription set has the same dates, drug name and dosage then the prescription has successfully been added to the database
-        if ((startDateFormatted.equals(date_start.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")))) &&  (endDateFormatted.equals(date_end.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")))) && (removeBrackets(Arrays.toString(prescription.getDosage())).equals(dosage)) && (removeBrackets(Arrays.toString(prescription.getDrugName())).equals(drug_name))){            
+        if (prescription.getDateStart()[0].isEqual(date_start) && prescription.getDateEnd()[0].isEqual(date_end)) {            
             request.setAttribute("message", "New Prescription successfully created!");
-            request.getRequestDispatcher((String)loginSession.getAttribute("dashboard")).forward(request,response);
-            response.sendRedirect((String)loginSession.getAttribute("dashboard"));
+            request.getRequestDispatcher("pages/CreatePrescriptions.jsp").forward(request,response);
         } else {
             request.setAttribute("message", "Error! - New Prescription not created");
-            request.getRequestDispatcher((String)loginSession.getAttribute("dashboard")).forward(request,response);
-            response.sendRedirect((String)loginSession.getAttribute("dashboard"));
+            request.getRequestDispatcher("pages/CreatePrescriptions.jsp").forward(request,response);
         }
     }
 } 

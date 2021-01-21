@@ -36,8 +36,10 @@
                     <h2 style="text-align:center;margin-top: 10px;">Create New Prescription</h2>
                     <div class="container">
                         <form action="CreatePrescriptionServlet" method="POST">
-                            <label for="clientid"><b>Client ID</b></label>
-                            <input type="text" placeholder="Enter Client ID" name="clientid" required>
+                            <label for="clientoptions"><b>Patient</b></label>
+                            <select name="clientoptions">
+                                ${clientoptions}
+                            </select>
                             <label for="drug_name"><b>Drug Name</b></label>
                             <input type="text" placeholder="Enter Drug Name" name="drug_name" requried>
                             <label for="dosage"><b>Dosage</b></label>
