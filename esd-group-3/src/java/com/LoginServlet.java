@@ -19,6 +19,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import models.Client;
 import models.Employee;
+import models.HashPassword;
 import models.User;
 
 /**
@@ -26,6 +27,7 @@ import models.User;
  * @author Austin H
  */
 public class LoginServlet extends HttpServlet {  
+    
     protected void doPost(HttpServletRequest request, HttpServletResponse response)  
                            throws ServletException, IOException {  
         response.setContentType("text/html");
@@ -42,6 +44,11 @@ public class LoginServlet extends HttpServlet {
         DBConnection dbcon = null;
         HttpSession loginSession = request.getSession();
         User user_to_login = null;
+                
+        // Hash password entered by the user
+        HashPassword hash = new HashPassword();
+        password_in = hash.setHashPassword(password_in);
+                
         // get password from db
         try {
             dbcon = new DBConnection("smartcaretest", "", "");

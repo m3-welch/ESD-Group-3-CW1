@@ -18,12 +18,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import models.Client;
+import models.HashPassword;
 
 /**
  *
  * @author morgan
  */
 public class SignupServlet extends HttpServlet {
+    
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
                             throws ServletException, IOException {
         HttpSession loginSession = request.getSession(false);
@@ -52,9 +54,14 @@ public class SignupServlet extends HttpServlet {
             address = formatted_address;
         }
         
+        // Hash password
+        HashPassword hash = new HashPassword();
+        String hashedPassword = hash.setHashPassword(password);
+                
         try {
             DBConnection dbcon = new DBConnection("smartcaretest", "", "");
-            client.create(dbcon, username, password, firstname, lastname, email, address, "client", type, dob);
+            client.create(dbcon, username, hashedPassword, firstname, lastname, email, address, "client", type, dob);
+//            client.create(dbcon, username, password, firstname, lastname, email, address, "client", type, dob);
         } catch (SQLException ex) {
             Logger.getLogger(SignupServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
