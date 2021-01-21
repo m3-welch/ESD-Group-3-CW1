@@ -145,6 +145,7 @@ public class InvoiceViewerServlet extends HttpServlet {
                 request.setAttribute("message", "Schedule Is Empty!");       
             } 
             else {
+                request.setAttribute("messagecolour", "#329232"); 
                 request.setAttribute("message", "Data Loaded Successfully");
                 request.setAttribute("tableData", outputList); // Will be available as ${tableData}
             }
@@ -170,22 +171,20 @@ public class InvoiceViewerServlet extends HttpServlet {
         }
         catch(SQLException e){
             // send error
+            request.setAttribute("messagecolour", "#FF3232"); 
+            request.setAttribute("message", "Error - SQL Exception"); // Will be available as ${message}
             if (role == 1 || role == 2) {
-                request.setAttribute("message", "Error - SQL Exception"); // Will be available as ${message}
                 request.getRequestDispatcher("pages/ViewAppointments.jsp").forward(request,response);
                 response.sendRedirect("pages/ViewAppointments.jsp");
             }
             else if (role == 3) {
-                request.setAttribute("message", "Error - SQL Exception"); // Will be available as ${message}
                 request.getRequestDispatcher("pages/PayInvoices.jsp").forward(request,response);
                 response.sendRedirect("pages/PayInvoices.jsp");
             }
             else if (role == 4) {
-                request.setAttribute("message", "Error - SQL Exception"); // Will be available as ${message}
                 request.getRequestDispatcher("pages/ViewTurnover.jsp").forward(request,response);
                 response.sendRedirect("pages/ViewTurnover.jsp");
             }
-            
         }
         
     }  

@@ -81,13 +81,15 @@ public class NewReferralServlet extends HttpServlet {
             }
             request.setAttribute("clientoptions", clientoptions);
         } catch (SQLException ex) {
-            Logger.getLogger(SignupServlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(PatientSignupServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         if (ref.getClientId() == clientid && ref.getEmployeeId() == employeeid) {
+            request.setAttribute("messagecolour", "#329232");
             request.setAttribute("message", "New Referral added to client");
             request.getRequestDispatcher("pages/NewReferral.jsp").forward(request,response);
         } else {
+            request.setAttribute("messagecolour", "#FF3232");
             request.setAttribute("message", "Error! - Referral failed to add");
             request.getRequestDispatcher("pages/NewReferral.jsp").forward(request,response);
         }

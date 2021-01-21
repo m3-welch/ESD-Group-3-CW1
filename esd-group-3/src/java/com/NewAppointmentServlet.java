@@ -22,7 +22,6 @@ import javax.servlet.http.HttpSession;
 import models.Client;
 import models.Employee;
 import models.Operation;
-import models.Referrals;
 
 /**
  *
@@ -162,9 +161,11 @@ public class NewAppointmentServlet extends HttpServlet {
         
         
         if (operation.getIsSurgery() == isSurgery && operation.getDate() == date) {
+            request.setAttribute("messagecolour", "#329232");
             request.setAttribute("message", "Appointment successfully booked");
             request.getRequestDispatcher("pages/NewAppointment.jsp").forward(request,response);
         } else {
+            request.setAttribute("messagecolour", "#FF3232");
             request.setAttribute("message", "Error! - Appointment failed to book. Please try again.");
             request.getRequestDispatcher("pages/NewAppointment.jsp").forward(request,response);
         }

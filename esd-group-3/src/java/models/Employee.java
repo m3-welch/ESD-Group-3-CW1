@@ -39,6 +39,16 @@ public class Employee extends User {
         return this.isFullTime;
     }
     
+    public String isFullTimeToString() {
+        if (this.isFullTime) {
+            return "Full time";
+        }
+        else { return "Part time"; }
+    }
+
+    public Employee() {
+    }
+    
     public void create(
         DBConnection dbcon,
         String username,
@@ -222,5 +232,106 @@ public class Employee extends User {
         }
         
         return employees;
+    }
+    
+    public void signup(
+        DBConnection dbcon,
+        String username,
+        String password,
+        String firstname,
+        String lastname,
+        String email,
+        String address,
+        String role,
+        String type,
+        LocalDate dob
+    ) {
+        Boolean isFullTime;
+        if (type.equals("fulltime")) {
+            isFullTime = true;
+        } else {
+            isFullTime = false;
+        }
+        
+        String query = "INSERT INTO SignupApproval (username, password, firstname, lastname,"
+            + "email, address, role, dob, isfulltime) VALUES ('" + username + "', '" 
+            + password + "', '" + firstname + "', '" + lastname + "', '" + email 
+            + "', '" + address + "', '" + role + "', '" + dob + "', '" + isFullTime + "')";
+        
+        try (Statement stmt = dbcon.conn.createStatement()) {
+            stmt.execute(query);
+        } catch (SQLException ex) {
+            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public List<Employee> retrieveSignups(DBConnection dbcon) {
+        List<Employee> emps = new ArrayList<Employee>();
+        
+        String query = "SELECT * FROM SignupApproval WHERE role != 'client'";
+            
+        try (Statement stmt = dbcon.conn.createStatement()) {
+            ResultSet resultSet = stmt.executeQuery(query);
+            while (resultSet.next()) {
+                int id = resultSet.getInt("id");
+                String username = resultSet.getString("username");
+                String password = resultSet.getString("password");
+                String firstname = resultSet.getString("firstname");
+                String lastname = resultSet.getString("lastname");
+                String email = resultSet.getString("email");
+                String address = resultSet.getString("address");
+                String role = resultSet.getString("role");
+                LocalDate dob = LocalDate.parse(resultSet.getString("dob"));
+                Boolean isfulltime = resultSet.getBoolean("isfulltime");
+
+                Employee emp = new Employee(id, username, password, firstname, 
+                        lastname, email, address, role, dob, isfulltime);
+
+                emps.add(emp);
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        
+        return emps;
+    }
+                
+    public int retrieveEmployeeIdByUserId(DBConnection dbcon, int id) {
+        String query = "SELECT id FROM Employees WHERE userid = '" + id + "'";
+        int employeeid = 0;
+
+        try (Statement stmt = dbcon.conn.createStatement()) {
+            ResultSet resultSet = stmt.executeQuery(query);
+            while (resultSet.next()) {
+                employeeid = resultSet.getInt("id");
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        
+        return employeeid;
+    }
+    
+    private Employee(int id,
+            String username,
+            String password,
+            String firstname,
+            String lastname, 
+            String email, 
+            String address,
+            String role,
+            LocalDate dob,
+            Boolean isfulltime)
+    {
+        this.setId(id);
+        this.setUsername(username);
+        this.setPassword(password);
+        this.setFirstname(firstname);
+        this.setLastname(lastname);
+        this.setEmail(email);
+        this.setAddress(address);
+        this.setRole(role);
+        this.setDob(dob);
+        this.isFullTime  = isfulltime;
     }
 }

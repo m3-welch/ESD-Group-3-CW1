@@ -45,9 +45,14 @@
         <servlet-class>com.NewUserServlet</servlet-class>
     </servlet>
     <servlet>
-        <display-name>SignupServlet</display-name>
-        <servlet-name>SignupServlet</servlet-name>
-        <servlet-class>com.SignupServlet</servlet-class>
+        <display-name>PatientSignupServlet</display-name>
+        <servlet-name>PatientSignupServlet</servlet-name>
+        <servlet-class>com.PatientSignupServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <display-name>EmployeeSignupServlet</display-name>
+        <servlet-name>EmployeeSignupServlet</servlet-name>
+        <servlet-class>com.EmployeeSignupServlet</servlet-class>
     </servlet>
     <servlet>
         <display-name>NewEmployeeServlet</display-name>
@@ -71,13 +76,13 @@
     </servlet>
     <servlet>
         <display-name>PricesChangerServlet</display-name>
-        <servlet-name>PricesChanger</servlet-name>
-        <servlet-class>com.PricesChanger</servlet-class>
+        <servlet-name>PricesChangerServlet</servlet-name>
+        <servlet-class>com.PricesChangerServlet</servlet-class>
     </servlet>
     <servlet>
         <display-name>PricesViewerServlet</display-name>
-        <servlet-name>PricesViewer</servlet-name>
-        <servlet-class>com.PricesViewer</servlet-class>
+        <servlet-name>PricesViewerServlet</servlet-name>
+        <servlet-class>com.PricesViewerServlet</servlet-class>
     </servlet>
     <servlet>
         <display-name>ViewPatientsServlet</display-name>
@@ -119,6 +124,11 @@
         <servlet-class>com.UpdateInvoiceServlet</servlet-class>
     </servlet>
     <servlet>
+        <display-name>ApproveNewUsersServlet</display-name>
+        <servlet-name>ApproveNewUsersServlet</servlet-name>
+        <servlet-class>com.ApproveNewUsersServlet</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>ViewUsersServlet</servlet-name>
         <servlet-class>com.ViewUsersServlet</servlet-class>
     </servlet>
@@ -127,6 +137,33 @@
         <servlet-name>CancelAppointmentServlet</servlet-name>
         <servlet-class>com.CancelAppointmentServlet</servlet-class>
     </servlet>
+    <servlet>
+        <display-name>CreatePrescriptionServlet</display-name>
+        <servlet-name>CreatePrescriptionServlet</servlet-name>
+        <servlet-class>com.CreatePrescriptionServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <display-name>ViewPrescriptionsServlet</display-name>
+        <servlet-name>ViewPrescriptionsServlet</servlet-name>
+        <servlet-class>com.ViewPrescriptionsServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <display-name>RespondToPendingPrescriptionExtensionsServlet</display-name>
+        <servlet-name>RespondToPendingPrescriptionExtensionsServlet</servlet-name>
+        <servlet-class>com.RespondToPendingPrescriptionExtensionsServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>RespondToPendingPrescriptionExtensionsServlet</servlet-name>
+        <url-pattern>/RespondToPendingPrescriptionExtensionsServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ViewPrescriptionsServlet</servlet-name>
+        <url-pattern>/ViewPrescriptionsServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ApproveNewUsersServlet</servlet-name>
+        <url-pattern>/ApproveNewUsersServlet</url-pattern>
+    </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ViewReferralsServlet</servlet-name>
         <url-pattern>/ViewReferralsServlet</url-pattern>
@@ -160,8 +197,12 @@
         <url-pattern>/NewUserServlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>SignupServlet</servlet-name>
-        <url-pattern>/SignupServlet</url-pattern>
+        <servlet-name>PatientSignupServlet</servlet-name>
+        <url-pattern>/PatientSignupServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>EmployeeSignupServlet</servlet-name>
+        <url-pattern>/EmployeeSignupServlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>NewEmployeeServlet</servlet-name>
@@ -180,17 +221,17 @@
         <url-pattern>/InvoiceDownloadServlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>PricesViewer</servlet-name>
-        <url-pattern>/PricesViewer</url-pattern>
+        <servlet-name>PricesViewerServlet</servlet-name>
+        <url-pattern>/PricesViewerServlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>PricesChanger</servlet-name>
-        <url-pattern>/PricesChanger</url-pattern>
+        <servlet-name>PricesChangerServlet</servlet-name>
+        <url-pattern>/PricesChangerServlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>NewReferralServlet</servlet-name>
         <url-pattern>/NewReferralServlet</url-pattern>
-    </servlet-mapping> 
+    </servlet-mapping>
     <servlet-mapping>
         <servlet-name>CancelAppointmentServlet</servlet-name>
         <url-pattern>/CancelAppointmentServlet</url-pattern>
@@ -210,6 +251,10 @@
     <servlet-mapping>
         <servlet-name>ViewUsersServlet</servlet-name>
         <url-pattern>/ViewUsersServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CreatePrescriptionServlet</servlet-name>
+        <url-pattern>/CreatePrescriptionServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
