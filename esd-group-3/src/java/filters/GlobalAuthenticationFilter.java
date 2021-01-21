@@ -118,15 +118,15 @@ public class GlobalAuthenticationFilter implements Filter {
                 is_errorHome = true;
                 errorMsg = "ERROR - User is not a Doctor or Nurse";
             }
-            else if ((uri.endsWith("NewUserServlet") || uri.endsWith("ViewPatientsServlet") || uri.endsWith("CancelAppointmentServlet") || uri.endsWith("ViewPatientsServlet")
-                    || uri.endsWith("ViewReferralsServlet") || uri.endsWith("ViewPatients.jsp") || uri.endsWith("ViewReferrals.jsp")
+            else if ((uri.endsWith("NewUserServlet") || uri.endsWith("ViewPatientsServlet") || uri.endsWith("ViewPatientsServlet")
+                     || uri.endsWith("ViewPatients.jsp") 
                     ) && !(role == 1 || role == 2 || role == 4)){
                 is_errorHome = true;
                 errorMsg = "ERROR - User is not a Doctor, Nurse, or Admin";
             }
             else{
                     // Common files for logged in users, of any type:
-                    // LogoutServlet, InvoiceViewerServlet, 
+                    // LogoutServlet, InvoiceViewerServlet, CancelApptServlet, ViewReferralServlet, ViewReferrals.jsp
                     chain.doFilter(request, response);
             }
             
