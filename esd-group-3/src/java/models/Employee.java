@@ -223,4 +223,19 @@ public class Employee extends User {
         
         return employees;
     }
+    
+    public int retrieveEmployeeIdByUserId(DBConnection dbcon, int id) {
+        String query = "SELECT id FROM Employees WHERE userid = '" + id + "'";
+        int employeeid = 0;
+
+        try (Statement stmt = dbcon.conn.createStatement()) {
+            ResultSet resultSet = stmt.executeQuery(query);
+            while (resultSet.next()) {
+                employeeid = resultSet.getInt("id");
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return id;
+    }
 }
