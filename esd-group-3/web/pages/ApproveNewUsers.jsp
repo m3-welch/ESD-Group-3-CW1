@@ -45,7 +45,7 @@
                     <div class="container">
                         <table class='patients-table-header'>
                             <tr>
-                                <th>ID</th>
+                                <th>Approval ID</th>
                                 <th>Username</th>
                                 <th>Name</th>
                                 <th>Email</th>
@@ -66,7 +66,7 @@
                     <div class="container">
                         <table class='patients-table-header'>
                             <tr>
-                                <th>ID</th>
+                                <th>Approval ID</th>
                                 <th>Username</th>
                                 <th>Name</th>
                                 <th>Email</th>
