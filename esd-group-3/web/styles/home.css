@@ -291,6 +291,11 @@ th {
     height: 450px;
 }
 
+a {
+  color: White;
+  text-decoration: none; /* no underline */
+}
+
 .patients-table {
     width: 100%;
     text-align: center;
