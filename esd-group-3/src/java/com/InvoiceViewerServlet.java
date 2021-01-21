@@ -41,7 +41,6 @@ public class InvoiceViewerServlet extends HttpServlet {
             request.setAttribute("maxdate", LocalDate.now().plusYears(1).toString());
             request.setAttribute("onemonth", LocalDate.now().plusMonths(1).toString());
             request.setAttribute("minusyear", LocalDate.now().minusYears(1).toString());
-            // request.getRequestDispatcher("pages/ViewAppointments.jsp").forward(request, response); 
         }
         // client - to PayInvoices.jsp
         else if (role == 3) {
@@ -50,7 +49,6 @@ public class InvoiceViewerServlet extends HttpServlet {
             request.setAttribute("maxdate", LocalDate.now().plusYears(1).toString());
             request.setAttribute("onemonth", LocalDate.now().plusMonths(1).toString());
             request.setAttribute("minusyear", LocalDate.now().minusYears(1).toString());
-            // request.getRequestDispatcher("pages/PayInvoices.jsp").forward(request, response);
         }
         // admin - to ViewTurnover.jsp
         else if (role == 4) {
@@ -59,7 +57,6 @@ public class InvoiceViewerServlet extends HttpServlet {
             request.setAttribute("maxdate", LocalDate.now().plusYears(1).toString());
             request.setAttribute("onemonth", LocalDate.now().plusMonths(1).toString());
             request.setAttribute("minusyear", LocalDate.now().minusYears(1).toString());
-            // request.getRequestDispatcher("pages/ViewTurnover.jsp").forward(request, response);
         }
 
         // get variables
@@ -161,7 +158,6 @@ public class InvoiceViewerServlet extends HttpServlet {
                 response.sendRedirect("pages/ViewTurnover.jsp");
             }
             
-            // response.sendRedirect("invoiceViewer.jsp");
         }
         
     }  
