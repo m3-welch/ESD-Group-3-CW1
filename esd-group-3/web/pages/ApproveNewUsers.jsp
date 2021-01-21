@@ -90,7 +90,9 @@
                     <div class="container">
                         <form action="ApproveNewUsersServlet" method="POST">
                             <label for="approvalid"><b>Approval ID</b></label>
-                            <input type="number" name="approvalid" required/>
+                            <select name="approvalid">
+                                ${approvaloptions}
+                            </select>
                             <label for="response"><b>Response</b></label>
                             <select name="response">
                                 <option value="approve">Approve</option>

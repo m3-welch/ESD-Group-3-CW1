@@ -9,7 +9,8 @@ import dbcon.DBConnection;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -20,7 +21,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import models.Client;
 import models.Employee;
-import models.User;
 
 /**
  *
@@ -39,6 +39,7 @@ public class ApproveNewUsersServlet extends HttpServlet {
         Employee emp = new Employee();
         List<Employee> employees = null;
         List<Client> clients = null;
+        ArrayList<Integer> ids = new ArrayList<>();
         
         // Retreive clients
         try {
@@ -59,6 +60,7 @@ public class ApproveNewUsersServlet extends HttpServlet {
                     clients.get(i).getAddress() + "</td><td>" +
                     clients.get(i).getDob() + "</td><td>" +
                     clients.get(i).getIsNhs() +"</td></tr>";
+            ids.add(clients.get(i).getId());
         }
         
         clientList += "</table>";
@@ -84,10 +86,19 @@ public class ApproveNewUsersServlet extends HttpServlet {
                     employees.get(i).getRole() + "</td><td>" +
                     employees.get(i).getDob() + "</td><td>" +
                     employees.get(i).isFullTimeToString() + "</td></tr>";
+            ids.add(employees.get(i).getId());
         }
         
         employeeList += "</table>";
         request.setAttribute("employeeList", employeeList);
+        
+        Collections.sort(ids);
+        String approvaloptions = "";
+           
+        for (int i = 0; i < ids.size(); i++) {
+            approvaloptions += "<option value='" + ids.get(i) + "'>" + ids.get(i) + "</option>";
+        }
+        request.setAttribute("approvaloptions", approvaloptions);
         
         request.getRequestDispatcher("pages/ApproveNewUsers.jsp").forward(request,response);
     }
@@ -102,19 +113,18 @@ public class ApproveNewUsersServlet extends HttpServlet {
             int approvalid = Integer.parseInt(request.getParameter("approvalid").toString());
             String approvalResponse = request.getParameter("response").toString();
             
+            Client client = new Client();
+            Employee emp = new Employee();
+            List<Employee> employees = null;
+            List<Client> clients = null;
+            
+            // Retreive clients
+            clients = client.retrieveSignups(dbcon);
+            // Retreive employees
+            employees = emp.retrieveSignups(dbcon);
+            
             if (!approvalResponse.equals("deny")) {
-                // Declare vars
-                Client client = new Client();
-                Employee emp = new Employee();
-                List<Employee> employees = null;
-                List<Client> clients = null;
-
-                // Retreive clients
-                clients = client.retrieveSignups(dbcon);
-                // Retreive employees
-                employees = emp.retrieveSignups(dbcon);
-
-                // Find client, and add if found
+                // Find client, and add if found remove
                 for (int i = 0; i < clients.size(); i++) {
                     if (clients.get(i).getId() == approvalid) {
                         client.create(dbcon, 
@@ -129,6 +139,7 @@ public class ApproveNewUsersServlet extends HttpServlet {
                                 clients.get(i).getDob());
                     }
                 }
+                // Find employee, and add if found remove
                 for (int i = 0; i < employees.size(); i++) {
                     if (employees.get(i).getId() == approvalid) {
                         emp.create(dbcon, 
@@ -156,6 +167,54 @@ public class ApproveNewUsersServlet extends HttpServlet {
                 Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
             }
             
+            // Retreive clients
+            clients = client.retrieveSignups(dbcon);
+            // Retreive employees
+            employees = emp.retrieveSignups(dbcon);
+            ArrayList<Integer> ids = new ArrayList<>();
+            
+            String clientList = "<table class='patients-table'>";
+        
+            for (int i = 0; i < clients.size(); i++) {
+                clientList += "<tr><td>" + clients.get(i).getId() + "</td><td>" +
+                        clients.get(i).getUsername() + "</td><td>" +
+                        clients.get(i).getFirstname() + " " + 
+                        clients.get(i).getLastname() + "</td><td>" + 
+                        clients.get(i).getEmail() + "</td><td>" + 
+                        clients.get(i).getAddress() + "</td><td>" +
+                        clients.get(i).getDob() + "</td><td>" +
+                        clients.get(i).getIsNhs() +"</td></tr>";
+                ids.add(clients.get(i).getId());
+            }
+
+            clientList += "</table>";
+            request.setAttribute("clientList", clientList);
+
+            String employeeList = "<table class='patients-table'>";
+
+            for (int i = 0; i < employees.size(); i++) {
+                employeeList += "<tr><td>" + employees.get(i).getId() + "</td><td>" +
+                        employees.get(i).getUsername() + "</td><td>" +
+                        employees.get(i).getFirstname() + " " + 
+                        employees.get(i).getLastname() + "</td><td>" + 
+                        employees.get(i).getEmail() + "</td><td>" + 
+                        employees.get(i).getAddress() + "</td><td>" +
+                        employees.get(i).getRole() + "</td><td>" +
+                        employees.get(i).getDob() + "</td><td>" +
+                        employees.get(i).isFullTimeToString() + "</td></tr>";
+                ids.add(employees.get(i).getId());
+            }
+
+            employeeList += "</table>";
+            request.setAttribute("employeeList", employeeList);
+            
+            Collections.sort(ids);
+            String approvaloptions = "";
+
+            for (int i = 0; i < ids.size(); i++) {
+                approvaloptions += "<option value='" + ids.get(i) + "'>" + ids.get(i) + "</option>";
+            }
+            request.setAttribute("approvaloptions", approvaloptions);
             
             request.getRequestDispatcher("pages/ApproveNewUsers.jsp").forward(request,response);
             
