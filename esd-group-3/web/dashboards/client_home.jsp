@@ -44,7 +44,7 @@
         </form>
         <hr>
         <form action="/esd-group-3/InvoiceViewerServlet" method="GET">
-            <input type="submit" value="View and Pay Invoices" class="link-button"/>
+            <input type="submit" value="View Appointments and Pay Invoices" class="link-button"/>
         </form>
     </div>
     </body>
