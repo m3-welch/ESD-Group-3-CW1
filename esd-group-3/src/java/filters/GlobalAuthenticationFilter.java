@@ -72,12 +72,11 @@ public class GlobalAuthenticationFilter implements Filter {
 
             // authentication logic
             // NOTE - servlet names are as per web.xml
-            boolean is_errorHome = true;
+            boolean is_errorHome = false;
             String errorMsg = "";
 
             // handles cases of no user logged in
             if (role == 0 && !(uri.endsWith("login.jsp") || uri.endsWith("newEmployeeSignup.jsp") || uri.endsWith("newPatientSignup.jsp") || uri.endsWith("LoginServlet") || uri.endsWith("PatientSignupServlet") || uri.endsWith("EmployeeSignupServlet") || uri.endsWith("esd-group-3/") || uri.endsWith(".css"))){
-                is_errorHome = false;
                 this.context.log("Unauthorized access request");
                 req.setAttribute("message", "ERROR - Please Login"); // Will be available as ${message}
                 req.getRequestDispatcher("login.jsp").forward(request,response);
@@ -92,19 +91,23 @@ public class GlobalAuthenticationFilter implements Filter {
                     || uri.endsWith("NewEmployee.jsp") || uri.endsWith("NewUser.jsp") || uri.endsWith("ViewEmployees.jsp") || uri.endsWith("ViewUsers.jsp")
                     || uri.endsWith("ViewTurnover.jsp")
                     ) && (role != 4)){
+                is_errorHome = true;
                 errorMsg = "ERROR - User is not an Administrator";
             }
             else if ((uri.endsWith("client_home.jsp") || uri.endsWith("PayInvoiceServlet") || uri.endsWith("NewAppointmentServlet") || uri.endsWith("ViewPrescriptionsServlet")
                     || uri.endsWith("NewAppointment.jsp") || uri.endsWith("ViewPrescriptions.jsp")
                     ) && role != 3){
+                is_errorHome = true;
                 errorMsg = "ERROR - User is not a Patient";
             }
             else if (uri.endsWith("nurse_home.jsp") 
                     && role != 2){
+                is_errorHome = true;
                 errorMsg = "ERROR - User is not a Nurse";
             }
             else if (uri.endsWith("doctor_home.jsp") 
                     && role != 1){
+                is_errorHome = true;
                 errorMsg = "ERROR - User is not a Doctor";
             }
             else if ((uri.endsWith("NewReferralServlet") || uri.endsWith("CreatePrescriptionServlet") || uri.endsWith("NewEmployeeAppointmentServlet") 
@@ -112,11 +115,13 @@ public class GlobalAuthenticationFilter implements Filter {
                     || uri.endsWith("NewEmployeeAppointment.jsp") || uri.endsWith("NewReferral.jsp") || uri.endsWith("ViewAppointments.jsp")
                     || uri.endsWith("ViewPendingPrescriptionExtensions.jsp")
                     ) && !(role == 1 || role == 2)){
+                is_errorHome = true;
                 errorMsg = "ERROR - User is not a Doctor or Nurse";
             }
             else if ((uri.endsWith("NewUserServlet") || uri.endsWith("ViewPatientsServlet") || uri.endsWith("CancelAppointmentServlet") || uri.endsWith("ViewPatientsServlet")
                     || uri.endsWith("ViewReferralsServlet") || uri.endsWith("ViewPatients.jsp") || uri.endsWith("ViewReferrals.jsp")
                     ) && !(role == 1 || role == 2 || role == 4)){
+                is_errorHome = true;
                 errorMsg = "ERROR - User is not a Doctor, Nurse, or Admin";
             }
             else{
