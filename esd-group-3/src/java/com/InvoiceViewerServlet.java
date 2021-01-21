@@ -166,7 +166,7 @@ public class InvoiceViewerServlet extends HttpServlet {
             }
             // admin - to ViewTurnover
             else if (role == 4) {
-                request.setAttribute("turnover", turnover);
+                request.setAttribute("turnover", numFormat.format(turnover));
                 request.getRequestDispatcher("pages/ViewTurnover.jsp").forward(request,response);
                 response.sendRedirect("pages/ViewTurnover.jsp");
             }
