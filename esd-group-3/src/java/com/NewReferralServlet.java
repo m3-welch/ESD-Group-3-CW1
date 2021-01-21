@@ -8,6 +8,7 @@ package com;
 import dbcon.DBConnection;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -15,6 +16,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import models.Client;
 import models.Employee;
 import models.Referrals;
 
@@ -27,12 +29,23 @@ public class NewReferralServlet extends HttpServlet {
                             throws ServletException, IOException {
         HttpSession loginSession = request.getSession(false);
         request.setAttribute("dashboard", "/esd-group-3/dashboards/" + loginSession.getAttribute("user_role") + "_home.jsp");
-        request.setAttribute("userid", loginSession.getAttribute("userID"));
-        response.setContentType("text/html");
-        
-        request.getRequestDispatcher((String)loginSession.getAttribute("dashboard")).include(request, response);
-        
-        request.getRequestDispatcher("pages/NewReferral.jsp").forward(request,response);
+        try {
+            DBConnection dbcon = new DBConnection("smartcaretest", "", "");
+            Client client = new Client();
+            List<Client> clients = client.getAll(dbcon, "all");
+            String clientoptions = "";
+            
+            for (int i = 0; i < clients.size(); i++) {
+                clientoptions += "<option value='" + clients.get(i).getId() + "'>" + clients.get(i).getFirstname() + " " + clients.get(i).getLastname() + "</option>";
+            }
+            
+            request.setAttribute("clientoptions", clientoptions);
+            request.setAttribute("userid", loginSession.getAttribute("userID"));
+            request.getRequestDispatcher("pages/NewReferral.jsp").forward(request,response);
+        }
+        catch (SQLException ex) {
+            Logger.getLogger(NewEmployeeAppointmentServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -46,7 +59,7 @@ public class NewReferralServlet extends HttpServlet {
 
         //decare vars
         int employee_userid = Integer.parseInt(request.getParameter("employee_userid"));
-        int clientid = Integer.parseInt(request.getParameter("clientid"));
+        int clientid = Integer.parseInt(request.getParameter("clientoptions"));
         String name = request.getParameter("name");
         String address = request.getParameter("address");
 
@@ -58,6 +71,15 @@ public class NewReferralServlet extends HttpServlet {
             DBConnection dbcon = new DBConnection("smartcaretest", "", "");
             employeeid = new Employee().retrieveEmployeeByUserId(dbcon, employee_userid).getEmployeeId();
             ref.create(dbcon, employeeid, clientid, name, address);
+            
+            Client client = new Client();
+            List<Client> clients = client.getAll(dbcon, "all");
+            String clientoptions = "";
+            
+            for (int i = 0; i < clients.size(); i++) {
+                clientoptions += "<option value='" + clients.get(i).getId() + "'>" + clients.get(i).getFirstname() + " " + clients.get(i).getLastname() + "</option>";
+            }
+            request.setAttribute("clientoptions", clientoptions);
         } catch (SQLException ex) {
             Logger.getLogger(SignupServlet.class.getName()).log(Level.SEVERE, null, ex);
         }

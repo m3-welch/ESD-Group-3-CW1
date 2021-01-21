@@ -9,6 +9,9 @@ import dbcon.DBConnection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -24,6 +27,7 @@ public class User {
     private String address;
     private String role;
     public Events events;
+    private LocalDate dob;
     
     public User setId(int id) {
         this.id = id;
@@ -95,6 +99,40 @@ public class User {
         ev.getOperationsFromDB(dbcon, this.id);
         this.events = ev;
     }
+
+    public LocalDate getDob() {
+        return dob;
+    }
+
+    public void setDob(LocalDate dob) {
+        this.dob = dob;
+    }
+    
+    public List<User> retrieveAll(DBConnection dbcon) {
+        List<User> users = new ArrayList<User>();
+        
+        String query = "SELECT * FROM Users";
+            
+        try (Statement stmt = dbcon.conn.createStatement()) {
+            ResultSet resultSet = stmt.executeQuery(query);
+            while (resultSet.next()) {
+                User user = new User();
+                user.setId(resultSet.getInt("id"));
+                user.setUsername(resultSet.getString("username"));
+                user.setFirstname(resultSet.getString("firstname"));
+                user.setLastname(resultSet.getString("lastname"));
+                user.setEmail(resultSet.getString("email"));
+                user.setAddress(resultSet.getString("address"));
+                user.setRole(resultSet.getString("role"));
+                user.setDob(LocalDate.parse(resultSet.getString("dob")));
+                System.out.println(user);
+                users.add(user);
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return users;
+    }
     
     public void retrieveByUsername(DBConnection dbcon, String uname) {
         String query = "SELECT * FROM Users WHERE username = '" + uname + "'";
@@ -110,7 +148,7 @@ public class User {
                 this.setEmail(resultSet.getString("email"));
                 this.setAddress(resultSet.getString("address"));
                 this.setRole(resultSet.getString("role"));
-
+                this.setDob(LocalDate.parse(resultSet.getString("dob")));
             }
 
         } catch (SQLException e) {
@@ -132,7 +170,7 @@ public class User {
                 this.setEmail(resultSet.getString("email"));
                 this.setAddress(resultSet.getString("address"));
                 this.setRole(resultSet.getString("role"));
-
+                this.setDob(LocalDate.parse(resultSet.getString("dob")));
             }
 
         } catch (SQLException e) {
@@ -246,4 +284,21 @@ public class User {
         // Delete from users table
         
     }
+    
+    public List<Integer> getAllUserids(DBConnection dbcon){  
+        List<Integer> useridList = new ArrayList<>();
+        String query = "SELECT id FROM Users";
+        int userid = 0;
+        try (Statement stmt = dbcon.conn.createStatement()) {
+            ResultSet resultSet = stmt.executeQuery(query);
+            while (resultSet.next()) {
+                userid = resultSet.getInt("id");
+                useridList.add(userid);
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        
+        return useridList;
+    }      
 }

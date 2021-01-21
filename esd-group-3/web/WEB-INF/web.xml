@@ -118,6 +118,15 @@
         <servlet-name>UpdateInvoiceServlet</servlet-name>
         <servlet-class>com.UpdateInvoiceServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ViewUsersServlet</servlet-name>
+        <servlet-class>com.ViewUsersServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <display-name>CancelAppointmentServlet</display-name>
+        <servlet-name>CancelAppointmentServlet</servlet-name>
+        <servlet-class>com.CancelAppointmentServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ViewReferralsServlet</servlet-name>
         <url-pattern>/ViewReferralsServlet</url-pattern>
@@ -181,6 +190,10 @@
     <servlet-mapping>
         <servlet-name>NewReferralServlet</servlet-name>
         <url-pattern>/NewReferralServlet</url-pattern>
+    </servlet-mapping> 
+    <servlet-mapping>
+        <servlet-name>CancelAppointmentServlet</servlet-name>
+        <url-pattern>/CancelAppointmentServlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ClientInvoiceViewerServlet</servlet-name>
@@ -193,6 +206,10 @@
     <servlet-mapping>
         <servlet-name>UpdateInvoiceServlet</servlet-name>
         <url-pattern>/UpdateInvoiceServlet</url-pattern>
+    </servlet_mapping>
+    <servlet-mapping>
+        <servlet-name>ViewUsersServlet</servlet-name>
+        <url-pattern>/ViewUsersServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

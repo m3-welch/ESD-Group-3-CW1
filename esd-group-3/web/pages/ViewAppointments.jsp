@@ -66,8 +66,8 @@
                             <input type="hidden" id="start" name="start" value="${todaydate}">
                             <input type="hidden" id="end" name="end" value="${todaydate}">
                             <input type="submit" value="View today's schedule" class="button">
-			</form>
-			<form action="/esd-group-3/InvoiceViewerServlet" method="GET">
+			                  </form>
+			                  <form action="/esd-group-3/InvoiceViewerServlet" method="GET">
                             <input type="hidden" id="start" name="start" value="${todaydate}">
                             <input type="hidden" id="end" name="end" value="${maxdate}">
                             <input type="submit" value="View upcoming appointments" class="button">
@@ -111,6 +111,20 @@
                             request.setAttribute("message", "Error - SQL Exception"); // Will be available as ${message}
                             } %> 
                         </table>
+                    </div>
+                </div>
+            </div>
+            <div class="left">
+                <div class="card">
+                    <div class="container">
+                        <h2 style="text-align:center;margin-top: 10px;">Cancel appointment</h2>
+                        <div class="container">
+                            <form action="CancelAppointmentServlet" method="POST">
+                                <label for="appointment"><b>Appointment Number</b></label>
+                                <input type="number" name="appointment" required/>
+                                <input type="submit" value="Cancel" class="button">
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>

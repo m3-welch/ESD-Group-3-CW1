@@ -6,7 +6,8 @@ CREATE TABLE Users (
     lastname varchar(64),
     email varchar(64),
     address varchar(64),
-    role varchar(64)
+    role varchar(64),
+    dob Date
 );
 
 CREATE TABLE Clients (
