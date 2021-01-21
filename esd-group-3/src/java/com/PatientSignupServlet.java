@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import models.Client;
+import models.HashPassword;
 
 /**
  *
@@ -40,6 +41,10 @@ public class PatientSignupServlet extends HttpServlet {
         String type = request.getParameter("type");
         LocalDate dob = LocalDate.parse(request.getParameter("dob"));
         Client client = new Client();
+        
+        // Hash password
+        HashPassword hash = new HashPassword();
+        password = hash.setHashPassword(password);
         
         GoogleMaps maps = new GoogleMaps();
         

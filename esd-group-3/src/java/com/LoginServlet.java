@@ -20,6 +20,7 @@ import java.util.List;
 import models.Client;
 import models.Employee;
 import models.User;
+import models.HashPassword;
 
 /**
  *
@@ -42,6 +43,11 @@ public class LoginServlet extends HttpServlet {
         DBConnection dbcon = null;
         HttpSession loginSession = request.getSession();
         User user_to_login = null;
+        
+        // Hash password
+        HashPassword hash = new HashPassword();
+        password_in = hash.setHashPassword(password_in);
+        
         // get password from db
         try {
             dbcon = new DBConnection("smartcaretest", "", "");

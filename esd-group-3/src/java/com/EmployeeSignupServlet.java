@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import models.Employee;
+import models.HashPassword;
 
 /**
  *
@@ -49,6 +50,10 @@ public class EmployeeSignupServlet extends HttpServlet {
         if (formatted_address != null) {
             address = formatted_address;
         }
+        
+        // Hash password
+        HashPassword hash = new HashPassword();
+        password = hash.setHashPassword(password);
         
         try {
             DBConnection dbcon = new DBConnection("smartcaretest", "", "");
