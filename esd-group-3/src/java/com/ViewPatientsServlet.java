@@ -53,7 +53,7 @@ public class ViewPatientsServlet extends HttpServlet {
         for (int i = 0; i < clients.size(); i++) {
             outputList += "<tr><form action='ViewPatientsServlet' method='POST'><td><input type='text' value='" + clients.get(i).getClientId() + "' name='clientId' readonly>" + "</td><td>" +
                     clients.get(i).getFirstname() + " " + clients.get(i).getLastname() + "</td><td>" +
-                    (clients.get(i).getIsNhs().equals("true") ? "NHS" : "Private") + "</td><td>" +
+                    (clients.get(i).getIsNhs() ? "NHS" : "Private") + "</td><td>" +
                     clients.get(i).getEmail() + "</td><td>" +
                     clients.get(i).getAddress() + "</td><td>" +
                     clients.get(i).getDob() + "</td><td>" +
@@ -73,6 +73,8 @@ public class ViewPatientsServlet extends HttpServlet {
         
         request.getRequestDispatcher("pages/ViewPatients.jsp").include(request, response);
         
+//decare vars
+        String filter = request.getParameter("filter");
         String delete = "";
         
         //request.getRequestDispatcher("admin_home.jsp").include(request, response);
@@ -90,13 +92,16 @@ public class ViewPatientsServlet extends HttpServlet {
                 Client deleteClient = new Client();
                 deleteClient.retrieveClientByIdDrop(dbcon, Integer.parseInt(request.getParameter("clientId")));
                 deleteClient.dropUserById(dbcon, deleteClient.getClientId());
+                request.setAttribute("checkedcombined", "checked='true'");
+                request.setAttribute("checkedprivate", "");
+                request.setAttribute("checkedcombined", "");
+                filter = "all";
             } catch (SQLException ex) {
                 Logger.getLogger(ViewPatientsServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         
-        //decare vars
-        String filter = request.getParameter("filter");
+        
         
         if ("NHS".equals(filter)) {
             request.setAttribute("checkednhs", "checked='true'");
@@ -127,7 +132,7 @@ public class ViewPatientsServlet extends HttpServlet {
         for (int i = 0; i < clients.size(); i++) {
             outputList += "<tr><form action='ViewPatientsServlet' method='POST'><td><input type='text' value='" + clients.get(i).getClientId() + "' name='clientId' readonly>" + "</td><td>" +
                     clients.get(i).getFirstname() + " " + clients.get(i).getLastname() + "</td><td>" +
-                    (clients.get(i).getIsNhs().equals("true") ? "NHS" : "Private") + "</td><td>" +
+                    (clients.get(i).getIsNhs() ? "NHS" : "Private") + "</td><td>" +
                     clients.get(i).getEmail() + "</td><td>" +
                     clients.get(i).getAddress() + "</td><td>" +
                     clients.get(i).getDob() + "</td><td>" +
