@@ -1,7 +1,7 @@
 <%-- 
-    Document   : newPatient
-    Created on : 10-Dec-2020, 14:59:12
-    Author     : morgan
+    Document   : newSignupEmployee
+    Created on : 20-Jan-2021, 21:09:07
+    Author     : Harrison B
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -10,16 +10,16 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" href="styles/login.css">
-        <title>Smartcare - New Patient</title>
+        <title>Smartcare - New Employee</title>
     </head>
     <body>
         <div class="center">
           <div class="card">
             <div class="container">
-              <h2 style="text-align:center">Smartcare - New Patient</h2>
+              <h2 style="text-align:center">Smartcare - New Employee</h2>
               <p style="color:#FF3232;font-size:12px;text-align:center" id="note">${message}</p>
               <div class="container">
-                <form action="SignupServlet" method="POST">
+                <form action="EmployeeSignupServlet" method="POST">
                   <label for="uname"><b>Username</b></label>
                   <input type="text" placeholder="Enter Username" name="uname" required>
                   <label for="psw"><b>Password</b></label>
@@ -32,10 +32,16 @@
                   <input type="text" placeholder="Enter email address" name="email" required>
                   <label for="address"><b>Address</b></label>
                   <input type="text" placeholder="Enter address" name="address" required>
-                  <label for="type"><b>Type</b></label>
+                  <label for="type"><b>Job Pattern</b></label>
                   <select name="type">
-                      <option value="NHS">NHS</option>
-                      <option value="private">Private</option>
+                      <option value="fulltime">Full time</option>
+                      <option value="parttime">Part time</option>
+                  </select>
+                  <label for="role"><b>Role</b></label>
+                  <select name="role">
+                      <option value="doctor">doctor</option>
+                      <option value="nurse">nurse</option>
+                      <option value="admin">admin</option>
                   </select>
                   <label for="dob"><b>Date of Birth</b></label>
                   <input type="date" name="dob" required>

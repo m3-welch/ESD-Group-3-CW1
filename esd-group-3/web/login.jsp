@@ -26,9 +26,9 @@
                   <input type="password" placeholder="Enter Password" name="psw" required>
                   <input type="submit" value="login" class="button"> 
                 </form>
-                
-                <a href="/esd-group-3/newPatient.jsp" class="button">Signup</a>
-              </div>
+                <a href="/esd-group-3/newPatientSignup.jsp" class="button">Patient Signup</a>
+                <a href="/esd-group-3/newEmployeeSignup.jsp" class="button">Employee Signup</a>
+             </div>
             </div>
           </div>
         </div>

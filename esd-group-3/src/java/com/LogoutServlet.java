@@ -26,6 +26,7 @@ public class LogoutServlet extends HttpServlet {
         // invalidate httpSession
         HttpSession loginSession = request.getSession();
         loginSession.invalidate();
+        request.setAttribute("messagecolour", "#329232"); 
         request.setAttribute("message", "Successful Logout"); // Will be available as ${message}
         request.getRequestDispatcher("login.jsp").forward(request,response);
         response.sendRedirect("login.jsp");

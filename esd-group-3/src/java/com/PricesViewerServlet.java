@@ -51,6 +51,7 @@ public class PricesViewerServlet extends HttpServlet {
         }
         catch(SQLException e){
             // send error
+            request.setAttribute("messagecolour", "#FF3232");
             request.setAttribute("message", "Error - SQL Exception");
             request.getRequestDispatcher("pages/prices.jsp").forward(request,response);
             response.sendRedirect("pages/prices.jsp");
