@@ -7,8 +7,6 @@
 <%@page language="java" contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="models.Operation"%> 
 <%@page import="java.util.ArrayList"%> 
-<%@page import="java.text.SimpleDateFormat"%>
-<%@page import="java.util.Date"%>
 <%@page import="java.time.LocalDate"%>
 <!DOCTYPE html>
 <html>
@@ -70,45 +68,24 @@
             </div>
 
             <div>
-                <table border ="1" width="500" align="center"> 
-                   <tr bgcolor="6c9ee0"> 
-                        <th><b>Operation ID</b></th> 
-                        <th><b>Employee ID</b></th> 
-                        <th><b>Client ID</b></th> 
-                        <th><b>Date</b></th> 
-                        <th><b>Start Time</b></th> 
-                        <th><b>End Time</b></th> 
-                        <th><b>Charge</b></th> 
-                        <th><b>Invoice Paid</b></th> 
-                        <th><b>NHS Patient</b></th> 
-                   </tr> 
-                  <%-- Fetching the attributes of the request object 
-                       which was previously set by the servlet --%>  
-                  <%
-                    
-                    try {
-                        ArrayList<Operation> operationsArray = (ArrayList<Operation>)request.getAttribute("data"); 
-                        for(Operation i:operationsArray){%> 
-                  <%-- Arranging data in tabular form --%> 
-                        <tr> 
-                            <td><%=i.getOperationId()%></td> 
-                            <td><%=i.getEmployeeId()%></td> 
-                            <td><%=i.getClientId()%></td> 
-                            <td><%=i.getDate()%></td> 
-                            <td><%=i.getStartTime()%></td> 
-                            <td><%=i.getEndTime()%></td> 
-                            <td><%=i.getCharge()%></td> 
-                            <td><%=i.getIsPaid()%></td> 
-                            <td><%=i.getIsNhs()%></td> 
-                        </tr> 
-                      <%}
-                    }
-                    catch(NullPointerException e){
-                    // send error
-                    request.setAttribute("message", "Error - No Data Found - SQL Exception"); // Will be available as ${message}
-                    }
-                      %> 
-                  </table>  
+                <table class='events-table-header'>
+                    <tr>
+                        <th>Appointment ID</th>
+                        <th>Date</th>
+                        <th>Patient name</th>
+                        <th>Employee Name</th>
+                        <th>Start Time</th>
+                        <th>End Time</th>
+                        <th>Description</th>
+                        <th>Type of Appointment</th>
+                        <th>Charge</th>
+                        <th>Has Patient Paid</th>
+                        <th>Is Patient NHS</th>
+                    </tr>
+                </table>
+                <div class="events-list">
+                    ${tableData}
+                </div>
             </div>
             <hr/> 
             Turnover for this period: ${turnover}

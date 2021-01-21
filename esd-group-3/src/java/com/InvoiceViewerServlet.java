@@ -18,7 +18,9 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import javax.servlet.http.HttpSession;
 import models.Client;
-
+import models.Employee;
+import java.text.NumberFormat; 
+import java.util.Locale;
 /**
  *
  * @author Austin
@@ -30,7 +32,6 @@ public class InvoiceViewerServlet extends HttpServlet {
         
         // get session variables
         HttpSession loginSession = request.getSession(false);
-        //request.getRequestDispatcher((String)loginSession.getAttribute("dashboard")).include(request, response);
         int userid = (Integer) loginSession.getAttribute("userID");
         int role = (Integer) loginSession.getAttribute("role");
         
@@ -41,7 +42,6 @@ public class InvoiceViewerServlet extends HttpServlet {
             request.setAttribute("maxdate", LocalDate.now().plusYears(1).toString());
             request.setAttribute("onemonth", LocalDate.now().plusMonths(1).toString());
             request.setAttribute("minusyear", LocalDate.now().minusYears(1).toString());
-            // request.getRequestDispatcher("pages/ViewAppointments.jsp").forward(request, response); 
         }
         // client - to PayInvoices.jsp
         else if (role == 3) {
@@ -50,7 +50,6 @@ public class InvoiceViewerServlet extends HttpServlet {
             request.setAttribute("maxdate", LocalDate.now().plusYears(1).toString());
             request.setAttribute("onemonth", LocalDate.now().plusMonths(1).toString());
             request.setAttribute("minusyear", LocalDate.now().minusYears(1).toString());
-            // request.getRequestDispatcher("pages/PayInvoices.jsp").forward(request, response);
         }
         // admin - to ViewTurnover.jsp
         else if (role == 4) {
@@ -59,7 +58,6 @@ public class InvoiceViewerServlet extends HttpServlet {
             request.setAttribute("maxdate", LocalDate.now().plusYears(1).toString());
             request.setAttribute("onemonth", LocalDate.now().plusMonths(1).toString());
             request.setAttribute("minusyear", LocalDate.now().minusYears(1).toString());
-            // request.getRequestDispatcher("pages/ViewTurnover.jsp").forward(request, response);
         }
 
         // get variables
@@ -86,22 +84,36 @@ public class InvoiceViewerServlet extends HttpServlet {
             startDate = LocalDate.parse(start_str, formatter);
             endDate = LocalDate.parse(end_str, formatter);
         }
-
+        
+        // allows dr/nurse to view their appointments only
+        boolean myAppt = false;
+        if ((role == 1) || (role == 2)){
+            if("on".equals(request.getParameter("myAppointments"))){
+                myAppt = true;
+            } 
+        }
+        
         try {
             DBConnection dbcon = new DBConnection("smartcaretest", "", "");
             
             // get clientid if user is client
             int clientid = 0;
+            int empid = 0;
             if (role == 3) {
                 Client client = new Client();
                 client.retrieveClientByUserId(dbcon, userid);
                 clientid = client.getClientId();
             }
+            else if (myAppt) {
+                Employee emp = new Employee();
+                emp.retrieveEmployeeByUserId(dbcon, userid);
+                empid = emp.getEmployeeId();
+            }
             
             // get operations that fit the variables
             Operation operationsCaller = new Operation();
             ArrayList<Operation> operationsArray = new ArrayList<Operation>();
-            operationsArray = operationsCaller.retrieveAllOperationsWhere(dbcon, filter, unpaid, startDate, endDate, clientid);
+            operationsArray = operationsCaller.retrieveAllOperationsWhere(dbcon, filter, unpaid, startDate, endDate, clientid, empid);
             
             // calculate/get other variables to display
             float turnover = 0;
@@ -109,35 +121,48 @@ public class InvoiceViewerServlet extends HttpServlet {
                 turnover = turnover + i.getCharge();
             }
             
-//            String[][] nameArray = new String[operationsArray.size()][2];
-//            int j = 0;
-//            for(Operation i:operationsArray){
-//                nameArray[j][1] = (String) i.getClientFullNameFromId(dbcon);
-//                nameArray[j][2] = capitalizeWord(i.getRoleFromId(dbcon))  + " " + i.getEmpLastNameFromId(dbcon);
-//                j++;
-//            }
+            // put data into table format
+            NumberFormat numFormat = NumberFormat.getCurrencyInstance(Locale.UK);
+            boolean emptyTable = true;
+            String outputList = "<table>";
+            for(Operation i:operationsArray) {
+                emptyTable = false;
+                outputList += "<tr><td>" + i.getOperationId() + "</td><td>" 
+                        + i.getDate() + "</td><td>" +  
+                        i.getClientFullNameFromId(dbcon) + "</td><td>" + 
+                        capitalizeWord(i.getRoleFromId(dbcon)) + " " + 
+                        i.getEmpLastNameFromId(dbcon) + "</td><td>" + 
+                        i.getStartTime() + "</td><td>" + 
+                        i.getEndTime() + "</td><td>" +
+                        i.getDescription() + "</td><td>" +
+                        (i.getIsSurgery() ? "Surgery" : "Consultation") + "</td><td>" +
+                        numFormat.format(i.getCharge()) + "</td><td>" + 
+                        i.getIsPaid()  + "</td><td>" + 
+                        i.getIsNhs() + "</td></tr>";
+            }
+            outputList += "</table>";
+            if (emptyTable) {
+                request.setAttribute("message", "Schedule Is Empty!");       
+            } 
+            else {
+                request.setAttribute("message", "Data Loaded Successfully");
+                request.setAttribute("tableData", outputList); // Will be available as ${tableData}
+            }
+
             
             // send data to correct page
             // dr/nurse - to ViewAppointments.jsp
             if (role == 1 || role == 2) {
-                request.setAttribute("message", "Data Loaded Successfully");
-                request.setAttribute("data", operationsArray); // Will be available as ${data}
-                // request.setAttribute("names", nameArray);
                 request.getRequestDispatcher("pages/ViewAppointments.jsp").forward(request,response);
                 response.sendRedirect("pages/ViewAppointments.jsp");
             }
             // client - to PayInvoices.jsp
             else if (role == 3) {
-                request.setAttribute("message", "Data Loaded Successfully");
-                request.setAttribute("data", operationsArray); // Will be available as ${data}
-                // request.setAttribute("names", nameArray);
                 request.getRequestDispatcher("pages/PayInvoices.jsp").forward(request,response);
                 response.sendRedirect("pages/PayInvoices.jsp");
             }
             // admin - to ViewTurnover
             else if (role == 4) {
-                request.setAttribute("message", "Data Loaded Successfully");
-                request.setAttribute("data", operationsArray); // Will be available as ${data}
                 request.setAttribute("turnover", turnover);
                 request.getRequestDispatcher("pages/ViewTurnover.jsp").forward(request,response);
                 response.sendRedirect("pages/ViewTurnover.jsp");
@@ -161,7 +186,6 @@ public class InvoiceViewerServlet extends HttpServlet {
                 response.sendRedirect("pages/ViewTurnover.jsp");
             }
             
-            // response.sendRedirect("invoiceViewer.jsp");
         }
         
     }  

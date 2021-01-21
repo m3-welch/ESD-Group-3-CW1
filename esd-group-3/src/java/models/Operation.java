@@ -211,7 +211,7 @@ public class Operation {
         }
     }
     
-    public ArrayList retrieveAllOperationsWhere(DBConnection dbcon, int filter, boolean unpaid, LocalDate startDate, LocalDate endDate, int clientid) {
+    public ArrayList retrieveAllOperationsWhere(DBConnection dbcon, int filter, boolean unpaid, LocalDate startDate, LocalDate endDate, int clientid, int empid) {
         ArrayList<Operation> operationsArray = new ArrayList<Operation>();
         String query = "SELECT * FROM Operations WHERE date BETWEEN '" + startDate.toString() + "' AND '" + endDate.toString() + "'";
         
@@ -233,9 +233,10 @@ public class Operation {
                 tempOp.setIsPaid(resultSet.getBoolean("is_paid"));
                 tempOp.setIsSurgery(resultSet.getBoolean("is_surgery"));
                 tempOp.setIsNhs(isNhsPatient(dbcon, tempOp.clientid));
+                tempOp.setDescription(resultSet.getString("description"));
                 
                 // clientid = 0 means all clientids, else must match
-                if (clientid == 0 || clientid == tempOp.clientid) {
+                if ((clientid == 0 && empid == 0) || clientid == tempOp.clientid || empid == tempOp.employeeid) {
                     // all patient types
                     if (filter == 0) {
                         // unpaid only filter && op is not paid
@@ -266,7 +267,6 @@ public class Operation {
                         }
                     }
                 }
-                
             }
         }
         catch (SQLException e) {

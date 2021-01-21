@@ -6,8 +6,6 @@
 
 <%@page import="models.Operation"%>
 <%@page import="java.util.ArrayList"%>
-<%@page import="java.text.NumberFormat"%>
-<%@page import="java.util.Locale"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -48,6 +46,7 @@
                     <h2 style="text-align:center;margin-top: 10px;">View appointment details</h2>
                     <div class="container">
                         <form action="/esd-group-3/InvoiceViewerServlet" method="GET">
+                            <label for='myAppointments'>View my appointments only:</label><input type='checkbox' id='myAppointments' name='myAppointments' />
                             <label for="start">Start date:</label>
                             <input type="date" id="start" name="start"
                                     value="${todaydate}"
@@ -84,33 +83,12 @@
                                 <th>Type of Appointment</th>
                                 <th>Charge</th>
                                 <th>Has Patient Paid</th>
+                                <th>Is Patient NHS</th>
                             </tr>
-                            <%
-                            NumberFormat formatter = NumberFormat.getCurrencyInstance(Locale.UK);
-                            try {
-                                int j = 0;
-                                ArrayList<Operation> operationsArray = (ArrayList<Operation>)request.getAttribute("data");
-                                for(Operation i:operationsArray){%> 
-                                    <tr> 
-                                        <td><%=i.getOperationId()%></td> 
-                                        <td><%=i.getDate()%></td> 
-                                        <td>${names[j][1]}</td>
-                                        <td>${names[j][2]}</td> 
-                                        <td><%=i.getStartTime()%></td> 
-                                        <td><%=i.getEndTime()%></td> 
-                                        <td><%=i.getDescription()%></td> 
-                                        <td><%=(i.getIsSurgery() ? "Surgery" : "Consultation")%></td> 
-                                        <td><%=(formatter.format(i.getCharge()))%></td> 
-                                        <td><%=i.getIsPaid()%></td>
-                                    </tr>
-                                <%  j++;
-                                }
-                            }
-                            catch(NullPointerException e){
-                            // send error
-                            request.setAttribute("message", "Error - SQL Exception"); // Will be available as ${message}
-                            } %> 
                         </table>
+                        <div class="events-list">
+                            ${tableData}
+                        </div>
                     </div>
                 </div>
             </div>

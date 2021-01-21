@@ -60,49 +60,24 @@
               </div>
             </div>
             <div>
-                <table border ="1" width="500" align="center"> 
-                   <tr bgcolor="6c9ee0"> 
-                        <th><b>Operation ID</b></th> 
-                        <th><b>Patient Name</b></th> 
-                        <th><b>Employee Name</b></th> 
-                        <th><b>Date</b></th> 
-                        <th><b>Start Time</b></th> 
-                        <th><b>End Time</b></th> 
-                        <td><b>Description</b</td> 
-                        <td><b>Type</b</td> 
-                        <td><b>Charge</b</td>  
-                        <th><b>Invoice Paid</b></th> 
-                        <th><b>NHS Patient</b></th> 
-                   </tr> 
-                    <%-- Fetching the attributes of the request object 
-                       which was previously set by the servlet --%>  
-                    <%
-                    NumberFormat formatter = NumberFormat.getCurrencyInstance(Locale.UK);
-                    try {
-                        ArrayList<Operation> operationsArray = (ArrayList<Operation>)request.getAttribute("data"); 
-                        for(Operation i:operationsArray){%> 
-                    <%-- Arranging data in tabular form --%> 
-                        <tr> 
-                            <td><%=i.getOperationId()%></td> 
-                            <td>${names[j][1]}</td>
-                            <td>${names[j][2]}</td> 
-                            <td><%=i.getDate()%></td> 
-                            <td><%=i.getStartTime()%></td> 
-                            <td><%=i.getEndTime()%></td> 
-                            <td><%=i.getDescription()%></td> 
-                            <td><%=(i.getIsSurgery() ? "Surgery" : "Consultation")%></td> 
-                            <td><%=(formatter.format(i.getCharge()))%></td>  
-                            <td><%=i.getIsPaid()%></td> 
-                            <td><%=i.getIsNhs()%></td>
-                        </tr> 
-                      <%}
-                    }
-                    catch(NullPointerException e){
-                    // send error
-                    request.setAttribute("message", "Error - SQL Exception"); // Will be available as ${message}
-                    }
-                    %> 
-                  </table>  
+                <table class='events-table-header'>
+                    <tr>
+                        <th>Appointment ID</th>
+                        <th>Date</th>
+                        <th>Patient name</th>
+                        <th>Employee Name</th>
+                        <th>Start Time</th>
+                        <th>End Time</th>
+                        <th>Description</th>
+                        <th>Type of Appointment</th>
+                        <th>Charge</th>
+                        <th>Has Patient Paid</th>
+                        <th>Is Patient NHS</th>
+                    </tr>
+                </table>
+                <div class="events-list">
+                    ${tableData}
+                </div>  </table>  
             </div>
             <div class="container">
               <h2 style="text-align:center;margin-top: 10px;">Pay Invoices</h2>
