@@ -211,79 +211,15 @@ public class Operation {
         }
     }
     
-    public ArrayList retrieveAllClientOperations(DBConnection dbcon, int client_userid, boolean unpaid_only) {
+    public ArrayList retrieveAllOperationsWhere(DBConnection dbcon, int filter, boolean unpaid, LocalDate startDate, LocalDate endDate, int clientid, int empid) {
         ArrayList<Operation> operationsArray = new ArrayList<Operation>();
-        String query;
-        
-        // get clientID
-        query = "SELECT id FROM Clients WHERE userid = " + client_userid;
-        int clientid = 0;
-        try {
-            Statement stmt = dbcon.conn.createStatement();
-            ResultSet resultSet = stmt.executeQuery(query);
-            while (resultSet.next()) {
-                clientid = resultSet.getInt("id");
-            }
-        } 
-        catch (SQLException e) {
-            System.out.println(e);
-        }
-        
-        // sql query depending on all results or unpaid results
-        if(unpaid_only) {
-            query = "SELECT * FROM Operations WHERE clientid = " + clientid + " AND is_paid = FALSE";
-        }
-        else {
-            query = "SELECT * FROM Operations WHERE clientid = " + clientid;
-        }
+        String query = "SELECT * FROM Operations WHERE date BETWEEN '" + startDate.toString() + "' AND '" + endDate.toString() + "'";
         
         try (Statement stmt = dbcon.conn.createStatement()) {
             ResultSet resultSet = stmt.executeQuery(query);
-            while (resultSet.next()) {
-                Operation tempOp = new Operation();
-
-                tempOp.setOperationId(Integer.parseInt(resultSet.getString("id")));
-                tempOp.setEmployeeId(Integer.parseInt(resultSet.getString("employeeid")));
-                tempOp.setClientId(Integer.parseInt(resultSet.getString("clientid")));
-                tempOp.setDate(LocalDate.parse(resultSet.getString("date")));
-                tempOp.setStartTime(LocalTime.parse(resultSet.getString("starttime")));
-                tempOp.setEndTime(LocalTime.parse(resultSet.getString("endtime")));
-                tempOp.setCharge(Float.parseFloat(resultSet.getString("charge")));
-                tempOp.setIsPaid(resultSet.getBoolean("is_paid"));
-                tempOp.setIsSurgery(resultSet.getBoolean("is_surgery"));
-                tempOp.setIsNhs(isNhsPatient(dbcon, tempOp.clientid));
-                
-                // if patient is on nhs, they don't need to pay
-                if (is_nhs && unpaid_only) {}
-                else {
-                    operationsArray.add(tempOp);
-                }
+            if(!resultSet.next()) {
+                return operationsArray;
             }
-        }
-        catch (SQLException e) {
-            System.out.println(e);
-        }
-        
-        return operationsArray;
-    }
-    
-    public ArrayList retrieveAllOperationsWhere(DBConnection dbcon, boolean all, boolean is_nhs, String start_date, String end_date) {
-        ArrayList<Operation> operationsArray = new ArrayList<Operation>();
-        String query;
-        if (start_date != null && end_date != null) {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-            LocalDate startdate = LocalDate.parse(start_date, formatter);
-            LocalDate enddate = LocalDate.parse(end_date, formatter);
-            
-            query = "SELECT * FROM Operations WHERE date BETWEEN '" + startdate + "' AND '" + enddate + "'";
-        }
-        else {
-            query = "SELECT * FROM Operations";
-        }
-        
-            
-        try (Statement stmt = dbcon.conn.createStatement()) {
-            ResultSet resultSet = stmt.executeQuery(query);
             while (resultSet.next()) {
                 Operation tempOp = new Operation();
 
@@ -297,15 +233,39 @@ public class Operation {
                 tempOp.setIsPaid(resultSet.getBoolean("is_paid"));
                 tempOp.setIsSurgery(resultSet.getBoolean("is_surgery"));
                 tempOp.setIsNhs(isNhsPatient(dbcon, tempOp.clientid));
-
-                if (all) {
-                    operationsArray.add(tempOp);
-                }
-                else if (is_nhs && tempOp.is_nhs) {
-                    operationsArray.add(tempOp);
-                }
-                else if (!is_nhs && !tempOp.is_nhs) {
-                    operationsArray.add(tempOp);
+                tempOp.setDescription(resultSet.getString("description"));
+                
+                // clientid = 0 means all clientids, else must match
+                if ((clientid == 0 && empid == 0) || clientid == tempOp.clientid || empid == tempOp.employeeid) {
+                    // all patient types
+                    if (filter == 0) {
+                        // unpaid only filter && op is not paid
+                        if (unpaid && !tempOp.is_paid) {
+                            operationsArray.add(tempOp);
+                        }
+                        // not unpaid only
+                        else if (!unpaid) {
+                            operationsArray.add(tempOp);
+                        }
+                    }
+                    // nhs patients only
+                    else if (filter == 1 && tempOp.is_nhs) {
+                        if (unpaid && !tempOp.is_paid) {
+                            operationsArray.add(tempOp);
+                        }  
+                        else if (!unpaid) {
+                            operationsArray.add(tempOp);
+                        }
+                    }
+                    // private patients only
+                    else if (filter == 2 && !tempOp.is_nhs) {
+                        if (unpaid && !tempOp.is_paid) {
+                            operationsArray.add(tempOp);
+                        }  
+                        else if (!unpaid) {
+                            operationsArray.add(tempOp);
+                        }
+                    }
                 }
             }
         }
@@ -476,6 +436,24 @@ public class Operation {
     
     public void payByOperationId(DBConnection dbcon, int opId) {
         String query = "UPDATE Operations SET is_paid = TRUE WHERE id = " + opId;
+        try (Statement stmt = dbcon.conn.createStatement()) {
+            stmt.execute(query);
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+    }
+    
+    public void updateThisOperation(DBConnection dbcon) {
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss");
+        String paid;
+        if (this.is_paid) {
+            paid = "TRUE";
+        }
+        else { paid = "FALSE"; }
+        
+        String query = "UPDATE Operations "
+                + "SET starttime = '" + this.starttime.format(dtf) + "', endtime = '" + this.endtime.format(dtf) + "', charge = " + this.charge + ", is_paid = " + paid + ", description = '" + this.description + "' "
+                + "WHERE id = " + this.operationid;
         try (Statement stmt = dbcon.conn.createStatement()) {
             stmt.execute(query);
         } catch (SQLException e) {

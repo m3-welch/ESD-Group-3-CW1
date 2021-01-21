@@ -100,11 +100,6 @@
         <servlet-class>com.NewReferralServlet</servlet-class>
     </servlet>
     <servlet>
-        <display-name>ClientInvoiceViewerServlet</display-name>
-        <servlet-name>ClientInvoiceViewerServlet</servlet-name>
-        <servlet-class>com.ClientInvoiceViewerServlet</servlet-class>
-    </servlet>
-    <servlet>
         <display-name>PayInvoiceServlet</display-name>
         <servlet-name>PayInvoiceServlet</servlet-name>
         <servlet-class>com.PayInvoiceServlet</servlet-class>
@@ -120,9 +115,8 @@
         <servlet-class>com.ViewReferralsServlet</servlet-class>
     </servlet>
     <servlet>
-        <display-name>DisplayEventsServlet</display-name>
-        <servlet-name>DisplayEventsServlet</servlet-name>
-        <servlet-class>com.DisplayEventsServlet</servlet-class>
+        <servlet-name>UpdateInvoiceServlet</servlet-name>
+        <servlet-class>com.UpdateInvoiceServlet</servlet-class>
     </servlet>
     <servlet>
         <display-name>ApproveNewUsersServlet</display-name>
@@ -174,10 +168,6 @@
         <url-pattern>/NewAppointmentServlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>DisplayEventsServlet</servlet-name>
-        <url-pattern>/DisplayEventsServlet</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
         <servlet-name>ViewPatientsServlet</servlet-name>
         <url-pattern>/ViewPatientsServlet</url-pattern>
     </servlet-mapping>
@@ -218,10 +208,6 @@
         <url-pattern>/NewEmployeeAppointmentServlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>IssueInvoiceServlet</servlet-name>
-        <url-pattern>/IssueInvoiceServlet</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
         <servlet-name>InvoiceDownloadServlet</servlet-name>
         <url-pattern>/InvoiceDownloadServlet</url-pattern>
     </servlet-mapping>
@@ -242,12 +228,12 @@
         <url-pattern>/CancelAppointmentServlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>ClientInvoiceViewerServlet</servlet-name>
-        <url-pattern>/ClientInvoiceViewerServlet</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
         <servlet-name>PayInvoiceServlet</servlet-name>
         <url-pattern>/PayInvoiceServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdateInvoiceServlet</servlet-name>
+        <url-pattern>/UpdateInvoiceServlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ViewUsersServlet</servlet-name>
