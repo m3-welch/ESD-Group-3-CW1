@@ -6,7 +6,8 @@ CREATE TABLE Users (
     lastname varchar(64),
     email varchar(64),
     address varchar(64),
-    role varchar(64)
+    role varchar(64),
+    dob Date
 );
 
 CREATE TABLE Clients (
@@ -62,4 +63,10 @@ CREATE TABLE Referrals (
 
 CREATE TABLE ApiCredentials (
     googlemapsapisecret varchar(128)
+);
+
+CREATE TABLE PendingPrescriptionExtensions (
+    id int NOT NULL PRIMARY KEY GENERATED ALWAYS AS identity (start with 1, increment by 1),
+    prescriptionid int UNIQUE references Prescriptions(id),
+    newEndDate date
 );

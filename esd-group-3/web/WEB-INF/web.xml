@@ -133,6 +133,24 @@
         <servlet-name>CreatePrescriptionServlet</servlet-name>
         <servlet-class>com.CreatePrescriptionServlet</servlet-class>
     </servlet>
+    <servlet>
+        <display-name>ViewPrescriptionsServlet</display-name>
+        <servlet-name>ViewPrescriptionsServlet</servlet-name>
+        <servlet-class>com.ViewPrescriptionsServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <display-name>RespondToPendingPrescriptionExtensionsServlet</display-name>
+        <servlet-name>RespondToPendingPrescriptionExtensionsServlet</servlet-name>
+        <servlet-class>com.RespondToPendingPrescriptionExtensionsServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>RespondToPendingPrescriptionExtensionsServlet</servlet-name>
+        <url-pattern>/RespondToPendingPrescriptionExtensionsServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ViewPrescriptionsServlet</servlet-name>
+        <url-pattern>/ViewPrescriptionsServlet</url-pattern>
+    </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ViewReferralsServlet</servlet-name>
         <url-pattern>/ViewReferralsServlet</url-pattern>

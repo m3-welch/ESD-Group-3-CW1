@@ -28,12 +28,11 @@ public class ViewUsersServlet extends HttpServlet{
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession loginSession = request.getSession(false);
         request.setAttribute("dashboard", "/esd-group-3/dashboards/" + loginSession.getAttribute("user_role") + "_home.jsp");
-        //response.setContentType("text/html");
         
         request.getRequestDispatcher("pages/ViewUsers.jsp").include(request, response);
-        
+        loginSession.getAttribute("userID");
         User user = new Client();
-        List<User> users = null;        
+        List<User> users = null;
         
         try {
             DBConnection dbcon = new DBConnection("smartcaretest", "", "");
@@ -56,24 +55,26 @@ public class ViewUsersServlet extends HttpServlet{
                         "<option selected='selected' value='nurse'>nurse</option>" +
                         "<option value='admin'>admin</option>" +
                         "<option value='client'>client</option>";
-            }else if("admin".equals(users.get(i).getRole())) {
+            } else if("admin".equals(users.get(i).getRole())) {
                 selectStatement = "<option value='doctor'>doctor</doctor>" +
                         "<option value='nurse'>nurse</option>" +
                         "<option selected='selected' value='admin'>admin</option>" +
                         "<option value='client'>client</option>";
-            }else if("client".equals(users.get(i).getRole())) {
+            } else if("client".equals(users.get(i).getRole())) {
                 selectStatement = "<option value='doctor'>doctor</doctor>" +
                         "<option value='nurse'>nurse</option>" +
                         "<option value='admin'>admin</option>" +
                         "<option selected='selected' value='client'>client</option>";
             }
-            outputList += "<tr><form action='ViewUsersServlet' method='POST'><td>" + users.get(i).getId() + "</td><td>" +
+            outputList += "<tr><form action='ViewUsersServlet' method='POST'><td><input type='text' value='" + users.get(i).getId() + "' name='Id' readonly></td><td>" +
                     "<input type='text' name='username' value='" + users.get(i).getUsername() + "' readonly/></td><td>" +
                     users.get(i).getFirstname() + " " + users.get(i).getLastname() + "</td><td>" +
                     users.get(i).getEmail() + "</td><td>" +
                     users.get(i).getAddress() + "</td><td>" +
+                    users.get(i).getDob() + "</td><td>" +
                     "<select name='role'>" + selectStatement + "</select></td><td>" +
-                    "<input type='submit' name='save' value='save' class='button'/></td></form></tr>";
+                    "<input type='submit' name='save' value='save' class='button'/>" +
+                    "<input type='submit' name='deleteUser' value='delete' class='button'/></td></form></tr>";
         }
         
         outputList += "</table>";
@@ -83,7 +84,6 @@ public class ViewUsersServlet extends HttpServlet{
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
                             throws ServletException, IOException {
-        //response.setContentType("text/html");
         HttpSession loginSession = request.getSession(false);
         request.setAttribute("dashboard", "/esd-group-3/dashboards/" + loginSession.getAttribute("user_role") + "_home.jsp");
         
@@ -94,14 +94,38 @@ public class ViewUsersServlet extends HttpServlet{
         String uname = "";
         String role = "";
         String dbRole = "";
-        
+        String delete = "";
         
         //request.getRequestDispatcher("admin_home.jsp").include(request, response);
         
         try{
+            delete = request.getParameter("deleteUser");            
+        }
+        catch(Exception e){
+            System.out.println(e);
+        }
+        
+        if ("delete".equals(delete)) {
+            try {
+                DBConnection dbcon = new DBConnection("smartcaretest", "", "");
+                User deleteUser = new User();
+                User deleteSelfChecker = new User();
+                
+                deleteUser.retrieveByUserId(dbcon, Integer.parseInt(request.getParameter("Id")));
+                deleteSelfChecker.retrieveByUserId(dbcon, (Integer)loginSession.getAttribute("userID"));
+                if(!deleteSelfChecker.getUsername().equals(deleteUser.getUsername())){
+                    deleteUser.dropUserById(dbcon, deleteUser.getId());
+                }
+                
+            } catch (SQLException ex) {
+                Logger.getLogger(ViewPatientsServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        
+        try{
             save = request.getParameter("save");
             uname = request.getParameter("username");
-            role = request.getParameter("role");     
+            role = request.getParameter("role");
         }
         catch(Exception e){
             System.out.println(e);
@@ -125,7 +149,7 @@ public class ViewUsersServlet extends HttpServlet{
                         dbUser.dropUser(dbcon, dbUser.getUsername());
                         //add updateUser to client
                         Employee updateEmployee = new Employee();
-                        updateEmployee.create(dbcon, updateUser.getUsername(), updateUser.getPassword(), updateUser.getFirstname(), updateUser.getLastname(), updateUser.getEmail(), updateUser.getAddress(), updateUser.getRole(), "");
+                        updateEmployee.create(dbcon, updateUser.getUsername(), updateUser.getPassword(), updateUser.getFirstname(), updateUser.getLastname(), updateUser.getEmail(), updateUser.getAddress(), updateUser.getRole(), "", updateUser.getDob());
                     }
                         
                 } else if("client".equals(role)){
@@ -134,7 +158,7 @@ public class ViewUsersServlet extends HttpServlet{
                         dbUser.dropUser(dbcon, dbUser.getUsername());
                         //add updateUser to employee db
                         Client updateClient = new Client();
-                        updateClient.create(dbcon, updateUser.getUsername(), updateUser.getPassword(), updateUser.getFirstname(), updateUser.getLastname(), updateUser.getEmail(), updateUser.getAddress(), updateUser.getRole(), "");
+                        updateClient.create(dbcon, updateUser.getUsername(), updateUser.getPassword(), updateUser.getFirstname(), updateUser.getLastname(), updateUser.getEmail(), updateUser.getAddress(), updateUser.getRole(), "", updateUser.getDob());
                     } 
                 }
                 
@@ -185,13 +209,15 @@ public class ViewUsersServlet extends HttpServlet{
                 default:
                     break;
             }
-            outputList += "<tr><form action='ViewUsersServlet' method='POST'><td>" + users.get(i).getId() + "</td><td>" +
+            outputList += "<tr><form action='ViewUsersServlet' method='POST'><td><input type='text' value='" + users.get(i).getId() + "' name='Id' readonly></td><td>" +
                     "<input type='text' name='username' value='" + users.get(i).getUsername() + "' readonly/></td><td>" +
                     users.get(i).getFirstname() + " " + users.get(i).getLastname() + "</td><td>" +
                     users.get(i).getEmail() + "</td><td>" +
                     users.get(i).getAddress() + "</td><td>" +
+                    users.get(i).getDob() + "</td><td>" +
                     "<select name='role'>" + selectStatement + "</select></td><td>" +
-                    "<input type='submit' name='save' value='save' class='button'/></td></form></tr>";
+                    "<input type='submit' name='save' value='save' class='button'/>" +
+                    "<input type='submit' name='deleteUser' value='delete' class='button'/></td></form></tr>";
         }
         
         outputList += "</table>";

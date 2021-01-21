@@ -48,6 +48,8 @@
         </form>
         <form action="/esd-group-3/CreatePrescriptionServlet" method="GET">
             <input type="submit" value="Create Prescription" class="link-button"/>
+        <form action="/esd-group-3/RespondToPendingPrescriptionExtensionsServlet" method="GET">
+            <input type="submit" value="Respond to Pending Prescription Extensions" class="link-button"/>
         </form>
     </div>
     </body>

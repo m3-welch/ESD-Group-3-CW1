@@ -44,6 +44,7 @@
                     <h2 style="text-align:center;margin-top: 10px;">View appointment details</h2>
                     <div class="container">
                         <form action="/esd-group-3/DisplayEventsServlet" method="POST">
+                            ${ma}
                             <label for="start">Start date:</label>
                             <input type="date" id="start" name="start"
                                     value="${todaydate}"
@@ -57,6 +58,16 @@
                                     max="${maxdate}"
                                     >
                             <input type="submit" value="Update" class="button">
+                        </form>
+                        <form action="/esd-group-3/DisplayEventsServlet" method="POST">
+                            <input type="hidden" id="start" name="start" value="${todaydate}">
+                            <input type="hidden" id="end" name="end" value="${todaydate}">
+                            <input type="submit" value="View today's schedule" class="button">
+			</form>
+			<form>
+                            <input type="hidden" id="start" name="start" value="${todaydate}">
+                            <input type="hidden" id="end" name="end" value="${maxdate}">
+                            <input type="submit" value="View upcoming appointments" class="button">
                         </form>
                         <table class='events-table-header'>
                             <tr>

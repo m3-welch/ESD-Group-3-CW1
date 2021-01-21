@@ -9,6 +9,7 @@ import dbcon.DBConnection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -47,12 +48,13 @@ public class Employee extends User {
         String email,
         String address,
         String role,
-        String isFullTime
+        String isFullTime,
+        LocalDate dob
     ) {
         String query = "INSERT INTO Users (username, password, firstname, lastname,"
-            + "email, address, role) VALUES ('" + username + "', '" 
+            + "email, address, role, dob) VALUES ('" + username + "', '" 
             + password + "', '" + firstname + "', '" + lastname + "', '" + email 
-            + "', '" + address + "', '" + role + "')";
+            + "', '" + address + "', '" + role + "', '" + dob + "')";
         
         try (Statement stmt = dbcon.conn.createStatement()) {
             stmt.execute(query);
@@ -103,6 +105,7 @@ public class Employee extends User {
         this.setAddress(address);
         this.setRole(role);
         this.setEmployeeId(employeeid);
+        this.setDob(dob);
     }
     
     public Employee retrieveEmployeeByUserId(DBConnection dbcon, int id) {
@@ -134,6 +137,7 @@ public class Employee extends User {
         employee.setEmail(user.getEmail());
         employee.setAddress(user.getAddress());
         employee.setRole(user.getRole());
+        employee.setDob(user.getDob());
         
         return employee;
     }
@@ -167,6 +171,7 @@ public class Employee extends User {
         employee.setEmail(user.getEmail());
         employee.setAddress(user.getAddress());
         employee.setRole(user.getRole());
+        employee.setDob(user.getDob());
         
         return employee;
     }
