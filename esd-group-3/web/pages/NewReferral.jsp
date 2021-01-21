@@ -14,17 +14,6 @@
     </head>
     <body>
         <div class="top-banner">
-                <div class="logout">        
-                    <form action="/esd-group-3/LogoutServlet" method="GET">
-                        <input type="submit" value="Logout" class="button logout"> 
-                    </form>
-                </div>
-
-                <div class="center">
-                    <a href="${dashboard}"><h2>SmartCare</h2></a>
-                </div>
-            </div>   
-
             <div class="logout">        
                 <form action="/esd-group-3/LogoutServlet" method="GET">
                     <input type="submit" value="Logout" class="button logout"> 
