@@ -135,6 +135,7 @@
                                         // send error
                                         request.setAttribute("message", "Error - SQL Exception"); // Will be available as ${message}
                                     }   %>
+                                </select>
                                 <label for="starttime"><b>Start Time (09:00 - 17:00)</b></label>
                                 <input type="time" min="09:00" max="17:00" value="" name="starttime"/>
                                 <label for="endtime"><b>End Time (09:00 - 17:00)</b></label>
