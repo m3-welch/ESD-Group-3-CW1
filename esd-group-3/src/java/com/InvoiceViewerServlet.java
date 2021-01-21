@@ -154,11 +154,13 @@ public class InvoiceViewerServlet extends HttpServlet {
             // send data to correct page
             // dr/nurse - to ViewAppointments.jsp
             if (role == 1 || role == 2) {
+                request.setAttribute("data", operationsArray); 
                 request.getRequestDispatcher("pages/ViewAppointments.jsp").forward(request,response);
                 response.sendRedirect("pages/ViewAppointments.jsp");
             }
             // client - to PayInvoices.jsp
             else if (role == 3) {
+                request.setAttribute("data", operationsArray); 
                 request.getRequestDispatcher("pages/PayInvoices.jsp").forward(request,response);
                 response.sendRedirect("pages/PayInvoices.jsp");
             }
