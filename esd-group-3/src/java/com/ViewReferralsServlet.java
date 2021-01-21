@@ -52,10 +52,10 @@ public class ViewReferralsServlet extends HttpServlet {
             List<Referrals> refs = ref.getAllFor(dbcon, id_type, id);
             
             String referrallist = "<table class='patients-table'>";
-        
+                        
             for (int i = 0; i < refs.size(); i++) {
-                referrallist += "<tr><td>" + new Client().retrieveClientByClientId(dbcon, refs.get(i).getClientId()).getFirstname() + " "
-                        + new Client().retrieveClientByClientId(dbcon, refs.get(i).getClientId()).getLastname() + "</td><td>" 
+                referrallist += "<tr><td>" + new Client().retrieveClientByUserId(dbcon, refs.get(i).getClientId()).getFirstname() + " "
+                        + new Client().retrieveClientByUserId(dbcon, refs.get(i).getClientId()).getLastname() + "</td><td>" 
                         + new Employee().retrieveEmployeeByEmployeeId(dbcon, refs.get(i).getEmployeeId()).getFirstname() + " "
                         + new Employee().retrieveEmployeeByEmployeeId(dbcon, refs.get(i).getEmployeeId()).getLastname()
                         + "</td><td>" + refs.get(i).getName() + "</td><td>" + refs.get(i).getAddress() + "</td></tr>";
