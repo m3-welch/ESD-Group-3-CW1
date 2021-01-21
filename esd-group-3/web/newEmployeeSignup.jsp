@@ -32,16 +32,16 @@
                   <input type="text" placeholder="Enter email address" name="email" required>
                   <label for="address"><b>Address</b></label>
                   <input type="text" placeholder="Enter address" name="address" required>
-                  <label for="type"><b>Type</b></label>
+                  <label for="type"><b>Job Pattern</b></label>
                   <select name="type">
                       <option value="fulltime">Full time</option>
                       <option value="parttime">Part time</option>
                   </select>
-                  <label for="type"><b>Role</b></label>
+                  <label for="role"><b>Role</b></label>
                   <select name="role">
-                      <option value="fulltime">doctor</option>
-                      <option value="parttime">nurse</option>
-                      <option value="parttime">admin</option>
+                      <option value="doctor">doctor</option>
+                      <option value="nurse">nurse</option>
+                      <option value="admin">admin</option>
                   </select>
                   <label for="dob"><b>Date of Birth</b></label>
                   <input type="date" name="dob" required>

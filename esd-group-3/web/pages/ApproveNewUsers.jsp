@@ -52,7 +52,6 @@
                                 <th>Address</th>
                                 <th>Date of Birth</th>
                                 <th>Is NHS?</th>
-                                <th>Action</th>
                             </tr>
                         </table>
                         <div class="list">
@@ -74,13 +73,31 @@
                                 <th>Address</th>
                                 <th>Role</th>
                                 <th>Date of Birth</th>
-                                <th>Fulltime</th>
-                                <th>Action</th>
+                                <th>Work pattern</th>
                             </tr>
                         </table>
                         <div class="list">
                             ${employeeList}
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="left">
+            <div class="card users-card">
+                <div class="container">
+                    <h2 style="text-align:center;margin-top: 10px;">Respond to Approval Request</h2>
+                    <div class="container">
+                        <form action="RespondToPendingUsersServlet" method="POST">
+                            <label for="approvalid"><b>Approval ID</b></label>
+                            <input type="number" name="approvalid" required/>
+                            <label for="response"><b>Response</b></label>
+                            <select name="response">
+                                <option value="approve">Approve</option>
+                                <option value="deny">Deny</option>
+                            </select>
+                            <input type="submit" value="Submit Response" class="button">
+                        </form>
                     </div>
                 </div>
             </div>

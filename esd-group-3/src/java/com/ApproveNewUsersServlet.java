@@ -72,14 +72,15 @@ public class ApproveNewUsersServlet extends HttpServlet {
         String employeeList = "<table class='patients-table'>";
         
         for (int i = 0; i < employees.size(); i++) {
-            employeeList += "<tr><td>" + employees.get(i).getId() + 
-                    "</td><td>" + employees.get(i).getFirstname() + " " + 
+            employeeList += "<tr><td>" + employees.get(i).getId() + "</td><td>" +
+                    employees.get(i).getUsername() + "</td><td>" +
+                    employees.get(i).getFirstname() + " " + 
                     employees.get(i).getLastname() + "</td><td>" + 
-                    employees.get(i).getRole() + "</td><td>" + 
                     employees.get(i).getEmail() + "</td><td>" + 
                     employees.get(i).getAddress() + "</td><td>" +
                     employees.get(i).getRole() + "</td><td>" +
-                    employees.get(i).getDob() +"</td></tr>";
+                    employees.get(i).getDob() + "</td><td>" +
+                    employees.get(i).isFullTimeToString() + "</td></tr>";
         }
         
         employeeList += "</table>";

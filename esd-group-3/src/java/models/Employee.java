@@ -38,6 +38,13 @@ public class Employee extends User {
     public Boolean isFullTime() {
         return this.isFullTime;
     }
+    
+    public String isFullTimeToString() {
+        if (this.isFullTime) {
+            return "Full time";
+        }
+        else { return "Part time"; }
+    }
 
     public Employee() {
     }
@@ -300,6 +307,7 @@ public class Employee extends User {
     {
         this.setId(id);
         this.setUsername(username);
+        this.setFirstname(firstname);
         this.setLastname(lastname);
         this.setEmail(email);
         this.setAddress(address);

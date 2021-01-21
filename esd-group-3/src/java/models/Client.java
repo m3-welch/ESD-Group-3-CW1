@@ -450,6 +450,7 @@ public class Client extends User {
     {
         this.setId(id);
         this.setUsername(username);
+        this.setFirstname(firstname);
         this.setLastname(lastname);
         this.setEmail(email);
         this.setAddress(address);
