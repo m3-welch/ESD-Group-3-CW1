@@ -40,6 +40,15 @@ public class Client extends User {
         return this.is_nhs;
     }
     
+    public String getClientType() {
+        if (this.is_nhs) {
+            return "NHS";
+        }
+        else {
+            return "private";
+        }
+    }
+    
     public void create(
         DBConnection dbcon,
         String username,
@@ -49,12 +58,13 @@ public class Client extends User {
         String email,
         String address,
         String role,
-        String type
+        String type,
+        LocalDate dob
     ) {
         String query = "INSERT INTO Users (username, password, firstname, lastname,"
-            + "email, address, role) VALUES ('" + username + "', '" 
+            + "email, address, role, dob) VALUES ('" + username + "', '" 
             + password + "', '" + firstname + "', '" + lastname + "', '" + email 
-            + "', '" + address + "', '" + role + "')";
+            + "', '" + address + "', '" + role + "', '" + dob + "')";
         
         try (Statement stmt = dbcon.conn.createStatement()) {
             stmt.execute(query);
@@ -113,6 +123,7 @@ public class Client extends User {
         this.setRole(role);
         this.setClientId(clientid);
         this.setIsNhs(isNHS);
+        this.setDob(dob);
     }
     
     public Client retrieveClientByUserId(DBConnection dbcon, int id) {
@@ -140,6 +151,7 @@ public class Client extends User {
         this.setEmail(user.getEmail());
         this.setAddress(user.getAddress());
         this.setRole(user.getRole());
+        this.setDob(user.getDob());
         
         return this;
     }
@@ -169,6 +181,7 @@ public class Client extends User {
         this.setEmail(user.getEmail());
         this.setAddress(user.getAddress());
         this.setRole(user.getRole());
+        this.setDob(user.getDob());
         
         return this;
     } 

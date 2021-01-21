@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse; 
 import javax.servlet.http.HttpSession;
 import dbcon.DBConnection;
-import java.awt.Label;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -29,9 +28,9 @@ import models.User;
 public class LoginServlet extends HttpServlet {  
     protected void doPost(HttpServletRequest request, HttpServletResponse response)  
                            throws ServletException, IOException {  
-        response.setContentType("text/html");   
+        response.setContentType("text/html");
           
-        request.getRequestDispatcher("login.jsp").include(request, response);  
+        request.getRequestDispatcher("login.jsp").include(request, response);
           
         // declare vars
         String user_in = request.getParameter("uname");  

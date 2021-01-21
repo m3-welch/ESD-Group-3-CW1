@@ -43,7 +43,7 @@
                       <option value="consultation">Consultation</option>
                   </select>
                   <label for="date"><b>Date (Mon - Fri)</b></label>
-                  <input type="date" value="${todaydate}" max="${maxdate}" name="date" required/>
+                  <input type="date" value="${todaydate}" min="${todaydate}" max="${maxdate}" name="date" required/>
                   <label for="starttime"><b>Start Time (09:00 - 17:00)</b></label>
                   <input type="time" min="09:00" max="17:00" value="${nowtime}" name="starttime" required/>
                   <label for="endtime"><b>End Time (09:00 - 17:00)</b></label>

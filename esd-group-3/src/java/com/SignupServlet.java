@@ -9,6 +9,7 @@ import api.GoogleMaps;
 import dbcon.DBConnection;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -39,20 +40,26 @@ public class SignupServlet extends HttpServlet {
         String email = request.getParameter("email");
         String address = request.getParameter("address");
         String type = request.getParameter("type");
+        LocalDate dob = LocalDate.parse(request.getParameter("dob"));
         Client client = new Client();
+        
         
         GoogleMaps maps = new GoogleMaps();
         
-        address = maps.lookupAddress(address);
+        String formatted_address = maps.lookupAddress(address);
+        
+        if (formatted_address != null) {
+            address = formatted_address;
+        }
         
         try {
             DBConnection dbcon = new DBConnection("smartcaretest", "", "");
-            client.create(dbcon, username, password, firstname, lastname, email, address, "client", type);
+            client.create(dbcon, username, password, firstname, lastname, email, address, "client", type, dob);
         } catch (SQLException ex) {
             Logger.getLogger(SignupServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        if (client.getUsername().equals(username) && client.getIsNhs().equals(type)) {
+        if (client.getUsername().equals(username) && client.getClientType().equals(type)) {
             request.setAttribute("message", "Successful Signup - Login to continue");
             request.getRequestDispatcher("login.jsp").forward(request, response);
             response.sendRedirect("login.jsp");

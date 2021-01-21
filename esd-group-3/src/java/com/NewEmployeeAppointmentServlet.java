@@ -9,7 +9,9 @@ import dbcon.DBConnection;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.Month;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.logging.Level;
@@ -129,11 +131,22 @@ public class NewEmployeeAppointmentServlet extends HttpServlet {
         
         Employee employee = new Employee();
         
-        try {
-            dbcon = new DBConnection("smartcaretest", "", "");
-            operation.create(dbcon, Integer.parseInt(employee_userid), Integer.parseInt(client_userid), date, starttime, endtime, (float)0.00, false, isSurgery, reason);
-        } catch (SQLException ex) {
-            Logger.getLogger(NewEmployeeAppointmentServlet.class.getName()).log(Level.SEVERE, null, ex);
+        LocalDateTime opTime = LocalDateTime.of(date, starttime);
+        
+        Boolean dontBook = false;
+        if (opTime.isBefore(LocalDateTime.now())) {
+            dontBook = true;
+            request.setAttribute("message", "Cannot book an appointment with a start time earlier than now.");
+            request.getRequestDispatcher("pages/NewEmployeeAppointment.jsp").forward(request,response);
+        }
+        
+        if (!dontBook) {
+            try {
+                dbcon = new DBConnection("smartcaretest", "", "");
+                operation.create(dbcon, Integer.parseInt(employee_userid), Integer.parseInt(client_userid), date, starttime, endtime, (float)0.00, false, isSurgery, reason);
+            } catch (SQLException ex) {
+                Logger.getLogger(NewEmployeeAppointmentServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         
         

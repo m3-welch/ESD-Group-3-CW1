@@ -44,9 +44,10 @@
                     <h2 style="text-align:center;margin-top: 10px;">Add a referral to a patient</h2>
                     <div class="container">
                         <form action="/esd-group-3/NewReferralServlet" method="POST">
-                            <label for="clientid"><b>Client ID</b></label>
-                            <input type="number" name="clientid" required>
-                            <br>
+                            <label for="clientoptions"><b>Patient</b></label>
+                            <select name="clientoptions">
+                                ${clientoptions}
+                            </select>
                             <label for="name"><b>Hospital/Ward/Surgery Name</b></label>
                             <input type="text" placeholder="Enter name of referral location" name="name" required>
                             <label for="address"><b>Address</b></label>
