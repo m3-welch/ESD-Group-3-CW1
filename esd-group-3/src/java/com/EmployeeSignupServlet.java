@@ -5,12 +5,11 @@
  */
 package com;
 
+import api.GoogleMaps;
 import dbcon.DBConnection;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -22,25 +21,14 @@ import models.Employee;
  *
  * @author morgan
  */
-public class NewEmployeeServlet extends HttpServlet {
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        HttpSession loginSession = request.getSession(false);
-        request.setAttribute("dashboard", "/esd-group-3/dashboards/" + loginSession.getAttribute("user_role") + "_home.jsp");
-        
-        response.setContentType("text/html");
-        
-        request.getRequestDispatcher((String)loginSession.getAttribute("dashboard")).include(request, response);
-        
-        request.getRequestDispatcher("pages/NewEmployee.jsp").forward(request,response);
-    }
-    
+public class EmployeeSignupServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
                             throws ServletException, IOException {
         HttpSession loginSession = request.getSession(false);
         request.setAttribute("dashboard", "/esd-group-3/dashboards/" + loginSession.getAttribute("user_role") + "_home.jsp");
         response.setContentType("text/html");
         
-        request.getRequestDispatcher("pages/NewEmployee.jsp").include(request, response);
+        request.getRequestDispatcher("newEmployeeSignup.jsp").include(request, response);
         
         //decare vars
         String username = request.getParameter("uname");
@@ -50,25 +38,28 @@ public class NewEmployeeServlet extends HttpServlet {
         String email = request.getParameter("email");
         String address = request.getParameter("address");
         String type = request.getParameter("type");
-        String isFullTime = request.getParameter("isFullTime");
         LocalDate dob = LocalDate.parse(request.getParameter("dob"));
-        
+        String role = request.getParameter("role");
         Employee employee = new Employee();
         
+        GoogleMaps maps = new GoogleMaps();
+        
+        String formatted_address = maps.lookupAddress(address);
+        
+        if (formatted_address != null) {
+            address = formatted_address;
+        }
         
         try {
             DBConnection dbcon = new DBConnection("smartcaretest", "", "");
-            employee.create(dbcon, username, password, firstname, lastname, email, address, type, isFullTime, dob);
+            employee.signup(dbcon, username, password, firstname, lastname, email, address, role, type, dob);
+            request.setAttribute("message", "Successful Signup - Await approval");
+            request.getRequestDispatcher("login.jsp").forward(request, response);
+            response.sendRedirect("login.jsp");
         } catch (SQLException ex) {
-            Logger.getLogger(PatientSignupServlet.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        if (employee.getUsername().equals(username) && employee.getRole().equals(type)) {
-            request.setAttribute("message", "New Employee successfully created!");
-            request.getRequestDispatcher("pages/NewEmployee.jsp").forward(request,response);
-        } else {
-            request.setAttribute("message", "Error! - New Employee not created");
-            request.getRequestDispatcher("pages/NewEmployee.jsp").forward(request,response);
+            request.setAttribute("message", "Error - Failed Signup. Please try again.");
+            request.getRequestDispatcher("login.jsp").forward(request, response);
+            response.sendRedirect("login.jsp");
         }
     }
 }

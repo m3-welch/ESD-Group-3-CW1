@@ -81,7 +81,7 @@ public class NewReferralServlet extends HttpServlet {
             }
             request.setAttribute("clientoptions", clientoptions);
         } catch (SQLException ex) {
-            Logger.getLogger(SignupServlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(PatientSignupServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         if (ref.getClientId() == clientid && ref.getEmployeeId() == employeeid) {
