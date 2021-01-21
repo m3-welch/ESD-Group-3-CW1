@@ -39,6 +39,9 @@
         <form action="/esd-group-3/ViewReferralsServlet" method="GET">
             <input type="submit" value="View Referrals" class="link-button"/>
         </form>
+        <form action="/esd-group-3/InvoiceViewerServlet" method="GET">
+            <input type="submit" value="View and Pay Invoices" class="link-button"/>
+        </form>
     </div>
     </body>
 </html>

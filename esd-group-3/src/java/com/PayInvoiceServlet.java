@@ -27,7 +27,7 @@ public class PayInvoiceServlet extends HttpServlet {
         
         response.setContentType("text/html");   
           
-        request.getRequestDispatcher("dashboards/client_home.jsp").include(request, response);  
+        request.getRequestDispatcher("pages/PayInvoices.jsp").include(request, response);  
         
         int op_id = Integer.parseInt(request.getParameter("Invoice ID"));
         
@@ -38,13 +38,13 @@ public class PayInvoiceServlet extends HttpServlet {
             operationsCaller.payByOperationId(dbcon, op_id);
 
             request.setAttribute("message", "Payment Successful");
-            request.getRequestDispatcher("dashboards/client_home.jsp").forward(request,response);
+            request.getRequestDispatcher("pages/PayInvoices.jsp").forward(request,response);
         }
         catch(SQLException e){
             // send error
             request.setAttribute("message", "Error - SQL Exception"); // Will be available as ${message}
-            request.getRequestDispatcher("dashboards/client_home.jsp").forward(request,response);
-            response.sendRedirect("dashboards/client_home.jsp");
+            request.getRequestDispatcher("pages/PayInvoices.jsp").forward(request,response);
+            response.sendRedirect("pages/PayInvoices.jsp");
         }
     }
 }

@@ -6,7 +6,7 @@
     <context-param>
         <param-name>dbname</param-name>
         <param-value>Users</param-value>
-    </context-param>    
+    </context-param>
     <filter>
         <filter-name>GlobalAuthenticationFilter</filter-name>
         <filter-class>filters.GlobalAuthenticationFilter</filter-class>
@@ -115,9 +115,8 @@
         <servlet-class>com.ViewReferralsServlet</servlet-class>
     </servlet>
     <servlet>
-        <display-name>DisplayEventsServlet</display-name>
-        <servlet-name>DisplayEventsServlet</servlet-name>
-        <servlet-class>com.DisplayEventsServlet</servlet-class>
+        <servlet-name>UpdateInvoiceServlet</servlet-name>
+        <servlet-class>com.UpdateInvoiceServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>ViewReferralsServlet</servlet-name>
@@ -126,10 +125,6 @@
     <servlet-mapping>
         <servlet-name>NewAppointmentServlet</servlet-name>
         <url-pattern>/NewAppointmentServlet</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>DisplayEventsServlet</servlet-name>
-        <url-pattern>/DisplayEventsServlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ViewPatientsServlet</servlet-name>
@@ -194,6 +189,10 @@
     <servlet-mapping>
         <servlet-name>PayInvoiceServlet</servlet-name>
         <url-pattern>/PayInvoiceServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdateInvoiceServlet</servlet-name>
+        <url-pattern>/UpdateInvoiceServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
