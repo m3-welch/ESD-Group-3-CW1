@@ -21,6 +21,9 @@ body {
   height: 43px;
 }
 
+h1{
+  font-family: Avantgarde, TeX Gyre Adventor, URW Gothic L, sans-serif;
+}
 
 h2 {
   margin: 0;
@@ -37,6 +40,22 @@ h2 {
   margin: 55px 0px;
 }
 
+.link-button {
+  background: linear-gradient(4deg, #84CEEB 1%, #8860D0 95%);
+  font-family: Avantgarde, TeX Gyre Adventor, URW Gothic L, sans-serif;
+  font-size: 12pt;
+  color: white;
+  padding: 5px 10px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  width: 400px;
+}
+
+/* Add a hover effect for buttons */
+.link-button:hover {
+  opacity: 0.8;
+}
 
 /* Set a style for all buttons */
 .button {
@@ -272,6 +291,11 @@ th {
     height: 450px;
 }
 
+a {
+  color: White;
+  text-decoration: none; /* no underline */
+}
+
 .patients-table {
     width: 100%;
     text-align: center;
@@ -289,6 +313,14 @@ th {
     width: 100%;
     text-align: center;
     border-bottom: 1px solid black;
+    border-bottom-width: 75%;
+    margin-bottom: 5px;
+}
+
+.prices-table-header {
+    width: 100%;
+    text-align: center;
+    border-bottom: 1px transparent;
     border-bottom-width: 75%;
     margin-bottom: 5px;
 }
