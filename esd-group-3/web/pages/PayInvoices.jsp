@@ -84,7 +84,7 @@
               <div class="container">
                 <form action="/esd-group-3/PayInvoiceServlet" method="POST">
                   <label for="operation_id"><b>Select Invoice to Pay</b></label>
-                  <select name="Invoice ID" id="Invoice ID">
+                  <select name="Invoice ID" id="Invoice ID" required>
                         <%
                             try {
                                 ArrayList<Operation> operationsArray = (ArrayList<Operation>)request.getAttribute("data");
