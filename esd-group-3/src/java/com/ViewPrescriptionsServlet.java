@@ -62,6 +62,21 @@ public class ViewPrescriptionsServlet extends HttpServlet {
             prescriptionlist += "</table>";
             
             request.setAttribute("prescriptionlist", prescriptionlist);
+            
+            pres.retreiveRepeatPrescriptions(dbcon, clientid);
+            
+            String prescriptionoptions = "<table>";
+            
+            if (pres.getEmployeeId().length > 0) {
+                for (int i = 0; i < pres.getId().length; i++) {
+                    prescriptionoptions += "<option value='" + pres.getId()[i] + "'>" + pres.getDrugName()[i] + "</option>";
+                }
+            }
+            
+            prescriptionoptions += "</table>";
+            
+            request.setAttribute("prescriptionoptions", prescriptionoptions);
+            
             request.setAttribute("message", "Displaying data successfully");
             request.getRequestDispatcher("pages/ViewPrescriptions.jsp").forward(request,response);
         } catch (SQLException ex) {
@@ -102,16 +117,39 @@ public class ViewPrescriptionsServlet extends HttpServlet {
             
             prescriptionlist += "</table>";
             
+            pres.retreiveRepeatPrescriptions(dbcon, clientid);
+            
             request.setAttribute("prescriptionlist", prescriptionlist);
             
-            int appointmentid = Integer.parseInt(request.getParameter("prescriptionid"));
-            LocalDate newEndDate = LocalDate.parse(request.getParameter("newEndDate"));
-            PendingPrescriptionExtensions ppe = new PendingPrescriptionExtensions();
-            ppe.requestRepeatPrescriptionExtension(dbcon, appointmentid, newEndDate);
+            String prescriptionoptions = "<table>";
             
-            request.setAttribute("message", "Request for extension submitted");
+            if (pres.getEmployeeId().length > 0) {
+                for (int i = 0; i < pres.getId().length; i++) {
+                    prescriptionoptions += "<option value='" + pres.getId()[i] + "'>" + pres.getDrugName()[i] + "</option>";
+                }
+            }
+            
+            prescriptionoptions += "</table>";
+            
+            request.setAttribute("prescriptionoptions", prescriptionoptions);
+            
+            int prescriptionid = Integer.parseInt(request.getParameter("prescriptionid"));
+            LocalDate newEndDate = LocalDate.parse(request.getParameter("newEndDate"));
+            
+            Prescriptions prescription = new Prescriptions();
+            prescription.retreivePrescriptionByPrescriptionId(dbcon, prescriptionid);
+            
+            if (!prescription.getIsRepeat()[0] || prescription.getDateEnd()[0].isAfter(newEndDate)) {
+                request.setAttribute("message", "Request for extension failed. Please select a repeat prescription and set the new end date after the current end date.");
+                request.getRequestDispatcher("pages/ViewPrescriptions.jsp").forward(request,response);
+            } else {
+                PendingPrescriptionExtensions ppe = new PendingPrescriptionExtensions();
+                ppe.requestRepeatPrescriptionExtension(dbcon, prescriptionid, newEndDate);
 
-            request.getRequestDispatcher("pages/ViewPrescriptions.jsp").forward(request,response);
+                request.setAttribute("message", "Request for extension submitted");
+
+                request.getRequestDispatcher("pages/ViewPrescriptions.jsp").forward(request,response);
+            }
         } catch (SQLException ex) {
             Logger.getLogger(ViewPrescriptionsServlet.class.getName()).log(Level.SEVERE, null, ex);
         }

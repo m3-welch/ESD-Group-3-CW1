@@ -359,4 +359,68 @@ public class Prescriptions {
         this.setDateStart(startArr);
         this.setDateEnd(endArr);
     }
+    
+    public void retreiveRepeatPrescriptions(
+            DBConnection dbcon,
+            int clientid
+    ) {
+        String query = "SELECT id, employeeid, drug_name, dosage, is_repeat, "
+                + "date_start, date_end FROM Prescriptions WHERE clientid = "
+                + clientid + " AND is_repeat = 'TRUE'";
+        
+        //Set up lists to record data
+        List<Integer> idList = new ArrayList<Integer>();
+        List<Integer> employeeList = new ArrayList<Integer>();
+        List<String> drugList = new ArrayList<String>();
+        List<String> doseList = new ArrayList<String>();
+        List<Boolean> repeatList = new ArrayList<Boolean>();
+        List<String> startList = new ArrayList<String>();
+        List<String> endList = new ArrayList<String>();
+        
+        try (Statement stmt = dbcon.conn.createStatement()) {
+            ResultSet resultSet = stmt.executeQuery(query);
+            while (resultSet.next()) {
+                idList.add(resultSet.getInt("id"));
+                employeeList.add(resultSet.getInt("employeeid"));
+                drugList.add(resultSet.getString("drug_name"));
+                doseList.add(resultSet.getString("dosage"));
+                repeatList.add(resultSet.getBoolean("is_repeat"));
+                startList.add(resultSet.getString("date_start"));
+                endList.add(resultSet.getString("date_end"));
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        
+        // Convert lists to arrays
+        int list_len = employeeList.size();
+        LocalDate[] startArr = new LocalDate[list_len];
+        LocalDate[] endArr = new LocalDate[list_len];
+        int[] employeeArr = new int[list_len];
+        int[] idArr = new int[list_len];
+        // Convert date formats and integer list
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        for (int i = 0; i < list_len; i++) {
+            startArr[i] = LocalDate.parse(startList.get(i), formatter);
+            endArr[i] = LocalDate.parse(endList.get(i), formatter);
+            employeeArr[i] = employeeList.get(i).intValue();
+            idArr[i] = idList.get(i).intValue();
+        }
+        
+        String drugArr[] = new String[list_len];
+        drugArr = drugList.toArray(drugArr);
+        String dosageArr[] = new String[list_len];
+        dosageArr = doseList.toArray(dosageArr);
+        Boolean repeatArr[] = new Boolean[list_len];
+        repeatArr = repeatList.toArray(repeatArr);
+        
+        this.setId(idArr);
+        this.setClientId(clientid);
+        this.setEmployeeId(employeeArr);
+        this.setDrugName(drugArr);
+        this.setDosage(dosageArr);
+        this.setIsRepeat(repeatArr);
+        this.setDateStart(startArr);
+        this.setDateEnd(endArr);
+    }
 }

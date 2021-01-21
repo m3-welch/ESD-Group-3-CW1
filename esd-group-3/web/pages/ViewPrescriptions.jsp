@@ -59,7 +59,9 @@
                         <div class="container">
                             <form action="ViewPrescriptionsServlet" method="POST">
                                 <label for="prescriptionid"><b>Prescription ID</b></label>
-                                <input type="number" name="prescriptionid" required/>
+                                <select name="prescriptionid">
+                                    ${prescriptionoptions}
+                                </select>
                                 <label for="newEndDate"><b>New End Date</b></label>
                                 <input input="date" name="newEndDate" value="${onemonth}" min="${todaydate}" max="${oneyear}"/>
                                 <input type="submit" value="Submit for Approval" class="button">
