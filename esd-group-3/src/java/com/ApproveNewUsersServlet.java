@@ -8,6 +8,7 @@ package com;
 import dbcon.DBConnection;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -18,6 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import models.Client;
 import models.Employee;
+import models.User;
 
 /**
  *
@@ -91,53 +93,28 @@ public class ApproveNewUsersServlet extends HttpServlet {
     
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
                             throws ServletException, IOException {
-        response.setContentType("text/html");
-        HttpSession loginSession = request.getSession(false);
-        request.setAttribute("dashboard", "/esd-group-3/dashboards/" + loginSession.getAttribute("user_role") + "_home.jsp");
-        
-        request.getRequestDispatcher("pages/ViewEmployees.jsp").include(request, response);
-        
-        //decare vars
-        String filter = request.getParameter("filter");
-        
-        if ("doctor".equals(filter)) {
-            request.setAttribute("checkeddoctor", "checked='true'");
-            request.setAttribute("checkednurse", "");
-            request.setAttribute("checkedcombined", "");
-        } else if ("nurse".equals(filter)) {
-            request.setAttribute("checkeddoctor", "");
-            request.setAttribute("checkednurse", "checked='true'");
-            request.setAttribute("checkedcombined", "");
-        } else if ("all".equals(filter)) {
-            request.setAttribute("checkeddoctor", "");
-            request.setAttribute("checkednurse", "");
-            request.setAttribute("checkedcombined", "checked='true'");
-        }
-        
-        Employee emp = new Employee();
-        List<Employee> employees = null;
-        
         try {
+            HttpSession loginSession = request.getSession(false);
+            request.getRequestDispatcher((String)loginSession.getAttribute("dashboard")).include(request, response);
             DBConnection dbcon = new DBConnection("smartcaretest", "", "");
-            employees = emp.filteredRetrieveAllEmployees(dbcon, filter);
+            
+            int approvalid = Integer.parseInt(request.getParameter("approvalid").toString());
+            String approvalResponse = request.getParameter("response").toString();
+            
+            if (approvalResponse.equals("deny")) {
+                String query = "DELETE FROM SignupApproval WHERE id = " + approvalid;
+                try (Statement stmt = dbcon.conn.createStatement()) {
+                    stmt.execute(query);
+                } catch (SQLException ex) {
+                    Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            else {
+                query = ""
+            }
+            
         } catch (SQLException ex) {
-            Logger.getLogger(PatientSignupServlet.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        String outputList = "<table class='patients-table'>";
-        
-        for (int i = 0; i < employees.size(); i++) {
-            outputList += "<tr><td>" + employees.get(i).getEmployeeId() + 
-                    "</td><td>" + employees.get(i).getFirstname() + " " + 
-                    employees.get(i).getLastname() + "</td><td>" + 
-                    employees.get(i).getRole() + "</td><td>" + 
-                    employees.get(i).getEmail() + "</td><td>" + 
-                    employees.get(i).getAddress() + "</td><td>" +
-                    employees.get(i).getDob() + "</td></tr>";
-        }
-        
-        outputList += "</table>";
-        request.setAttribute("employeelist", outputList);
-        request.getRequestDispatcher("pages/ViewEmployees.jsp").forward(request,response);
+            Logger.getLogger(ApproveNewUsersServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }    
     }
 }

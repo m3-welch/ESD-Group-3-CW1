@@ -300,5 +300,9 @@ public class User {
         }
         
         return useridList;
-    }      
+    }
+    
+    public void approve(DBConnection dbcon, int approvalid) {
+        
+    }
 }

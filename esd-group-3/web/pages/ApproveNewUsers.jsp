@@ -88,7 +88,7 @@
                 <div class="container">
                     <h2 style="text-align:center;margin-top: 10px;">Respond to Approval Request</h2>
                     <div class="container">
-                        <form action="RespondToPendingUsersServlet" method="POST">
+                        <form action="ApproveNewUsersServlet" method="POST">
                             <label for="approvalid"><b>Approval ID</b></label>
                             <input type="number" name="approvalid" required/>
                             <label for="response"><b>Response</b></label>
