@@ -24,16 +24,6 @@
     </head>
     <body>
     <div class="top-banner">
-    
-      <div class="dropdown">
-        <button class="menu button">Menu</button>
-        <div class="menu-content">
-          <a href="#">Page 1</a>
-          <a href="#">Page 2</a>
-          <a href="#">Page 3</a>
-        </div>
-      </div>      
-      
       <div class="logout">        
         <form action="LogoutServlet" method="GET">
             <input type="submit" value="Logout" class="button logout"> 
@@ -41,7 +31,7 @@
       </div>
       
       <div class="center">
-        <h2>SmartCare</h2>
+          <a href="${dashboard}"><h2>SmartCare</h2></a>
       </div>
     </div>
     <div class="content">
