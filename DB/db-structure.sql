@@ -65,6 +65,7 @@ CREATE TABLE ApiCredentials (
     googlemapsapisecret varchar(128)
 );
 
+
 CREATE TABLE SignupApproval (
     id int NOT NULL PRIMARY KEY GENERATED ALWAYS AS identity (start with 1, increment by 1),
     username varchar(64) NOT NULL UNIQUE,
@@ -77,4 +78,10 @@ CREATE TABLE SignupApproval (
     dob Date,
     isnhs Boolean,
     isfulltime Boolean
+);
+
+CREATE TABLE PendingPrescriptionExtensions (
+    id int NOT NULL PRIMARY KEY GENERATED ALWAYS AS identity (start with 1, increment by 1),
+    prescriptionid int UNIQUE references Prescriptions(id),
+    newEndDate date
 );
