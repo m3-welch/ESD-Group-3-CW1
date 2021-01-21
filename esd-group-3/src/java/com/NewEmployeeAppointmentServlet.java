@@ -136,6 +136,7 @@ public class NewEmployeeAppointmentServlet extends HttpServlet {
         Boolean dontBook = false;
         if (opTime.isBefore(LocalDateTime.now())) {
             dontBook = true;
+            request.setAttribute("messagecolour", "#FF3232");
             request.setAttribute("message", "Cannot book an appointment with a start time earlier than now.");
             request.getRequestDispatcher("pages/NewEmployeeAppointment.jsp").forward(request,response);
         }
@@ -151,9 +152,11 @@ public class NewEmployeeAppointmentServlet extends HttpServlet {
         
         
         if (operation.getIsSurgery() == isSurgery && operation.getDate() == date) {
+            request.setAttribute("messagecolour", "#329232");
             request.setAttribute("message", "Appointment successfully booked");
             request.getRequestDispatcher("pages/NewEmployeeAppointment.jsp").forward(request,response);
         } else {
+            request.setAttribute("messagecolour", "#FF3232");
             request.setAttribute("message", "Error! - Appointment failed to book. Please try again.");
             request.getRequestDispatcher("pages/NewEmployeeAppointment.jsp").forward(request,response);
         }

@@ -85,9 +85,11 @@ public class NewReferralServlet extends HttpServlet {
         }
         
         if (ref.getClientId() == clientid && ref.getEmployeeId() == employeeid) {
+            request.setAttribute("messagecolour", "#329232");
             request.setAttribute("message", "New Referral added to client");
             request.getRequestDispatcher("pages/NewReferral.jsp").forward(request,response);
         } else {
+            request.setAttribute("messagecolour", "#FF3232");
             request.setAttribute("message", "Error! - Referral failed to add");
             request.getRequestDispatcher("pages/NewReferral.jsp").forward(request,response);
         }

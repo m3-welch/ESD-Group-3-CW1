@@ -53,7 +53,7 @@ public class InvoiceViewerServlet extends HttpServlet {
             for(Operation i:operationsArray){
                 turnover = turnover + i.getCharge();
             }
-
+            request.setAttribute("messagecolour", "#329232"); 
             request.setAttribute("message", "Data Loaded Successfully");
             request.setAttribute("data", operationsArray); // Will be available as ${data}
             request.setAttribute("turnover", turnover);
@@ -61,6 +61,7 @@ public class InvoiceViewerServlet extends HttpServlet {
         }
         catch(SQLException e){
             // send error
+            request.setAttribute("messagecolour", "#FF3232"); 
             request.setAttribute("message", "Error - SQL Exception"); // Will be available as ${message}
             request.getRequestDispatcher("invoiceViewer.jsp").forward(request,response);
             response.sendRedirect("invoiceViewer.jsp");

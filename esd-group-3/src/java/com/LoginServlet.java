@@ -49,6 +49,7 @@ public class LoginServlet extends HttpServlet {
             user_to_login.retrieveByUsername(dbcon, user_in);
             if (user_to_login.getUsername() == null) {
                 // if username mismatch, send error
+                request.setAttribute("messagecolour", "#FF3232");
                 request.setAttribute("message", "Error - Invalid Username"); // Will be available as ${message}
                 request.getRequestDispatcher("login.jsp").forward(request,response);
                 response.sendRedirect("login.jsp");
@@ -119,6 +120,7 @@ public class LoginServlet extends HttpServlet {
         }
         catch(SQLException e){
             // send error
+            request.setAttribute("messagecolour", "#FF3232"); 
             request.setAttribute("message", "Error - SQL Exception"); // Will be available as ${message}
             request.getRequestDispatcher("login.jsp").forward(request,response);
             response.sendRedirect("login.jsp");
@@ -144,6 +146,7 @@ public class LoginServlet extends HttpServlet {
                 default:
                     // no role assigned, user has no type, send error
                     user_type = 0;
+                    request.setAttribute("messagecolour", "#FF3232"); 
                     request.setAttribute("message", "Error - No Role assigned to User"); // Will be available as ${message}
                     request.getRequestDispatcher("login.jsp").forward(request,response);
                     response.sendRedirect("login.jsp");
@@ -163,11 +166,13 @@ public class LoginServlet extends HttpServlet {
             loginSession.setMaxInactiveInterval(20*60);
             
             // sucessful login response
+            request.setAttribute("messagecolour", "#329232"); 
             request.setAttribute("message", "Successful Login - Welcome " + user_in); // Will be available as ${message}
             request.getRequestDispatcher((String)loginSession.getAttribute("dashboard")).forward(request,response);
         }
         else {
             // bad login response
+            request.setAttribute("messagecolour", "#FF3232"); 
             request.setAttribute("message", "Error - Invalid Password"); // Will be available as ${message}
             request.getRequestDispatcher("login.jsp").forward(request,response);
         }

@@ -37,11 +37,13 @@ public class PayInvoiceServlet extends HttpServlet {
 
             operationsCaller.payByOperationId(dbcon, op_id);
 
+            request.setAttribute("messagecolour", "#329232");
             request.setAttribute("message", "Payment Successful");
             request.getRequestDispatcher("dashboards/client_home.jsp").forward(request,response);
         }
         catch(SQLException e){
             // send error
+            request.setAttribute("messagecolour", "#FF3232");
             request.setAttribute("message", "Error - SQL Exception"); // Will be available as ${message}
             request.getRequestDispatcher("dashboards/client_home.jsp").forward(request,response);
             response.sendRedirect("dashboards/client_home.jsp");
