@@ -131,10 +131,12 @@ public class CreatePrescriptionServlet extends HttpServlet {
         String endDateFormatted = removeBrackets(Arrays.toString(prescription.getDateEnd()));
 
         // If the prescription set has the same dates, drug name and dosage then the prescription has successfully been added to the database
-        if (prescription.getDateStart()[0].isEqual(date_start) && prescription.getDateEnd()[0].isEqual(date_end)) {            
+        if (prescription.getDateStart()[0].isEqual(date_start) && prescription.getDateEnd()[0].isEqual(date_end)) { 
+            request.setAttribute("messagecolour", "#329232");
             request.setAttribute("message", "New Prescription successfully created!");
             request.getRequestDispatcher("pages/CreatePrescriptions.jsp").forward(request,response);
         } else {
+            request.setAttribute("messagecolour", "#FF3232");
             request.setAttribute("message", "Error! - New Prescription not created");
             request.getRequestDispatcher("pages/CreatePrescriptions.jsp").forward(request,response);
         }

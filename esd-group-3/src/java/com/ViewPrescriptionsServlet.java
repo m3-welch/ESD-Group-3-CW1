@@ -77,6 +77,7 @@ public class ViewPrescriptionsServlet extends HttpServlet {
             
             request.setAttribute("prescriptionoptions", prescriptionoptions);
             
+            request.setAttribute("messagecolour", "#329232");
             request.setAttribute("message", "Displaying data successfully");
             request.getRequestDispatcher("pages/ViewPrescriptions.jsp").forward(request,response);
         } catch (SQLException ex) {
@@ -140,12 +141,14 @@ public class ViewPrescriptionsServlet extends HttpServlet {
             prescription.retreivePrescriptionByPrescriptionId(dbcon, prescriptionid);
             
             if (!prescription.getIsRepeat()[0] || prescription.getDateEnd()[0].isAfter(newEndDate)) {
+                request.setAttribute("messagecolour", "#FF3232");
                 request.setAttribute("message", "Request for extension failed. Please select a repeat prescription and set the new end date after the current end date.");
                 request.getRequestDispatcher("pages/ViewPrescriptions.jsp").forward(request,response);
             } else {
                 PendingPrescriptionExtensions ppe = new PendingPrescriptionExtensions();
                 ppe.requestRepeatPrescriptionExtension(dbcon, prescriptionid, newEndDate);
 
+                request.setAttribute("messagecolour", "#329232");
                 request.setAttribute("message", "Request for extension submitted");
 
                 request.getRequestDispatcher("pages/ViewPrescriptions.jsp").forward(request,response);

@@ -27,7 +27,7 @@
 
         </div>
         <div class="content">
-        <p style="color:#FF3232;font-size:12px;text-align:center" id="note">${message}</p>
+        <p style="color:${messagecolour};font-size:12px;text-align:center" id="note">${message}</p>
         <h1>View Appointment</h1>
         <div class="center">
             <div class="card">
