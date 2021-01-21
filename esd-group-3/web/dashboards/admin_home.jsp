@@ -29,7 +29,7 @@
         <p style="color:#FF3232;font-size:12px;text-align:center" id="note">${message}</p>
         <h1>Admin Dashboard</h1>
         <form action="/esd-group-3/NewUserServlet" method="GET">
-            <input type="submit" value="Create a New Patient" class="link-button"/>
+            <input type="submit" value="Create a New User" class="link-button"/>
         </form>
         <form action="/esd-group-3/NewEmployeeServlet" method="GET">
             <input type="submit" value="Create a New Employee" class="link-button"/>
