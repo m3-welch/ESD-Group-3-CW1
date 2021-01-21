@@ -10,8 +10,6 @@ import dbcon.DBConnection;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -23,14 +21,14 @@ import models.Client;
  *
  * @author morgan
  */
-public class SignupServlet extends HttpServlet {
+public class PatientSignupServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
                             throws ServletException, IOException {
         HttpSession loginSession = request.getSession(false);
         request.setAttribute("dashboard", "/esd-group-3/dashboards/" + loginSession.getAttribute("user_role") + "_home.jsp");
         response.setContentType("text/html");
         
-        request.getRequestDispatcher("newPatient.jsp").include(request, response);
+        request.getRequestDispatcher("newPatientSignup.jsp").include(request, response);
         
         //decare vars
         String username = request.getParameter("uname");
@@ -43,7 +41,6 @@ public class SignupServlet extends HttpServlet {
         LocalDate dob = LocalDate.parse(request.getParameter("dob"));
         Client client = new Client();
         
-        
         GoogleMaps maps = new GoogleMaps();
         
         String formatted_address = maps.lookupAddress(address);
@@ -54,19 +51,14 @@ public class SignupServlet extends HttpServlet {
         
         try {
             DBConnection dbcon = new DBConnection("smartcaretest", "", "");
-            client.create(dbcon, username, password, firstname, lastname, email, address, "client", type, dob);
-        } catch (SQLException ex) {
-            Logger.getLogger(SignupServlet.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        if (client.getUsername().equals(username) && client.getClientType().equals(type)) {
-            request.setAttribute("message", "Successful Signup - Login to continue");
+            client.signup(dbcon, username, password, firstname, lastname, email, address, "client", type, dob);
+            request.setAttribute("message", "Successful Signup - Await approval");
             request.getRequestDispatcher("login.jsp").forward(request, response);
             response.sendRedirect("login.jsp");
-        } else {
+        } catch (SQLException ex) {
             request.setAttribute("message", "Error - Failed Signup. Please try again.");
-            request.getRequestDispatcher("newPatient.jsp").forward(request, response);
-            response.sendRedirect("newPatient.jsp");
+            request.getRequestDispatcher("login.jsp").forward(request, response);
+            response.sendRedirect("login.jsp");
         }
     }
 }
