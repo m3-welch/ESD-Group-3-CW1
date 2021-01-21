@@ -72,9 +72,11 @@ public class NewUserServlet extends HttpServlet {
         }
 
         if (client.getUsername().equals(username) && client.getFirstname().equals(firstname)) {
+            request.setAttribute("messagecolour", "#329232");
             request.setAttribute("message", "New Patient successfully created!");
             request.getRequestDispatcher("pages/NewUser.jsp").forward(request,response);
         } else {
+            request.setAttribute("messagecolour", "#FF3232");
             request.setAttribute("message", "Error! - New Patient not created");
             request.getRequestDispatcher("pages/NewUser.jsp").forward(request,response);
         }

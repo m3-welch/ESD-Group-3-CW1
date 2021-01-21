@@ -49,6 +49,7 @@ public class LoginServlet extends HttpServlet {
             user_to_login.retrieveByUsername(dbcon, user_in);
             if (user_to_login.getUsername() == null) {
                 // if username mismatch, send error
+                request.setAttribute("messagecolour", "#FF3232");
                 request.setAttribute("message", "Error - Invalid Username"); // Will be available as ${message}
                 request.getRequestDispatcher("login.jsp").forward(request,response);
                 response.sendRedirect("login.jsp");

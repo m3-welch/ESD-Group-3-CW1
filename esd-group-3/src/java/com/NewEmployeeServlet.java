@@ -64,9 +64,11 @@ public class NewEmployeeServlet extends HttpServlet {
         }
 
         if (employee.getUsername().equals(username) && employee.getRole().equals(type)) {
+            request.setAttribute("messagecolour", "#329232");
             request.setAttribute("message", "New Employee successfully created!");
             request.getRequestDispatcher("pages/NewEmployee.jsp").forward(request,response);
         } else {
+            request.setAttribute("messagecolour", "#FF3232");
             request.setAttribute("message", "Error! - New Employee not created");
             request.getRequestDispatcher("pages/NewEmployee.jsp").forward(request,response);
         }

@@ -154,9 +154,11 @@ public class ApproveNewUsersServlet extends HttpServlet {
                                 employees.get(i).getDob());
                     }
                 }
+                request.setAttribute("messagecolour", "#329232");
                 request.setAttribute("message", "Created new user");
             }
             else {
+                request.setAttribute("messagecolour", "#FF3232");
                 request.setAttribute("message", "User removed from approval system");
             }
             // Remove from DB

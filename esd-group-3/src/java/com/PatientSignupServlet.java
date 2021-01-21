@@ -52,10 +52,12 @@ public class PatientSignupServlet extends HttpServlet {
         try {
             DBConnection dbcon = new DBConnection("smartcaretest", "", "");
             client.signup(dbcon, username, password, firstname, lastname, email, address, "client", type, dob);
+            request.setAttribute("messagecolour", "#329232");
             request.setAttribute("message", "Successful Signup - Await approval");
             request.getRequestDispatcher("login.jsp").forward(request, response);
             response.sendRedirect("login.jsp");
         } catch (SQLException ex) {
+            request.setAttribute("messagecolour", "#FF3232");
             request.setAttribute("message", "Error - Failed Signup. Please try again.");
             request.getRequestDispatcher("login.jsp").forward(request, response);
             response.sendRedirect("login.jsp");

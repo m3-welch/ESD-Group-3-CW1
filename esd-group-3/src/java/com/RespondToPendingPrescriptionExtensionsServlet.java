@@ -57,6 +57,7 @@ public class RespondToPendingPrescriptionExtensionsServlet extends HttpServlet {
             prescriptionlist += "</table>";
             
             request.setAttribute("prescriptionlist", prescriptionlist);
+            request.setAttribute("messagecolour", "#329232");
             request.setAttribute("message", "Successfully displaying data");
 
             request.getRequestDispatcher("pages/ViewPendingPrescriptionExtensions.jsp").forward(request,response);
@@ -103,6 +104,7 @@ public class RespondToPendingPrescriptionExtensionsServlet extends HttpServlet {
             prescriptionlist += "</table>";
             
             request.setAttribute("prescriptionlist", prescriptionlist);
+            request.setAttribute("messagecolour", "#329232");
             request.setAttribute("message", "Response for extension submitted");
             request.getRequestDispatcher("pages/ViewPendingPrescriptionExtensions.jsp").forward(request,response);
         } catch (SQLException ex) {
