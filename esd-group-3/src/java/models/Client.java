@@ -159,8 +159,10 @@ public class Client extends User {
         return this;
     }
     
-    public Client retrieveClientByClientId(DBConnection dbcon, int id) {
-        String query = "SELECT * FROM Clients WHERE id = " + id;
+    public Client retrieveClientByClientId(DBConnection dbcon, int clientid) {
+        String query = "SELECT * FROM Clients WHERE id = " + clientid;
+        
+        this.setClientId(clientid);
         
         try (Statement stmt = dbcon.conn.createStatement()) {
             ResultSet resultSet = stmt.executeQuery(query);
@@ -176,7 +178,6 @@ public class Client extends User {
         User user = new User();
         user.retrieveByUserId(dbcon, this.getId());
         
-        this.setId(id);
         this.setUsername(user.getUsername());
         this.setPassword(user.getPassword());
         this.setFirstname(user.getFirstname());
