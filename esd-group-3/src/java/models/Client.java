@@ -85,14 +85,14 @@ public class Client extends User {
             System.out.println(e);
         }
         
-        Boolean isNHS;
+        Boolean is_nhs;
         if (type.equals("NHS")) {
-            isNHS = true;
+            is_nhs = true;
         } else {
-            isNHS = false;
+            is_nhs = false;
         }
         
-        query = "INSERT INTO Clients (userid, isNHS) VALUES (" + userid + ", " + isNHS + ")";
+        query = "INSERT INTO Clients (userid, isNHS) VALUES (" + userid + ", " + is_nhs + ")";
          
         try (Statement stmt = dbcon.conn.createStatement()) {
             stmt.execute(query);
@@ -122,7 +122,7 @@ public class Client extends User {
         this.setAddress(address);
         this.setRole(role);
         this.setClientId(clientid);
-        this.setIsNhs(isNHS);
+        this.setIsNhs(is_nhs);
         this.setDob(dob);
     }
     
@@ -250,15 +250,15 @@ public class Client extends User {
                 System.out.println(e);
             }
         } else {
-            String isNHS;
+            String is_nhs;
             
             if ("NHS".equals(filter)) {
-                isNHS = "TRUE";
+                is_nhs = "TRUE";
             } else {
-                isNHS = "FALSE";
+                is_nhs = "FALSE";
             }
             
-            String query = "SELECT * FROM Clients WHERE isNHS = " + isNHS;
+            String query = "SELECT * FROM Clients WHERE isNHS = " + is_nhs;
             
             try (Statement stmt = dbcon.conn.createStatement()) {
                 ResultSet resultSet = stmt.executeQuery(query);
