@@ -102,15 +102,7 @@ public class ApproveNewUsersServlet extends HttpServlet {
             int approvalid = Integer.parseInt(request.getParameter("approvalid").toString());
             String approvalResponse = request.getParameter("response").toString();
             
-            if (approvalResponse.equals("deny")) {
-                String query = "DELETE FROM SignupApproval WHERE id = " + approvalid;
-                try (Statement stmt = dbcon.conn.createStatement()) {
-                    stmt.execute(query);
-                } catch (SQLException ex) {
-                    Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-            else {
+            if (!approvalResponse.equals("deny")) {
                 // Declare vars
                 Client client = new Client();
                 Employee emp = new Employee();
@@ -151,17 +143,21 @@ public class ApproveNewUsersServlet extends HttpServlet {
                                 employees.get(i).getDob());
                     }
                 }
-                
-                // Remove from DB
-                String query = "DELETE FROM SignupApproval WHERE id = " + approvalid;
-                try (Statement stmt = dbcon.conn.createStatement()) {
-                    stmt.execute(query);
-                } catch (SQLException ex) {
-                    Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
-                }
-
-                request.getRequestDispatcher("pages/ApproveNewUsers.jsp").forward(request,response);
+                request.setAttribute("message", "Created new user");
             }
+            else {
+                request.setAttribute("message", "User removed from approval system");
+            }
+            // Remove from DB
+            String query = "DELETE FROM SignupApproval WHERE id = " + approvalid;
+            try (Statement stmt = dbcon.conn.createStatement()) {
+                stmt.execute(query);
+            } catch (SQLException ex) {
+                Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            
+            request.getRequestDispatcher("pages/ApproveNewUsers.jsp").forward(request,response);
             
         } catch (SQLException ex) {
             Logger.getLogger(ApproveNewUsersServlet.class.getName()).log(Level.SEVERE, null, ex);
