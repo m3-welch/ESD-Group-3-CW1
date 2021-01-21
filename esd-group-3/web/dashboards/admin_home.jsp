@@ -49,10 +49,7 @@
             <input type="submit" value="View Price Allocation" class="link-button"/>
         </form>
         <form action="/esd-group-3/InvoiceViewerServlet" method="GET">
-            <input type="submit" value="View Turnover" class="link-button"> 
-        </form>
-        <form action="/esd-group-3/DisplayEventsServlet" method="GET">
-            <input type="submit" value="View Appointments" class="link-button"> 
+            <input type="submit" value="View Appointments and Turnover" class="link-button"> 
         </form>
         <form action="/esd-group-3/ApproveNewUsersServlet" method="GET">
             <input type="submit" value="Approve New Users" class="link-button"> 

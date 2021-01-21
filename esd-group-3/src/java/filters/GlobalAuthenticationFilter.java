@@ -84,34 +84,49 @@ public class GlobalAuthenticationFilter implements Filter {
             }
             
             // handles permissions for logged in users
-            if ((uri.endsWith("admin_home.jsp") || uri.endsWith("invoiceViewer.jsp") || uri.endsWith("com/InvoiceViewerServlet") || uri.endsWith("InvoiceDownloadServlet") 
-                    || uri.endsWith("NewEmployeeServlet") || uri.endsWith("prices.jsp") || uri.endsWith("PricesChanger") || uri.endsWith("PricesViewer")) && role != 4){
+            if (( uri.endsWith("InvoiceDownloadServlet") || uri.endsWith("NewEmployeeServlet") || uri.endsWith("PricesChangerServlet") 
+                    || uri.endsWith("PricesViewerServlet") || uri.endsWith("ApproveNewUsersServlet") || uri.endsWith("NewEmployeeServlet") 
+                    || uri.endsWith("NewUserServlet") || uri.endsWith("ViewEmployeeServlet") || uri.endsWith("ViewUsersServlet") 
+                    || uri.endsWith("admin_home.jsp") || uri.endsWith("ViewTurnover.jsp") ||  uri.endsWith("prices.jsp") || uri.endsWith("ApproveNewUsers.jsp")
+                    || uri.endsWith("NewEmployee.jsp") || uri.endsWith("NewUser.jsp") || uri.endsWith("ViewEmployees.jsp") || uri.endsWith("ViewUsers.jsp")
+                    || uri.endsWith("ViewTurnover.jsp")
+                    ) && (role != 4)){
                 is_errorHome = true;
                 errorMsg = "ERROR - User is not an Administrator";
             }
-            else if ((uri.endsWith("client_home.jsp") || uri.endsWith("ClientInvoiceViewerServlet") || uri.endsWith("PayInvoiceServlet")) && role != 3){
+            else if ((uri.endsWith("client_home.jsp") || uri.endsWith("PayInvoiceServlet") || uri.endsWith("NewAppointmentServlet") || uri.endsWith("ViewPrescriptionsServlet")
+                    || uri.endsWith("NewAppointment.jsp") || uri.endsWith("ViewPrescriptions.jsp")
+                    ) && role != 3){
                 is_errorHome = true;
                 errorMsg = "ERROR - User is not a Patient";
             }
-            else if (uri.endsWith("nurse_home.jsp") && role != 2){
+            else if (uri.endsWith("nurse_home.jsp") 
+                    && role != 2){
                 is_errorHome = true;
                 errorMsg = "ERROR - User is not a Nurse";
             }
-            else if (uri.endsWith("doctor_home.jsp") && role != 1){
+            else if (uri.endsWith("doctor_home.jsp") 
+                    && role != 1){
                 is_errorHome = true;
                 errorMsg = "ERROR - User is not a Doctor";
             }
-            else if (uri.endsWith("NewReferralServlet") && !(role == 1 || role == 2)){
+            else if ((uri.endsWith("NewReferralServlet") || uri.endsWith("CreatePrescriptionServlet") || uri.endsWith("NewEmployeeAppointmentServlet") 
+                    || uri.endsWith("RespondToPendingPrescriptionExtensionsServlet") || uri.endsWith("CreatePrescriptions.jsp") 
+                    || uri.endsWith("NewEmployeeAppointment.jsp") || uri.endsWith("NewReferral.jsp") || uri.endsWith("ViewAppointments.jsp")
+                    || uri.endsWith("ViewPendingPrescriptionExtensions.jsp")
+                    ) && !(role == 1 || role == 2)){
                 is_errorHome = true;
                 errorMsg = "ERROR - User is not a Doctor or Nurse";
             }
-            else if ((uri.endsWith("NewUserServlet") || uri.endsWith("ViewPatientsServlet")) && !(role == 1 || role == 2 || role == 4)){
+            else if ((uri.endsWith("NewUserServlet") || uri.endsWith("ViewPatientsServlet") || uri.endsWith("ViewPatientsServlet")
+                     || uri.endsWith("ViewPatients.jsp") 
+                    ) && !(role == 1 || role == 2 || role == 4)){
                 is_errorHome = true;
                 errorMsg = "ERROR - User is not a Doctor, Nurse, or Admin";
             }
             else{
                     // Common files for logged in users, of any type:
-                    // LogoutServlet
+                    // LogoutServlet, InvoiceViewerServlet, CancelApptServlet, ViewReferralServlet, ViewReferrals.jsp
                     chain.doFilter(request, response);
             }
             

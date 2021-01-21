@@ -29,7 +29,7 @@
         
         <div class="content">
         <p style="color:${messagecolour};font-size:12px;text-align:center" id="note">${message}</p>
-        <h1>View Appointment</h1>
+        <h1>Create Prescription</h1>
         <div class="center">
             <div class="card">
                 <div class="container">
