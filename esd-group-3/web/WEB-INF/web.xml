@@ -130,6 +130,7 @@
         <servlet-class>com.ApproveNewUsersServlet</servlet-class>
     </servlet>
     <servlet>
+        <display-name>ViewUserstServlet</display-name>
         <servlet-name>ViewUsersServlet</servlet-name>
         <servlet-class>com.ViewUsersServlet</servlet-class>
     </servlet>
