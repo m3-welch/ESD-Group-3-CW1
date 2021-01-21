@@ -141,6 +141,7 @@ public class DisplayEventsServlet extends HttpServlet {
                 }
             } catch (SQLException ex) {
                 // send error
+                request.setAttribute("messagecolour", "#FF3232"); 
                 request.setAttribute("message", "Error - SQL Exception"); // Will be available as ${message}
                 request.getRequestDispatcher("pages/ViewAppointments.jsp").forward(request,response);
             }
@@ -149,8 +150,10 @@ public class DisplayEventsServlet extends HttpServlet {
         outputList += "</table>";
         
         if (emptyTable) {
+            request.setAttribute("messagecolour", "#FF3232"); 
             request.setAttribute("message", "Schedule Is Empty!");       
         } else {
+            request.setAttribute("messagecolour", "#329232"); 
             request.setAttribute("message", "Schedule Successfully Loaded!");       
         }
         request.setAttribute("eventList", outputList);
