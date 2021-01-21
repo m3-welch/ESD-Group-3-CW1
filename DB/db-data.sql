@@ -1,12 +1,12 @@
 /* Insert Users */
-INSERT INTO Users (username, password, firstname, lastname, email, address, role, dob) VALUES ('tfirst', 'firstpassword', 'Tony', 'First', 'first@email.com', 'Firsts house, Bristol, BS7 0PS', 'doctor', '1990-05-08');
-INSERT INTO Users (username, password, firstname, lastname, email, address, role, dob) VALUES ('jbest', 'jessthebest', 'Jess', 'Best', 'thebestnures@email.co.uk', 'Bests house, Bristol, BS16 1ZG', 'nurse', '1995-06-06');
-INSERT INTO Users (username, password, firstname, lastname, email, address, role, dob) VALUES ('rsmith', '5432@10', 'Rob', 'Smith', 'robbiebobby@email.com', '14 King Street, Aberdeen, AB24 1BR', 'client', '2000-01-01');
-INSERT INTO Users (username, password, firstname, lastname, email, address, role, dob) VALUES ('lizzo', 'unknownpassword', 'Liz', 'Brown', 'lizbrown@email.co.uk', 'Somewhere street, Smalltown', 'client', '1950-03-15');
-INSERT INTO Users (username, password, firstname, lastname, email, address, role, dob) VALUES ('griffo', 'ahafunnyman', 'Peter', 'Hesitant', 'prettyhesitant@email.co.uk', 'Spooner Street, Quahog, Rhode Island', 'client', '1966-07-21');
-INSERT INTO Users (username, password, firstname, lastname, email, address, role, dob) VALUES ('mhesi', 'stupupmeg', 'Meg', 'Hesitant', 'megmail@email.co.uk', 'Spooner Street, Quahog, Rhode Island', 'client', '1983-07-01');
-INSERT INTO Users (username, password, firstname, lastname, email, address, role, dob) VALUES ('boneman', 'spinyman101', 'Greg', 'Bones', 'bones4days@email.co.uk', 'Spooky street, Transylvania', 'client', '1995-05-05');
-INSERT INTO Users (username, password, firstname, lastname, email, address, role, dob) VALUES ('admin', 'admin_passwd', 'admin', 'admin', 'admin@test.com', 'admin', 'admin', '1000-01-01');
+INSERT INTO Users (username, password, firstname, lastname, email, address, role, dob) VALUES ('tfirst', '71ec8645a12f4812abca7c887b3acae428253ceb', 'Tony', 'First', 'first@email.com', 'Firsts house, Bristol, BS7 0PS', 'doctor', '1990-05-08');
+INSERT INTO Users (username, password, firstname, lastname, email, address, role, dob) VALUES ('jbest', 'c333b055d7b35361975bad9eadb0f4d8e4fbad01', 'Jess', 'Best', 'thebestnures@email.co.uk', 'Bests house, Bristol, BS16 1ZG', 'nurse', '1995-06-06');
+INSERT INTO Users (username, password, firstname, lastname, email, address, role, dob) VALUES ('rsmith', 'fd3462fc7a035a699e210be22fce3fbbc28afa2f', 'Rob', 'Smith', 'robbiebobby@email.com', '14 King Street, Aberdeen, AB24 1BR', 'client', '2000-01-01');
+INSERT INTO Users (username, password, firstname, lastname, email, address, role, dob) VALUES ('lizzo', '7cbce1a6824bd3a7240d1c4593b7c7438544f98f', 'Liz', 'Brown', 'lizbrown@email.co.uk', 'Somewhere street, Smalltown', 'client', '1950-03-15');
+INSERT INTO Users (username, password, firstname, lastname, email, address, role, dob) VALUES ('griffo', '0d7974608fb8cdb56f35bef191b30825356d8507', 'Peter', 'Hesitant', 'prettyhesitant@email.co.uk', 'Spooner Street, Quahog, Rhode Island', 'client', '1966-07-21');
+INSERT INTO Users (username, password, firstname, lastname, email, address, role, dob) VALUES ('mhesi', '7f612beb8074f06bdd84def4ff7648706dd5faa8', 'Meg', 'Hesitant', 'megmail@email.co.uk', 'Spooner Street, Quahog, Rhode Island', 'client', '1983-07-01');
+INSERT INTO Users (username, password, firstname, lastname, email, address, role, dob) VALUES ('boneman', '21900ee094db8062299cbb75505000805eecc4ae', 'Greg', 'Bones', 'bones4days@email.co.uk', 'Spooky street, Transylvania', 'client', '1995-05-05');
+INSERT INTO Users (username, password, firstname, lastname, email, address, role, dob) VALUES ('admin', '1a7292e6063efefd527b98ddb49f0d38906378b3', 'admin', 'admin', 'admin@test.com', 'admin', 'admin', '1000-01-01');
 
 /* Insert Clients */
 INSERT INTO Clients (userid, isnhs) VALUES ((SELECT id FROM Users WHERE username = 'rsmith'), TRUE);
