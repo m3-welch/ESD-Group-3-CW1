@@ -418,6 +418,7 @@ public class Client extends User {
             while (resultSet.next()) {
                 int id = resultSet.getInt("id");
                 String username = resultSet.getString("username");
+                String password = resultSet.getString("password");
                 String firstname = resultSet.getString("firstname");
                 String lastname = resultSet.getString("lastname");
                 String email = resultSet.getString("email");
@@ -426,8 +427,8 @@ public class Client extends User {
                 LocalDate dob = LocalDate.parse(resultSet.getString("dob"));
                 Boolean isnhs = resultSet.getBoolean("isnhs");
 
-                Client client = new Client(id, username, firstname, lastname, 
-                        email, address, role, dob, isnhs);
+                Client client = new Client(id, username, password, firstname, 
+                        lastname, email, address, role, dob, isnhs);
 
                 clients.add(client);
             }
@@ -440,6 +441,7 @@ public class Client extends User {
     
     private Client(int id,
             String username,
+            String password,
             String firstname,
             String lastname, 
             String email, 
@@ -450,6 +452,7 @@ public class Client extends User {
     {
         this.setId(id);
         this.setUsername(username);
+        this.setPassword(password);
         this.setFirstname(firstname);
         this.setLastname(lastname);
         this.setEmail(email);

@@ -9,6 +9,7 @@ import dbcon.DBConnection;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -110,7 +111,56 @@ public class ApproveNewUsersServlet extends HttpServlet {
                 }
             }
             else {
-                query = ""
+                // Declare vars
+                Client client = new Client();
+                Employee emp = new Employee();
+                List<Employee> employees = null;
+                List<Client> clients = null;
+
+                // Retreive clients
+                clients = client.retrieveSignups(dbcon);
+                // Retreive employees
+                employees = emp.retrieveSignups(dbcon);
+
+                // Find client, and add if found
+                for (int i = 0; i < clients.size(); i++) {
+                    if (clients.get(i).getId() == approvalid) {
+                        client.create(dbcon, 
+                                clients.get(i).getUsername(),
+                                clients.get(i).getPassword(),
+                                clients.get(i).getFirstname(),
+                                clients.get(i).getLastname(),
+                                clients.get(i).getEmail(),
+                                clients.get(i).getAddress(), 
+                                clients.get(i).getRole(), 
+                                clients.get(i).getClientType(), 
+                                clients.get(i).getDob());
+                    }
+                }
+                for (int i = 0; i < employees.size(); i++) {
+                    if (employees.get(i).getId() == approvalid) {
+                        emp.create(dbcon, 
+                                employees.get(i).getUsername(),
+                                employees.get(i).getPassword(),
+                                employees.get(i).getFirstname(),
+                                employees.get(i).getLastname(),
+                                employees.get(i).getEmail(),
+                                employees.get(i).getAddress(), 
+                                employees.get(i).getRole(), 
+                                employees.get(i).isFullTime().toString(), 
+                                employees.get(i).getDob());
+                    }
+                }
+                
+                // Remove from DB
+                String query = "DELETE FROM SignupApproval WHERE id = " + approvalid;
+                try (Statement stmt = dbcon.conn.createStatement()) {
+                    stmt.execute(query);
+                } catch (SQLException ex) {
+                    Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+                request.getRequestDispatcher("pages/ApproveNewUsers.jsp").forward(request,response);
             }
             
         } catch (SQLException ex) {

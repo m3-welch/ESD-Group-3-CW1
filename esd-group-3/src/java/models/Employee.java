@@ -275,6 +275,7 @@ public class Employee extends User {
             while (resultSet.next()) {
                 int id = resultSet.getInt("id");
                 String username = resultSet.getString("username");
+                String password = resultSet.getString("password");
                 String firstname = resultSet.getString("firstname");
                 String lastname = resultSet.getString("lastname");
                 String email = resultSet.getString("email");
@@ -283,8 +284,8 @@ public class Employee extends User {
                 LocalDate dob = LocalDate.parse(resultSet.getString("dob"));
                 Boolean isfulltime = resultSet.getBoolean("isfulltime");
 
-                Employee emp = new Employee(id, username, firstname, lastname, 
-                        email, address, role, dob, isfulltime);
+                Employee emp = new Employee(id, username, password, firstname, 
+                        lastname, email, address, role, dob, isfulltime);
 
                 emps.add(emp);
             }
@@ -297,6 +298,7 @@ public class Employee extends User {
     
     private Employee(int id,
             String username,
+            String password,
             String firstname,
             String lastname, 
             String email, 
@@ -307,6 +309,7 @@ public class Employee extends User {
     {
         this.setId(id);
         this.setUsername(username);
+        this.setPassword(password);
         this.setFirstname(firstname);
         this.setLastname(lastname);
         this.setEmail(email);
